@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
+    <None Remove="Services\BookDetailsService.cs~RF664c55d.TMP" />
   </ItemGroup>
 
   <ItemGroup>

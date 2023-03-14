@@ -2,7 +2,7 @@
 
 namespace SchoolLibrary_Dapper.DAL.Repositories.Contracts
 {
-    public interface IPublisherRepository : IGenericRepository<PublisherRepository>
+    public interface IPublisherRepository : IGenericRepository<Publisher>
     {
     }
 }

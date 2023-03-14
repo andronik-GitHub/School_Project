@@ -6,43 +6,43 @@ namespace SchoolLibrary_Rapper.BLL.Services
 {
     public class BookService : IBookService
     {
-        IUnitOfWork unitOfWork { get; set; }
+        IUnitOfWork _uow { get; set; }
 
         public BookService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this._uow = unitOfWork;
         }
 
 
         public async Task<Guid> CreateAsync(Book entity)
         {
-            var id = await unitOfWork.Books.CreateAsync(entity);
-            unitOfWork.Commit();
+            var id = await _uow.Books.CreateAsync(entity);
+            _uow.Commit();
 
             return id;
         }
         public async Task<Book> GetAsync(Guid id)
         {
-            return await unitOfWork.Books.GetByIdAsync(id);
+            return await _uow.Books.GetByIdAsync(id);
         }
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            return await unitOfWork.Books.GetAllAsync();
+            return await _uow.Books.GetAllAsync();
         }
         public async Task UpdateAsync(Book entity)
         {
-            await unitOfWork.Books.UpdateAsync(entity);
-            unitOfWork.Commit();
+            await _uow.Books.UpdateAsync(entity);
+            _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)
         {
-            await unitOfWork.Books.DeleteAsync(id);
-            unitOfWork.Commit();
+            await _uow.Books.DeleteAsync(id);
+            _uow.Commit();
         }
 
         public void Dispose()
         {
-            unitOfWork.Dispose();
+            _uow.Dispose();
         }
     }
 }
