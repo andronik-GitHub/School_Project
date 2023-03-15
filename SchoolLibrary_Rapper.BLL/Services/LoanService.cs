@@ -1,5 +1,6 @@
 ﻿using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
+using SchoolLibrary_Rapper.BLL.DTO;
 using SchoolLibrary_Rapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Rapper.BLL.Services
@@ -13,24 +14,63 @@ namespace SchoolLibrary_Rapper.BLL.Services
             _uow = uow;
         }
 
-        public async Task<Guid> CreateAsync(Loan entity)
+        public async Task<Guid> CreateAsync(LoanDTO entity)
         {
-            var id = await _uow.Loans.CreateAsync(entity);
+            // Mapping without AutoMapper
+            var id = await _uow.Loans.CreateAsync(new Loan
+            {
+                LoanId = entity.LoanId,
+                UserId = entity.UserId,
+                BookId = entity.BookId,
+                LoanDate = entity.LoanDate,
+                ReturnDate = entity.ReturnDate,
+            });
             _uow.Commit();
 
             return id;
         }
-        public async Task<Loan> GetAsync(Guid id)
+        public async Task<LoanDTO> GetAsync(Guid id)
         {
-            return await _uow.Loans.GetByIdAsync(id);
+            var entity = await _uow.Loans.GetByIdAsync(id);
+
+            // Mapping without AutoMapper
+            return new LoanDTO
+            {
+                LoanId = entity.LoanId,
+                UserId = entity.UserId,
+                BookId = entity.BookId,
+                LoanDate = entity.LoanDate,
+                ReturnDate = entity.ReturnDate,
+            };
         }
-        public async Task<IEnumerable<Loan>> GetAllAsync()
+        public async Task<IEnumerable<LoanDTO>> GetAllAsync()
         {
-            return await _uow.Loans.GetAllAsync();
+            var list = await _uow.Loans.GetAllAsync();
+            var result = new List<LoanDTO>();
+
+            // Mapping without AutoMapper
+            list.ToList().ForEach(entity => result.Add(new LoanDTO
+            {
+                LoanId = entity.LoanId,
+                UserId = entity.UserId,
+                BookId = entity.BookId,
+                LoanDate = entity.LoanDate,
+                ReturnDate = entity.ReturnDate,
+            }));
+
+            return result;
         }
-        public async Task UpdateAsync(Loan entity)
+        public async Task UpdateAsync(LoanDTO entity)
         {
-            await _uow.Loans.UpdateAsync(entity);
+            // Mapping without AutoMapper
+            await _uow.Loans.UpdateAsync(new Loan
+            {
+                LoanId = entity.LoanId,
+                UserId = entity.UserId,
+                BookId = entity.BookId,
+                LoanDate = entity.LoanDate,
+                ReturnDate = entity.ReturnDate,
+            });
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

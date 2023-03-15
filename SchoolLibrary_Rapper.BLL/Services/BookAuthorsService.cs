@@ -1,5 +1,6 @@
 ﻿using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
+using SchoolLibrary_Rapper.BLL.DTO;
 using SchoolLibrary_Rapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Rapper.BLL.Services
@@ -13,24 +14,51 @@ namespace SchoolLibrary_Rapper.BLL.Services
             _uow = uow;
         }
 
-        public async Task<Guid> CreateAsync(BookAuthors entity)
+        public async Task<Guid> CreateAsync(BookAuthorsDTO entity)
         {
-            var id = await _uow.BookAuthors.CreateAsync(entity);
+            // Mapping without AutoMapper
+            var id = await _uow.BookAuthors.CreateAsync(new BookAuthors
+            {
+                BookId = entity.BookId,
+                AuthorId = entity.AuthorId,
+            });
             _uow.Commit();
 
             return id;
         }
-        public async Task<BookAuthors> GetAsync(Guid id)
+        public async Task<BookAuthorsDTO> GetAsync(Guid id)
         {
-            return await _uow.BookAuthors.GetByIdAsync(id);
+            var entity = await _uow.BookAuthors.GetByIdAsync(id);
+
+            // Mapping without AutoMapper
+            return new BookAuthorsDTO
+            {
+                BookId = entity.BookId,
+                AuthorId = entity.AuthorId,
+            };
         }
-        public async Task<IEnumerable<BookAuthors>> GetAllAsync()
+        public async Task<IEnumerable<BookAuthorsDTO>> GetAllAsync()
         {
-            return await _uow.BookAuthors.GetAllAsync();
+            var list = await _uow.BookAuthors.GetAllAsync();
+            var result = new List<BookAuthorsDTO>();
+
+            // Mapping without AutoMapper
+            list.ToList().ForEach(entity => result.Add(new BookAuthorsDTO
+            {
+                BookId = entity.BookId,
+                AuthorId = entity.AuthorId,
+            }));
+
+            return result;
         }
-        public async Task UpdateAsync(BookAuthors entity)
+        public async Task UpdateAsync(BookAuthorsDTO entity)
         {
-            await _uow.BookAuthors.UpdateAsync(entity);
+            // Mapping without AutoMapper
+            await _uow.BookAuthors.UpdateAsync(new BookAuthors
+            {
+                BookId = entity.BookId,
+                AuthorId = entity.AuthorId,
+            });
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

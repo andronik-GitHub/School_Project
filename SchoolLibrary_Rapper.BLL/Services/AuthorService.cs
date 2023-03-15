@@ -1,5 +1,6 @@
 ﻿using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
+using SchoolLibrary_Rapper.BLL.DTO;
 using SchoolLibrary_Rapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Rapper.BLL.Services
@@ -13,24 +14,63 @@ namespace SchoolLibrary_Rapper.BLL.Services
             _uow = uow;
         }
 
-        public async Task<Guid> CreateAsync(Author entity)
+        public async Task<Guid> CreateAsync(AuthorDTO entity)
         {
-            var id = await _uow.Authors.CreateAsync(entity);
+            // Mapping without AutoMapper
+            var id = await _uow.Authors.CreateAsync(new Author
+            {
+                AuthorId = entity.AuthorId,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Birthdate = entity.Birthdate,
+                Nationality = entity.Nationality,
+            });
             _uow.Commit();
 
             return id;
         }
-        public async Task<Author> GetAsync(Guid id)
+        public async Task<AuthorDTO> GetAsync(Guid id)
         {
-            return await _uow.Authors.GetByIdAsync(id);
+            var entity =  await _uow.Authors.GetByIdAsync(id);
+
+            // Mapping without AutoMapper
+            return new AuthorDTO
+            {
+                AuthorId = entity.AuthorId,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Birthdate = entity.Birthdate,
+                Nationality = entity.Nationality,
+            };
         }
-        public async Task<IEnumerable<Author>> GetAllAsync()
+        public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
         {
-            return await _uow.Authors.GetAllAsync();
+            var list = await _uow.Authors.GetAllAsync();
+            var result = new List<AuthorDTO>();
+
+            // Mapping without AutoMapper
+            list.ToList().ForEach(entity => result.Add(new AuthorDTO
+            {
+                AuthorId = entity.AuthorId,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Birthdate = entity.Birthdate,
+                Nationality = entity.Nationality,
+            }));
+
+            return result;
         }
-        public async Task UpdateAsync(Author entity)
+        public async Task UpdateAsync(AuthorDTO entity)
         {
-            await _uow.Authors.UpdateAsync(entity);
+            // Mapping without AutoMapper
+            await _uow.Authors.UpdateAsync(new Author
+            {
+                AuthorId = entity.AuthorId,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Birthdate = entity.Birthdate,
+                Nationality = entity.Nationality,
+            });
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)
