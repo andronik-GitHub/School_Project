@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -6,7 +9,8 @@ builder.Services.AddSwaggerGen();
 
 #region AddMainServices
 {
-
+    builder.Services.AddDbContext<SchoolLibraryContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
 }
 #endregion
 

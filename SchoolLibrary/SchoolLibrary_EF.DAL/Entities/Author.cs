@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchoolLibrary_Dapper.DAL.Entities
+namespace SchoolLibrary_EF.DAL.Entities
 {
     [Table("Authors")]
     public class Author
@@ -19,5 +19,8 @@ namespace SchoolLibrary_Dapper.DAL.Entities
         [Required]
         [MaxLength(30)]
         public string Nationality { get; set; } = default!;
+
+
+        public ICollection<BookAuthors> BookAuthors { get; set; } = default!; // many-to-many
     }
 }
