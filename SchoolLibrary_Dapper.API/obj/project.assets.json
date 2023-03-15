@@ -864,6 +864,19 @@
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
       },
+      "SchoolLibrary_Dapper.BLL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "SchoolLibrary_Dapper.DAL": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SchoolLibrary_Dapper.BLL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SchoolLibrary_Dapper.BLL.dll": {}
+        }
+      },
       "SchoolLibrary_Dapper.DAL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -876,19 +889,6 @@
         },
         "runtime": {
           "bin/placeholder/SchoolLibrary_Dapper.DAL.dll": {}
-        }
-      },
-      "SchoolLibrary_Rapper.BLL/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "dependencies": {
-          "SchoolLibrary_Dapper.DAL": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SchoolLibrary_Rapper.BLL.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SchoolLibrary_Rapper.BLL.dll": {}
         }
       }
     }
@@ -2461,22 +2461,22 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "SchoolLibrary_Dapper.BLL/1.0.0": {
+      "type": "project",
+      "path": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Dapper.BLL.csproj",
+      "msbuildProject": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Dapper.BLL.csproj"
+    },
     "SchoolLibrary_Dapper.DAL/1.0.0": {
       "type": "project",
       "path": "../SchoolLibrary_Dapper.DAL/SchoolLibrary_Dapper.DAL.csproj",
       "msbuildProject": "../SchoolLibrary_Dapper.DAL/SchoolLibrary_Dapper.DAL.csproj"
-    },
-    "SchoolLibrary_Rapper.BLL/1.0.0": {
-      "type": "project",
-      "path": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Rapper.BLL.csproj",
-      "msbuildProject": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Rapper.BLL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "Microsoft.Extensions.Hosting >= 7.0.1",
+      "SchoolLibrary_Dapper.BLL >= 1.0.0",
       "SchoolLibrary_Dapper.DAL >= 1.0.0",
-      "SchoolLibrary_Rapper.BLL >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.Data.SqlClient >= 4.8.5"
     ]
@@ -2517,8 +2517,8 @@
             "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj": {
               "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj"
             },
-            "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Rapper.BLL.csproj": {
-              "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Rapper.BLL.csproj"
+            "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj": {
+              "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj"
             }
           }
         }

@@ -34,7 +34,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
         }
 
         [HttpGet("{id}")] // GET: ado/book/id
-        public async Task<ActionResult<BookDTO>> GetByIdADOAsync(Guid id)
+        public async Task<ActionResult<BookDTO>> GetByIdAsync(Guid id)
         {
             try
             {

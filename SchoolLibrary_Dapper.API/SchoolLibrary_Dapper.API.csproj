@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SchoolLibrary_Dapper.DAL\SchoolLibrary_Dapper.DAL.csproj" />
-    <ProjectReference Include="..\SchoolLibrary_Rapper.BLL\SchoolLibrary_Rapper.BLL.csproj" />
+    <ProjectReference Include="..\SchoolLibrary_Rapper.BLL\SchoolLibrary_Dapper.BLL.csproj" />
   </ItemGroup>
 
 </Project>

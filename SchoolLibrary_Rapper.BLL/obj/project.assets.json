@@ -526,9 +526,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Rapper.BLL.csproj",
-      "projectName": "SchoolLibrary_Rapper.BLL",
-      "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Rapper.BLL.csproj",
+      "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj",
+      "projectName": "SchoolLibrary_Dapper.BLL",
+      "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj",
       "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
       "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\obj\\",
       "projectStyle": "PackageReference",

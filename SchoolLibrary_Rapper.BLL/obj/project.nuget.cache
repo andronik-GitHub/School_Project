@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "J68fxrbdQQXRseuJgR/iHXgpoK4L+XM/diIf3eBwC82qWTqu1CUQOY4lP+PmcJ4p33UDlHAGXjcqsfacf/iA7A==",
+  "dgSpecHash": "DG8SWOfuFdJ1eQOgm8TNjxLbaZbmM0rARxypScOy0f0W0OGzRY5CrxmYKmnfLFZkt5Q9Qy8N7vHepixvFhUlvQ==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Rapper.BLL.csproj",
+  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",

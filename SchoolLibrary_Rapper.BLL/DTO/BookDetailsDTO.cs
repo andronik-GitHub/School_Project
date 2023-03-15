@@ -2,7 +2,7 @@
 
 namespace SchoolLibrary_Rapper.BLL.DTO
 {
-    public class BookDerailsDTO : BookDetails
+    public class BookDetailsDTO : BookDetails
     {
     }
 }
