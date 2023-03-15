@@ -1,6 +1,6 @@
 ﻿using SchoolLibrary_Dapper.DAL.Entities;
 
-namespace SchoolLibrary_Rapper.BLL.DTO
+namespace SchoolLibrary_Dapper.BLL.DTO
 {
     public class LoanDTO : Loan
     {

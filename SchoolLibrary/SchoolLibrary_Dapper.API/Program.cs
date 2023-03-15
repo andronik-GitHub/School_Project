@@ -1,7 +1,7 @@
 using SchoolLibrary_Dapper.DAL.Repositories;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Rapper.BLL.Services;
-using SchoolLibrary_Rapper.BLL.Services.Consracts;
+using SchoolLibrary_Dapper.BLL.Services;
+using SchoolLibrary_Dapper.BLL.Services.Consracts;
 using System.Data;
 using System.Data.SqlClient;
 

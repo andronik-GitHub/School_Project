@@ -868,7 +868,10 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "SchoolLibrary_Dapper.DAL": "1.0.0"
+          "Dapper": "2.0.123",
+          "Microsoft.Extensions.Hosting": "7.0.1",
+          "SchoolLibrary_Dapper.DAL": "1.0.0",
+          "System.Data.SqlClient": "4.8.5"
         },
         "compile": {
           "bin/placeholder/SchoolLibrary_Dapper.BLL.dll": {}
@@ -882,6 +885,7 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "Dapper": "2.0.123",
+          "Microsoft.Extensions.Hosting": "7.0.1",
           "System.Data.SqlClient": "4.8.5"
         },
         "compile": {
@@ -2463,8 +2467,8 @@
     },
     "SchoolLibrary_Dapper.BLL/1.0.0": {
       "type": "project",
-      "path": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Dapper.BLL.csproj",
-      "msbuildProject": "../SchoolLibrary_Rapper.BLL/SchoolLibrary_Dapper.BLL.csproj"
+      "path": "../SchoolLibrary_Dapper.BLL/SchoolLibrary_Dapper.BLL.csproj",
+      "msbuildProject": "../SchoolLibrary_Dapper.BLL/SchoolLibrary_Dapper.BLL.csproj"
     },
     "SchoolLibrary_Dapper.DAL/1.0.0": {
       "type": "project",
@@ -2474,6 +2478,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Dapper >= 2.0.123",
       "Microsoft.Extensions.Hosting >= 7.0.1",
       "SchoolLibrary_Dapper.BLL >= 1.0.0",
       "SchoolLibrary_Dapper.DAL >= 1.0.0",
@@ -2514,11 +2519,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper.BLL\\SchoolLibrary_Dapper.BLL.csproj": {
+              "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper.BLL\\SchoolLibrary_Dapper.BLL.csproj"
+            },
             "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj": {
               "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj"
-            },
-            "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj": {
-              "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Rapper.BLL\\SchoolLibrary_Dapper.BLL.csproj"
             }
           }
         }
@@ -2533,6 +2538,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Dapper": {
+            "target": "Package",
+            "version": "[2.0.123, )"
+          },
           "Microsoft.Extensions.Hosting": {
             "target": "Package",
             "version": "[7.0.1, )"

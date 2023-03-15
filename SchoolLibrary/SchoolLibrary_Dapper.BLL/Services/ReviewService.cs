@@ -1,9 +1,9 @@
 ﻿using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Rapper.BLL.DTO;
-using SchoolLibrary_Rapper.BLL.Services.Consracts;
+using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
-namespace SchoolLibrary_Rapper.BLL.Services
+namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class ReviewService : IReviewService
     {

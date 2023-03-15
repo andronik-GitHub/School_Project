@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Rapper.BLL.DTO;
-using SchoolLibrary_Rapper.BLL.Services.Consracts;
+using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
 {

@@ -3,7 +3,6 @@ using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
 using System.Data.SqlClient;
 using System.Data;
 using Dapper;
-using static Dapper.SqlMapper;
 
 namespace SchoolLibrary_Dapper.DAL.Repositories
 {

@@ -1,6 +1,6 @@
-﻿using SchoolLibrary_Rapper.BLL.DTO;
+﻿using SchoolLibrary_Dapper.BLL.DTO;
 
-namespace SchoolLibrary_Rapper.BLL.Services.Consracts
+namespace SchoolLibrary_Dapper.BLL.Services.Consracts
 {
     public interface IBookAuthorsService : IGenericService<BookAuthorsDTO>
     {

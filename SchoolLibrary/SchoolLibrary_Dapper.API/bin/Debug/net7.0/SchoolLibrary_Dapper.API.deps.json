@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "SchoolLibrary_Dapper.API/1.0.0": {
         "dependencies": {
+          "Dapper": "2.0.123",
           "Microsoft.Extensions.Hosting": "7.0.1",
           "SchoolLibrary_Dapper.BLL": "1.0.0",
           "SchoolLibrary_Dapper.DAL": "1.0.0",
@@ -362,7 +363,10 @@
       },
       "SchoolLibrary_Dapper.BLL/1.0.0": {
         "dependencies": {
-          "SchoolLibrary_Dapper.DAL": "1.0.0"
+          "Dapper": "2.0.123",
+          "Microsoft.Extensions.Hosting": "7.0.1",
+          "SchoolLibrary_Dapper.DAL": "1.0.0",
+          "System.Data.SqlClient": "4.8.5"
         },
         "runtime": {
           "SchoolLibrary_Dapper.BLL.dll": {}
@@ -371,6 +375,7 @@
       "SchoolLibrary_Dapper.DAL/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.123",
+          "Microsoft.Extensions.Hosting": "7.0.1",
           "System.Data.SqlClient": "4.8.5"
         },
         "runtime": {
