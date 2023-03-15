@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/SchoolLibrary/FileContentIndex
+/.vs/School/v17
+/SchoolLibrary/.vs/SchoolLibrary
+/SchoolLibrary_Dapper.API/obj/Debug/net7.0/SchoolLibrary_Dapper.API.csproj.AssemblyReference.cache
+/SchoolLibrary_Rapper.BLL/obj/Debug/net7.0/SchoolLibrary_Dapper.BLL.csproj.AssemblyReference.cache
