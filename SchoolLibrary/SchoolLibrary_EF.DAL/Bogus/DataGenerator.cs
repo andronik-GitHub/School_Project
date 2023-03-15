@@ -62,5 +62,16 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(p => p.Name, f => f.Company.CompanyName())
                 .RuleFor(p => p.Location, f => f.Address.FullAddress());
         }
+        private static Faker<User> GetUserGenerator()
+        {
+            return new Faker<User>()
+                .RuleFor(u => u.UserId, _ => Guid.NewGuid())
+                .RuleFor(u => u.FirstName, f => f.Name.FirstName())
+                .RuleFor(u => u.LastName, f => f.Name.LastName())
+                .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
+                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor(u => u.Address, f => f.Address.StreetAddress())
+                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber());
+        }
     }
 }
