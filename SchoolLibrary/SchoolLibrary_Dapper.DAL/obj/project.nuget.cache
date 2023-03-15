@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "epqaibaoULmljH9tj63+LT+/uSwObIN5CNj4FenBx230jBgp1zVx3w2+cA3OylD/5sy07BiwgmTq1X+C/hxtuQ==",
+  "dgSpecHash": "FdnOhDwstkX0tTX/dR13sOUPxZZyGCvF0vWm4vjKp8XEAZ8ZeTUg5BA3v4uwwjLvr94765Y4Lerdanx8oExyhg==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj",
+  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
