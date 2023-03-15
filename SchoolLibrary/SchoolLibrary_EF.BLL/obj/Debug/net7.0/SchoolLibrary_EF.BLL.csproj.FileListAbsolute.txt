@@ -1,0 +1,14 @@
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.deps.json
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.runtimeconfig.json
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.csproj.AssemblyReference.cache
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.GeneratedMSBuildEditorConfig.editorconfig
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.AssemblyInfoInputs.cache
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.AssemblyInfo.cs
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.csproj.CoreCompileInputs.cache
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\refint\SchoolLibrary_EF.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.genruntimeconfig.cache
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\ref\SchoolLibrary_EF.BLL.dll

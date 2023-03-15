@@ -10,7 +10,12 @@ builder.Services.AddSwaggerGen();
 #region AddMainServices
 {
     builder.Services.AddDbContext<SchoolLibraryContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
+    {
+        options.UseSqlServer(
+                builder.Configuration.GetConnectionString("sqlConnection"),
+                options => options.MigrationsAssembly("SchoolLibrary_EF.API")
+            );
+    });
 }
 #endregion
 

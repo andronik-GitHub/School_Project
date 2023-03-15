@@ -8,6 +8,14 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Publisher> builder)
         {
+            builder
+                .HasKey(p => p.PublisherId);
+
+
+            builder // one-to-many  Publisher - Books
+                .HasMany(p => p.Books)
+                .WithOne(b => b.Publisher)
+                .HasForeignKey(b => b.PublisherId);
         }
     }
 }

@@ -8,6 +8,14 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
+            builder
+                .HasKey(g => g.GenreId);
+
+
+            builder // many-to-many  Genres - BookGenres - Books
+                .HasMany(g => g.BookGenres)
+                .WithOne(bg => bg.Genre)
+                .HasPrincipalKey(bg => bg.GenreId);
         }
     }
 }
