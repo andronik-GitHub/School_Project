@@ -21,9 +21,7 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\ru
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Dapper.DAL.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Rapper.BLL.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Dapper.DAL.pdb
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Rapper.BLL.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\SchoolLibrary_Dapper.API.csproj.AssemblyReference.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\SchoolLibrary_Dapper.API.GeneratedMSBuildEditorConfig.editorconfig
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\SchoolLibrary_Dapper.API.AssemblyInfoInputs.cache
@@ -45,3 +43,5 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\re
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\SchoolLibrary_Dapper.API.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\SchoolLibrary_Dapper.API.genruntimeconfig.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\obj\Debug\net7.0\ref\SchoolLibrary_Dapper.API.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Dapper.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary_Dapper.API\bin\Debug\net7.0\SchoolLibrary_Dapper.BLL.pdb

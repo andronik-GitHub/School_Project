@@ -5,6 +5,7 @@ using SchoolLibrary_Rapper.BLL.Services.Consracts;
 namespace SchoolLibrary_Dapper.API.Constollers
 {
     [Route("ado/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         IUserService _userService;
@@ -16,7 +17,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
 
-        [HttpGet] // GET: ado/publisher
+        [HttpGet] // GET: ado/user
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync()
         {
             try
@@ -33,7 +34,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
         }
 
-        [HttpGet("{id}")] // GET: ado/publisher/id
+        [HttpGet("{id}")] // GET: ado/user/id
         public async Task<ActionResult<UserDTO>> GetByIdAsync(Guid id)
         {
             try
@@ -58,7 +59,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
         }
 
-        [HttpPost] // POST: ado/publisher
+        [HttpPost] // POST: ado/user
         public async Task<ActionResult> AddAsync(UserDTO newUser)
         {
             try
@@ -85,7 +86,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
         }
 
-        [HttpPut] // PUT: ado/publisher
+        [HttpPut] // PUT: ado/user
         public async Task<ActionResult> UpdateAsync(UserDTO upUser)
         {
             try
@@ -122,7 +123,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
         }
 
-        [HttpDelete("{id}")] // DELETE: ado/publisher/id
+        [HttpDelete("{id}")] // DELETE: ado/user/id
         public async Task<ActionResult> DeleteByIdAsync(Guid id)
         {
             try

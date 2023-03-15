@@ -1,8 +1,8 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using SchoolLibrary_Rapper.BLL.DTO;
 
 namespace SchoolLibrary_Rapper.BLL.Services.Consracts
 {
-    public interface IAuthorService : IGenericService<Author>
+    public interface IAuthorService : IGenericService<AuthorDTO>
     {
     }
 }
