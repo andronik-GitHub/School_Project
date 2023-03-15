@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "EO91L9Dw9/a2jDpSjJNbHnA2rjD9mIbhuovJuDb+h8tPVKzgrEQxQm+O6b78uFvuQZ4nuRciT9zRKqDXBAzYbQ==",
+  "dgSpecHash": "nwXVO67IN9/Xhgyt99mOp/4t/8oqYqqcfvwE0iM1qjrDtyv8gNN9jzZl48rnIC28NngV3K601OszgEVtJQLIEg==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF.DAL\\SchoolLibrary_EF.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
