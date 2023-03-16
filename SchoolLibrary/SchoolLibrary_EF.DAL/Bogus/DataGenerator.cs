@@ -16,16 +16,14 @@ namespace SchoolLibrary_EF.DAL.Bogus
         public static List<BookGenres> BookGenres = new();
         public static List<BookAuthors> BookAuthors = new();
 
-        private const int BOOKS = 1000;
+        private const int BOOKS = 3000;
         private const int BOOKDETAILS = BOOKS;
         private const int AUTHORS = 30;
         private const int PUBLISHERS = 50;
         private const int USERS = 300;
         private const int LOANS = BOOKS * 5;
-        private const int REVIEWS = BOOKS * 10;
+        private const int REVIEWS = USERS * 10;
         private const int GENRES = 20;
-        private const int BOOK_GENRES = 0;
-        private const int BOOK_AUTHORS = 0;
 
 
         private static Faker<Book> GetBookGenerator(Guid PublisherId)
@@ -144,7 +142,7 @@ namespace SchoolLibrary_EF.DAL.Bogus
 
             return generatorBookGenres;
         }
-        private static List<BookAuthors> GetBookAuthorsData(Guid BookId, Guid AuthorId)
+        private static List<BookAuthors> GetBogusBookAuthorsData(Guid BookId, Guid AuthorId)
         {
             Faker<BookAuthors> bookAuthorsGenerator = GetBookAuthorsGenerator(BookId, AuthorId);
             List<BookAuthors> generatorBookAuthors = bookAuthorsGenerator.Generate(1);
@@ -167,6 +165,31 @@ namespace SchoolLibrary_EF.DAL.Bogus
                         Users[new Random().Next(0, USERS - 1)].UserId,
                         Books[new Random().Next(0, BOOKS - 1)].BookId
                     ));
+
+            for (int i = 0; i < REVIEWS; i++)
+                Reviews.AddRange(GetBogusReviewData(
+                        Users[new Random().Next(0, USERS - 1)].UserId
+                    ));
+
+            Books.ForEach(book =>
+            {
+                if (!BookGenres.Any(bc => bc.BookId == book.BookId))
+                    BookGenres.AddRange(GetBogusBookGenresData(
+                        book.BookId,
+                        Genres[new Random().Next(0, GENRES - 1)].GenreId
+                    )
+                );
+            });
+
+            Books.ForEach(book =>
+            {
+                if (!BookAuthors.Any(bc => bc.BookId == book.BookId))
+                    BookAuthors.AddRange(GetBogusBookAuthorsData(
+                        book.BookId,
+                        Authors[new Random().Next(0, AUTHORS - 1)].AuthorId
+                    )
+                );
+            });
         }
     }
 }

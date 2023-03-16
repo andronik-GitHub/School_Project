@@ -12,3 +12,17 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.genruntimeconfig.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\ref\SchoolLibrary_EF.BLL.dll
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.deps.json
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.runtimeconfig.json
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.dll
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.AssemblyInfo.cs
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.dll
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\refint\SchoolLibrary_EF.BLL.dll
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.genruntimeconfig.cache
+C:\Users\User\Desktop\SchoolProject\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\ref\SchoolLibrary_EF.BLL.dll
