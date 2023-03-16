@@ -39,16 +39,17 @@ namespace SchoolLibrary_EF.DAL.Data
             modelBuilder.ApplyConfiguration(new BookGenresConfiguration());
             modelBuilder.ApplyConfiguration(new BookAuthorsConfiguration());
 
-            modelBuilder.Entity<Book>().HasData(DataGenerator.Books);
-            modelBuilder.Entity<BookDetails>().HasData(DataGenerator.BookDetails);
-            modelBuilder.Entity<Author>().HasData(DataGenerator.Authors);
-            modelBuilder.Entity<Publisher>().HasData(DataGenerator.Publishers);
-            modelBuilder.Entity<User>().HasData(DataGenerator.Users);
-            modelBuilder.Entity<Loan>().HasData(DataGenerator.Loans);
-            modelBuilder.Entity<Review>().HasData(DataGenerator.Reviews);
-            modelBuilder.Entity<Genre>().HasData(DataGenerator.Genres);
-            modelBuilder.Entity<BookGenres>().HasData(DataGenerator.BookGenres);
-            modelBuilder.Entity<BookAuthors>().HasData(DataGenerator.BookAuthors);
+            // Seeding data
+            //modelBuilder.Entity<Book>().HasData(DataGenerator.Books);
+            //modelBuilder.Entity<BookDetails>().HasData(DataGenerator.BookDetails);
+            //modelBuilder.Entity<Author>().HasData(DataGenerator.Authors);
+            //modelBuilder.Entity<Publisher>().HasData(DataGenerator.Publishers);
+            //modelBuilder.Entity<User>().HasData(DataGenerator.Users);
+            //modelBuilder.Entity<Loan>().HasData(DataGenerator.Loans);
+            //modelBuilder.Entity<Review>().HasData(DataGenerator.Reviews);
+            //modelBuilder.Entity<Genre>().HasData(DataGenerator.Genres);
+            //modelBuilder.Entity<BookGenres>().HasData(DataGenerator.BookGenres);
+            //modelBuilder.Entity<BookAuthors>().HasData(DataGenerator.BookAuthors);
         }
     }
 }

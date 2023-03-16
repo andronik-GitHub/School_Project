@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Bogus;
 using SchoolLibrary_EF.DAL.Data;
+using SchoolLibrary_EF.DAL.Repositories;
+using SchoolLibrary_EF.DAL.Repositories.Contracts;
+using SchoolLibrary_EF.DAL.Repository;
+using SchoolLibrary_EF.DAL.Repository.Contracts;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +22,22 @@ builder.Services.AddSwaggerGen();
                 options => options.MigrationsAssembly("SchoolLibrary_EF.API")
             );
     });
+
+
+    // DAL
+    {
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IBookDetailsRepository, BookDetailsRepository>();
+        builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+        builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+        builder.Services.AddScoped<IBookGenresRepository, BookGenresRepository>();
+        builder.Services.AddScoped<IBookAuthorsRepository, BookAuthorsRepository>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
 }
 #endregion
 
