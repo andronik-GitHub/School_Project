@@ -17,6 +17,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/book
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllAsync()
         {
             try
@@ -29,7 +30,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             catch (Exception ex)
             {
                 Console.WriteLine("Error in [BookConstoller]->[GetAllAsync]\n " + ex.Message);
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
