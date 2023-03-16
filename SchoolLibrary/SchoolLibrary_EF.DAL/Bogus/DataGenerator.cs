@@ -16,12 +16,12 @@ namespace SchoolLibrary_EF.DAL.Bogus
         public static List<BookGenres> BookGenres = new();
         public static List<BookAuthors> BookAuthors = new();
 
-        private const int BOOKS = 100;
+        private const int BOOKS = 300;
         private const int AUTHORS = 70;
         private const int PUBLISHERS = 50;
         private const int USERS = 90;
-        private const int LOANS = BOOKS / 5;
-        private const int REVIEWS = USERS / 10;
+        private const int LOANS = BOOKS / 2;
+        private const int REVIEWS = USERS * 4;
         private const int GENRES = 30;
 
 
