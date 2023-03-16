@@ -73,5 +73,14 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(u => u.Address, f => f.Address.StreetAddress())
                 .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber());
         }
+        private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
+        {
+            return new Faker<Loan>()
+                .RuleFor(l => l.LoanId, _ => Guid.NewGuid())
+                .RuleFor(l => l.UserId, _ => UserId)
+                .RuleFor(l => l.BookId, _ => BookId)
+                .RuleFor(l => l.LoanDate, f => f.Date.Between(DateTime.Now.AddYears(-10), DateTime.Now))
+                .RuleFor(l => l.ReturnDate, f => f.Date.Between(DateTime.Now, DateTime.Now.AddYears(5)));
+        }
     }
 }
