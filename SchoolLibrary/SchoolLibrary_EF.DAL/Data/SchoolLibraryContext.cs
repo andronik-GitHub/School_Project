@@ -39,7 +39,6 @@ namespace SchoolLibrary_EF.DAL.Data
             modelBuilder.ApplyConfiguration(new BookGenresConfiguration());
             modelBuilder.ApplyConfiguration(new BookAuthorsConfiguration());
 
-            DataGenerator.InitBogusData();
             modelBuilder.Entity<Book>().HasData(DataGenerator.Books);
             modelBuilder.Entity<BookDetails>().HasData(DataGenerator.BookDetails);
             modelBuilder.Entity<Author>().HasData(DataGenerator.Authors);

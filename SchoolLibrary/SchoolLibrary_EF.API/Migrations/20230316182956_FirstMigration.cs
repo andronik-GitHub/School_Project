@@ -27,21 +27,6 @@ namespace SchoolLibrary_EF.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookDetails",
-                columns: table => new
-                {
-                    BookDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Pages = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Format = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookDetails", x => x.BookDetailId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
@@ -97,12 +82,6 @@ namespace SchoolLibrary_EF.API.Migrations
                 {
                     table.PrimaryKey("PK_Books", x => x.BookId);
                     table.ForeignKey(
-                        name: "FK_Books_BookDetails_BookId",
-                        column: x => x.BookId,
-                        principalTable: "BookDetails",
-                        principalColumn: "BookDetailId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Books_Publishers_PublisherId",
                         column: x => x.PublisherId,
                         principalTable: "Publishers",
@@ -128,6 +107,27 @@ namespace SchoolLibrary_EF.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BookAuthors_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "BookId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookDetails",
+                columns: table => new
+                {
+                    BookDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Pages = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Format = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookDetails", x => x.BookDetailId);
+                    table.ForeignKey(
+                        name: "FK_BookDetails_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "BookId",
@@ -218,6 +218,12 @@ namespace SchoolLibrary_EF.API.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookDetails_BookId",
+                table: "BookDetails",
+                column: "BookId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookGenres_GenreId",
                 table: "BookGenres",
                 column: "GenreId");
@@ -255,6 +261,9 @@ namespace SchoolLibrary_EF.API.Migrations
                 name: "BookAuthors");
 
             migrationBuilder.DropTable(
+                name: "BookDetails");
+
+            migrationBuilder.DropTable(
                 name: "BookGenres");
 
             migrationBuilder.DropTable(
@@ -274,9 +283,6 @@ namespace SchoolLibrary_EF.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "BookDetails");
 
             migrationBuilder.DropTable(
                 name: "Publishers");

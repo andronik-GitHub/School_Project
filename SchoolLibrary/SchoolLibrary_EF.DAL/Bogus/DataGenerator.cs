@@ -16,13 +16,13 @@ namespace SchoolLibrary_EF.DAL.Bogus
         public static List<BookGenres> BookGenres = new();
         public static List<BookAuthors> BookAuthors = new();
 
-        private const int BOOKS = 3000;
-        private const int AUTHORS = 30;
+        private const int BOOKS = 100;
+        private const int AUTHORS = 70;
         private const int PUBLISHERS = 50;
-        private const int USERS = 300;
-        private const int LOANS = BOOKS * 5;
-        private const int REVIEWS = USERS * 10;
-        private const int GENRES = 20;
+        private const int USERS = 90;
+        private const int LOANS = BOOKS / 5;
+        private const int REVIEWS = USERS / 10;
+        private const int GENRES = 30;
 
 
         private static Faker<Book> GetBookGenerator(Guid PublisherId)
@@ -68,7 +68,7 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
                 .RuleFor(u => u.Password, f => f.Internet.Password())
                 .RuleFor(u => u.Address, f => f.Address.StreetAddress())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber());
+                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber(@"## (###) ##-##"));
         }
         private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
         {
@@ -79,11 +79,12 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(l => l.LoanDate, f => f.Date.Between(DateTime.Now.AddYears(-10), DateTime.Now))
                 .RuleFor(l => l.ReturnDate, f => f.Date.Between(DateTime.Now, DateTime.Now.AddYears(5)));
         }
-        private static Faker<Review> GetReviewGenerator(Guid UserId)
+        private static Faker<Review> GetReviewGenerator(Guid UserId, Guid BookId)
         {
             return new Faker<Review>()
                 .RuleFor(r => r.ReviewId, _ => Guid.NewGuid())
                 .RuleFor(r => r.UserId, _ => UserId)
+                .RuleFor(r => r.BookId, _ => BookId)
                 .RuleFor(r => r.Rating, f => f.Random.Decimal(0.0m, 5.0m))
                 .RuleFor(r => r.ReviewText, f => f.Lorem.Text());
         }
@@ -106,45 +107,45 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(ba => ba.AuthorId, _ => AuthorId);
         }
 
-        private static List<Book> GetBogusBookData(Guid PublisherId)
+        private static List<Book> GetBogusBookData(Guid PublisherId, int amount = 1)
         {
             Faker<Book> bookGenerator = GetBookGenerator(PublisherId);
-            List<Book> generatorBook = bookGenerator.Generate(1);
+            List<Book> generatorBook = bookGenerator.Generate(amount);
 
             return generatorBook;
         }
-        private static List<BookDetails> GetBogusBookDetailsData(Guid BookId)
+        private static List<BookDetails> GetBogusBookDetailsData(Guid BookId, int amount = 1)
         {
             Faker<BookDetails> bookDetailsGenerator = GetBookDetailsGenerator(BookId);
-            List<BookDetails> generatorBookDetails = bookDetailsGenerator.Generate(1);
+            List<BookDetails> generatorBookDetails = bookDetailsGenerator.Generate(amount);
 
             return generatorBookDetails;
         }
-        private static List<Loan> GetBogusLoanData(Guid UserId, Guid BookId)
+        private static List<Loan> GetBogusLoanData(Guid UserId, Guid BookId, int amount = 1)
         {
             Faker<Loan> loanGenerator = GetLoanGenerator(UserId, BookId);
-            List<Loan> generatorLoan = loanGenerator.Generate(1);
+            List<Loan> generatorLoan = loanGenerator.Generate(amount);
 
             return generatorLoan;
         }
-        private static List<Review> GetBogusReviewData(Guid UserId)
+        private static List<Review> GetBogusReviewData(Guid UserId, Guid BookId, int amount = 1)
         {
-            Faker<Review> reviewGenerator = GetReviewGenerator(UserId);
-            List<Review> generatorReview = reviewGenerator.Generate(1);
+            Faker<Review> reviewGenerator = GetReviewGenerator(UserId, BookId);
+            List<Review> generatorReview = reviewGenerator.Generate(amount);
 
             return generatorReview;
         }
-        private static List<BookGenres> GetBogusBookGenresData(Guid BookId, Guid GenreId)
+        private static List<BookGenres> GetBogusBookGenresData(Guid BookId, Guid GenreId, int amount = 1)
         {
             Faker<BookGenres> bookGenresGenerator = GetBookGenresGenerator(BookId, GenreId);
-            List<BookGenres> generatorBookGenres = bookGenresGenerator.Generate(1);
+            List<BookGenres> generatorBookGenres = bookGenresGenerator.Generate(amount);
 
             return generatorBookGenres;
         }
-        private static List<BookAuthors> GetBogusBookAuthorsData(Guid BookId, Guid AuthorId)
+        private static List<BookAuthors> GetBogusBookAuthorsData(Guid BookId, Guid AuthorId, int amount = 1)
         {
             Faker<BookAuthors> bookAuthorsGenerator = GetBookAuthorsGenerator(BookId, AuthorId);
-            List<BookAuthors> generatorBookAuthors = bookAuthorsGenerator.Generate(1);
+            List<BookAuthors> generatorBookAuthors = bookAuthorsGenerator.Generate(amount);
 
             return generatorBookAuthors;
         }
@@ -156,39 +157,44 @@ namespace SchoolLibrary_EF.DAL.Bogus
             Users.AddRange(GetUserGenerator().Generate(USERS));
             Genres.AddRange(GetGenreGenerator().Generate(GENRES));
 
-            Publishers.ForEach(publisher => Books.AddRange(GetBogusBookData(publisher.PublisherId)));
+            Publishers.ForEach(publisher =>
+                Books.AddRange(GetBogusBookData(publisher.PublisherId, amount: BOOKS / PUBLISHERS))
+            );
             Books.ForEach(book => BookDetails.AddRange(GetBogusBookDetailsData(book.BookId)));
 
             for (int i = 0; i < LOANS; i++)
-                Loans.AddRange(GetBogusLoanData(
-                        Users[new Random().Next(0, USERS - 1)].UserId,
-                        Books[new Random().Next(0, BOOKS - 1)].BookId
-                    ));
+                Loans.AddRange(
+                    GetBogusLoanData(
+                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Books[new Random().Next(0, Books.Count)].BookId
+                    )
+                );
 
             for (int i = 0; i < REVIEWS; i++)
-                Reviews.AddRange(GetBogusReviewData(
-                        Users[new Random().Next(0, USERS - 1)].UserId
-                    ));
-
-            Books.ForEach(book =>
-            {
-                if (!BookGenres.Any(bc => bc.BookId == book.BookId))
-                    BookGenres.AddRange(GetBogusBookGenresData(
-                        book.BookId,
-                        Genres[new Random().Next(0, GENRES - 1)].GenreId
+                Reviews.AddRange(
+                    GetBogusReviewData(
+                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Books[new Random().Next(0, Books.Count)].BookId
                     )
                 );
-            });
 
-            Books.ForEach(book =>
-            {
-                if (!BookAuthors.Any(bc => bc.BookId == book.BookId))
-                    BookAuthors.AddRange(GetBogusBookAuthorsData(
+            Books.ForEach(book => // many-to-many
+                BookGenres.AddRange(
+                    GetBogusBookGenresData(
                         book.BookId,
-                        Authors[new Random().Next(0, AUTHORS - 1)].AuthorId
+                        Genres[new Random().Next(0, Genres.Count)].GenreId
                     )
-                );
-            });
+                )
+            );
+
+            Books.ForEach(book => // many-to-many
+                BookAuthors.AddRange(
+                    GetBogusBookAuthorsData(
+                        book.BookId,
+                        Authors[new Random().Next(0, Authors.Count)].AuthorId
+                    )
+                )
+            );
         }
     }
 }

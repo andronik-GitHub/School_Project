@@ -54,6 +54,7 @@ namespace SchoolLibrary_EF.API.Migrations
             modelBuilder.Entity("SchoolLibrary_EF.DAL.Entities.Book", b =>
                 {
                     b.Property<Guid>("BookId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ISBN")
@@ -117,6 +118,9 @@ namespace SchoolLibrary_EF.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BookDetailId");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
 
                     b.ToTable("BookDetails");
                 });
@@ -272,19 +276,11 @@ namespace SchoolLibrary_EF.API.Migrations
 
             modelBuilder.Entity("SchoolLibrary_EF.DAL.Entities.Book", b =>
                 {
-                    b.HasOne("SchoolLibrary_EF.DAL.Entities.BookDetails", "BookDetails")
-                        .WithOne("Book")
-                        .HasForeignKey("SchoolLibrary_EF.DAL.Entities.Book", "BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolLibrary_EF.DAL.Entities.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BookDetails");
 
                     b.Navigation("Publisher");
                 });
@@ -304,6 +300,17 @@ namespace SchoolLibrary_EF.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("SchoolLibrary_EF.DAL.Entities.BookDetails", b =>
+                {
+                    b.HasOne("SchoolLibrary_EF.DAL.Entities.Book", "Book")
+                        .WithOne("BookDetails")
+                        .HasForeignKey("SchoolLibrary_EF.DAL.Entities.BookDetails", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
                 });
@@ -374,17 +381,14 @@ namespace SchoolLibrary_EF.API.Migrations
                 {
                     b.Navigation("BookAuthors");
 
+                    b.Navigation("BookDetails")
+                        .IsRequired();
+
                     b.Navigation("BookGenres");
 
                     b.Navigation("Loans");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("SchoolLibrary_EF.DAL.Entities.BookDetails", b =>
-                {
-                    b.Navigation("Book")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolLibrary_EF.DAL.Entities.Genre", b =>

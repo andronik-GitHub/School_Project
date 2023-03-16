@@ -36,6 +36,11 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
                 .HasOne(b => b.Publisher)
                 .WithMany(p => p.Books)
                 .HasForeignKey(b => b.PublisherId);
+
+            builder // one-to-one  BookDetails - Books
+                .HasOne(b => b.BookDetails)
+                .WithOne(bd => bd.Book)
+                .HasForeignKey<BookDetails>(bd => bd.BookId);
         }
     }
 }

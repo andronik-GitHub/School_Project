@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Bogus;
 using SchoolLibrary_EF.DAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddSwaggerGen();
 #endregion
 
 
+DataGenerator.InitBogusData();
 var app = builder.Build();
 
 

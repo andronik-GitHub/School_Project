@@ -11,11 +11,9 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder
                 .HasKey(bd => bd.BookDetailId);
 
-
-            builder // one-to-one  BookDetails - Books
-                .HasOne(bd => bd.Book)
-                .WithOne(b => b.BookDetails)
-                .HasForeignKey<Book>(bd => bd.BookId);
+            builder
+                .HasIndex(bd => bd.BookId)
+                .IsUnique();
         }
     }
 }
