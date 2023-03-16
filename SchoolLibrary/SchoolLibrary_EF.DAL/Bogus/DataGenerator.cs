@@ -17,7 +17,6 @@ namespace SchoolLibrary_EF.DAL.Bogus
         public static List<BookAuthors> BookAuthors = new();
 
         private const int BOOKS = 3000;
-        private const int BOOKDETAILS = BOOKS;
         private const int AUTHORS = 30;
         private const int PUBLISHERS = 50;
         private const int USERS = 300;
