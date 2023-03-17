@@ -154,3 +154,7 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\obj\Debug
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\obj\Debug\net7.0\SchoolLibrary_EF.API.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\obj\Debug\net7.0\SchoolLibrary_EF.API.genruntimeconfig.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\obj\Debug\net7.0\ref\SchoolLibrary_EF.API.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\AutoMapper.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\SchoolLibrary_EF.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\SchoolLibrary_EF.BLL.pdb

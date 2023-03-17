@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using SchoolLibrary_EF.BLL.Services;
+using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Bogus;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Repositories;
@@ -15,6 +18,11 @@ builder.Services.AddSwaggerGen();
 
 #region AddMainServices
 {
+    // Logging
+    builder.Services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
+    builder.Services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
+
+    // DbContext
     builder.Services.AddDbContext<SchoolLibraryContext>(options =>
     {
         options.UseSqlServer(
@@ -23,6 +31,14 @@ builder.Services.AddSwaggerGen();
             );
     });
 
+    // AutoMapper
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+    // BLL
+    {
+        builder.Services.AddScoped<IUserService, UserService>();
+    }
 
     // DAL
     {

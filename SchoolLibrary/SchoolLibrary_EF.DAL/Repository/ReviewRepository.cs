@@ -11,5 +11,13 @@ namespace SchoolLibrary_EF.DAL.Repositories
             : base(dbContext)
         {
         }
+
+
+        public override async Task<Guid> CreateAsync(Review review)
+        {
+            await entities.AddAsync(review);
+
+            return review.ReviewId;
+        }
     }
 }

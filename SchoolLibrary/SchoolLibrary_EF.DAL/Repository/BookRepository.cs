@@ -11,5 +11,13 @@ namespace SchoolLibrary_EF.DAL.Repositories
             : base(dbContext)
         {
         }
+
+
+        public override async Task<Guid> CreateAsync(Book book)
+        {
+            await entities.AddAsync(book);
+
+            return book.BookId;
+        }
     }
 }

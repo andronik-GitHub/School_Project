@@ -26,3 +26,6 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.genruntimeconfig.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\ref\SchoolLibrary_EF.BLL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.DAL.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\bin\Debug\net7.0\SchoolLibrary_EF.DAL.pdb
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.BLL\obj\Debug\net7.0\SchoolLibrary_EF.BLL.csproj.CopyComplete
