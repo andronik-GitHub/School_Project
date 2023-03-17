@@ -37,8 +37,9 @@ builder.Services.AddSwaggerGen();
 
     // BLL
     {
-        builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IAuthorService, AuthorService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IGenreService, GenreService>();
     }
 
     // DAL
