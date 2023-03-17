@@ -29,6 +29,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
+        public async Task<IEnumerable<UserDTO>> GetAllAsync()
+        {
+            // Use AutoMapper to project one collection onto another
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(await _uow.Users.GetAllAsync());
+        }
         public async Task<UserDTO?> GetAsync(Guid id)
         {
             // Get entity from db
@@ -39,11 +44,6 @@ namespace SchoolLibrary_EF.BLL.Services
             UserDTO? userDTO = _mapper.Map<UserDTO?>(user);
 
             return  userDTO;
-        }
-        public async Task<IEnumerable<UserDTO>> GetAllAsync()
-        {
-            // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(await _uow.Users.GetAllAsync());
         }
         public async Task UpdateAsync(UserDTO entity)
         {

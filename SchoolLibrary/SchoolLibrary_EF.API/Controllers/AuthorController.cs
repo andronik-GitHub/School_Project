@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 
@@ -6,27 +7,27 @@ namespace SchoolLibrary_EF.API.Controllers
 {
     [Route("ef/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthorController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAuthorService _authorService;
         private readonly ILogger _logger;
 
-        public UserController(IUserService userService, ILoggerFactory loggerFactory)
+        public AuthorController(IAuthorService authorService, ILoggerFactory loggerFactory)
         {
-            _userService = userService;
+            _authorService = authorService;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
         }
 
 
-        [HttpGet] // GET: ef/user
+        [HttpGet] // GET: ef/author
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAsync()
         {
             try
             {
-                var collection = await _userService.GetAllAsync();
-                _logger.LogInformation("All entities were successfully extracted from [Users]");
+                var collection = await _authorService.GetAllAsync();
+                _logger.LogInformation("All entities were successfully extracted from [Authors]");
 
                 return Ok(collection);
             }
@@ -39,19 +40,19 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpGet("{id}")] // GET: ef/user/id
+        [HttpGet("{id}")] // GET: ef/author/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<AuthorDTO>> GetByIdAsync(Guid id)
         {
             try
             {
-                var entity = await _userService.GetAsync(id);
+                var entity = await _authorService.GetAsync(id);
 
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{0}] from [Users] not found", id);
+                    _logger.LogError("Entity with id: [{0}] from [Authors] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
@@ -59,12 +60,12 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     _logger.LogInformation
-                        ("Entity with id: [{0}] were successfully extracted from [Users]", id);
+                        ("Entity with id: [{0}] were successfully extracted from [Authors]", id);
 
                     return Ok(entity);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError
                     ("Error in [{0}]->[GetByIdAsync] => {1}", this.GetType().Name, ex.Message);
@@ -73,16 +74,16 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpPost] // POST: ef/user
+        [HttpPost] // POST: ef/author
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> AddAsync(UserDTO newUser)
+        public async Task<ActionResult> AddAsync(AuthorDTO newAuthor)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (newUser.FirstName == null || newUser.LastName == null || newUser.Email == null)
+                if (newAuthor.FirstName == null || newAuthor.LastName == null || newAuthor.Country == null)
                 {
                     _logger.LogError("Invalid data entered");
 
@@ -91,7 +92,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 }
                 else
                 {
-                    var id = await _userService.CreateAsync(newUser);
+                    var id = await _authorService.CreateAsync(newAuthor);
                     _logger.LogInformation
                         ("Entity with id: [{0}] were successfully added to [Users]", id);
 
@@ -107,17 +108,17 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpPut] // PUT: ef/user
+        [HttpPut] // PUT: ef/author
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(UserDTO updateUser)
+        public async Task<ActionResult> UpdateAsync(AuthorDTO updateAuthor)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updateUser.FirstName == null || updateUser.LastName == null || updateUser.Email == null)
+                if (updateAuthor.FirstName == null || updateAuthor.LastName == null || updateAuthor.Country == null)
                 {
                     _logger.LogError("Invalid data entered");
 
@@ -127,22 +128,22 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     // Whether there is such a record in the database at all
-                    var findResult = _userService.GetAsync(updateUser.UserId);
+                    var findResult = _authorService.GetAsync(updateAuthor.Authorid);
 
                     if (findResult == null)
                     {
-                        _logger.LogError("Entity with id: [{0}] from [Users] not found", updateUser.UserId);
+                        _logger.LogError("Entity with id: [{0}] from [Authors] not found", updateAuthor.Authorid);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
                     }
                     else
                     {
-                        var id = await _userService.CreateAsync(updateUser);
+                        var id = await _authorService.CreateAsync(updateAuthor);
                         _logger.LogInformation
-                            ("Entity with id: [{0}] were successfully updated from [Users]", updateUser.UserId);
+                            ("Entity with id: [{0}] were successfully updated from [Authors]", id);
 
-                        return Ok(updateUser.UserId);
+                        return Ok(id);
                     }
                 }
             }
@@ -155,7 +156,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")] // DELETE: ef/user/id
+        [HttpDelete("{id}")] // DELETE: ef/author/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -164,20 +165,20 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = _userService.GetAsync(id);
+                var findResult = _authorService.GetAsync(id);
 
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{0}] from [Users] not found", id);
+                    _logger.LogError("Entity with id: [{0}] from [Authors] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
                 }
                 else
                 {
-                    await _userService.DeleteAsync(id);
+                    await _authorService.DeleteAsync(id);
                     _logger.LogInformation
-                        ("Entity with id: [{0}] were successfully deleted from [Users]", id);
+                        ("Entity with id: [{0}] were successfully deleted from [Authors]", id);
 
                     return Ok();
                 }
