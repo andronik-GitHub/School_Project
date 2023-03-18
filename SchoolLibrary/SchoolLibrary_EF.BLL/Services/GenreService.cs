@@ -20,7 +20,7 @@ namespace SchoolLibrary_EF.BLL.Services
 
         public async Task<Guid> CreateAsync(GenreDTO entity)
         {
-            // We create a GenreDTO object and copy the values ​​of the properties
+            // We create a Genre object and copy the values ​​of the properties
             // of the entity object into its properties (we perform mapping)
             Genre genre = _mapper.Map<Genre>(entity);
 
@@ -47,7 +47,7 @@ namespace SchoolLibrary_EF.BLL.Services
         }
         public async Task UpdateAsync(GenreDTO entity)
         {
-            // We create a GenreDTO object and copy the values ​​of the properties
+            // We create a Genre object and copy the values ​​of the properties
             // of the entity object into its properties (we perform mapping)
             Genre genre = _mapper.Map<Genre>(entity);
 

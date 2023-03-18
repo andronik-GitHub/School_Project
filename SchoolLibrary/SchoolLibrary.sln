@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLibrary_EF.BLL", "Sch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLibrary_EF.DAL", "SchoolLibrary_EF.DAL\SchoolLibrary_EF.DAL.csproj", "{D035AC7E-F890-4667-A39E-1D1A5E81C903}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolLibrary_Dapper.DAL", "SchoolLibrary_Dapper.DAL\SchoolLibrary_Dapper.DAL.csproj", "{B7DBD1EB-1E3B-4590-BB4F-CCC0316A5841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLibrary_Dapper.DAL", "SchoolLibrary_Dapper.DAL\SchoolLibrary_Dapper.DAL.csproj", "{B7DBD1EB-1E3B-4590-BB4F-CCC0316A5841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolLibrary_Dapper.BLL", "SchoolLibrary_Dapper.BLL\SchoolLibrary_Dapper.BLL.csproj", "{E4B0AC17-B293-4FE2-B3BF-1EEFF9C3A6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLibrary_Dapper.BLL", "SchoolLibrary_Dapper.BLL\SchoolLibrary_Dapper.BLL.csproj", "{E4B0AC17-B293-4FE2-B3BF-1EEFF9C3A6A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolLibrary_Dapper.API", "SchoolLibrary_Dapper.API\SchoolLibrary_Dapper.API.csproj", "{226EB5C7-0E6D-466B-950E-7266113674E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolLibrary_Dapper.API", "SchoolLibrary_Dapper.API\SchoolLibrary_Dapper.API.csproj", "{226EB5C7-0E6D-466B-950E-7266113674E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

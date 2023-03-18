@@ -33,7 +33,7 @@ namespace SchoolLibrary_EF.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[GetAllAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -51,7 +51,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{0}] from [Genres] not found", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [Genres] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
@@ -59,7 +59,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     _logger.LogInformation
-                        ("Entity with id: [{0}] were successfully extracted from [Genres]", id);
+                        ("Entity with id: [{EntityId}] were successfully extracted from [Genres]", id);
 
                     return Ok(entity);
                 }
@@ -67,7 +67,7 @@ namespace SchoolLibrary_EF.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[GetByIdAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -93,7 +93,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 {
                     var id = await _genreService.CreateAsync(newGenre);
                     _logger.LogInformation
-                        ("Entity with id: [{0}] were successfully added to [Genres]", id);
+                        ("Entity with id: [{EntityId}] were successfully added to [Genres]", id);
 
                     return Ok(id);
                 }
@@ -101,7 +101,7 @@ namespace SchoolLibrary_EF.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[AddAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -131,7 +131,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     if (findResult == null)
                     {
-                        _logger.LogError("Entity with id: [{0}] from [Genres] not found", updateGenre.GenreId);
+                        _logger.LogError("Entity with id: [{EntityId}] from [Genres] not found", updateGenre.GenreId);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
@@ -140,7 +140,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     {
                         var id = await _genreService.CreateAsync(updateGenre);
                         _logger.LogInformation
-                            ("Entity with id: [{0}] were successfully updated from [Genres]", id);
+                            ("Entity with id: [{EntityId}] were successfully updated from [Genres]", id);
 
                         return Ok(id);
                     }
@@ -149,7 +149,7 @@ namespace SchoolLibrary_EF.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[UpdateAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -168,7 +168,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{0}] from [Genres] not found", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [Genres] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
@@ -177,7 +177,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 {
                     await _genreService.DeleteAsync(id);
                     _logger.LogInformation
-                        ("Entity with id: [{0}] were successfully deleted from [Genres]", id);
+                        ("Entity with id: [{EntityId}] were successfully deleted from [Genres]", id);
 
                     return Ok();
                 }
@@ -185,7 +185,7 @@ namespace SchoolLibrary_EF.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[DeleteAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }

@@ -19,7 +19,7 @@ namespace SchoolLibrary_EF.BLL.Services
 
         public async Task<Guid> CreateAsync(AuthorDTO entity)
         {
-            // We create a AuthorDTO object and copy the values ​​of the properties
+            // We create a Author object and copy the values ​​of the properties
             // of the entity object into its properties (we perform mapping)
             Author author = _mapper.Map<Author>(entity);
 
@@ -46,7 +46,7 @@ namespace SchoolLibrary_EF.BLL.Services
         }
         public async Task UpdateAsync(AuthorDTO entity)
         {
-            // We create a AuthorDTO object and copy the values ​​of the properties
+            // We create a Author object and copy the values ​​of the properties
             // of the entity object into its properties (we perform mapping)
             Author author = _mapper.Map<Author>(entity);
 

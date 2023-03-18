@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SchoolLibrary_EF.API.Mapping.Configurations;
 using SchoolLibrary_EF.BLL.Services;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Bogus;
@@ -31,13 +32,14 @@ builder.Services.AddSwaggerGen();
             );
     });
 
-    // AutoMapper
-    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
+    builder.Services.RegisterMapsterConfiguration(); // Mapster
 
 
     // BLL
     {
         builder.Services.AddScoped<IAuthorService, AuthorService>();
+        builder.Services.AddScoped<IPublisherService, PublisherService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IGenreService, GenreService>();
     }
