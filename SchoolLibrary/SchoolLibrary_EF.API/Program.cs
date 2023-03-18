@@ -39,10 +39,15 @@ builder.Services.AddSwaggerGen();
     // BLL
     {
         builder.Services.AddScoped<IBookService, BookService>();
+        //builder.Services.AddScoped<IBookDetailsService, BookDetailsService>();
         builder.Services.AddScoped<IAuthorService, AuthorService>();
         builder.Services.AddScoped<IPublisherService, PublisherService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        //builder.Services.AddScoped<ILoanService, LoanService>();
+        //builder.Services.AddScoped<IReviewRService, ReviewService>();
         builder.Services.AddScoped<IGenreService, GenreService>();
+        //builder.Services.AddScoped<IBookGenresService, BookGenresService>();
+        //builder.Services.AddScoped<IBookAuthorsService, BookAuthorsService>();
     }
 
     // DAL
