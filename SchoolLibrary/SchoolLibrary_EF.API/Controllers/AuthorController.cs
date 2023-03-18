@@ -131,25 +131,27 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     if (findResult == null)
                     {
-                        _logger.LogError("Entity with id: [{EntityId}] from [Authors] not found", updateAuthor.Authorid);
+                        _logger.LogError
+                            ("Entity with id: [{EntityId}] from [Authors] not found", updateAuthor.Authorid);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
                     }
                     else
                     {
-                        var id = await _authorService.CreateAsync(updateAuthor);
+                        await _authorService.UpdateAsync(updateAuthor);
                         _logger.LogInformation
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                            ("Entity with id: [{EntityId}] were successfully updated from [Publishers]", 
+                                updateAuthor.Authorid);
 
-                        return Ok(id);
+                        return Ok(updateAuthor.Authorid);
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError
-                    ("Error in [{0}]->[UpdateAsync] => {1}", this.GetType().Name, ex.Message);
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }

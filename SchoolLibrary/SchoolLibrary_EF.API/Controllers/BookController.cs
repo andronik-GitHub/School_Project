@@ -6,27 +6,27 @@ namespace SchoolLibrary_EF.API.Controllers
 {
     [Route("ef/[controller]")]
     [ApiController]
-    public class PublisherController : ControllerBase
+    public class BookController : ControllerBase
     {
-        private readonly IPublisherService _publisherService;
+        private readonly IBookService _bookService;
         private readonly ILogger _logger;
 
-        public PublisherController(IPublisherService publisherService, ILoggerFactory loggerFactory)
+        public BookController(IBookService bookService, ILoggerFactory loggerFactory)
         {
-            _publisherService = publisherService;
+            _bookService = bookService;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
         }
 
 
-        [HttpGet] // GET: ef/publisher
+        [HttpGet] // GET: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PublisherDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllAsync()
         {
             try
             {
-                var collection = await _publisherService.GetAllAsync();
-                _logger.LogInformation("All entities were successfully extracted from [Publishers]");
+                var collection = await _bookService.GetAllAsync();
+                _logger.LogInformation("All entities were successfully extracted from [Books]");
 
                 return Ok(collection);
             }
@@ -39,19 +39,19 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpGet("{id}")] // GET: ef/publisher/id
+        [HttpGet("{id}")] // GET: ef/book/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PublisherDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<BookDTO>> GetByIdAsync(Guid id)
         {
             try
             {
-                var entity = await _publisherService.GetAsync(id);
+                var entity = await _bookService.GetAsync(id);
 
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Publishers] not found", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [Books] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
@@ -59,7 +59,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully extracted from [Publishers]", id);
+                        ("Entity with id: [{EntityId}] were successfully extracted from [Books]", id);
 
                     return Ok(entity);
                 }
@@ -73,17 +73,17 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpPost] // POST: ef/publisher
+        [HttpPost] // POST: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> AddAsync(PublisherDTO newPublisher)
+        public async Task<ActionResult> AddAsync(BookDTO newBook)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (newPublisher.Name == null || newPublisher.Country == null ||
-                    newPublisher.Country == null || newPublisher.Street == null)
+                if (newBook.Title == null || newBook.ISBN == null ||
+                    newBook.PublisherLocation == null || newBook.PublisherName == null)
                 {
                     _logger.LogError("Invalid data entered");
 
@@ -92,9 +92,9 @@ namespace SchoolLibrary_EF.API.Controllers
                 }
                 else
                 {
-                    var id = await _publisherService.CreateAsync(newPublisher);
+                    var id = await _bookService.CreateAsync(newBook);
                     _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully added to [Publishers]", id);
+                        ("Entity with id: [{EntityId}] were successfully added to [Books]", id);
 
                     return Ok(id);
                 }
@@ -108,19 +108,19 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpPut] // PUT: ef/publisher
+        [HttpPut] // PUT: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(PublisherDTO updatePublisher)
+        public async Task<ActionResult> UpdateAsync(BookDTO updateBook)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updatePublisher.Name == null || updatePublisher.Country == null ||
-                    updatePublisher.Country == null || updatePublisher.Street == null)
-                    {
+                if (updateBook.Title == null || updateBook.ISBN == null ||
+                    updateBook.PublisherLocation == null || updateBook.PublisherName == null)
+                {
                     _logger.LogError("Invalid data entered");
 
                     return StatusCode(StatusCodes.Status400BadRequest);
@@ -129,25 +129,25 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     // Whether there is such a record in the database at all
-                    var findResult = _publisherService.GetAsync(updatePublisher.PublisherId);
+                    var findResult = _bookService.GetAsync(updateBook.BookId);
 
                     if (findResult == null)
                     {
                         _logger.LogError
-                            ("Entity with id: [{EntityId}] from [Publishers] not found",
-                                updatePublisher.PublisherId);
+                            ("Entity with id: [{EntityId}] from [Books] not found",
+                                updateBook.BookId);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
                     }
                     else
                     {
-                        await _publisherService.UpdateAsync(updatePublisher);
+                        await _bookService.UpdateAsync(updateBook);
                         _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Publishers]",
-                                updatePublisher.PublisherId);
+                            ("Entity with id: [{EntityId}] were successfully updated from [Books]",
+                                updateBook.BookId);
 
-                        return Ok(updatePublisher.PublisherId);
+                        return Ok(updateBook.BookId);
                     }
                 }
             }
@@ -160,7 +160,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")] // DELETE: ef/publisher/id
+        [HttpDelete("{id}")] // DELETE: ef/book/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -169,20 +169,20 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = _publisherService.GetAsync(id);
+                var findResult = _bookService.GetAsync(id);
 
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Publishers] not found", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [Books] not found", id);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                     //return NotFound();
                 }
                 else
                 {
-                    await _publisherService.DeleteAsync(id);
+                    await _bookService.DeleteAsync(id);
                     _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [Publishers]", id);
+                        ("Entity with id: [{EntityId}] were successfully deleted from [Books]", id);
 
                     return Ok();
                 }

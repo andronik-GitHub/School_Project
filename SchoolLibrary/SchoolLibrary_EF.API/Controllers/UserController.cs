@@ -131,16 +131,18 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     if (findResult == null)
                     {
-                        _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", updateUser.UserId);
+                        _logger.LogError
+                            ("Entity with id: [{EntityId}] from [Users] not found", updateUser.UserId);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
                     }
                     else
                     {
-                        var id = await _userService.CreateAsync(updateUser);
+                        await _userService.UpdateAsync(updateUser);
                         _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Users]", updateUser.UserId);
+                            ("Entity with id: [{EntityId}] were successfully updated from [Users]",
+                                updateUser.UserId);
 
                         return Ok(updateUser.UserId);
                     }

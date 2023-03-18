@@ -131,18 +131,20 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     if (findResult == null)
                     {
-                        _logger.LogError("Entity with id: [{EntityId}] from [Genres] not found", updateGenre.GenreId);
+                        _logger.LogError
+                            ("Entity with id: [{EntityId}] from [Genres] not found", updateGenre.GenreId);
 
                         return StatusCode(StatusCodes.Status404NotFound);
                         //return NotFound();
                     }
                     else
                     {
-                        var id = await _genreService.CreateAsync(updateGenre);
+                        await _genreService.UpdateAsync(updateGenre);
                         _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Genres]", id);
+                            ("Entity with id: [{EntityId}] were successfully updated from [Genres]",
+                                updateGenre.GenreId);
 
-                        return Ok(id);
+                        return Ok(updateGenre.GenreId);
                     }
                 }
             }

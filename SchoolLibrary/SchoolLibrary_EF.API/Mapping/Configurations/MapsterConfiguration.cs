@@ -18,6 +18,12 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 //.Map(dest => dest.Country, src => src.Location.Split(',', StringSplitOptions.None)[2].Trim())
                 .TwoWays();
 
+            TypeAdapterConfig<Book, BookDTO>
+                .NewConfig()
+                .Map(dest => dest.PublisherName, src => src.Publisher.Name)
+                .Map(dest => dest.PublisherLocation, src => src.Publisher.Location)
+                .TwoWays();
+
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }
     }
