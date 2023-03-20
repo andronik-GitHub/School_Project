@@ -191,7 +191,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     // Whether there is such a record in the database at all
-                    var findResult = _authorService.GetAsync(updateAuthor.Authorid);
+                    var findResult = await _authorService.GetAsync(updateAuthor.Authorid);
 
                     if (findResult == null)
                     {
@@ -242,7 +242,7 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = _authorService.GetAsync(id);
+                var findResult = await _authorService.GetAsync(id);
 
                 if (findResult == null)
                 {

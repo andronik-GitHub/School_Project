@@ -188,7 +188,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     // Whether there is such a record in the database at all
-                    var findResult = _genreService.GetAsync(updateGenre.GenreId);
+                    var findResult = await _genreService.GetAsync(updateGenre.GenreId);
 
                     if (findResult == null)
                     {
@@ -239,7 +239,7 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = _genreService.GetAsync(id);
+                var findResult = await _genreService.GetAsync(id);
 
                 if (findResult == null)
                 {

@@ -188,7 +188,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 else
                 {
                     // Whether there is such a record in the database at all
-                    var findResult = _userService.GetAsync(updateUser.UserId);
+                    var findResult = await _userService.GetAsync(updateUser.UserId);
 
                     if (findResult == null)
                     {
@@ -239,7 +239,7 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = _userService.GetAsync(id);
+                var findResult = await _userService.GetAsync(id);
 
                 if (findResult == null)
                 {
