@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
 using SchoolLibrary_EF.API.Mapping.Configurations;
 using SchoolLibrary_EF.BLL.Services;
 using SchoolLibrary_EF.BLL.Services.Contracts;
@@ -9,13 +10,29 @@ using SchoolLibrary_EF.DAL.Repositories;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+
+// Register a Swagger generator by defining 1 or more Swagger documents
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "School Library",
+        Version = "v1",
+        Description = "API for performing operations with \"School Library\"",
+    });
+
+    // Customizing the comment path for Swagger JSON and UI
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    option.IncludeXmlComments(xmlPath);
+});
 
 #region AddMainServices
 {
@@ -74,7 +91,10 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
     app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");

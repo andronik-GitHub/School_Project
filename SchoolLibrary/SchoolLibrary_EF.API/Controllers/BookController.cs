@@ -4,6 +4,7 @@ using SchoolLibrary_EF.BLL.Services.Contracts;
 
 namespace SchoolLibrary_EF.API.Controllers
 {
+    [Produces("application/json")]
     [Route("ef/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -18,6 +19,16 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
 
+        /// <summary>
+        /// Gets the list of all Books
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/book
+        /// </remarks>
+        /// <returns>Returns list of BookDTO</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet] // GET: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -39,6 +50,18 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the Book by id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/book/13ce1333-7b7c-4395-8565-0474a6ad05ad
+        /// </remarks>
+        /// <param name="id">Book id (Guid)</param>
+        /// <returns>Returns element of BookDTO</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">If the element with such ID is not found in the database</response>
+        /// <response code="500">If it was not possible to get element from the database</response>
         [HttpGet("{id}")] // GET: ef/book/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,11 +96,32 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates new Book
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST: ef/book
+        ///     {
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "title": "string",
+        ///         "publishingYear": 0,
+        ///         "isbn": "string",
+        ///         "publisherName": "string",
+        ///         "publisherLocation": "string, string, string"
+        ///     }
+        /// </remarks>
+        /// <param name="newBook">BookDTO newEntity</param>
+        /// <returns>Returns id (Guid)</returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">If invalid data entered</response>
+        /// <response code="500">If it was not possible to adding element to the database</response>
         [HttpPost] // POST: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> AddAsync(BookDTO newBook)
+        public async Task<ActionResult<Guid>> AddAsync(BookDTO newBook)
         {
             try
             {
@@ -108,8 +152,29 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update the Book
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PUT: ef/book
+        ///     {
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "title": "string",
+        ///         "publishingYear": 0,
+        ///         "isbn": "string",
+        ///         "publisherName": "string",
+        ///         "publisherLocation": "string, string, string"
+        ///     }
+        /// </remarks>
+        /// <param name="updateBook">BookDTO updateEntity</param>
+        /// <returns>Returns NoContent</returns>
+        /// <response code="204">Success</response>
+        /// <response code="400">If invalid data entered</response>
+        /// <response code="500">If it was not possible to adding element to the database</response>
         [HttpPut] // PUT: ef/book
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -147,7 +212,7 @@ namespace SchoolLibrary_EF.API.Controllers
                             ("Entity with id: [{EntityId}] were successfully updated from [Books]",
                                 updateBook.BookId);
 
-                        return Ok(updateBook.BookId);
+                        return StatusCode(StatusCodes.Status204NoContent);
                     }
                 }
             }
@@ -160,8 +225,20 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete the Book by id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// DELETE: ef/book/13ce1333-7b7c-4395-8565-0474a6ad05ad
+        /// </remarks>
+        /// <param name="id">Book id (Guid)</param>
+        /// <returns>Returns NoContent</returns>
+        /// <response code="204">Success</response>
+        /// <response code="400">If invalid data entered</response>
+        /// <response code="500">If it was not possible to adding element to the database</response>
         [HttpDelete("{id}")] // DELETE: ef/book/id
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteAsync(Guid id)
@@ -184,7 +261,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     _logger.LogInformation
                         ("Entity with id: [{EntityId}] were successfully deleted from [Books]", id);
 
-                    return Ok();
+                    return StatusCode(StatusCodes.Status204NoContent);
                 }
             }
             catch (Exception ex)
