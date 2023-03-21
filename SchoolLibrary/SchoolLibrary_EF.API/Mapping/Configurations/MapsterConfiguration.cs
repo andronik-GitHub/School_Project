@@ -9,6 +9,23 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
     {
         public static void RegisterMapsterConfiguration(this IServiceCollection services)
         {
+            RegisterBookConfig();
+            RegisterBookDetailsConfig();
+            //RegisterAuthorConfig() in AutoMapper
+            RegisterPublisherConfig(); // troubles in mapping
+            //RegisterUserConfig() in AutoMapper
+            RegisterLoanConfig();
+            //RegisterReviewConfig()
+            //RegisterGenreConfig() in AutoMapper
+            //RegisterBookGenresConfig()
+            //RegisterBookAuthorsConfig()
+
+
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
+        }
+
+        private static void RegisterPublisherConfig()
+        {
             /*
              * При <PublisherDTO, Publisher>
              Якщо з БД витягувати об'єкти то получається:
@@ -33,20 +50,31 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 //.Map(dest => dest.City, src => src.Location.Split(',', StringSplitOptions.None)[1].Trim())
                 //.Map(dest => dest.Country, src => src.Location.Split(',', StringSplitOptions.None)[2].Trim())
                 .TwoWays();
-
+        }
+        private static void RegisterBookConfig()
+        {
             TypeAdapterConfig<Book, BookDTO>
                 .NewConfig()
                 .Map(dest => dest.PublisherName, src => src.Publisher.Name)
                 .Map(dest => dest.PublisherLocation, src => src.Publisher.Location)
                 .TwoWays();
-
+        }
+        private static void RegisterBookDetailsConfig()
+        {
             TypeAdapterConfig<BookDetails, BookDetailsDTO>
                 .NewConfig()
                 .Map(dest => dest.BookTitle, src => src.Book.Title)
                 .Map(dest => dest.BookPublishingYear, src => src.Book.PublishingYear)
                 .TwoWays();
-
-            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
+        }
+        private static void RegisterLoanConfig()
+        {
+            TypeAdapterConfig<Loan, LoanDTO>
+                .NewConfig()
+                .Map(dest => dest.UserFullName, src => $"{src.User.FirstName} {src.User.LastName}")
+                .Map(dest => dest.BookTitle, src => src.Book.Title)
+                .Map(dest => dest.BookISBN, src => src.Book.ISBN)
+                .TwoWays();
         }
     }
 }

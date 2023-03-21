@@ -342,6 +342,92 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync">
+            <summary>
+            Gets the list of all Loans
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/loan
+            </remarks>
+            <returns>Returns list of LoanDTO</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetByIdAsync(System.Guid)">
+            <summary>
+            Gets the Loan by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/loan/13ce1333-7b7c-4395-8565-0474a6ad05ad
+            </remarks>
+            <param name="id">Loan id (Guid)</param>
+            <returns>Returns element of LoanDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.AddAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+            <summary>
+            Creates new Loan
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST: ef/loan
+                {
+                    "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "loanDate": "2023-03-21T07:55:11.461Z",
+                    "returnDate": "2023-03-21T07:55:11.461Z",
+                    "userFullName": "string",
+                    "bookTitle": "string",
+                    "bookISBN": "string"
+                }
+            </remarks>
+            <param name="newLoan">LoanDTO newEntity</param>
+            <returns>Returns id (Guid)</returns>
+            <response code="200">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+            <summary>
+            Update the Loan
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT: ef/loan
+                {
+                    "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "loanDate": "2023-03-21T07:55:11.461Z",
+                    "returnDate": "2023-03-21T07:55:11.461Z",
+                    "userFullName": "string",
+                    "bookTitle": "string",
+                    "bookISBN": "string"
+                }
+            </remarks>
+            <param name="updateLoan">LoanDTO updateEntity</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.DeleteAsync(System.Guid)">
+            <summary>
+            Delete the Loan by id
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE: ef/loan/13ce1333-7b7c-4395-8565-0474a6ad05ad
+            </remarks>
+            <param name="id">Loan id (Guid)</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync">
             <summary>
             Gets the list of all Publishers

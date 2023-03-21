@@ -28,7 +28,7 @@ namespace SchoolLibrary_EF.BLL.Services
             var book = (await _uow.Books.GetAllAsync())
                 .ToList()
                 .Where(
-                    book => book.Title == bookDetails.Book.Title &&
+                    book => book.Title == entity.BookTitle &&
                     !bdList.Any(bd => bd.BookId == book.BookId)
                 )
                 .FirstOrDefault();
