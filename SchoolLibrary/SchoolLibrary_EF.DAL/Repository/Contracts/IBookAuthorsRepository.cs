@@ -3,7 +3,7 @@ using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repositories.Contracts
 {
-    public interface IBookAuthorsRepository : IGenericRepository<BookAuthors>
+    public interface IBookAuthorsRepository : IGenericIntermediateRepository<BookAuthors>
     {
     }
 }
