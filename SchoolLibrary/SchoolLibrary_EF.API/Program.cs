@@ -61,7 +61,7 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<IPublisherService, PublisherService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<ILoanService, LoanService>();
-        //builder.Services.AddScoped<IReviewRService, ReviewService>();
+        builder.Services.AddScoped<IReviewService, ReviewService>();
         builder.Services.AddScoped<IGenreService, GenreService>();
         //builder.Services.AddScoped<IBookGenresService, BookGenresService>();
         //builder.Services.AddScoped<IBookAuthorsService, BookAuthorsService>();

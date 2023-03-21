@@ -5,7 +5,9 @@
         public Guid ReviewId { get; set; }
         public decimal Rating { get; set; }
         public string ReviewText { get; set; } = default!;
-        public Guid UserId { get; set; }
-        public Guid BookId { get; set; }
+        //public Guid UserId { get; set; }
+        //public Guid BookId { get; set; }
+        public string UserFullName { get; set; } = default!;
+        public string BookTitle { get; set; } = default!;
     }
 }

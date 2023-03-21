@@ -512,6 +512,90 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync">
+            <summary>
+            Gets the list of all Reviews
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/review
+            </remarks>
+            <returns>Returns list of ReviewDTO</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetByIdAsync(System.Guid)">
+            <summary>
+            Gets the Review by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/review/13ce1333-7b7c-4395-8565-0474a6ad05ad
+            </remarks>
+            <param name="id">Review id (Guid)</param>
+            <returns>Returns element of ReviewDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.AddAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+            <summary>
+            Creates new Review
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST: ef/review
+                {
+                    "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "rating": 0,
+                    "reviewText": "string",
+                    "userFullName": "string",
+                    "bookTitle": "string"
+                }
+            </remarks>
+            <param name="newReview">ReviewDTO newEntity</param>
+            <returns>Returns id (Guid)</returns>
+            <response code="200">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+            <summary>
+            Update the Review
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT: ef/review
+                {
+                    "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "rating": 0,
+                    "reviewText": "string",
+                    "userFullName": "string",
+                    "bookTitle": "string"
+                }
+            </remarks>
+            <param name="updateReview">ReviewDTO updateEntity</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.DeleteAsync(System.Guid)">
+            <summary>
+            Delete the Review by id
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE: ef/review/13ce1333-7b7c-4395-8565-0474a6ad05ad
+            </remarks>
+            <param name="id">Review id (Guid)</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync">
             <summary>
             Gets the list of all Users
