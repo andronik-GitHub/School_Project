@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SchoolLibrary_EF.BLL.DTO
+﻿namespace SchoolLibrary_EF.BLL.DTO
 {
     public class BookDTO
     {

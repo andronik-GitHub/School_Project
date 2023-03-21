@@ -56,7 +56,7 @@ builder.Services.AddSwaggerGen(option =>
     // BLL
     {
         builder.Services.AddScoped<IBookService, BookService>();
-        //builder.Services.AddScoped<IBookDetailsService, BookDetailsService>();
+        builder.Services.AddScoped<IBookDetailsService, BookDetailsService>();
         builder.Services.AddScoped<IAuthorService, AuthorService>();
         builder.Services.AddScoped<IPublisherService, PublisherService>();
         builder.Services.AddScoped<IUserService, UserService>();
