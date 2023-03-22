@@ -25,7 +25,7 @@ namespace SchoolLibrary_EF.DAL.Repositories
         {
             if (parameters == null) return await base.GetAllAsync();
 
-            if (parameters is AuthorParameters param)
+            if (parameters is AuthorParameters param) // filtering
                 return await (await GetByConditionAsync(p =>
                         p.Birthdate.Year >= param.MinYearOfBirth &&
                         p.Birthdate.Year <= param.MaxYearOfBirth

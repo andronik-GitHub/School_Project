@@ -10,7 +10,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET ef/author?PageNumber=5(amp)PageSize=10
+            GET ef/author?MinYearOfBirth=1990(amp)MaxYearOfBirth=2000(amp)PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of AuthorDTO</returns>
             <response code="200">Success</response>
@@ -759,7 +759,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.UserParameters)">
             <summary>
             Gets the list of all Users
             </summary>

@@ -2,5 +2,6 @@
 {
     public class UserParameters : BaseParameters
     {
+        public string? UserName { get; set; } = default!;
     }
 }

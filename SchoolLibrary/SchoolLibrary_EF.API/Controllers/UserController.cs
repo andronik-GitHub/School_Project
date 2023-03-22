@@ -25,18 +25,20 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/user?PageNumber=5(amp)PageSize=10
+        /// GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
         /// </remarks>
         /// <returns>Returns list of UserDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/user?PageNumber=5&PageSize=10
+        [HttpGet] // GET: ef/user?UserName=Bob&PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync([FromQuery] UserParameters parameters)
         {
             try
             {
+
+
                 var collection = await _userService.GetAllAsync(parameters);
                 _logger.LogInformation
                     ("{Count} entities were successfully extracted from [Users]", collection.Count());
