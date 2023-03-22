@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
+using System.Linq.Expressions;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
@@ -24,12 +25,9 @@ namespace SchoolLibrary_EF.DAL.Repository
             await entities.AddAsync(entity);
             return (firstId, secondId);
         }
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters parameters)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters? parameters = null)
         {
-            return await entities
-                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                .Take(parameters.PageSize)
-                .ToListAsync();
+            return await entities.AsNoTracking().ToListAsync();
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid firstId, Guid secondId)
         {
@@ -42,6 +40,11 @@ namespace SchoolLibrary_EF.DAL.Repository
         public virtual async Task DeleteAsync(TEntity entity)
         {
             await Task.Run(() => entities.Remove(entity));
+        }
+
+        public virtual async Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await Task.Run(() => entities.Where(expression).AsNoTracking());
         }
     }
 }

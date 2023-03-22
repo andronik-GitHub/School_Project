@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 
@@ -21,14 +21,9 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return loan.LoanId;
         }
-        public override async Task<IEnumerable<Loan>> GetAllAsync<TOrderBy>
-            (BaseParameters? parameters = null, Func<Loan, TOrderBy>? orderBy = null)
+        public override async Task<IEnumerable<Loan>> GetAllAsync(BaseParameters? parameters = null)
         {
-            if (parameters == null)
-                return await entities
-                    .Include(entity => entity.Book)
-                    .Include(entity => entity.User)
-                    .ToListAsync();
+            if (parameters == null) return await base.GetAllAsync();
 
             return await entities
                 .OrderBy(entity => entity.LoanId)

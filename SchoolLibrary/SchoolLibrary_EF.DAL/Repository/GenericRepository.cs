@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
+using System.Linq.Expressions;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
@@ -18,36 +19,9 @@ namespace SchoolLibrary_EF.DAL.Repository
 
 
         public abstract Task<Guid> CreateAsync(TEntity entity); // the method must return the id of the added entity
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync<TOrderBy>
-            (BaseParameters? parameters = null, Func<TEntity, TOrderBy>? orderBy = null)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters? parameters = null)
         {
-            if (orderBy != null)
-            {
-                if (parameters != null)
-                {
-                    return await Task.Run(() =>
-                        entities
-                            .OrderBy(orderBy)
-                            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                            .Take(parameters.PageSize)
-                            .ToList()
-                    );
-                }
-                else return await Task.Run(() => entities.OrderBy(orderBy).ToList());
-            }
-            else
-            {
-                if (parameters != null)
-                {
-                    return await Task.Run(() =>
-                        entities
-                            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                            .Take(parameters.PageSize)
-                            .ToList()
-                    );
-                }
-                else return await entities.ToListAsync();
-            }
+            return await entities.AsNoTracking().ToListAsync();
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
@@ -63,6 +37,12 @@ namespace SchoolLibrary_EF.DAL.Repository
             if (entity == null) throw new Exception($"{typeof(TEntity).Name} with id: [{id}] was not found");
 
             await Task.Run(() => entities.Remove(entity));
+        }
+
+
+        public virtual async Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await Task.Run(() => entities.Where(expression).AsNoTracking());
         }
     }
 }

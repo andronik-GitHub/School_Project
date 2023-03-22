@@ -2,8 +2,8 @@
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Pagging;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 
 namespace SchoolLibrary_EF.DAL.Repositories
 {
@@ -21,13 +21,9 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return bookDetails.BookDetailId;
         }
-        public override async Task<IEnumerable<BookDetails>> GetAllAsync<TOrderBy>
-            (BaseParameters? parameters = null, Func<BookDetails, TOrderBy>? orderBy = null)
+        public override async Task<IEnumerable<BookDetails>> GetAllAsync(BaseParameters? parameters = null)
         {
-            if (parameters == null)
-                return await entities
-                    .Include(entity => entity.Book)
-                    .ToListAsync();
+            if (parameters == null) return await base.GetAllAsync();
 
             return await entities
                 .OrderBy(entity => entity.BookDetailId)

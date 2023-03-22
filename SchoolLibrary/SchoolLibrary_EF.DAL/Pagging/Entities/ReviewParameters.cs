@@ -1,4 +1,4 @@
-﻿namespace SchoolLibrary_EF.DAL.Pagging
+﻿namespace SchoolLibrary_EF.DAL.Pagging.Entities
 {
     public class ReviewParameters : BaseParameters
     {

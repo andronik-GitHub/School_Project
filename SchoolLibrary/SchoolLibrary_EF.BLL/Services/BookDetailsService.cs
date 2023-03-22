@@ -2,7 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -24,9 +24,9 @@ namespace SchoolLibrary_EF.BLL.Services
             BookDetails bookDetails = MappingFunctions.MapSourceToDestination<BookDetailsDTO, BookDetails>(entity);
 
 
-            var bdList = await _uow.BookDetails.GetAllAsync<Guid>();
+            var bdList = await _uow.BookDetails.GetAllAsync();
             // Finding a book with the same title to pre-fill data about this book
-            var book = (await _uow.Books.GetAllAsync<Guid>())
+            var book = (await _uow.Books.GetAllAsync())
                 .Where(book => 
                     book.Title == entity.BookTitle &&
                     !bdList.Any(bd => bd.BookId == book.BookId)
@@ -51,7 +51,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<BookDetails, BookDetailsDTO>
-                (await _uow.BookDetails.GetAllAsync<Guid>(parameters));
+                (await _uow.BookDetails.GetAllAsync(parameters));
         }
         public async Task<BookDetailsDTO?> GetAsync(Guid id)
         {

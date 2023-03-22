@@ -2,7 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -34,7 +34,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use AutoMapper to project one collection onto another
             return _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDTO>>
-                (await _uow.Genres.GetAllAsync<Guid>(parameters, g => g.GenreId));
+                (await _uow.Genres.GetAllAsync(parameters));
         }
         public async Task<GenreDTO?> GetAsync(Guid id)
         {

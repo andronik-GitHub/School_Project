@@ -2,7 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -87,10 +87,10 @@ namespace SchoolLibrary_EF.BLL.Services
         // For filling FK and objects
         private async Task SeedingBookAuthorsObject(BookAuthorsDTO entity, BookAuthors bookAuthors)
         {
-            var book = (await _uow.Books.GetAllAsync<Guid>())
+            var book = (await _uow.Books.GetAllAsync())
                 .Where(book => book.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var author = (await _uow.Authors.GetAllAsync<Guid>())
+            var author = (await _uow.Authors.GetAllAsync())
                 .Where(author => $"{author.FirstName} {author.LastName}" == entity.AuthorFullName)
                 .FirstOrDefault();
 

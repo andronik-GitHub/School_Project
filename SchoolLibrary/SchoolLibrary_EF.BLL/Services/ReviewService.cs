@@ -3,6 +3,7 @@ using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -34,7 +35,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Review, ReviewDTO>
-                (await _uow.Reviews.GetAllAsync<Guid>(parameters, r => r.ReviewId));
+                (await _uow.Reviews.GetAllAsync(parameters));
         }
         public async Task<ReviewDTO?> GetAsync(Guid id)
         {
@@ -70,11 +71,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
         private async Task SeedingReviewObject(ReviewDTO entity, Review review)
         {
-            var book = (await _uow.Books.GetAllAsync<Guid>(new BookParameters()))
+            var book = (await _uow.Books.GetAllAsync())
                 .ToList()
                 .Where(b => b.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync<Guid>(new UserParameters(), u => u.UserId))
+            var user = (await _uow.Users.GetAllAsync())
                 .ToList()
                 .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
                 .FirstOrDefault();

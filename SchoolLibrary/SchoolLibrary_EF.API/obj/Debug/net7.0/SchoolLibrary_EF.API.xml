@@ -4,16 +4,17 @@
         <name>SchoolLibrary_EF.API</name>
     </assembly>
     <members>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Authors
             </summary>
             <remarks>
             Sample request:
-            GET ef/author
+            GET ef/author?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of AuthorDTO</returns>
             <response code="200">Success</response>
+            <response code="400">If invalid filtering data is entered</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetByIdAsync(System.Guid)">
@@ -88,13 +89,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all BookAuthors
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookauthors
+            GET ef/bookauthors?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of BookAuthorsDTO</returns>
             <response code="200">Success</response>
@@ -169,13 +170,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Books
             </summary>
             <remarks>
             Sample request:
-            GET ef/book
+            GET ef/book?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of BookDTO</returns>
             <response code="200">Success</response>
@@ -255,13 +256,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all BookDetails
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookdetails
+            GET ef/bookdetails?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of BookDetailsDTO</returns>
             <response code="200">Success</response>
@@ -341,13 +342,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all BookGenres
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookgenres
+            GET ef/bookgenres?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of BookGenresDTO</returns>
             <response code="200">Success</response>
@@ -422,13 +423,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Genres
             </summary>
             <remarks>
             Sample request:
-            GET ef/genre
+            GET ef/genre?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of GenreDTO</returns>
             <response code="200">Success</response>
@@ -504,13 +505,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Loans
             </summary>
             <remarks>
             Sample request:
-            GET ef/loan
+            GET ef/loan?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of LoanDTO</returns>
             <response code="200">Success</response>
@@ -590,13 +591,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Publishers
             </summary>
             <remarks>
             Sample request:
-            GET ef/publisher
+            GET ef/publisher?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of PublisherDTO</returns>
             <response code="200">Success</response>
@@ -674,13 +675,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Reviews
             </summary>
             <remarks>
             Sample request:
-            GET ef/review
+            GET ef/review?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of ReviewDTO</returns>
             <response code="200">Success</response>
@@ -758,13 +759,13 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Users
             </summary>
             <remarks>
             Sample request:
-            GET ef/user
+            GET ef/user?PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of UserDTO</returns>
             <response code="200">Success</response>

@@ -2,7 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -35,7 +35,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Loan, LoanDTO>
-                (await _uow.Loans.GetAllAsync<Guid>(parameters, u => u.UserId));
+                (await _uow.Loans.GetAllAsync(parameters));
         }
         public async Task<LoanDTO?> GetAsync(Guid id)
         {
@@ -71,11 +71,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
         private async Task SeedingLoanObject(LoanDTO entity, Loan loan)
         {
-            var book = (await _uow.Books.GetAllAsync<Guid>())
+            var book = (await _uow.Books.GetAllAsync())
                 .ToList()
                 .Where(b => b.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync<Guid>())
+            var user = (await _uow.Users.GetAllAsync())
                 .ToList()
                 .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
                 .FirstOrDefault();

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 
@@ -17,11 +17,7 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
         public override async Task<IEnumerable<BookGenres>> GetAllAsync(BaseParameters? parameters = null)
         {
-            if (parameters == null)
-                return await entities
-                    .Include(entity => entity.Book)
-                    .Include(entity => entity.Genre)
-                    .ToListAsync();
+            if (parameters == null) return await base.GetAllAsync();
 
             return await entities
                 .OrderBy(entity => entity.BookId)

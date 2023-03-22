@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 
 namespace SchoolLibrary_EF.API.Controllers
 {
@@ -29,15 +29,20 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </remarks>
         /// <returns>Returns list of AuthorDTO</returns>
         /// <response code="200">Success</response>
+        /// <response code="400">If invalid filtering data is entered</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet] // GET: ef/author?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
         {
             try
             {
+                if (!parameters.ValidYearRand) // if invalid filtering data is entered
+                    return StatusCode(StatusCodes.Status400BadRequest);
+
                 var collection = await _authorService.GetAllAsync(parameters);
                 _logger.LogInformation
                     ("{Count} entities were successfully extracted from [Authors]", collection.Count());

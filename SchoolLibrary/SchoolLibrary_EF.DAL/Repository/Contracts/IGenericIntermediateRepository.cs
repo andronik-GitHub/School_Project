@@ -1,4 +1,5 @@
-﻿using SchoolLibrary_EF.DAL.Pagging;
+﻿using SchoolLibrary_EF.DAL.Pagging.Entities;
+using System.Linq.Expressions;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
@@ -10,5 +11,7 @@ namespace SchoolLibrary_EF.DAL.Repository.Contracts
         Task<TEntity?> GetByIdAsync(Guid firstId, Guid secondId);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
+
+        Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression);
     }
 }

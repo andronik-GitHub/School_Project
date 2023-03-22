@@ -1,5 +1,5 @@
 ﻿using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.DAL.Pagging;
+using SchoolLibrary_EF.DAL.Pagging.Entities;
 
 namespace SchoolLibrary_EF.BLL.Services.Contracts
 {

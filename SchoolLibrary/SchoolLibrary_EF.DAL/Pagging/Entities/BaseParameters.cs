@@ -1,4 +1,4 @@
-﻿namespace SchoolLibrary_EF.DAL.Pagging
+﻿namespace SchoolLibrary_EF.DAL.Pagging.Entities
 {
     public abstract class BaseParameters
     {
@@ -9,7 +9,7 @@
         public int PageSize
         {
             get => _pageSize;
-            set => _pageSize = (value > maxPageSize) ? maxPageSize : value;
+            set => _pageSize = value > maxPageSize ? maxPageSize : value;
         }
     }
 }
