@@ -87,12 +87,10 @@ namespace SchoolLibrary_EF.BLL.Services
         // For filling FK and objects
         private async Task SeedingBookAuthorsObject(BookAuthorsDTO entity, BookAuthors bookAuthors)
         {
-            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
-                .ToList()
+            var book = (await _uow.Books.GetAllAsync<Guid>())
                 .Where(book => book.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var author = (await _uow.Authors.GetAllAsync(new AuthorParameters()))
-                .ToList()
+            var author = (await _uow.Authors.GetAllAsync<Guid>())
                 .Where(author => $"{author.FirstName} {author.LastName}" == entity.AuthorFullName)
                 .FirstOrDefault();
 

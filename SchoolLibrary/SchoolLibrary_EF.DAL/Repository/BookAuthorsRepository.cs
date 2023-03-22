@@ -15,26 +15,29 @@ namespace SchoolLibrary_EF.DAL.Repositories
         }
 
 
-        public override async Task<IEnumerable<BookAuthors>> GetAllAsync(BaseParameters parameters)
+        public override async Task<IEnumerable<BookAuthors>> GetAllAsync(BaseParameters? parameters = null)
         {
-            entities
+            if (parameters == null)
+                return await entities
+                    .Include(entity => entity.Book)
+                    .Include(entity => entity.Author)
+                    .ToListAsync();
+
+            return await entities
+                .OrderBy(entity => entity.BookId)
+                .ThenBy(entity => entity.AuthorId)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
-                .ToList().ForEach(bookAuthors =>
-                dbContext.BookAuthors
-                    .Include(bg => bg.Book)
-                    .Include(bg => bg.Author)
-                    .FirstOrDefault(bg => bg.BookId == bookAuthors.BookId && bg.AuthorId == bookAuthors.AuthorId)
-                );
-
-            return await entities.ToListAsync();
+                .Include(entity => entity.Book)
+                .Include(entity => entity.Author)
+                .ToListAsync();
         }
         public override async Task<BookAuthors?> GetByIdAsync(Guid firstId, Guid secondId)
         {
             return await entities
-                .Include(bg => bg.Book)
-                .Include(bg => bg.Author)
-                .FirstOrDefaultAsync(bg => bg.BookId == firstId && bg.AuthorId == secondId);
+                .Include(entity => entity.Book)
+                .Include(entity => entity.Author)
+                .FirstOrDefaultAsync(entity => entity.BookId == firstId && entity.AuthorId == secondId);
         }
     }
 }

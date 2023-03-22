@@ -32,7 +32,8 @@ namespace SchoolLibrary_EF.BLL.Services
         public async Task<IEnumerable<AuthorDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<Author>, IEnumerable<AuthorDTO>>(await _uow.Authors.GetAllAsync(parameters));
+            return _mapper.Map<IEnumerable<Author>, IEnumerable<AuthorDTO>>
+                (await _uow.Authors.GetAllAsync<Guid>(parameters, a => a.AuthorId));
         }
         public async Task<AuthorDTO?> GetAsync(Guid id)
         {

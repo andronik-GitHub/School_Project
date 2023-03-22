@@ -24,20 +24,7 @@ namespace SchoolLibrary_EF.BLL.Services
             Loan loan = MappingFunctions.MapSourceToDestination<LoanDTO, Loan>(entity);
 
 
-            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
-                .ToList()
-                .Where(b => b.Title == entity.BookTitle)
-                .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync(new UserParameters()))
-                .ToList()
-                .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
-                .FirstOrDefault();
-
-            if (book == null) throw new Exception("No book with this title was found");
-            else loan.Book = book;
-            if (user == null) throw new Exception("No user with this name was found");
-            else loan.User = user;
-
+            await SeedingLoanObject(entity, loan);
 
             var id = await _uow.Loans.CreateAsync(loan);
             await _uow.SaveChangesAsync();
@@ -48,7 +35,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Loan, LoanDTO>
-                (await _uow.Loans.GetAllAsync(parameters));
+                (await _uow.Loans.GetAllAsync<Guid>(parameters, u => u.UserId));
         }
         public async Task<LoanDTO?> GetAsync(Guid id)
         {
@@ -71,6 +58,8 @@ namespace SchoolLibrary_EF.BLL.Services
             // of the entity object into its properties (we perform mapping)
             Loan loan = MappingFunctions.MapSourceToDestination<LoanDTO, Loan>(entity);
 
+            await SeedingLoanObject(entity, loan);
+
             await _uow.Loans.UpdateAsync(loan);
             await _uow.SaveChangesAsync();
         }
@@ -78,6 +67,23 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             await _uow.Loans.DeleteAsync(id);
             await _uow.SaveChangesAsync();
+        }
+
+        private async Task SeedingLoanObject(LoanDTO entity, Loan loan)
+        {
+            var book = (await _uow.Books.GetAllAsync<Guid>())
+                .ToList()
+                .Where(b => b.Title == entity.BookTitle)
+                .FirstOrDefault();
+            var user = (await _uow.Users.GetAllAsync<Guid>())
+                .ToList()
+                .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
+                .FirstOrDefault();
+
+            if (book == null) throw new Exception("No book with this title was found");
+            else loan.Book = book;
+            if (user == null) throw new Exception("No user with this name was found");
+            else loan.User = user;
         }
     }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Controllers\3wwdvn4i.j4w~" />
+    <None Remove="Program.cs~RF25a97c46.TMP" />
     <None Remove="Program.cs~RF3a8cc5f.TMP" />
   </ItemGroup>
 

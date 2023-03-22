@@ -2,7 +2,6 @@
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
-using System.Linq;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
@@ -19,12 +18,36 @@ namespace SchoolLibrary_EF.DAL.Repository
 
 
         public abstract Task<Guid> CreateAsync(TEntity entity); // the method must return the id of the added entity
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters parameters)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync<TOrderBy>
+            (BaseParameters? parameters = null, Func<TEntity, TOrderBy>? orderBy = null)
         {
-            return await entities
-                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                .Take(parameters.PageSize)
-                .ToListAsync();
+            if (orderBy != null)
+            {
+                if (parameters != null)
+                {
+                    return await Task.Run(() =>
+                        entities
+                            .OrderBy(orderBy)
+                            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                            .Take(parameters.PageSize)
+                            .ToList()
+                    );
+                }
+                else return await Task.Run(() => entities.OrderBy(orderBy).ToList());
+            }
+            else
+            {
+                if (parameters != null)
+                {
+                    return await Task.Run(() =>
+                        entities
+                            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                            .Take(parameters.PageSize)
+                            .ToList()
+                    );
+                }
+                else return await entities.ToListAsync();
+            }
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {

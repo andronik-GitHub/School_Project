@@ -32,7 +32,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Book, BookDTO>
-                (await _uow.Books.GetAllAsync(parameters));
+                (await _uow.Books.GetAllAsync<Guid>(parameters));
         }
         public async Task<BookDTO?> GetAsync(Guid id)
         {

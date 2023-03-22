@@ -21,8 +21,14 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return book.BookId;
         }
-        public override async Task<IEnumerable<Book>> GetAllAsync(BaseParameters parameters)
+        public override async Task<IEnumerable<Book>> GetAllAsync<TOrderBy>
+            (BaseParameters? parameters = null, Func<Book, TOrderBy>? orderBy = null)
         {
+            if (parameters == null)
+                return await entities
+                    .Include(entity => entity.Publisher)
+                    .ToListAsync();
+
             return await entities
                 .OrderBy(entity => entity.BookId)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)

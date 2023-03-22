@@ -38,7 +38,8 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 var collection = await _userService.GetAllAsync(parameters);
-                _logger.LogInformation("All entities were successfully extracted from [Users]");
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [Users]", collection.Count());
 
                 return Ok(collection);
             }

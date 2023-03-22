@@ -21,16 +21,22 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return review.ReviewId;
         }
-        public override async Task<IEnumerable<Review>> GetAllAsync(BaseParameters parameters)
+        public override async Task<IEnumerable<Review>> GetAllAsync<TOrderBy>
+            (BaseParameters? parameters = null, Func<Review, TOrderBy>? orderBy = null)
         {
-            entities.ToList().ForEach(review =>
-                dbContext.Reviews
-                    .Include(r => r.Book)
-                    .Include(r => r.User)
-                    .FirstOrDefault(r => r.BookId == review.BookId && r.UserId == review.UserId)
-                );
+            if (parameters == null)
+                return await entities
+                    .Include(entity => entity.Book)
+                    .Include(entity => entity.User)
+                    .ToListAsync();
 
-            return await entities.ToListAsync();
+            return await entities
+                .OrderBy(entity => entity.ReviewId)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Include(entity => entity.Book)
+                .Include(entity => entity.User)
+                .ToListAsync();
         }
         public override async Task<Review?> GetByIdAsync(Guid id)
         {

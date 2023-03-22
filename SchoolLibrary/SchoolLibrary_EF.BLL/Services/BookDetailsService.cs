@@ -24,12 +24,11 @@ namespace SchoolLibrary_EF.BLL.Services
             BookDetails bookDetails = MappingFunctions.MapSourceToDestination<BookDetailsDTO, BookDetails>(entity);
 
 
-            var bdList = (await _uow.BookDetails.GetAllAsync(new BookDetailsParameters())).ToList();
+            var bdList = await _uow.BookDetails.GetAllAsync<Guid>();
             // Finding a book with the same title to pre-fill data about this book
-            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
-                .ToList()
-                .Where(
-                    book => book.Title == entity.BookTitle &&
+            var book = (await _uow.Books.GetAllAsync<Guid>())
+                .Where(book => 
+                    book.Title == entity.BookTitle &&
                     !bdList.Any(bd => bd.BookId == book.BookId)
                 )
                 .FirstOrDefault();
@@ -52,7 +51,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<BookDetails, BookDetailsDTO>
-                (await _uow.BookDetails.GetAllAsync(parameters));
+                (await _uow.BookDetails.GetAllAsync<Guid>(parameters));
         }
         public async Task<BookDetailsDTO?> GetAsync(Guid id)
         {

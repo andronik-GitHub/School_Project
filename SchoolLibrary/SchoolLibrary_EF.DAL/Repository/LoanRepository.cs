@@ -21,16 +21,22 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return loan.LoanId;
         }
-        public override async Task<IEnumerable<Loan>> GetAllAsync(BaseParameters parameters)
+        public override async Task<IEnumerable<Loan>> GetAllAsync<TOrderBy>
+            (BaseParameters? parameters = null, Func<Loan, TOrderBy>? orderBy = null)
         {
-            entities.ToList().ForEach(loan =>
-                dbContext.Loans
-                    .Include(l => l.Book)
-                    .Include(l => l.User)
-                    .FirstOrDefault(l => l.BookId == loan.BookId && l.UserId == loan.UserId)
-                );
+            if (parameters == null)
+                return await entities
+                    .Include(entity => entity.Book)
+                    .Include(entity => entity.User)
+                    .ToListAsync();
 
-            return await entities.ToListAsync();
+            return await entities
+                .OrderBy(entity => entity.LoanId)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Include(entity => entity.Book)
+                .Include(entity => entity.User)
+                .ToListAsync();
         }
         public override async Task<Loan?> GetByIdAsync(Guid id)
         {
