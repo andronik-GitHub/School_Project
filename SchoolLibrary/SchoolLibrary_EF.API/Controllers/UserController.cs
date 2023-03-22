@@ -25,12 +25,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/user
+        /// GET ef/user?PageNumber=5(amp)PageSize=10
         /// </remarks>
         /// <returns>Returns list of UserDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/user
+        [HttpGet] // GET: ef/user?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
