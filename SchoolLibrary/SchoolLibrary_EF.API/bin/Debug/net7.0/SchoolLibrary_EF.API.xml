@@ -260,6 +260,86 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync">
+            <summary>
+            Gets the list of all BookGenres
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookgenres
+            </remarks>
+            <returns>Returns list of BookGenresDTO</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Gets the BookGenres by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookgenres/68c64e3b-7bc4-4ce2-b9c4-005783abb248/27402968-975b-47f7-8586-0dffdf32b78d
+            </remarks>
+            <param name="bookId">BookGenres BookId (Guid)</param>
+            <param name="genreId">BookGenres GenreId (Guid)</param>
+            <returns>Returns element of BookGenresDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+            <summary>
+            Creates new BookGenres
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST: ef/bookgenres
+                {
+                    "bookTitle": "string",
+                    "genreName": "string"
+                }
+            </remarks>
+            <param name="newBookGenres">BookGenresDTO newEntity</param>
+            <returns>Returns id (Guid)</returns>
+            <response code="200">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+            <summary>
+            Update the BookGenres
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT: ef/bookgenres
+                {
+                    "bookTitle": "string",
+                    "genreName": "string"
+                }
+            </remarks>
+            <param name="updateBookGenres">BookGenresDTO updateEntity</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.DeleteAsync(System.Guid,System.Guid)">
+            <summary>
+            Delete the BookGenres by id
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE: ef/bookgenres/68c64e3b-7bc4-4ce2-b9c4-005783abb248/27402968-975b-47f7-8586-0dffdf32b78d
+            </remarks>
+            <param name="bookId">BookGenres BookId (Guid)</param>
+            <param name="genreId">BookGenres GenreId (Guid)</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync">
             <summary>
             Gets the list of all Genres

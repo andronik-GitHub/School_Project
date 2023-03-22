@@ -32,7 +32,7 @@ namespace SchoolLibrary_EF.DAL.Repository
         public virtual async Task DeleteAsync(Guid id)
         {
             var entity = await GetByIdAsync(id);
-            if (entity == null) throw new Exception($"Object of type {typeof(TEntity).Name} was not found");
+            if (entity == null) throw new Exception($"{typeof(TEntity).Name} with id: [{id}] was not found");
 
             await Task.Run(() => entities.Remove(entity));
         }

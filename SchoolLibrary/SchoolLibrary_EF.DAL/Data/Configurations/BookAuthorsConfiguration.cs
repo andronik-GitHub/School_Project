@@ -15,12 +15,14 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder // many-to-many  Books - BookAuthors - Authors
                 .HasOne(ba => ba.Book)
                 .WithMany(b => b.BookAuthors)
-                .HasForeignKey(ba => ba.BookId);
+                .HasForeignKey(ba => ba.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder // many-to-many  Books - BookAuthors - Authors
                 .HasOne(ba => ba.Author)
                 .WithMany(a => a.BookAuthors)
-                .HasForeignKey(ba => ba.AuthorId);
+                .HasForeignKey(ba => ba.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

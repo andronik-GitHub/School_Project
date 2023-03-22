@@ -17,7 +17,7 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
             RegisterLoanConfig();
             RegisterReviewConfig();
             //RegisterGenreConfig(); in AutoMapper
-            //RegisterBookGenresConfig();
+            RegisterBookGenresConfig();
             //RegisterBookAuthorsConfig();
 
 
@@ -82,6 +82,14 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .NewConfig()
                 .Map(dest => dest.UserFullName, src => $"{src.User.FirstName} {src.User.LastName}")
                 .Map(dest => dest.BookTitle, src => src.Book.Title)
+                .TwoWays();
+        }
+        private static void RegisterBookGenresConfig()
+        {
+            TypeAdapterConfig<BookGenres, BookGenresDTO>
+                .NewConfig()
+                .Map(dest => dest.BookTitle, src => src.Book.Title)
+                .Map(dest => dest.GenreName, src => src.Genre.Name)
                 .TwoWays();
         }
     }

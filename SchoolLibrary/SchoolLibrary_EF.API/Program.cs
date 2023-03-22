@@ -34,6 +34,7 @@ builder.Services.AddSwaggerGen(option =>
     option.IncludeXmlComments(xmlPath);
 });
 
+
 #region AddMainServices
 {
     // Logging
@@ -46,13 +47,19 @@ builder.Services.AddSwaggerGen(option =>
         options.UseSqlServer(
                 builder.Configuration.GetConnectionString("sqlConnection"),
                 options => options.MigrationsAssembly("SchoolLibrary_EF.API")
-            );
+            )
+            .EnableSensitiveDataLogging();
     });
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
     builder.Services.RegisterMapsterConfiguration(); // Mapster
 
-
+    /*
+{
+    "bookTitle": "Sauer - Jerde",
+    "genreName": "Morissette - Beer"
+} 37085cc9-fbd8-409b-8d15-000f1035340a, 957cf889-3734-40f0-b347-00fb6ec5e3f7
+     */
     // BLL
     {
         builder.Services.AddScoped<IBookService, BookService>();
@@ -63,7 +70,7 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<ILoanService, LoanService>();
         builder.Services.AddScoped<IReviewService, ReviewService>();
         builder.Services.AddScoped<IGenreService, GenreService>();
-        //builder.Services.AddScoped<IBookGenresService, BookGenresService>();
+        builder.Services.AddScoped<IBookGenresService, BookGenresService>();
         //builder.Services.AddScoped<IBookAuthorsService, BookAuthorsService>();
     }
 
@@ -85,7 +92,7 @@ builder.Services.AddSwaggerGen(option =>
 #endregion
 
 
-DataGenerator.InitBogusData();
+//DataGenerator.InitBogusData();
 var app = builder.Build();
 
 

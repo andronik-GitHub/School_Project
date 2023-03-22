@@ -15,12 +15,14 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder // many-to-many  Books - BookGenres - Genres
                 .HasOne(bg => bg.Book)
                 .WithMany(b => b.BookGenres)
-                .HasForeignKey(bg => bg.BookId);
+                .HasForeignKey(bg => bg.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder // many-to-many  Books - BookGenres - Genres
                 .HasOne(bg => bg.Genre)
                 .WithMany(g => g.BookGenres)
-                .HasForeignKey(bg => bg.GenreId);
+                .HasForeignKey(bg => bg.GenreId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
