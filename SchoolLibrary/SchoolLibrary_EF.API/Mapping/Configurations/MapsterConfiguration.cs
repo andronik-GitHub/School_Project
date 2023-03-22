@@ -18,7 +18,7 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
             RegisterReviewConfig();
             //RegisterGenreConfig(); in AutoMapper
             RegisterBookGenresConfig();
-            //RegisterBookAuthorsConfig();
+            RegisterBookAuthorsConfig();
 
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
@@ -90,6 +90,14 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .NewConfig()
                 .Map(dest => dest.BookTitle, src => src.Book.Title)
                 .Map(dest => dest.GenreName, src => src.Genre.Name)
+                .TwoWays();
+        }
+        private static void RegisterBookAuthorsConfig()
+        {
+            TypeAdapterConfig<BookAuthors, BookAuthorsDTO>
+                .NewConfig()
+                .Map(dest => dest.BookTitle, src => src.Book.Title)
+                .Map(dest => dest.AuthorFullName, src => $"{src.Author.FirstName} {src.Author.LastName}")
                 .TwoWays();
         }
     }

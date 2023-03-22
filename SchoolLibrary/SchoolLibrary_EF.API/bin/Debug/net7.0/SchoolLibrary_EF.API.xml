@@ -88,6 +88,87 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync">
+            <summary>
+            Gets the list of all BookAuthors
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookauthors
+            </remarks>
+            <returns>Returns list of BookAuthorsDTO</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Gets the BookAuthors by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookauthors/68c64e3b-7bc4-4ce2-b9c4-005783abb248/27402968-975b-47f7-8586-0dffdf32b78d
+            </remarks>
+            <param name="bookId">BookAuthors BookId (Guid)</param>
+            <param name="authorId">BookAuthors AuthorId (Guid)</param>
+            <returns>Returns element of BookAuthorsDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+            <summary>
+            Creates new BookAuthors
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST: ef/bookauthors
+                {
+                    "bookTitle": "string",
+                    "authorFullName": "string string"
+                }
+            </remarks>
+            <param name="newBookAuthors">BookAuthorsDTO newEntity</param>
+            <returns>Returns id (Guid, Guid)</returns>
+            <response code="200">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="409">If an existing object is adding</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+            <summary>
+            Update the BookAuthors
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT: ef/bookauthors
+                {
+                    "bookTitle": "string",
+                    "authorFullName": "string string"
+                }
+            </remarks>
+            <param name="updateBookAuthors">BookAuthorsDTO updateEntity</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.DeleteAsync(System.Guid,System.Guid)">
+            <summary>
+            Delete the BookAuthors by id
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE: ef/bookauthors/68c64e3b-7bc4-4ce2-b9c4-005783abb248/27402968-975b-47f7-8586-0dffdf32b78d
+            </remarks>
+            <param name="bookId">BookAuthors BookId (Guid)</param>
+            <param name="authorId">BookAuthors AuthorId (Guid)</param>
+            <returns>Returns NoContent</returns>
+            <response code="204">Success</response>
+            <response code="400">If invalid data entered</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync">
             <summary>
             Gets the list of all Books
@@ -301,9 +382,10 @@
                 }
             </remarks>
             <param name="newBookGenres">BookGenresDTO newEntity</param>
-            <returns>Returns id (Guid)</returns>
+            <returns>Returns id (Guid, Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
+            <response code="409">If an existing object is adding</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
