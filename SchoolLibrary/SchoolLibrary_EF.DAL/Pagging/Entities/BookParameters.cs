@@ -2,5 +2,9 @@
 {
     public class BookParameters : BaseParameters
     {
+        public BookParameters()
+        {
+            OrderBy = "Title,PublishingYear desc";
+        }
     }
 }

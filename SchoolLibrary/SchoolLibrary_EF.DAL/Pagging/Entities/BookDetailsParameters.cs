@@ -2,5 +2,9 @@
 {
     public class BookDetailsParameters : BaseParameters
     {
+        public BookDetailsParameters()
+        {
+            OrderBy = "Pages";
+        }
     }
 }

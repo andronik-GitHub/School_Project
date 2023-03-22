@@ -170,7 +170,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.BookParameters)">
             <summary>
             Gets the list of all Books
             </summary>
@@ -256,7 +256,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.Entities.BookDetailsParameters)">
             <summary>
             Gets the list of all BookDetails
             </summary>
@@ -765,7 +765,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET ef/user?PageNumber=5(amp)PageSize=10
+            GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
             </remarks>
             <returns>Returns list of UserDTO</returns>
             <response code="200">Success</response>

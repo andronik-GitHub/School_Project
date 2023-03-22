@@ -6,6 +6,9 @@ using SchoolLibrary_EF.BLL.Services;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Bogus;
 using SchoolLibrary_EF.DAL.Data;
+using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Helper;
+using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repositories;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
@@ -71,6 +74,9 @@ builder.Services.AddSwaggerGen(option =>
 
     // DAL
     {
+        builder.Services.AddScoped<ISortHelper<Book>, SortHelper<Book>>();
+        builder.Services.AddScoped<ISortHelper<BookDetails>, SortHelper<BookDetails>>();
+
         builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.Services.AddScoped<IBookDetailsRepository, BookDetailsRepository>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();

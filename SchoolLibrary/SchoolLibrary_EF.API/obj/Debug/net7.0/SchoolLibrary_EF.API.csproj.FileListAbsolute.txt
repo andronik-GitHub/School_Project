@@ -162,3 +162,4 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\Mapster.Core.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\SchoolLibrary_EF.API.xml
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\obj\Debug\net7.0\SchoolLibrary_EF.API.xml
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll

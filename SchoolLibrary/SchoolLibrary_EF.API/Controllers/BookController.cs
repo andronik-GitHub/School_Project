@@ -33,7 +33,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [HttpGet] // GET: ef/book?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllAsync([FromQuery] BookParameters parameters)
         {
             try
             {

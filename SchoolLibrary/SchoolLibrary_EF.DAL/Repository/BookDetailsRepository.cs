@@ -4,14 +4,18 @@ using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Pagging.Entities;
+using SchoolLibrary_EF.DAL.Helper.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repositories
 {
     public class BookDetailsRepository : GenericRepository<BookDetails>, IBookDetailsRepository
     {
-        public BookDetailsRepository(SchoolLibraryContext dbContext)
+        private readonly ISortHelper<BookDetails> _sortHelper;
+
+        public BookDetailsRepository(SchoolLibraryContext dbContext, ISortHelper<BookDetails> sortHelper)
             : base(dbContext)
         {
+            _sortHelper = sortHelper;
         }
 
 
@@ -25,12 +29,27 @@ namespace SchoolLibrary_EF.DAL.Repositories
         {
             if (parameters == null) return await base.GetAllAsync();
 
-            return await entities
-                .OrderBy(entity => entity.BookDetailId)
-                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                .Take(parameters.PageSize)
-                .Include(entity => entity.Book)
-                .ToListAsync();
+            if (parameters is BookDetailsParameters param)
+            {
+                var collection = entities.AsNoTracking();
+
+                collection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
+
+                return await collection
+                    .OrderBy(entity => entity.BookDetailId)
+                    .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                    .Take(parameters.PageSize)
+                    .Include(entity => entity.Book)
+                    .ToListAsync();
+            }
+            else
+                return await entities
+                    .AsNoTracking()
+                    .OrderBy(entity => entity.BookDetailId)
+                    .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                    .Take(parameters.PageSize)
+                    .Include(entity => entity.Book)
+                    .ToListAsync();
         }
         public override async Task<BookDetails?> GetByIdAsync(Guid id)
         {
