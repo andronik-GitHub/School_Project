@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
+using SchoolLibrary_EF.DAL.Pagging;
 
 namespace SchoolLibrary_EF.API.Controllers
 {
@@ -33,12 +34,13 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
         {
             try
             {
-                var collection = await _authorService.GetAllAsync();
-                _logger.LogInformation("All entities were successfully extracted from [Authors]");
+                var collection = await _authorService.GetAllAsync(parameters);
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [Authors]", collection.Count());
 
                 return Ok(collection);
             }

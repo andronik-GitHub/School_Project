@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -29,10 +30,10 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<UserDTO>> GetAllAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(await _uow.Users.GetAllAsync());
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(await _uow.Users.GetAllAsync(parameters));
         }
         public async Task<UserDTO?> GetAsync(Guid id)
         {

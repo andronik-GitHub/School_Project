@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repository
@@ -23,9 +24,12 @@ namespace SchoolLibrary_EF.DAL.Repository
             await entities.AddAsync(entity);
             return (firstId, secondId);
         }
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters parameters)
         {
-            return await entities.ToListAsync();
+            return await entities
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid firstId, Guid secondId)
         {

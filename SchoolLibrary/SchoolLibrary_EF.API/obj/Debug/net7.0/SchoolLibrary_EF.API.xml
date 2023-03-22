@@ -4,7 +4,7 @@
         <name>SchoolLibrary_EF.API</name>
     </assembly>
     <members>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Authors
             </summary>
@@ -88,7 +88,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all BookAuthors
             </summary>
@@ -169,7 +169,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Books
             </summary>
@@ -255,7 +255,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all BookDetails
             </summary>
@@ -341,7 +341,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all BookGenres
             </summary>
@@ -422,7 +422,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Genres
             </summary>
@@ -504,7 +504,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Loans
             </summary>
@@ -590,7 +590,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Publishers
             </summary>
@@ -674,7 +674,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Reviews
             </summary>
@@ -758,7 +758,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Pagging.AuthorParameters)">
             <summary>
             Gets the list of all Users
             </summary>

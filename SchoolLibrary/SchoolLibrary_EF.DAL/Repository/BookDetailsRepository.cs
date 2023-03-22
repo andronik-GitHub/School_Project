@@ -3,6 +3,7 @@ using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Pagging;
 
 namespace SchoolLibrary_EF.DAL.Repositories
 {
@@ -20,12 +21,14 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return bookDetails.BookDetailId;
         }
-        public override async Task<IEnumerable<BookDetails>> GetAllAsync()
+        public override async Task<IEnumerable<BookDetails>> GetAllAsync(BaseParameters parameters)
         {
-            entities.ToList().ForEach(bookD =>
-                dbContext.BookDetails.Include(bd => bd.Book).FirstOrDefault(b => b.BookId == bookD.BookId));
-
-            return await entities.ToListAsync();
+            return await entities
+                .OrderBy(entity => entity.BookDetailId)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Include(entity => entity.Book)
+                .ToListAsync();
         }
         public override async Task<BookDetails?> GetByIdAsync(Guid id)
         {

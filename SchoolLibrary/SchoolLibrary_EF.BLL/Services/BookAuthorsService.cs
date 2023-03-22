@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -33,11 +34,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<BookAuthorsDTO>> GetAllAsync()
+        public async Task<IEnumerable<BookAuthorsDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<BookAuthors, BookAuthorsDTO>
-                (await _uow.BookAuthors.GetAllAsync());
+                (await _uow.BookAuthors.GetAllAsync(parameters));
         }
         public async Task<BookAuthorsDTO?> GetByIdAsync(Guid firstId, Guid secondId)
         {
@@ -86,11 +87,11 @@ namespace SchoolLibrary_EF.BLL.Services
         // For filling FK and objects
         private async Task SeedingBookAuthorsObject(BookAuthorsDTO entity, BookAuthors bookAuthors)
         {
-            var book = (await _uow.Books.GetAllAsync())
+            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
                 .ToList()
                 .Where(book => book.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var author = (await _uow.Authors.GetAllAsync())
+            var author = (await _uow.Authors.GetAllAsync(new AuthorParameters()))
                 .ToList()
                 .Where(author => $"{author.FirstName} {author.LastName}" == entity.AuthorFullName)
                 .FirstOrDefault();

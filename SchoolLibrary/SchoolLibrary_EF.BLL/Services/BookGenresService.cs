@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -33,11 +34,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<BookGenresDTO>> GetAllAsync()
+        public async Task<IEnumerable<BookGenresDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<BookGenres, BookGenresDTO>
-                (await _uow.BookGenres.GetAllAsync());
+                (await _uow.BookGenres.GetAllAsync(parameters));
         }
         public async Task<BookGenresDTO?> GetByIdAsync(Guid firstId, Guid secondId)
         {
@@ -85,11 +86,11 @@ namespace SchoolLibrary_EF.BLL.Services
         // For filling FK and objects
         private async Task SeedingBookGenresObject(BookGenresDTO entity, BookGenres bookGenres)
         {
-            var book = (await _uow.Books.GetAllAsync())
+            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
                 .ToList()
                 .Where(book => book.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var genre = (await _uow.Genres.GetAllAsync())
+            var genre = (await _uow.Genres.GetAllAsync(new GenreParameters()))
                 .ToList()
                 .Where(genre => genre.Name == entity.GenreName)
                 .FirstOrDefault();

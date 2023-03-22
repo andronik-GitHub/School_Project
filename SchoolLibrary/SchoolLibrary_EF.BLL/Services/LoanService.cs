@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -23,11 +24,11 @@ namespace SchoolLibrary_EF.BLL.Services
             Loan loan = MappingFunctions.MapSourceToDestination<LoanDTO, Loan>(entity);
 
 
-            var book = (await _uow.Books.GetAllAsync())
+            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
                 .ToList()
                 .Where(b => b.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync())
+            var user = (await _uow.Users.GetAllAsync(new UserParameters()))
                 .ToList()
                 .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
                 .FirstOrDefault();
@@ -43,11 +44,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<LoanDTO>> GetAllAsync()
+        public async Task<IEnumerable<LoanDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Loan, LoanDTO>
-                (await _uow.Loans.GetAllAsync());
+                (await _uow.Loans.GetAllAsync(parameters));
         }
         public async Task<LoanDTO?> GetAsync(Guid id)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
+using SchoolLibrary_EF.DAL.Pagging;
 
 namespace SchoolLibrary_EF.API.Controllers
 {
@@ -32,11 +33,11 @@ namespace SchoolLibrary_EF.API.Controllers
         [HttpGet] // GET: ef/bookdetails
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookDetailsDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<BookDetailsDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
         {
             try
             {
-                var collection = await _bookDetailsService.GetAllAsync();
+                var collection = await _bookDetailsService.GetAllAsync(parameters);
                 _logger.LogInformation("All entities were successfully extracted from [BookDetails]");
 
                 return Ok(collection);

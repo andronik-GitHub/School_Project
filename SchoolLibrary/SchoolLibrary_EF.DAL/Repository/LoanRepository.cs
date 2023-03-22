@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 
@@ -20,7 +21,7 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return loan.LoanId;
         }
-        public override async Task<IEnumerable<Loan>> GetAllAsync()
+        public override async Task<IEnumerable<Loan>> GetAllAsync(BaseParameters parameters)
         {
             entities.ToList().ForEach(loan =>
                 dbContext.Loans

@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -27,11 +28,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<PublisherDTO>> GetAllAsync()
+        public async Task<IEnumerable<PublisherDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Publisher, PublisherDTO>
-                (await _uow.Publishers.GetAllAsync());
+                (await _uow.Publishers.GetAllAsync(parameters));
         }
         public async Task<PublisherDTO?> GetAsync(Guid id)
         {

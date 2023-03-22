@@ -2,6 +2,7 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -23,11 +24,11 @@ namespace SchoolLibrary_EF.BLL.Services
             Review review = MappingFunctions.MapSourceToDestination<ReviewDTO, Review>(entity);
 
 
-            var book = (await _uow.Books.GetAllAsync())
+            var book = (await _uow.Books.GetAllAsync(new BookParameters()))
                 .ToList()
                 .Where(b => b.Title == entity.BookTitle)
                 .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync())
+            var user = (await _uow.Users.GetAllAsync(new UserParameters()))
                 .ToList()
                 .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
                 .FirstOrDefault();
@@ -43,11 +44,11 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return id;
         }
-        public async Task<IEnumerable<ReviewDTO>> GetAllAsync()
+        public async Task<IEnumerable<ReviewDTO>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
             return MappingFunctions.MapListSourceToDestination<Review, ReviewDTO>
-                (await _uow.Reviews.GetAllAsync());
+                (await _uow.Reviews.GetAllAsync(parameters));
         }
         public async Task<ReviewDTO?> GetAsync(Guid id)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 
@@ -14,9 +15,12 @@ namespace SchoolLibrary_EF.DAL.Repositories
         }
 
 
-        public override async Task<IEnumerable<BookAuthors>> GetAllAsync()
+        public override async Task<IEnumerable<BookAuthors>> GetAllAsync(BaseParameters parameters)
         {
-            entities.ToList().ForEach(bookAuthors =>
+            entities
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToList().ForEach(bookAuthors =>
                 dbContext.BookAuthors
                     .Include(bg => bg.Book)
                     .Include(bg => bg.Author)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Pagging;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 
@@ -20,12 +21,14 @@ namespace SchoolLibrary_EF.DAL.Repositories
 
             return book.BookId;
         }
-        public override async Task<IEnumerable<Book>> GetAllAsync()
+        public override async Task<IEnumerable<Book>> GetAllAsync(BaseParameters parameters)
         {
-            entities.ToList().ForEach(book => 
-                dbContext.Books.Include(b => b.Publisher).FirstOrDefault(b => b.BookId == book.BookId));
-
-            return await entities.ToListAsync();
+            return await entities
+                .OrderBy(entity => entity.BookId)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Include(entity => entity.Publisher)
+                .ToListAsync();
         }
         public override async Task<Book?> GetByIdAsync(Guid id)
         {
