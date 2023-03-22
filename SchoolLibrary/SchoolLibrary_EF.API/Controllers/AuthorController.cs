@@ -25,13 +25,13 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/author?PageNumber=5(amp)PageSize=10
+        /// GET ef/author?MinYearOfBirth=1990(amp)MaxYearOfBirth=2000(amp)PageNumber=5(amp)PageSize=10
         /// </remarks>
         /// <returns>Returns list of AuthorDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid filtering data is entered</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/author?PageNumber=5&PageSize=10
+        [HttpGet] // GET: ef/author?MinYearOfBirth=1990&MaxYearOfBirth=2000&PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
