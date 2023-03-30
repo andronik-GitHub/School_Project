@@ -2,11 +2,10 @@
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
-using SchoolLibrary_EF.DAL.Pagging.Entities;
-using SchoolLibrary_EF.DAL.Repositories.Contracts;
-using SchoolLibrary_EF.DAL.Repository;
+using SchoolLibrary_EF.DAL.Paging.Entities;
+using SchoolLibrary_EF.DAL.Repository.Contracts;
 
-namespace SchoolLibrary_EF.DAL.Repositories
+namespace SchoolLibrary_EF.DAL.Repository
 {
     public class BookRepository : GenericRepository<Book>, IBookRepository
     {
@@ -30,10 +29,10 @@ namespace SchoolLibrary_EF.DAL.Repositories
             if (parameters == null) return await base.GetAllAsync();
 
 
+            var collection = entities.AsNoTracking();
+
             if (parameters is BookParameters param)
             {
-                var collection = entities.AsNoTracking();
-
                 var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
 
                 return await newCollection
@@ -44,8 +43,7 @@ namespace SchoolLibrary_EF.DAL.Repositories
                     .ToListAsync();
             }
 
-            return await entities
-                .AsNoTracking()
+            return await collection
                 .OrderBy(entity => entity.BookId)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)

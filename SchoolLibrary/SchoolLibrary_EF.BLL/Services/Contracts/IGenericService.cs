@@ -1,4 +1,4 @@
-﻿using SchoolLibrary_EF.DAL.Pagging.Entities;
+﻿using SchoolLibrary_EF.DAL.Paging.Entities;
 
 namespace SchoolLibrary_EF.BLL.Services.Contracts
 {

@@ -1,4 +1,4 @@
-﻿namespace SchoolLibrary_EF.DAL.Pagging.Entities
+﻿namespace SchoolLibrary_EF.DAL.Paging.Entities
 {
     public abstract class BaseParameters
     {

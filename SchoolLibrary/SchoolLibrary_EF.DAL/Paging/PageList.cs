@@ -1,4 +1,4 @@
-﻿namespace SchoolLibrary_EF.DAL.Pagging
+﻿namespace SchoolLibrary_EF.DAL.Paging
 {
     public class PageList<TEntity> : List<TEntity>
     {

@@ -1,4 +1,4 @@
-﻿using SchoolLibrary_EF.DAL.Pagging.Entities;
+﻿using SchoolLibrary_EF.DAL.Paging.Entities;
 using System.Linq.Expressions;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts

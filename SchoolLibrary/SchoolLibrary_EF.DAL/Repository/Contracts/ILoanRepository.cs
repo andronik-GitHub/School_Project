@@ -1,7 +1,6 @@
 ﻿using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Repository.Contracts;
 
-namespace SchoolLibrary_EF.DAL.Repositories.Contracts
+namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
     public interface ILoanRepository : IGenericRepository<Loan>
     {

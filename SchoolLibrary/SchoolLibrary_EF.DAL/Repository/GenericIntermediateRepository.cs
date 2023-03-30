@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Pagging.Entities;
+using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Linq.Expressions;
 

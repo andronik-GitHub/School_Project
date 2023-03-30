@@ -1,17 +1,19 @@
 ﻿using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Repositories.Contracts;
-using SchoolLibrary_EF.DAL.Repository;
+using SchoolLibrary_EF.DAL.Repository.Contracts;
 using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Pagging.Entities;
+using SchoolLibrary_EF.DAL.Paging.Entities;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Helper.Contracts;
 
-namespace SchoolLibrary_EF.DAL.Repositories
+namespace SchoolLibrary_EF.DAL.Repository
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(SchoolLibraryContext dbContext)
+        private readonly ISortHelper<User> _sortHelper;
+        public UserRepository(SchoolLibraryContext dbContext, ISortHelper<User> sortHelper)
             : base(dbContext)
         {
+            _sortHelper = sortHelper;
         }
 
 
@@ -25,25 +27,27 @@ namespace SchoolLibrary_EF.DAL.Repositories
         {
             if (parameters == null) return await base.GetAllAsync();
 
+
+            var collection = entities.AsNoTracking(); // filtering
+
             if (parameters is UserParameters param) // filtering/searching
             {
-                var collection = entities.AsNoTracking(); // filtering
-
                 SearchByUserName(ref collection, param.UserName); // searching(after filtering)
 
-                return await collection
-                    .OrderBy(a => a.UserId)
+                var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
+
+                return await newCollection
+                    //.OrderBy(a => a.UserId) after sorting, it makes no sense to sort by id
                     .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                     .Take(parameters.PageSize)
                     .ToListAsync();
             }
-            else
-                return await entities
-                    .AsNoTracking()
-                    .OrderBy(a => a.UserId)
-                    .Skip((parameters!.PageNumber - 1) * parameters.PageSize)
-                    .Take(parameters.PageSize)
-                    .ToListAsync();
+
+            return await collection
+                .OrderBy(a => a.UserId)
+                .Skip((parameters!.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
         }
 
         private static void SearchByUserName(ref IQueryable<User> entities, string? userName)

@@ -1,12 +1,11 @@
 ﻿using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Repositories.Contracts;
-using SchoolLibrary_EF.DAL.Repository;
+using SchoolLibrary_EF.DAL.Repository.Contracts;
 using SchoolLibrary_EF.DAL.Data;
 using Microsoft.EntityFrameworkCore;
-using SchoolLibrary_EF.DAL.Pagging.Entities;
+using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
 
-namespace SchoolLibrary_EF.DAL.Repositories
+namespace SchoolLibrary_EF.DAL.Repository
 {
     public class BookDetailsRepository : GenericRepository<BookDetails>, IBookDetailsRepository
     {

@@ -9,8 +9,6 @@ using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Helpers;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
-using SchoolLibrary_EF.DAL.Repositories;
-using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Reflection;
@@ -49,7 +47,7 @@ builder.Services.AddSwaggerGen(option =>
     {
         options.UseSqlServer(
                 builder.Configuration.GetConnectionString("sqlConnection"),
-                options => options.MigrationsAssembly("SchoolLibrary_EF.API")
+                op => op.MigrationsAssembly("SchoolLibrary_EF.API")
             )
             .EnableSensitiveDataLogging();
     });
@@ -79,6 +77,14 @@ builder.Services.AddSwaggerGen(option =>
         // For implementation sorting
         builder.Services.AddScoped<ISortHelper<Book>, SortHelper<Book>>();
         builder.Services.AddScoped<ISortHelper<BookDetails>, SortHelper<BookDetails>>();
+        builder.Services.AddScoped<ISortHelper<Author>, SortHelper<Author>>();
+        builder.Services.AddScoped<ISortHelper<Publisher>, SortHelper<Publisher>>();
+        builder.Services.AddScoped<ISortHelper<User>, SortHelper<User>>();
+        builder.Services.AddScoped<ISortHelper<Loan>, SortHelper<Loan>>();
+        builder.Services.AddScoped<ISortHelper<Review>, SortHelper<Review>>();
+        builder.Services.AddScoped<ISortHelper<Genre>, SortHelper<Genre>>();
+        builder.Services.AddScoped<ISortHelper<BookGenres>, SortHelper<BookGenres>>();
+        builder.Services.AddScoped<ISortHelper<BookAuthors>, SortHelper<BookAuthors>>();
 
         // Pattern Repository
         builder.Services.AddScoped<IBookRepository, BookRepository>();
