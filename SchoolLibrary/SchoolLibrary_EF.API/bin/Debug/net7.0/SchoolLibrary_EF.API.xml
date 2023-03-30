@@ -841,6 +841,32 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+            <summary>
+            Gets the list of all Users
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/user/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+            </remarks>
+            <returns>Returns list of UserDTO</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+            <summary>
+            Gets the User by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/user/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+            </remarks>
+            <param name="id">User id (Guid)</param>
+            <returns>Returns element of UserDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
         <member name="T:SchoolLibrary_EF.API.Migrations.FirstMigration">
             <inheritdoc />
         </member>

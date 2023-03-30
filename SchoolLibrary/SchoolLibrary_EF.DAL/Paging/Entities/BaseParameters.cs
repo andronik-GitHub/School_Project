@@ -12,6 +12,7 @@
             set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
 
-        public string? OrderBy { get; set; } = default!;
+        public string? OrderBy { get; set; } = default!; // for sorting
+        public string? Fields { get; set; } = default!; // for data shaping
     }
 }

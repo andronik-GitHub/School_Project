@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Dynamic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
@@ -37,8 +39,6 @@ namespace SchoolLibrary_EF.API.Controllers
         {
             try
             {
-
-
                 var collection = await _userService.GetAllAsync(parameters);
                 _logger.LogInformation
                     ("{Count} entities were successfully extracted from [Users]", collection.Count());
@@ -260,6 +260,78 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     return StatusCode(StatusCodes.Status204NoContent);
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the list of all Users
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/user/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        /// </remarks>
+        /// <returns>Returns list of UserDTO</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
+        [HttpGet("datashaping/")] // ef/user/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] UserParameters parameters)
+        {
+            try
+            {
+                var collection = await _userService.GetAll_DataShaping_Async(parameters);
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [Users]", collection.Count());
+
+                return Ok(collection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError
+                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the User by id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/user/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        /// </remarks>
+        /// <param name="id">User id (Guid)</param>
+        /// <returns>Returns element of UserDTO</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">If the element with such ID is not found in the database</response>
+        /// <response code="500">If it was not possible to get element from the database</response>
+        [HttpGet("datashaping/{id}")] // ef/user/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] UserParameters parameters)
+        {
+            try
+            {
+                var user = await _userService.GetById_DataShaping_Async(id, parameters);
+
+                if (user == default(ExpandoObject))
+                {
+                    _logger.LogError("User with id: {id}, hasn't been found in db.", id);
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+
+                return Ok(user);
             }
             catch (Exception ex)
             {

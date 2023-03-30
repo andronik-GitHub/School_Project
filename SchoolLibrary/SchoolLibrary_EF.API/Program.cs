@@ -12,12 +12,15 @@ using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Reflection;
+using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    // Resolving Json Serialization Problems(Data Shaping)
+    .AddNewtonsoftJson(); // NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
 // Register a Swagger generator by defining 1 or more Swagger documents
 builder.Services.AddSwaggerGen(option =>
@@ -85,6 +88,9 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<ISortHelper<Genre>, SortHelper<Genre>>();
         builder.Services.AddScoped<ISortHelper<BookGenres>, SortHelper<BookGenres>>();
         builder.Services.AddScoped<ISortHelper<BookAuthors>, SortHelper<BookAuthors>>();
+
+        // For implementation data shaping
+        builder.Services.AddScoped<IDataShaper<User>, DataShaper<User>>();
 
         // Pattern Repository
         builder.Services.AddScoped<IBookRepository, BookRepository>();
