@@ -1,6 +1,4 @@
-﻿using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Helper.Contracts;
-using SchoolLibrary_EF.DAL.Repositories.Contracts;
+﻿using SchoolLibrary_EF.DAL.Repositories.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
@@ -17,7 +15,6 @@ namespace SchoolLibrary_EF.DAL.Repository.Contracts
         IBookGenresRepository BookGenres { get; }
         IBookAuthorsRepository BookAuthors { get; }
 
-        ISortHelper<Book> _bookSortHelper { get; set; }
 
         Task SaveChangesAsync();
     }

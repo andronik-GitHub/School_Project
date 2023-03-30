@@ -4,7 +4,7 @@
     {
         public BookParameters()
         {
-            OrderBy = "Title,PublishingYear desc";
+            OrderBy = "Title,PublishingYear desc"; // default sorting
         }
     }
 }

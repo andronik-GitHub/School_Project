@@ -1,6 +1,4 @@
 ﻿using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
@@ -20,9 +18,6 @@ namespace SchoolLibrary_EF.DAL.Repository
         public IBookGenresRepository BookGenres { get; }
         public IBookAuthorsRepository BookAuthors { get; }
 
-        public ISortHelper<Book> _bookSortHelper { get; set; }
-        public ISortHelper<BookDetails> _bookDetailsSortHelper { get; set; }
-
         public UnitOfWork(
             SchoolLibraryContext dbContext,
 
@@ -35,10 +30,7 @@ namespace SchoolLibrary_EF.DAL.Repository
             IReviewRepository reviews,
             IGenreRepository genres,
             IBookGenresRepository bookGenres,
-            IBookAuthorsRepository bookAuthors,
-
-            ISortHelper<Book> bookSortHelper,
-            ISortHelper<BookDetails> bookDetailsSortHelper
+            IBookAuthorsRepository bookAuthors
             )
         {
             this.dbContext = dbContext;
@@ -53,9 +45,6 @@ namespace SchoolLibrary_EF.DAL.Repository
             Genres = genres;
             BookGenres = bookGenres;
             BookAuthors = bookAuthors;
-
-            _bookSortHelper = bookSortHelper;
-            _bookDetailsSortHelper = bookDetailsSortHelper;
         }
 
 

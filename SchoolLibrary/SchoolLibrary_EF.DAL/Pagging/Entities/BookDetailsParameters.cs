@@ -4,7 +4,7 @@
     {
         public BookDetailsParameters()
         {
-            OrderBy = "Pages";
+            OrderBy = "Pages"; // default sorting
         }
     }
 }

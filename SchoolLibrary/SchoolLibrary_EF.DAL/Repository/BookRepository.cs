@@ -34,23 +34,23 @@ namespace SchoolLibrary_EF.DAL.Repositories
             {
                 var collection = entities.AsNoTracking();
 
-                collection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
+                var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
 
-                return await collection
-                    .OrderBy(entity => entity.BookId)
+                return await newCollection
+                    //.OrderBy(entity => entity.BookId) after sorting, it makes no sense to sort by id
                     .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                     .Take(parameters.PageSize)
                     .Include(entity => entity.Publisher)
                     .ToListAsync();
             }
-            else
-                return await entities
-                    .AsNoTracking()
-                    .OrderBy(entity => entity.BookId)
-                    .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                    .Take(parameters.PageSize)
-                    .Include(entity => entity.Publisher)
-                    .ToListAsync();
+
+            return await entities
+                .AsNoTracking()
+                .OrderBy(entity => entity.BookId)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Include(entity => entity.Publisher)
+                .ToListAsync();
         }
         public override async Task<Book?> GetByIdAsync(Guid id)
         {

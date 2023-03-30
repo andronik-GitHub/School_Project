@@ -7,7 +7,7 @@ using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Bogus;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Helper;
+using SchoolLibrary_EF.DAL.Helpers;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repositories;
 using SchoolLibrary_EF.DAL.Repositories.Contracts;
