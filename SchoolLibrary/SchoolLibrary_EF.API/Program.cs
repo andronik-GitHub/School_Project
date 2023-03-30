@@ -54,12 +54,14 @@ builder.Services.AddSwaggerGen(option =>
             .EnableSensitiveDataLogging();
     });
 
+    // Mapping
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
     builder.Services.RegisterMapsterConfiguration(); // Mapster
 
 
     // BLL
     {
+        // Services
         builder.Services.AddScoped<IBookService, BookService>();
         builder.Services.AddScoped<IBookDetailsService, BookDetailsService>();
         builder.Services.AddScoped<IAuthorService, AuthorService>();
@@ -74,9 +76,11 @@ builder.Services.AddSwaggerGen(option =>
 
     // DAL
     {
+        // For implementation sorting
         builder.Services.AddScoped<ISortHelper<Book>, SortHelper<Book>>();
         builder.Services.AddScoped<ISortHelper<BookDetails>, SortHelper<BookDetails>>();
 
+        // Pattern Repository
         builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.Services.AddScoped<IBookDetailsRepository, BookDetailsRepository>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -93,7 +97,7 @@ builder.Services.AddSwaggerGen(option =>
 #endregion
 
 
-//DataGenerator.InitBogusData();
+//DataGenerator.InitBogusData(); // seeding db
 var app = builder.Build();
 
 
