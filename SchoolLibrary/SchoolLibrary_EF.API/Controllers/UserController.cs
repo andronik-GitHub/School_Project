@@ -1,5 +1,4 @@
 ﻿using System.Dynamic;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
@@ -29,6 +28,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
         /// </remarks>
+        /// <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
         /// <returns>Returns list of UserDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
@@ -270,6 +270,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        
 
         /// <summary>
         /// Gets the list of all Users
@@ -278,7 +279,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/user/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         /// </remarks>
-        /// <returns>Returns list of UserDTO</returns>
+        /// <returns>Returns list of ExpandoObject(User)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet("datashaping/")] // ef/user/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
@@ -311,7 +312,8 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/user/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         /// </remarks>
         /// <param name="id">User id (Guid)</param>
-        /// <returns>Returns element of UserDTO</returns>
+        /// <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
+        /// <returns>Returns element of ExpandoObject(User)</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -319,19 +321,19 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] UserParameters parameters)
+        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] UserParameters? parameters)
         {
             try
             {
-                var user = await _userService.GetById_DataShaping_Async(id, parameters);
+                var entity = await _userService.GetById_DataShaping_Async(id, parameters);
 
-                if (user == default(ExpandoObject))
+                if (entity == default(ExpandoObject))
                 {
                     _logger.LogError("User with id: {id}, hasn't been found in db.", id);
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
 
-                return Ok(user);
+                return Ok(entity);
             }
             catch (Exception ex)
             {

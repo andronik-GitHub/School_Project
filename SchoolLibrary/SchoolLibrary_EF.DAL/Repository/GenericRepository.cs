@@ -1,20 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Dynamic;
+using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Linq.Expressions;
+using SchoolLibrary_EF.DAL.Helpers.Contracts;
+using SchoolLibrary_EF.DAL.Paging;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
     public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        protected readonly SchoolLibraryContext dbContext;
+        private readonly SchoolLibraryContext dbContext;
         protected readonly DbSet<TEntity> entities;
+        private readonly IDataShaper<TEntity> _dataShaper;
 
-        public GenericRepository(SchoolLibraryContext dbContext)
+        protected GenericRepository(SchoolLibraryContext dbContext, IDataShaper<TEntity> dataShaper)
         {
             this.dbContext = dbContext;
             this.entities = dbContext.Set<TEntity>();
+
+            _dataShaper = dataShaper;
         }
 
 
@@ -39,6 +45,27 @@ namespace SchoolLibrary_EF.DAL.Repository
             await Task.Run(() => entities.Remove(entity));
         }
 
+        public virtual async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters)
+        {
+            var collection = entities.AsNoTracking();
+
+            if (parameters == null) return await Task.Run(() => 
+                    PagedList<ExpandoObject>.ToPagedList(_dataShaper.ShapeData(collection, "").AsQueryable(), 1, 10));
+            
+            return await Task.Run(() =>
+                PagedList<ExpandoObject>.ToPagedList(
+                    _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
+                    parameters.PageNumber,
+                    parameters.PageSize));
+        }
+        public virtual async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        {
+            var entity = await entities.FindAsync();
+
+            return entity == null ? 
+                null : 
+                _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
+        }
 
         public virtual async Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
         {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jX4qg3A2ys2o69dAB+mk5PrephiSUPysTg4GWNjyc3zEu05vNAaumBReojZZdm0Qofmtx4n4cCBFhRmtoE+YVQ==",
+  "dgSpecHash": "K/EKFm47/BO4iQ9kTOg88wxvyzaXZRYJba8wz8jFDPmRG0UN7kQqlBtyLlIBwznxRWshWlrUBcHbFog1dpyiOw==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF.API\\SchoolLibrary_EF.API.csproj",
   "expectedPackageFiles": [
@@ -10,8 +10,8 @@
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
-    "C:\\Users\\const\\.nuget\\packages\\mapster\\7.3.0\\mapster.7.3.0.nupkg.sha512",
-    "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.0\\mapster.core.1.2.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster\\7.4.0-pre06\\mapster.7.4.0-pre06.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.1-pre04\\mapster.core.1.2.1-pre04.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.4\\microsoft.aspnetcore.jsonpatch.7.0.4.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\7.0.4\\microsoft.aspnetcore.mvc.newtonsoftjson.7.0.4.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
@@ -71,8 +71,6 @@
     "C:\\Users\\const\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
-    "C:\\Users\\const\\.nuget\\packages\\system.reflection.emit\\4.3.0\\system.reflection.emit.4.3.0.nupkg.sha512",
-    "C:\\Users\\const\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.3.0\\system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",

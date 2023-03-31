@@ -1,7 +1,9 @@
-﻿using SchoolLibrary_EF.API.Mapping.Configurations;
+﻿using System.Dynamic;
+using SchoolLibrary_EF.API.Mapping.Configurations;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Paging;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
@@ -23,24 +25,8 @@ namespace SchoolLibrary_EF.BLL.Services
             // of the entity object into its properties (we perform mapping)
             BookDetails bookDetails = MappingFunctions.MapSourceToDestination<BookDetailsDTO, BookDetails>(entity);
 
-
-            var bdList = await _uow.BookDetails.GetAllAsync();
-            // Finding a book with the same title to pre-fill data about this book
-            var book = (await _uow.Books.GetAllAsync())
-                .Where(book => 
-                    book.Title == entity.BookTitle &&
-                    !bdList.Any(bd => bd.BookId == book.BookId)
-                )
-                .FirstOrDefault();
-
-            if (book == null)
-                throw new Exception
-                    ("No book with this title was found, or details of this book are already in the database!");
-            else
-            {
-                bookDetails.Book.ISBN = book.ISBN;
-                bookDetails.Book.PublisherId = book.PublisherId;
-            }
+            
+            await SeedingBookDetailsObject(entity, bookDetails);
 
             var id = await _uow.BookDetails.CreateAsync(bookDetails);
             await _uow.SaveChangesAsync();
@@ -81,6 +67,28 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             await _uow.BookDetails.DeleteAsync(id);
             await _uow.SaveChangesAsync();
+        }
+
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        {
+            return await _uow.BookDetails.GetAll_DataShaping_Async(parameters);
+        }
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        {
+            return await _uow.BookDetails.GetById_DataShaping_Async(id, parameters);
+        }
+        
+        private async Task SeedingBookDetailsObject(BookDetailsDTO entity, BookDetails bookDetails)
+        {
+            var bdList = await _uow.BookDetails.GetAllAsync();
+            var book = (await _uow.Books.GetAllAsync()).FirstOrDefault(book =>
+                    book.Title == entity.BookTitle && bdList.All(bd => bd.BookId != book.BookId));
+
+            if (book == null) throw new Exception
+                    ("No book with this title was found, or details of this book are already in the database!");
+            
+            bookDetails.Book.ISBN = book.ISBN;
+            bookDetails.Book.PublisherId = book.PublisherId;
         }
     }
 }

@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen(option =>
     builder.Services.RegisterMapsterConfiguration(); // Mapster
 
 
-    // BLL
+    #region BLL
     {
         // Services
         builder.Services.AddScoped<IBookService, BookService>();
@@ -74,8 +74,9 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<IBookGenresService, BookGenresService>();
         builder.Services.AddScoped<IBookAuthorsService, BookAuthorsService>();
     }
+    #endregion
 
-    // DAL
+    #region DAL
     {
         // For implementation sorting
         builder.Services.AddScoped<ISortHelper<Book>, SortHelper<Book>>();
@@ -90,7 +91,14 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<ISortHelper<BookAuthors>, SortHelper<BookAuthors>>();
 
         // For implementation data shaping
+        builder.Services.AddScoped<IDataShaper<Book>, DataShaper<Book>>();
+        builder.Services.AddScoped<IDataShaper<BookDetails>, DataShaper<BookDetails>>();
+        builder.Services.AddScoped<IDataShaper<Author>, DataShaper<Author>>();
+        builder.Services.AddScoped<IDataShaper<Publisher>, DataShaper<Publisher>>();
         builder.Services.AddScoped<IDataShaper<User>, DataShaper<User>>();
+        builder.Services.AddScoped<IDataShaper<Loan>, DataShaper<Loan>>();
+        builder.Services.AddScoped<IDataShaper<Review>, DataShaper<Review>>();
+        builder.Services.AddScoped<IDataShaper<Genre>, DataShaper<Genre>>();
 
         // Pattern Repository
         builder.Services.AddScoped<IBookRepository, BookRepository>();
@@ -105,6 +113,7 @@ builder.Services.AddSwaggerGen(option =>
         builder.Services.AddScoped<IBookAuthorsRepository, BookAuthorsRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
+    #endregion
 }
 #endregion
 

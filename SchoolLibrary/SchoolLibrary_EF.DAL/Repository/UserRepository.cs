@@ -19,7 +19,7 @@ namespace SchoolLibrary_EF.DAL.Repository
             SchoolLibraryContext dbContext,
             ISortHelper<User> sortHelper,
             IDataShaper<User> dataShaper)
-            : base(dbContext)
+            : base(dbContext, dataShaper)
         {
             _sortHelper = sortHelper;
             _dataShaper = dataShaper;
@@ -34,62 +34,58 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public override async Task<IEnumerable<User>> GetAllAsync(BaseParameters? parameters = null)
         {
-            if (parameters == null) return await base.GetAllAsync();
-
-
+            if (parameters == null) return await base.GetAllAsync(parameters);
             var collection = entities.AsNoTracking(); // filtering
 
-            if (parameters is UserParameters param) // filtering/searching
-            {
-                SearchByUserName(ref collection, param.UserName); // searching(after filtering)
-
-                var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
-
-                return await newCollection
-                    //.OrderBy(a => a.UserId) after sorting, it makes no sense to sort by id
+            if (parameters is not UserParameters param)
+                return await collection
+                    .OrderBy(a => a.UserId)
                     .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                     .Take(parameters.PageSize)
                     .ToListAsync();
-            }
+            
+            
+            SearchByUserName(ref collection, param.UserName); // searching(after filtering)
+            var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
 
-            return await collection
-                .OrderBy(a => a.UserId)
-                .Skip((parameters!.PageNumber - 1) * parameters.PageSize)
+            return await newCollection
+                //.OrderBy(a => a.UserId) after sorting, it makes no sense to sort by id
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToListAsync();
+
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters)
+        public override async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters)
         {
-            var collection = entities.AsNoTracking();
+            if (parameters == null) return await base.GetAll_DataShaping_Async(parameters);
+            var collection = entities.AsNoTracking(); // filtering
 
-            if (parameters is UserParameters param) // filtering/searching
-            {
-                SearchByUserName(ref collection, param.UserName); // searching(after filtering)
-                collection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
-
-                return PagedList<ExpandoObject>.ToPagedList(
-                    _dataShaper.ShapeData(collection, parameters.Fields).AsQueryable(),
-                    parameters.PageNumber,
-                    parameters.PageSize);
-            }
+            if (parameters is not UserParameters param)
+                return await Task.Run(() =>
+                    PagedList<ExpandoObject>.ToPagedList(
+                        _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
+                        parameters.PageNumber,
+                        parameters.PageSize));
+            
+            
+            SearchByUserName(ref collection, param.UserName); // searching(after filtering)
+            collection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
 
             return await Task.Run(() =>
-                PagedList<ExpandoObject>.ToPagedList(
-                    _dataShaper.ShapeData(collection, parameters.Fields).AsQueryable(),
-                    parameters.PageNumber,
-                    parameters.PageSize)
-            );
+                    PagedList<ExpandoObject>.ToPagedList(
+                        _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
+                        parameters.PageNumber,
+                        parameters.PageSize));
         }
-        public async Task<ExpandoObject> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public override async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
         {
-            var entity =
-                (await GetByConditionAsync(temp => temp.UserId.Equals(id)))
+            var entity = (await GetByConditionAsync(temp => temp.UserId.Equals(id)))
                 .FirstOrDefault();
 
-            return _dataShaper.ShapeData(entity, parameters.Fields);
+            return entity == null ? null :
+                _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
         }
-
 
         private static void SearchByUserName(ref IQueryable<User> entities, string? userName)
         {

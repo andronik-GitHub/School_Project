@@ -6,7 +6,7 @@ namespace SchoolLibrary_EF.DAL.Helpers
 {
     public class DataShaper<T> : IDataShaper<T>
     {
-        public PropertyInfo[] Properties { get; set; }
+        private PropertyInfo[] Properties { get; set; }
 
         public DataShaper()
         {
@@ -60,7 +60,7 @@ namespace SchoolLibrary_EF.DAL.Helpers
         }
 
         // Private methods to extract values from required prepared properties
-        private ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
+        private static ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
         {
             var shapedObject = new ExpandoObject();
 

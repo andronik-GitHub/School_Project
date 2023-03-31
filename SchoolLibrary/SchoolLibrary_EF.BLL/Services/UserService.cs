@@ -23,7 +23,7 @@ namespace SchoolLibrary_EF.BLL.Services
 
         public async Task<Guid> CreateAsync(UserDTO entity)
         {
-            // We create a User object and copy the values ​​of the properties
+            // We create a User object and copy the values of the properties
             // of the entity object into its properties (we perform mapping)
             User user = _mapper.Map<User>(entity);
 
@@ -43,7 +43,7 @@ namespace SchoolLibrary_EF.BLL.Services
             // Get entity from db
             User? user = await _uow.Users.GetByIdAsync(id);
 
-            // We create a UserDTO object and copy the values ​​of the properties
+            // We create a UserDTO object and copy the values of the properties
             // of the user object into its properties (we perform mapping)
             UserDTO? userDTO = _mapper.Map<UserDTO?>(user);
 
@@ -68,7 +68,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             return await _uow.Users.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
         {
             return await _uow.Users.GetById_DataShaping_Async(id, parameters);
         }

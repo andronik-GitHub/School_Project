@@ -1,7 +1,9 @@
-﻿using SchoolLibrary_EF.API.Mapping.Configurations;
+﻿using System.Dynamic;
+using SchoolLibrary_EF.API.Mapping.Configurations;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Paging;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
@@ -62,6 +64,15 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             await _uow.Publishers.DeleteAsync(id);
             await _uow.SaveChangesAsync();
+        }
+
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        {
+            return await _uow.Publishers.GetAll_DataShaping_Async(parameters);
+        }
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        {
+            return await _uow.Publishers.GetById_DataShaping_Async(id, parameters);
         }
     }
 }

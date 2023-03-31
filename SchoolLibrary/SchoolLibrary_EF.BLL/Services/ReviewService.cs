@@ -1,4 +1,5 @@
-﻿using SchoolLibrary_EF.API.Mapping.Configurations;
+﻿using System.Dynamic;
+using SchoolLibrary_EF.API.Mapping.Configurations;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
@@ -68,22 +69,29 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.Reviews.DeleteAsync(id);
             await _uow.SaveChangesAsync();
         }
+        
+
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        {
+            return await _uow.Reviews.GetAll_DataShaping_Async(parameters);
+        }
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        {
+            return await _uow.Reviews.GetById_DataShaping_Async(id, parameters);
+        }
 
         private async Task SeedingReviewObject(ReviewDTO entity, Review review)
         {
-            var book = (await _uow.Books.GetAllAsync())
-                .ToList()
-                .Where(b => b.Title == entity.BookTitle)
-                .FirstOrDefault();
-            var user = (await _uow.Users.GetAllAsync())
-                .ToList()
-                .Where(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName)
-                .FirstOrDefault();
+            var book = (await _uow.Books.GetAllAsync()).ToList()
+                .FirstOrDefault(b => b.Title == entity.BookTitle);
+            var user = (await _uow.Users.GetAllAsync()).ToList()
+                .FirstOrDefault(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName);
 
             if (book == null) throw new Exception("No book with this title was found");
-            else review.Book = book;
             if (user == null) throw new Exception("No user with this name was found");
-            else review.User = user;
+            
+            review.User = user;
+            review.Book = book;
         }
     }
 }
