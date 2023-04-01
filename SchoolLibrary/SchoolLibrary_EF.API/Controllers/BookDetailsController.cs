@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTO.HATEOAS;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
@@ -14,10 +15,15 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IBookDetailsService _bookDetailsService;
         private readonly ILogger _logger;
+        private readonly IUrlHelper _urlHelper;
 
-        public BookDetailsController(IBookDetailsService bookDetailsService, ILoggerFactory loggerFactory)
+        public BookDetailsController(
+            IBookDetailsService bookDetailsService,
+            ILoggerFactory loggerFactory,
+            IUrlHelper urlHelper)
         {
             _bookDetailsService = bookDetailsService;
+            _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
         }
 
@@ -32,17 +38,19 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of BookDetailsDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/bookdetails?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/bookdetails?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookDetailsDTO>>> GetAllAsync([FromQuery] BookDetailsParameters parameters)
+        public async Task<ActionResult<IEnumerable<BookDetailsDTO>>> GetAllAsync
+            ([FromQuery] BookDetailsParameters parameters)
         {
             try
             {
-                var collection = await _bookDetailsService.GetAllAsync(parameters);
+                var collection = (await _bookDetailsService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [BookDetails]", collection.Count());
+                    ("{Count} entities were successfully extracted from [BookDetails]", collection.Count);
 
+                collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
@@ -66,7 +74,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id}")] // GET: ef/bookdetails/id
+        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/bookdetails/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -88,7 +96,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     _logger.LogInformation
                         ("Entity with id: [{EntityId}] were successfully extracted from [BookDetails]", id);
 
-                    return Ok(entity);
+                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
                 }
             }
             catch (Exception ex)
@@ -121,7 +129,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost] // POST: ef/bookdetails
+        [HttpPost(Name = nameof(AddAsync))] // POST: ef/bookdetails
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -177,7 +185,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut] // PUT: ef/bookdetails
+        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/bookdetails
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -241,7 +249,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id}")] // DELETE: ef/bookdetails/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/bookdetails/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -289,7 +297,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(BookDetails)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/")] // ef/bookdetails/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/bookdetails/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] BookDetailsParameters parameters)
@@ -324,11 +332,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id}")] // ef/bookdetails/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/bookdetails/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] BookDetailsParameters? parameters)
+        public async Task<ActionResult> GetById_DataShaping_Async
+            (Guid id, [FromQuery] BookDetailsParameters? parameters)
         {
             try
             {
@@ -349,6 +358,31 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+        
+
+
+
+        private BookDetailsDTO CreateLinksForEntity(BookDetailsDTO entity) // HATEOAS
+        {
+            var idObj = new { id = entity.BookDetailId };
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                    "self",
+                    "GET"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                    "update_user",
+                    "UPDATE"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                    "delete_user",
+                    "DELETE"));
+
+            return entity;
         }
     }
 }

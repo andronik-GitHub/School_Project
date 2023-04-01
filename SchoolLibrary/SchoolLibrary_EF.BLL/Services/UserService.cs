@@ -13,7 +13,6 @@ namespace SchoolLibrary_EF.BLL.Services
     {
         private IUnitOfWork _uow { get; set; }
         private readonly IMapper _mapper;
-
         public UserService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;

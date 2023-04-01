@@ -12,6 +12,9 @@ using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
 
@@ -59,6 +62,13 @@ builder.Services.AddSwaggerGen(option =>
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
     builder.Services.RegisterMapsterConfiguration(); // Mapster
 
+    // HATEOAS
+    builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+    builder.Services.AddScoped<IUrlHelper>(x => {
+        var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+        var factory = x.GetRequiredService<IUrlHelperFactory>();
+        return factory.GetUrlHelper(actionContext!);
+    });
 
     #region BLL
     {

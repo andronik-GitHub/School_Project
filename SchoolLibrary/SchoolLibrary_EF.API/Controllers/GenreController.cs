@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTO.HATEOAS;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -13,10 +14,12 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IGenreService _genreService;
         private readonly ILogger _logger;
+        private readonly IUrlHelper _urlHelper;
 
-        public GenreController(IGenreService genreService, ILoggerFactory loggerFactory)
+        public GenreController(IGenreService genreService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _genreService = genreService;
+            _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
         }
 
@@ -31,17 +34,18 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of GenreDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/genre?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/genre?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<GenreDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
         {
             try
             {
-                var collection = await _genreService.GetAllAsync(parameters);
+                var collection = (await _genreService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Genres]", collection.Count());
+                    ("{Count} entities were successfully extracted from [Genres]", collection.Count);
 
+                collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
@@ -65,7 +69,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id}")] // GET: ef/genre/id
+        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/genre/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -87,7 +91,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     _logger.LogInformation
                         ("Entity with id: [{EntityId}] were successfully extracted from [Genres]", id);
 
-                    return Ok(entity);
+                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
                 }
             }
             catch (Exception ex)
@@ -118,7 +122,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost] // POST: ef/genre
+        [HttpPost(Name = nameof(AddAsync))] // POST: ef/genre
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -171,7 +175,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut] // PUT: ef/genre
+        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/genre
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -233,7 +237,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id}")] // DELETE: ef/genre/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/genre/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -281,7 +285,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Genre)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/")] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] GenreParameters parameters)
@@ -316,7 +320,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id}")] // ef/genre/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/genre/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -342,5 +346,30 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
+
+
+
+        private GenreDTO CreateLinksForEntity(GenreDTO entity) // HATEOAS
+        {
+            var idObj = new { id = entity.GenreId };
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                    "self",
+                    "GET"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                    "update_user",
+                    "UPDATE"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                    "delete_user",
+                    "DELETE"));
+
+            return entity;
+        } 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTO.HATEOAS;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -30,10 +31,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of BookAuthorsDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/bookauthors?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/bookauthors?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookAuthorsDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<BookAuthorsDTO>>> GetAllAsync
+            ([FromQuery] AuthorParameters parameters)
         {
             try
             {
@@ -65,7 +67,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{bookId}/{authorId}")] // GET: ef/bookauthors/id
+        [HttpGet("{bookId:guid}/{authorId:guid}", Name = nameof(GetByIdAsync))] // GET: ef/bookauthors/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -119,7 +121,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="400">If invalid data entered</response>
         /// <response code="409">If an existing object is adding</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost] // POST: ef/bookauthors
+        [HttpPost(Name = nameof(AddAsync))] // POST: ef/bookauthors
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -185,7 +187,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut] // PUT: ef/bookauthors
+        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/bookauthors
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -251,7 +253,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{bookId}/{authorId}")] // DELETE: ef/bookauthors/id
+        [HttpDelete("{bookId:guid}/{authorId:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/bookauthors/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

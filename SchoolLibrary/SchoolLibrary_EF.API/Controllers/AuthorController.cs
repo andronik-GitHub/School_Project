@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTO.HATEOAS;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -13,10 +14,12 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IAuthorService _authorService;
         private readonly ILogger _logger;
+        private readonly IUrlHelper _urlHelper;
 
-        public AuthorController(IAuthorService authorService, ILoggerFactory loggerFactory)
+        public AuthorController(IAuthorService authorService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _authorService = authorService;
+            _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
         }
 
@@ -32,7 +35,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid filtering data is entered</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet] // GET: ef/author?MinYearOfBirth=1990&MaxYearOfBirth=2000&PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/author?MinYearOfBirth=1990&MaxYearOfBirth=2000&PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,10 +47,11 @@ namespace SchoolLibrary_EF.API.Controllers
                 if (!parameters.ValidYearRand) // if invalid filtering data is entered
                     return StatusCode(StatusCodes.Status400BadRequest);
 
-                var collection = await _authorService.GetAllAsync(parameters);
+                var collection = (await _authorService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Authors]", collection.Count());
+                    ("{Count} entities were successfully extracted from [Authors]", collection.Count);
 
+                collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
@@ -71,7 +75,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id}")] // GET: ef/author/id
+        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/author/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -93,7 +97,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     _logger.LogInformation
                         ("Entity with id: [{EntityId}] were successfully extracted from [Authors]", id);
 
-                    return Ok(entity);
+                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
                 }
             }
             catch (Exception ex)
@@ -125,7 +129,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost] // POST: ef/author
+        [HttpPost(Name = nameof(AddAsync))] // POST: ef/author
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -179,7 +183,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut] // PUT: ef/author
+        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/author
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -241,7 +245,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id}")] // DELETE: ef/author/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/author/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -289,7 +293,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Author)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/")] // ef/author/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/author/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] AuthorParameters parameters)
@@ -324,7 +328,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id}")] // ef/author/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/author/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -350,5 +354,31 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
+        
+
+
+
+        private AuthorDTO CreateLinksForEntity(AuthorDTO entity) // HATEOAS
+        {
+            var idObj = new { id = entity.Authorid };
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                    "self",
+                    "GET"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                    "update_user",
+                    "UPDATE"));
+            
+            entity.Links.Add(
+                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                    "delete_user",
+                    "DELETE"));
+
+            return entity;
+        } 
     }
 }
