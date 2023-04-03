@@ -31,10 +31,10 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of BookAuthorsDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/bookauthors?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllBookAuthorsAsync))] // GET: ef/bookauthors?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookAuthorsDTO>>> GetAllAsync
+        public async Task<ActionResult<IEnumerable<BookAuthorsDTO>>> GetAllBookAuthorsAsync
             ([FromQuery] AuthorParameters parameters)
         {
             try
@@ -67,11 +67,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{bookId:guid}/{authorId:guid}", Name = nameof(GetByIdAsync))] // GET: ef/bookauthors/id
+        [HttpGet("{bookId:guid}/{authorId:guid}", Name = nameof(GetBookAuthorsByIdAsync))] // GET: ef/bookauthors/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookAuthorsDTO>> GetByIdAsync(Guid bookId, Guid authorId)
+        public async Task<ActionResult<BookAuthorsDTO>> GetBookAuthorsByIdAsync(Guid bookId, Guid authorId)
         {
             try
             {
@@ -121,12 +121,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="400">If invalid data entered</response>
         /// <response code="409">If an existing object is adding</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/bookauthors
+        [HttpPost(Name = nameof(AddBookAuthorsAsync))] // POST: ef/bookauthors
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<(Guid, Guid)>> AddAsync(BookAuthorsDTO newBookAuthors)
+        public async Task<ActionResult<(Guid, Guid)>> AddBookAuthorsAsync(BookAuthorsDTO newBookAuthors)
         {
             try
             {
@@ -187,12 +187,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/bookauthors
+        [HttpPut(Name = nameof(UpdateBookAuthorsAsync))] // PUT: ef/bookauthors
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(BookAuthorsDTO updateBookAuthors)
+        public async Task<ActionResult> UpdateBookAuthorsAsync(BookAuthorsDTO updateBookAuthors)
         {
             try
             {
@@ -253,11 +253,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{bookId:guid}/{authorId:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/bookauthors/id
+        [HttpDelete("{bookId:guid}/{authorId:guid}", Name = nameof(DeleteBookAuthorsAsync))] // DELETE: ef/bookauthors/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid bookId, Guid authorId)
+        public async Task<ActionResult> DeleteBookAuthorsAsync(Guid bookId, Guid authorId)
         {
             try
             {

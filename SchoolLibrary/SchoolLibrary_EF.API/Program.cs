@@ -12,9 +12,13 @@ using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using SchoolLibrary_EF.API.Validation;
+using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
 
@@ -23,7 +27,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     // Resolving Json Serialization Problems(Data Shaping)
-    .AddNewtonsoftJson(); // NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
+    .AddNewtonsoftJson() // NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
+    .AddFluentValidation(); // Registration FluentValidation(For registration of validators)
 
 // Register a Swagger generator by defining 1 or more Swagger documents
 builder.Services.AddSwaggerGen(option =>
@@ -44,6 +49,8 @@ builder.Services.AddSwaggerGen(option =>
 
 #region AddMainServices
 {
+    #region API
+
     // Logging
     builder.Services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
     builder.Services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
@@ -69,6 +76,11 @@ builder.Services.AddSwaggerGen(option =>
         var factory = x.GetRequiredService<IUrlHelperFactory>();
         return factory.GetUrlHelper(actionContext!);
     });
+
+    // Validation
+    builder.Services.AddTransient<IValidator<UserDTO>, UserDTO_Validator>();
+    
+    #endregion
 
     #region BLL
     {

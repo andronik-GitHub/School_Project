@@ -30,10 +30,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of BookGenresDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/bookgenres?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllBookGenresAsync))] // GET: ef/bookgenres?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookGenresDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<BookGenresDTO>>> GetAllBookGenresAsync
+            ([FromQuery] AuthorParameters parameters)
         {
             try
             {
@@ -65,11 +66,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{bookId:guid}/{genreId:guid}", Name = nameof(GetByIdAsync))] // GET: ef/bookgenres/id
+        [HttpGet("{bookId:guid}/{genreId:guid}", Name = nameof(GetBookGenresByIdAsync))] // GET: ef/bookgenres/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookGenresDTO>> GetByIdAsync(Guid bookId, Guid genreId)
+        public async Task<ActionResult<BookGenresDTO>> GetBookGenresByIdAsync(Guid bookId, Guid genreId)
         {
             try
             {
@@ -119,12 +120,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="400">If invalid data entered</response>
         /// <response code="409">If an existing object is adding</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/bookgenres
+        [HttpPost(Name = nameof(AddBookGenresAsync))] // POST: ef/bookgenres
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<(Guid, Guid)>> AddAsync(BookGenresDTO newBookGenres)
+        public async Task<ActionResult<(Guid, Guid)>> AddBookGenresAsync(BookGenresDTO newBookGenres)
         {
             try
             {
@@ -185,12 +186,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/bookgenres
+        [HttpPut(Name = nameof(UpdateBookGenresAsync))] // PUT: ef/bookgenres
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(BookGenresDTO updateBookGenres)
+        public async Task<ActionResult> UpdateBookGenresAsync(BookGenresDTO updateBookGenres)
         {
             try
             {
@@ -251,11 +252,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{bookId:guid}/{genreId:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/bookgenres/id
+        [HttpDelete("{bookId:guid}/{genreId:guid}", Name = nameof(DeleteBookGenresAsync))] // DELETE: ef/bookgenres/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid bookId, Guid genreId)
+        public async Task<ActionResult> DeleteBookGenresAsync(Guid bookId, Guid genreId)
         {
             try
             {

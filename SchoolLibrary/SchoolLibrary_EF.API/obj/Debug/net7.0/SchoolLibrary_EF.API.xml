@@ -4,7 +4,7 @@
         <name>SchoolLibrary_EF.API</name>
     </assembly>
     <members>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Authors
             </summary>
@@ -17,7 +17,7 @@
             <response code="400">If invalid filtering data is entered</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorByIdAsync(System.Guid)">
             <summary>
             Gets the Author by id
             </summary>
@@ -31,7 +31,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.AddAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.AddAuthorAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
             <summary>
             Creates new Author
             </summary>
@@ -53,7 +53,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.UpdateAuthorAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
             <summary>
             Update the Author
             </summary>
@@ -75,7 +75,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.DeleteAuthorAsync(System.Guid)">
             <summary>
             Delete the Author by id
             </summary>
@@ -89,7 +89,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthors_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Authors
             </summary>
@@ -101,7 +101,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the Author by id
             </summary>
@@ -116,7 +116,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all BookAuthors
             </summary>
@@ -128,7 +128,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetByIdAsync(System.Guid,System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetBookAuthorsByIdAsync(System.Guid,System.Guid)">
             <summary>
             Gets the BookAuthors by id
             </summary>
@@ -143,7 +143,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.AddBookAuthorsAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
             <summary>
             Creates new BookAuthors
             </summary>
@@ -163,7 +163,7 @@
             <response code="409">If an existing object is adding</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.UpdateBookAuthorsAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
             <summary>
             Update the BookAuthors
             </summary>
@@ -182,7 +182,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.DeleteAsync(System.Guid,System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.DeleteBookAuthorsAsync(System.Guid,System.Guid)">
             <summary>
             Delete the BookAuthors by id
             </summary>
@@ -197,7 +197,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllBooksAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
             <summary>
             Gets the list of all Books
             </summary>
@@ -209,7 +209,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetBookByIdAsync(System.Guid)">
             <summary>
             Gets the Book by id
             </summary>
@@ -223,7 +223,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.AddBookAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
             <summary>
             Creates new Book
             </summary>
@@ -246,7 +246,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.UpdateBookAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
             <summary>
             Update the Book
             </summary>
@@ -269,7 +269,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.DeleteBookAsync(System.Guid)">
             <summary>
             Delete the Book by id
             </summary>
@@ -283,7 +283,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllBooks_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
             <summary>
             Gets the list of all Books
             </summary>
@@ -295,7 +295,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetBookById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
             <summary>
             Gets the Book by id
             </summary>
@@ -310,7 +310,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllBookDetailsAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
             <summary>
             Gets the list of all BookDetails
             </summary>
@@ -322,7 +322,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetBookDetailsByIdAsync(System.Guid)">
             <summary>
             Gets the BookDetails by id
             </summary>
@@ -336,7 +336,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.AddBookDetailsAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
             <summary>
             Creates new BookDetails
             </summary>
@@ -359,7 +359,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.UpdateBookDetailsAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
             <summary>
             Update the BookDetails
             </summary>
@@ -382,7 +382,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.DeleteBookDetailsAsync(System.Guid)">
             <summary>
             Delete the BookDetails by id
             </summary>
@@ -396,7 +396,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetAllBookDetails_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
             <summary>
             Gets the list of all BookDetails
             </summary>
@@ -408,7 +408,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.GetBookDetailsById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookDetailsParameters)">
             <summary>
             Gets the BookDetails by id
             </summary>
@@ -423,7 +423,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all BookGenres
             </summary>
@@ -435,7 +435,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetByIdAsync(System.Guid,System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetBookGenresByIdAsync(System.Guid,System.Guid)">
             <summary>
             Gets the BookGenres by id
             </summary>
@@ -450,7 +450,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.AddAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.AddBookGenresAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
             <summary>
             Creates new BookGenres
             </summary>
@@ -470,7 +470,7 @@
             <response code="409">If an existing object is adding</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateBookGenresAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
             <summary>
             Update the BookGenres
             </summary>
@@ -489,7 +489,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.DeleteAsync(System.Guid,System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.DeleteBookGenresAsync(System.Guid,System.Guid)">
             <summary>
             Delete the BookGenres by id
             </summary>
@@ -504,7 +504,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Genres
             </summary>
@@ -516,7 +516,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetGenreByIdAsync(System.Guid)">
             <summary>
             Gets the Genre by id
             </summary>
@@ -530,7 +530,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.AddAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.AddGenreAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
             <summary>
             Creates new Genre
             </summary>
@@ -551,7 +551,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.UpdateGenreAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
             <summary>
             Update the Genre
             </summary>
@@ -572,7 +572,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.DeleteGenreAsync(System.Guid)">
             <summary>
             Delete the Genre by id
             </summary>
@@ -586,7 +586,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllGenres_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
             <summary>
             Gets the list of all Genres
             </summary>
@@ -598,7 +598,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetGenreById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
             <summary>
             Gets the Genre by id
             </summary>
@@ -613,7 +613,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllLoansAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Loans
             </summary>
@@ -625,7 +625,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetLoanByIdAsync(System.Guid)">
             <summary>
             Gets the Loan by id
             </summary>
@@ -639,7 +639,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.AddAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.AddLoanAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
             <summary>
             Creates new Loan
             </summary>
@@ -662,7 +662,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.UpdateLoanAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
             <summary>
             Update the Loan
             </summary>
@@ -685,7 +685,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.DeleteLoanAsync(System.Guid)">
             <summary>
             Delete the Loan by id
             </summary>
@@ -699,7 +699,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllLoans_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
             <summary>
             Gets the list of all Loans
             </summary>
@@ -711,7 +711,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetLoanById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
             <summary>
             Gets the Loan by id
             </summary>
@@ -726,7 +726,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllPublishersAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Publishers
             </summary>
@@ -738,7 +738,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetPublisherByIdAsync(System.Guid)">
             <summary>
             Gets the Publisher by id
             </summary>
@@ -752,7 +752,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.AddAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.AddPublisherAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
             <summary>
             Creates new Publisher
             </summary>
@@ -774,7 +774,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.UpdatePublisherAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
             <summary>
             Update the Publisher
             </summary>
@@ -796,7 +796,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.DeletePublisherAsync(System.Guid)">
             <summary>
             Delete the Publisher by id
             </summary>
@@ -810,7 +810,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.PublisherParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllPublishers_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.PublisherParameters)">
             <summary>
             Gets the list of all Publishers
             </summary>
@@ -822,7 +822,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.PublisherParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetPublisherById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.PublisherParameters)">
             <summary>
             Gets the Publisher by id
             </summary>
@@ -837,7 +837,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllReviewsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Reviews
             </summary>
@@ -849,7 +849,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetReviewByIdAsync(System.Guid)">
             <summary>
             Gets the Review by id
             </summary>
@@ -863,7 +863,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.AddAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.AddReviewAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
             <summary>
             Creates new Review
             </summary>
@@ -885,7 +885,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.UpdateReviewAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
             <summary>
             Update the Review
             </summary>
@@ -907,7 +907,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.DeleteReviewAsync(System.Guid)">
             <summary>
             Delete the Review by id
             </summary>
@@ -921,7 +921,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.ReviewParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllReviews_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.ReviewParameters)">
             <summary>
             Gets the list of all Reviews
             </summary>
@@ -933,7 +933,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.ReviewParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetReviewById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.ReviewParameters)">
             <summary>
             Gets the Review by id
             </summary>
@@ -948,7 +948,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllAsync(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllUsersAsync(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
             <summary>
             Gets the list of all Users
             </summary>
@@ -961,7 +961,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetByIdAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetUserByIdAsync(System.Guid)">
             <summary>
             Gets the User by id
             </summary>
@@ -975,7 +975,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddUserAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
             <summary>
             Creates new User
             </summary>
@@ -996,7 +996,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.UpdateAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.UpdateUserAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
             <summary>
             Update the User
             </summary>
@@ -1017,7 +1017,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.DeleteAsync(System.Guid)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.DeleteUserAsync(System.Guid)">
             <summary>
             Delete the User by id
             </summary>
@@ -1031,7 +1031,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAll_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetAllUsers_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
             <summary>
             Gets the list of all Users
             </summary>
@@ -1043,7 +1043,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetUserById_DataShaping_Async(System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
             <summary>
             Gets the User by id
             </summary>

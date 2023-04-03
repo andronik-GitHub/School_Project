@@ -34,10 +34,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of LoanDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/loan?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllLoansAsync))] // GET: ef/loan?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<LoanDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<LoanDTO>>> GetAllLoansAsync
+            ([FromQuery] AuthorParameters parameters)
         {
             try
             {
@@ -69,11 +70,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/loan/id
+        [HttpGet("{id:guid}", Name = nameof(GetLoanByIdAsync))] // GET: ef/loan/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<LoanDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<LoanDTO>> GetLoanByIdAsync(Guid id)
         {
             try
             {
@@ -124,11 +125,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/loan
+        [HttpPost(Name = nameof(AddLoanAsync))] // POST: ef/loan
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddAsync(LoanDTO newLoan)
+        public async Task<ActionResult<Guid>> AddLoanAsync(LoanDTO newLoan)
         {
             try
             {
@@ -179,12 +180,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/loan
+        [HttpPut(Name = nameof(UpdateLoanAsync))] // PUT: ef/loan
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(LoanDTO updateLoan)
+        public async Task<ActionResult> UpdateLoanAsync(LoanDTO updateLoan)
         {
             try
             {
@@ -242,11 +243,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/loan/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteLoanAsync))] // DELETE: ef/loan/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public async Task<ActionResult> DeleteLoanAsync(Guid id)
         {
             try
             {
@@ -290,10 +291,10 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Loan)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/loan/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAllLoans_DataShaping_Async))] // ef/loan/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] LoanParameters parameters)
+        public async Task<ActionResult> GetAllLoans_DataShaping_Async([FromQuery] LoanParameters parameters)
         {
             try
             {
@@ -325,11 +326,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/loan/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetLoanById_DataShaping_Async))] // ef/loan/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] LoanParameters? parameters)
+        public async Task<ActionResult> GetLoanById_DataShaping_Async
+            (Guid id, [FromQuery] LoanParameters? parameters)
         {
             try
             {
@@ -360,17 +362,17 @@ namespace SchoolLibrary_EF.API.Controllers
             var idObj = new { id = entity.LoanId };
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.GetLoanByIdAsync), idObj)!,
                     "self",
                     "GET"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.UpdateLoanAsync), idObj)!,
                     "update_user",
                     "UPDATE"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.DeleteLoanAsync), idObj)!,
                     "delete_user",
                     "DELETE"));
 

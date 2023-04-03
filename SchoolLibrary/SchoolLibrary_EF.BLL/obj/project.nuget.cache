@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9wl8tcu6eUVoiSZl713ydNIOvIS7UDJn6bsPJqshVp/2dTWsrmN/zXqd6dQDrxigql1j29IV05NQB5HDfCLVog==",
+  "dgSpecHash": "LCrnjJ3tRo6KqenEmDLdYJH8T5DMVbyg7/g5LGbrNuL9hN9A6FDCYhvxwwFGz/p/SnkHtyzFDeuAlcvkMHEGJA==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "C:\\Users\\const\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mapster\\7.4.0-pre06\\mapster.7.4.0-pre06.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.1-pre04\\mapster.core.1.2.1-pre04.nupkg.sha512",

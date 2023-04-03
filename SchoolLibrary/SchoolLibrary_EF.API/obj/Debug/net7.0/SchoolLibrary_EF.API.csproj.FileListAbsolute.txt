@@ -167,3 +167,6 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\Newtonsoft.Json.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\FluentValidation.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_EF.API\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll

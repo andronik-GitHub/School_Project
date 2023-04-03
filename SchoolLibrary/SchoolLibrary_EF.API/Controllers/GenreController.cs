@@ -34,10 +34,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of GenreDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/genre?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllGenresAsync))] // GET: ef/genre?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<GenreDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<GenreDTO>>> GetAllGenresAsync
+            ([FromQuery] AuthorParameters parameters)
         {
             try
             {
@@ -69,11 +70,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/genre/id
+        [HttpGet("{id:guid}", Name = nameof(GetGenreByIdAsync))] // GET: ef/genre/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GenreDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GenreDTO>> GetGenreByIdAsync(Guid id)
         {
             try
             {
@@ -122,11 +123,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/genre
+        [HttpPost(Name = nameof(AddGenreAsync))] // POST: ef/genre
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddAsync(GenreDTO newGenre)
+        public async Task<ActionResult<Guid>> AddGenreAsync(GenreDTO newGenre)
         {
             try
             {
@@ -175,12 +176,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/genre
+        [HttpPut(Name = nameof(UpdateGenreAsync))] // PUT: ef/genre
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(GenreDTO updateGenre)
+        public async Task<ActionResult> UpdateGenreAsync(GenreDTO updateGenre)
         {
             try
             {
@@ -237,11 +238,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/genre/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteGenreAsync))] // DELETE: ef/genre/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public async Task<ActionResult> DeleteGenreAsync(Guid id)
         {
             try
             {
@@ -285,10 +286,10 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Genre)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAllGenres_DataShaping_Async))] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] GenreParameters parameters)
+        public async Task<ActionResult> GetAllGenres_DataShaping_Async([FromQuery] GenreParameters parameters)
         {
             try
             {
@@ -320,11 +321,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/genre/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetGenreById_DataShaping_Async))] // ef/genre/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] GenreParameters? parameters)
+        public async Task<ActionResult> GetGenreById_DataShaping_Async
+            (Guid id, [FromQuery] GenreParameters? parameters)
         {
             try
             {
@@ -355,17 +357,17 @@ namespace SchoolLibrary_EF.API.Controllers
             var idObj = new { id = entity.GenreId };
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.GetGenreByIdAsync), idObj)!,
                     "self",
                     "GET"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.UpdateGenreAsync), idObj)!,
                     "update_user",
                     "UPDATE"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.DeleteGenreAsync), idObj)!,
                     "delete_user",
                     "DELETE"));
 

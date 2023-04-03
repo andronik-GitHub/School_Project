@@ -34,10 +34,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ReviewDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/review?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllReviewsAsync))] // GET: ef/review?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllAsync([FromQuery] AuthorParameters parameters)
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync
+            ([FromQuery] AuthorParameters parameters)
         {
             try
             {
@@ -69,11 +70,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/review/id
+        [HttpGet("{id:guid}", Name = nameof(GetReviewByIdAsync))] // GET: ef/review/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ReviewDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<ReviewDTO>> GetReviewByIdAsync(Guid id)
         {
             try
             {
@@ -123,11 +124,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/review
+        [HttpPost(Name = nameof(AddReviewAsync))] // POST: ef/review
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddAsync(ReviewDTO newReview)
+        public async Task<ActionResult<Guid>> AddReviewAsync(ReviewDTO newReview)
         {
             try
             {
@@ -177,12 +178,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/review
+        [HttpPut(Name = nameof(UpdateReviewAsync))] // PUT: ef/review
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(ReviewDTO updateReview)
+        public async Task<ActionResult> UpdateReviewAsync(ReviewDTO updateReview)
         {
             try
             {
@@ -240,11 +241,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/review/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteReviewAsync))] // DELETE: ef/review/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public async Task<ActionResult> DeleteReviewAsync(Guid id)
         {
             try
             {
@@ -288,10 +289,10 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Review)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/review/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAllReviews_DataShaping_Async))] // ef/review/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] ReviewParameters parameters)
+        public async Task<ActionResult> GetAllReviews_DataShaping_Async([FromQuery] ReviewParameters parameters)
         {
             try
             {
@@ -323,11 +324,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/review/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetReviewById_DataShaping_Async))] // ef/review/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] ReviewParameters? parameters)
+        public async Task<ActionResult> GetReviewById_DataShaping_Async(Guid id, [FromQuery] ReviewParameters? parameters)
         {
             try
             {
@@ -358,17 +359,17 @@ namespace SchoolLibrary_EF.API.Controllers
             var idObj = new { id = entity.ReviewId };
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.GetReviewByIdAsync), idObj)!,
                     "self",
                     "GET"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.UpdateReviewAsync), idObj)!,
                     "update_user",
                     "UPDATE"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.DeleteReviewAsync), idObj)!,
                     "delete_user",
                     "DELETE"));
 

@@ -34,10 +34,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of BookDTO</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet(Name = nameof(GetAllAsync))] // GET: ef/book?PageNumber=5&PageSize=10
+        [HttpGet(Name = nameof(GetAllBooksAsync))] // GET: ef/book?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllAsync([FromQuery] BookParameters parameters)
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetAllBooksAsync
+            ([FromQuery] BookParameters parameters)
         {
             try
             {
@@ -69,11 +70,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("{id:guid}", Name = nameof(GetByIdAsync))] // GET: ef/book/id
+        [HttpGet("{id:guid}", Name = nameof(GetBookByIdAsync))] // GET: ef/book/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<BookDTO>> GetBookByIdAsync(Guid id)
         {
             try
             {
@@ -124,11 +125,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPost(Name = nameof(AddAsync))] // POST: ef/book
+        [HttpPost(Name = nameof(AddBookAsync))] // POST: ef/book
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddAsync(BookDTO newBook)
+        public async Task<ActionResult<Guid>> AddBookAsync(BookDTO newBook)
         {
             try
             {
@@ -180,12 +181,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpPut(Name = nameof(UpdateAsync))] // PUT: ef/book
+        [HttpPut(Name = nameof(UpdateBookAsync))] // PUT: ef/book
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(BookDTO updateBook)
+        public async Task<ActionResult> UpdateBookAsync(BookDTO updateBook)
         {
             try
             {
@@ -244,11 +245,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
-        [HttpDelete("{id:guid}", Name = nameof(DeleteAsync))] // DELETE: ef/book/id
+        [HttpDelete("{id:guid}", Name = nameof(DeleteBookAsync))] // DELETE: ef/book/id
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public async Task<ActionResult> DeleteBookAsync(Guid id)
         {
             try
             {
@@ -292,10 +293,10 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Book)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAll_DataShaping_Async))] // ef/book/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAllBooks_DataShaping_Async))] // ef/book/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAll_DataShaping_Async([FromQuery] BookParameters parameters)
+        public async Task<ActionResult> GetAllBooks_DataShaping_Async([FromQuery] BookParameters parameters)
         {
             try
             {
@@ -327,11 +328,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetById_DataShaping_Async))] // ef/book/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetBookById_DataShaping_Async))] // ef/book/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetById_DataShaping_Async(Guid id, [FromQuery] BookParameters? parameters)
+        public async Task<ActionResult> GetBookById_DataShaping_Async
+            (Guid id, [FromQuery] BookParameters? parameters)
         {
             try
             {
@@ -362,17 +364,17 @@ namespace SchoolLibrary_EF.API.Controllers
             var idObj = new { id = entity.BookId };
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.GetByIdAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.GetBookByIdAsync), idObj)!,
                     "self",
                     "GET"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.UpdateAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.UpdateBookAsync), idObj)!,
                     "update_user",
                     "UPDATE"));
             
             entity.Links.Add(
-                new Link(this._urlHelper.Link(nameof(this.DeleteAsync), idObj)!,
+                new Link(this._urlHelper.Link(nameof(this.DeleteBookAsync), idObj)!,
                     "delete_user",
                     "DELETE"));
 
