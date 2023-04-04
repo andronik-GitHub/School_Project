@@ -1070,16 +1070,16 @@
         <member name="M:SchoolLibrary_EF.API.Migrations.FirstMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:SchoolLibrary_EF.API.Migrations.AddSeedingMigration">
+        <member name="T:SchoolLibrary_EF.API.Migrations.SeedingFakeData">
             <inheritdoc />
         </member>
-        <member name="M:SchoolLibrary_EF.API.Migrations.AddSeedingMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:SchoolLibrary_EF.API.Migrations.SeedingFakeData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:SchoolLibrary_EF.API.Migrations.AddSeedingMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:SchoolLibrary_EF.API.Migrations.SeedingFakeData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:SchoolLibrary_EF.API.Migrations.AddSeedingMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:SchoolLibrary_EF.API.Migrations.SeedingFakeData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

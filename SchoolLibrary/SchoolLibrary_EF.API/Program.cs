@@ -50,36 +50,36 @@ builder.Services.AddSwaggerGen(option =>
 #region AddMainServices
 {
     #region API
-
-    // Logging
-    builder.Services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
-    builder.Services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
-
-    // DbContext
-    builder.Services.AddDbContext<SchoolLibraryContext>(options =>
     {
-        options.UseSqlServer(
-                builder.Configuration.GetConnectionString("sqlConnection"),
-                op => op.MigrationsAssembly("SchoolLibrary_EF.API")
-            )
-            .EnableSensitiveDataLogging();
-    });
+        // Logging
+        builder.Services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
+        builder.Services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
 
-    // Mapping
-    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
-    builder.Services.RegisterMapsterConfiguration(); // Mapster
+        // DbContext
+        builder.Services.AddDbContext<SchoolLibraryContext>(options =>
+        {
+            options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("sqlConnection"),
+                    op => op.MigrationsAssembly("SchoolLibrary_EF.API")
+                )
+                .EnableSensitiveDataLogging();
+        });
 
-    // HATEOAS
-    builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-    builder.Services.AddScoped<IUrlHelper>(x => {
-        var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
-        var factory = x.GetRequiredService<IUrlHelperFactory>();
-        return factory.GetUrlHelper(actionContext!);
-    });
+        // Mapping
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
+        builder.Services.RegisterMapsterConfiguration(); // Mapster
 
-    // Validation
-    builder.Services.AddTransient<IValidator<UserDTO>, UserDTO_Validator>();
-    
+        // HATEOAS
+        builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+        builder.Services.AddScoped<IUrlHelper>(x => {
+            var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+            var factory = x.GetRequiredService<IUrlHelperFactory>();
+            return factory.GetUrlHelper(actionContext!);
+        });
+
+        // Validation
+        builder.Services.AddTransient<IValidator<UserDTO>, UserDTO_Validator>();
+    }
     #endregion
 
     #region BLL
@@ -140,7 +140,7 @@ builder.Services.AddSwaggerGen(option =>
 #endregion
 
 
-//DataGenerator.InitBogusData(); // seeding db
+// DataGenerator.InitBogusData(); // seeding db
 var app = builder.Build();
 
 

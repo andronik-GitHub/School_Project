@@ -30,7 +30,7 @@ namespace SchoolLibrary_EF.DAL.Repository
         {
             await entities.AddAsync(user);
 
-            return user.UserId;
+            return user.Id;
         }
         public override async Task<IEnumerable<User>> GetAllAsync(BaseParameters? parameters = null)
         {
@@ -39,7 +39,7 @@ namespace SchoolLibrary_EF.DAL.Repository
 
             if (parameters is not UserParameters param)
                 return await collection
-                    .OrderBy(a => a.UserId)
+                    .OrderBy(a => a.Id)
                     .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                     .Take(parameters.PageSize)
                     .ToListAsync();
@@ -80,7 +80,7 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public override async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
         {
-            var entity = (await GetByConditionAsync(temp => temp.UserId.Equals(id)))
+            var entity = (await GetByConditionAsync(temp => temp.Id.Equals(id)))
                 .FirstOrDefault();
 
             return entity == null ? null :

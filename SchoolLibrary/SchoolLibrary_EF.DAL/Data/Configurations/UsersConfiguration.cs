@@ -9,18 +9,18 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasKey(u => u.UserId);
+                .HasKey(u => u.Id);
 
 
             builder // one-to-many  Users - Loans
                 .HasMany(u => u.Loans)
                 .WithOne(l => l.User)
-                .HasPrincipalKey(l => l.UserId);
+                .HasPrincipalKey(l => l.Id);
 
             builder // one-to-many  Users - Reviews
                 .HasMany(u => u.Reviews)
                 .WithOne(r => r.User)
-                .HasPrincipalKey(r => r.UserId);
+                .HasPrincipalKey(r => r.Id);
         }
     }
 }

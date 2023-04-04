@@ -1,25 +1,30 @@
 ﻿using Bogus;
+using Microsoft.AspNetCore.Identity;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Entities.Constants;
 
 namespace SchoolLibrary_EF.DAL.Bogus
 {
-    public class DataGenerator
+    public static class DataGenerator
     {
         public static List<Book> Books = new();
         public static List<BookDetails> BookDetails = new();
         public static List<Author> Authors = new();
         public static List<Publisher> Publishers = new();
-        public static List<User> Users = new();
         public static List<Loan> Loans = new();
         public static List<Review> Reviews = new();
         public static List<Genre> Genres = new();
         public static List<BookGenres> BookGenres = new();
         public static List<BookAuthors> BookAuthors = new();
+        
+        public static List<User> Users = new();
+        public static List<IdentityRole<Guid>> Roles = new();
+        public static List<IdentityUserRole<Guid>> UsersRoles = new();
 
-        private const int BOOKS = 300;
-        private const int AUTHORS = 70;
-        private const int PUBLISHERS = 50;
-        private const int USERS = 90;
+        private const int BOOKS = 500;
+        private const int AUTHORS = 150;
+        private const int PUBLISHERS = 70;
+        private const int USERS = 140;
         private const int LOANS = BOOKS / 2;
         private const int REVIEWS = USERS * 4;
         private const int GENRES = 30;
@@ -62,13 +67,16 @@ namespace SchoolLibrary_EF.DAL.Bogus
         private static Faker<User> GetUserGenerator()
         {
             return new Faker<User>()
-                .RuleFor(u => u.UserId, _ => Guid.NewGuid())
+                .RuleFor(u => u.Id, _ => Guid.NewGuid())
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
-                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor(u => u.EmailConfirmed, _ => true)
+                .RuleFor(u => u.PasswordHash, f => new PasswordHasher<User>().HashPassword(null!, f.Internet.Password()))
                 .RuleFor(u => u.Address, f => f.Address.StreetAddress())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber(@"## (###) ##-##"));
+                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber(@"## (###) ##-##"))
+                .RuleFor(u => u.PhoneNumberConfirmed, _ => true)
+                .RuleFor(u => u.UserName, _ => Authorization.default_username);
         }
         private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
         {
@@ -152,6 +160,37 @@ namespace SchoolLibrary_EF.DAL.Bogus
 
         public static void InitBogusData()
         {
+            // Add IdentityRoles
+            Roles.AddRange(new List<IdentityRole<Guid>>
+            {
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = Authorization.Roles.Administrator.ToString(),
+                    NormalizedName = Authorization.Roles.Administrator.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = Authorization.Roles.Moderator.ToString(),
+                    NormalizedName = Authorization.Roles.Moderator.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = Authorization.Roles.User.ToString(),
+                    NormalizedName = Authorization.Roles.User.ToString().ToUpper()
+                }
+            });
+            // Add IdentityUsers
+            Users.AddRange(GetUserGenerator().Generate(USERS));
+            // Add IdentityUserRole
+            UsersRoles.AddRange(Users.Select(u => new IdentityUserRole<Guid>
+            {
+                RoleId = Roles[new Random().Next(0, Roles.Count)].Id,
+                UserId = u.Id
+            }));
+            
             Authors.AddRange(GetAuthorGenerator().Generate(AUTHORS));
             Publishers.AddRange(GetPublisherGenerator().Generate(PUBLISHERS));
             Users.AddRange(GetUserGenerator().Generate(USERS));
@@ -165,7 +204,7 @@ namespace SchoolLibrary_EF.DAL.Bogus
             for (int i = 0; i < LOANS; i++)
                 Loans.AddRange(
                     GetBogusLoanData(
-                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Users[new Random().Next(0, Users.Count)].Id,
                         Books[new Random().Next(0, Books.Count)].BookId
                     )
                 );
@@ -173,7 +212,7 @@ namespace SchoolLibrary_EF.DAL.Bogus
             for (int i = 0; i < REVIEWS; i++)
                 Reviews.AddRange(
                     GetBogusReviewData(
-                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Users[new Random().Next(0, Users.Count)].Id,
                         Books[new Random().Next(0, Books.Count)].BookId
                     )
                 );

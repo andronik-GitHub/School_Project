@@ -6,7 +6,7 @@
 
         public UserParameters()
         {
-            OrderBy = "UserId"; // default sorting
+            OrderBy = "Id"; // default sorting
         }
     }
 }
