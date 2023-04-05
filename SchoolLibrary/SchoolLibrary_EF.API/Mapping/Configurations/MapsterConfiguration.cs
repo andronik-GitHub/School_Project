@@ -2,6 +2,8 @@
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.DAL.Entities;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
+using SchoolLibrary_EF.BLL.DTO.Identity;
 
 namespace SchoolLibrary_EF.API.Mapping.Configurations
 {
@@ -19,6 +21,8 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
             //RegisterGenreConfig(); in AutoMapper
             RegisterBookGenresConfig();
             RegisterBookAuthorsConfig();
+
+            RegisterRegisterModelConfig();
 
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
@@ -99,6 +103,18 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .Map(dest => dest.BookTitle, src => src.Book.Title)
                 .Map(dest => dest.AuthorFullName, src => $"{src.Author.FirstName} {src.Author.LastName}")
                 .TwoWays();
+        }
+
+        private static void RegisterRegisterModelConfig()
+        {
+            TypeAdapterConfig<RegisterModel, User>
+                .NewConfig()
+                .Map(dest => dest.FirstName, src => src.FirstName)
+                .Map(dest => dest.LastName, src => src.LastName)
+                .Map(dest => dest.UserName, src => src.UserName)
+                .Map(dest => dest.Email, src => src.Email)
+                .Map(dest => dest.PasswordHash, src => 
+                    new PasswordHasher<User>(null).HashPassword(null!, src.Password!));
         }
     }
 }

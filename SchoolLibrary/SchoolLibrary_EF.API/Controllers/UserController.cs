@@ -1,7 +1,9 @@
 ﻿using System.Dynamic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.DTO.HATEOAS;
+using SchoolLibrary_EF.BLL.DTO.Identity;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -347,8 +349,74 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
 
+        
+        /// <summary>
+        /// Get secured data
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET https://localhost:5001/ef/User/secure%data
+        /// </remarks>
+        /// <returns>Returns secured data</returns>
+        /// <response code="200">Success</response>
+        /// <response code="401">If user not authentication</response>
+        [Authorize]
+        [HttpGet("secure%data/")] // GET: ef/User/secure%data
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> GetSecuredData()
+        {
+            return await Task.Run(() => Ok("Secured data"));
+        }
+
+        /// <summary>
+        /// Registering new user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/register
+        ///     {
+        ///         "FirstName": "John",
+        ///         "LastName": "Snow",
+        ///         "UserName": "John_Snow",
+        ///         "Email": "john_snow@gmail.com",
+        ///         "Password": "Pa$$w0rd"
+        ///     }
+        /// </remarks>
+        /// <param name="model">RegisterModel for creating new user</param>
+        /// <returns>Returns a message about successful user registration</returns>
+        /// <response code="200">Success</response>
+        [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> RegisterAsync([FromBody]RegisterModel model)
+        {
+            var result = await _userService.RegisterAsync(model);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/token
+        ///     {
+        ///         "Email": "john_snow@gmail.com",
+        ///         "Password": "Pa$$w0rd"
+        ///     }
+        /// </remarks>
+        /// <returns>Returns JWT Security token</returns>
+        /// <response code="200">Success</response>
+        [HttpPost("token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetTokenAsync([FromBody]TokenRequestModel model)
+        {
+            var result = await _userService.GetTokenAsync(model);
+            return Ok(result);
+        }
 
 
         private UserDTO CreateLinksForEntity(UserDTO entity) // HATEOAS

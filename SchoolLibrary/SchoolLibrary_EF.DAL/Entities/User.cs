@@ -13,9 +13,8 @@ namespace SchoolLibrary_EF.DAL.Entities
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; } = default!;
-        [Required]
         [MaxLength(100)]
-        public string Address { get; set; } = default!;
+        public string? Address { get; set; } = default!;
 
 
         public ICollection<Loan> Loans { get; set; } = default!; // one-to-many

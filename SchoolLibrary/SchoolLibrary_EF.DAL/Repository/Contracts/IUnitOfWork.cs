@@ -1,4 +1,5 @@
-﻿using SchoolLibrary_EF.DAL.Repository.Contracts;
+﻿using Microsoft.AspNetCore.Identity;
+using SchoolLibrary_EF.DAL.Entities;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
@@ -14,6 +15,10 @@ namespace SchoolLibrary_EF.DAL.Repository.Contracts
         IGenreRepository Genres { get; }
         IBookGenresRepository BookGenres { get; }
         IBookAuthorsRepository BookAuthors { get; }
+        
+        
+        UserManager<User> _userManager { get; set; }
+        RoleManager<IdentityRole<Guid>> _roleManager { get; set; }
 
 
         Task SaveChangesAsync();

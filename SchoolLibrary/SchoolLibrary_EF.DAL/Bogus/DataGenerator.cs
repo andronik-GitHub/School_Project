@@ -76,7 +76,7 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(u => u.Address, f => f.Address.StreetAddress())
                 .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber(@"## (###) ##-##"))
                 .RuleFor(u => u.PhoneNumberConfirmed, _ => true)
-                .RuleFor(u => u.UserName, _ => Authorization.default_username);
+                .RuleFor(u => u.UserName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName));
         }
         private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
         {

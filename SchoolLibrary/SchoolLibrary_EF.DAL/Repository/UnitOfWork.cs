@@ -1,4 +1,6 @@
-﻿using SchoolLibrary_EF.DAL.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using SchoolLibrary_EF.DAL.Data;
+using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repository
@@ -16,6 +18,10 @@ namespace SchoolLibrary_EF.DAL.Repository
         public IGenreRepository Genres { get; }
         public IBookGenresRepository BookGenres { get; }
         public IBookAuthorsRepository BookAuthors { get; }
+        
+        
+        public UserManager<User> _userManager { get; set; }
+        public RoleManager<IdentityRole<Guid>> _roleManager { get; set; }
 
         public UnitOfWork(
             SchoolLibraryContext dbContext,
@@ -29,7 +35,10 @@ namespace SchoolLibrary_EF.DAL.Repository
             IReviewRepository reviews,
             IGenreRepository genres,
             IBookGenresRepository bookGenres,
-            IBookAuthorsRepository bookAuthors
+            IBookAuthorsRepository bookAuthors,
+            
+            UserManager<User> userManager,
+            RoleManager<IdentityRole<Guid>> roleManager
             )
         {
             this.dbContext = dbContext;
@@ -44,6 +53,9 @@ namespace SchoolLibrary_EF.DAL.Repository
             Genres = genres;
             BookGenres = bookGenres;
             BookAuthors = bookAuthors;
+
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
 

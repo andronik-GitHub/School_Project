@@ -12,39 +12,23 @@ using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Repository;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Reflection;
+using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.API.Validation;
 using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTO.Identity;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-builder.Services.AddControllers()
-    // Resolving Json Serialization Problems(Data Shaping)
-    .AddNewtonsoftJson() // NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
-    .AddFluentValidation(); // Registration FluentValidation(For registration of validators)
-
-// Register a Swagger generator by defining 1 or more Swagger documents
-builder.Services.AddSwaggerGen(option =>
-{
-    option.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "School Library",
-        Version = "v1",
-        Description = "API for performing operations with \"School Library\"",
-    });
-
-    // Customizing the comment path for Swagger JSON and UI
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    option.IncludeXmlComments(xmlPath);
-});
+var configuration = builder.Configuration;
 
 
 #region AddMainServices
@@ -65,13 +49,54 @@ builder.Services.AddSwaggerGen(option =>
                 .EnableSensitiveDataLogging();
         });
 
+        #region IDENTITY
+        {
+            // Reads data from our previously created JWT Section of appsettings.json
+            builder.Services.Configure<JWT>(configuration.GetSection("JWT"));
+            
+            // Register ASP.NET Core Identity with method AddIdentity<TUser, TRole>
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>()
+                // To register the required EF Core implementation of Identity stores
+                .AddEntityFrameworkStores<SchoolLibraryContext>()
+                .AddDefaultTokenProviders();
+
+            // Adding Authentication
+            builder.Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                // Adding JwtBearer
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        
+                        ValidIssuer = configuration["JWT:Issuer"],
+                        ValidAudience = configuration["JWT:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration["JWT:Key"] ?? "C1CF4B7DC4C417"))
+                    };
+                });
+        }
+        #endregion
+
         // Mapping
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
         builder.Services.RegisterMapsterConfiguration(); // Mapster
 
         // HATEOAS
         builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-        builder.Services.AddScoped<IUrlHelper>(x => {
+        builder.Services.AddScoped<IUrlHelper>(x =>
+        {
             var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
             var factory = x.GetRequiredService<IUrlHelperFactory>();
             return factory.GetUrlHelper(actionContext!);
@@ -79,6 +104,9 @@ builder.Services.AddSwaggerGen(option =>
 
         // Validation
         builder.Services.AddTransient<IValidator<UserDTO>, UserDTO_Validator>();
+        builder.Services.AddTransient<IValidator<RegisterModel>, RegisterModel_Validator>();
+        builder.Services.AddTransient<IValidator<LoginModel>, LoginModel_Validator>();
+        builder.Services.AddTransient<IValidator<AuthenticationModel>, AuthenticationModel_Validator>();
     }
     #endregion
 
@@ -140,6 +168,28 @@ builder.Services.AddSwaggerGen(option =>
 #endregion
 
 
+builder.Services.AddControllers()
+    // Resolving Json Serialization Problems(Data Shaping)
+    .AddNewtonsoftJson() // NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
+    .AddFluentValidation(); // Registration FluentValidation(For registration of validators)
+
+// Register a Swagger generator by defining 1 or more Swagger documents
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "School Library",
+        Version = "v1",
+        Description = "API for performing operations with \"School Library\"",
+    });
+
+    // Customizing the comment path for Swagger JSON and UI
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    option.IncludeXmlComments(xmlPath);
+});
+
+
 // DataGenerator.InitBogusData(); // seeding db
 var app = builder.Build();
 
@@ -157,6 +207,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Authentication & Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
