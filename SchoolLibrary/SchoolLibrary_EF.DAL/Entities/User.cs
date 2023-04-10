@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.DAL.Entities
 {
@@ -15,6 +16,8 @@ namespace SchoolLibrary_EF.DAL.Entities
         public string LastName { get; set; } = default!;
         [MaxLength(100)]
         public string? Address { get; set; } = default!;
+        [Required]
+        public List<RefreshToken>? RefreshTokens { get; set; }
 
 
         public ICollection<Loan> Loans { get; set; } = default!; // one-to-many

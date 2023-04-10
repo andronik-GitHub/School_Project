@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Microsoft.AspNetCore.Identity;
 using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Entities.Constants;
+using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.DAL.Bogus
 {

@@ -3,7 +3,7 @@ using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.DAL.Entities;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
-using SchoolLibrary_EF.BLL.DTO.Identity;
+using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.API.Mapping.Configurations
 {

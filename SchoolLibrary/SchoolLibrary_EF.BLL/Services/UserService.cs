@@ -8,12 +8,12 @@ using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO.Identity;
-using SchoolLibrary_EF.DAL.Entities.Constants;
+using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.BLL.Services
 {
@@ -59,6 +59,10 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return  userDTO;
         }
+        public async Task<User?> GetUserWithRefreshTokensAsync(Guid id)
+        {
+            return await _uow.Users.GetByIdAsync(id);
+        }
         public async Task UpdateAsync(UserDTO entity)
         {
             // We create a User object and copy the values ​​of the properties
@@ -83,6 +87,7 @@ namespace SchoolLibrary_EF.BLL.Services
             return await _uow.Users.GetById_DataShaping_Async(id, parameters);
         }
 
+        
         public async Task<string> RegisterAsync(RegisterModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Password)) throw new Exception("Password is empty!");
@@ -148,6 +153,7 @@ namespace SchoolLibrary_EF.BLL.Services
             return $"Added {model.Role} to user {model.Email}!";
         }
 
+        
         public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {
             // Creating a new Response Object,
@@ -177,6 +183,35 @@ namespace SchoolLibrary_EF.BLL.Services
                 var roles = await _uow._userManager.GetRolesAsync(user).ConfigureAwait(false);
                 authenticationModel.Roles = roles.ToList();
 
+
+                // Check if there are any active refresh tokens available for the authenticated user
+                if (user.RefreshTokens == null || user.RefreshTokens.Any(a => a.IsActive))
+                {
+                    // Set the available active refresh token to response
+                    var activeRefreshToken = user.RefreshTokens?.FirstOrDefault(a => a.IsActive);
+                    if (activeRefreshToken != null)
+                    {
+                        authenticationModel.RefreshToken = activeRefreshToken.Token;
+                        authenticationModel.RefreshTokenExpiration = activeRefreshToken.Expires;
+                    }
+                }
+                else
+                {
+                    // If there are not active Refresh Token available, we call our
+                    // CreateRefreshToken method to generate a refresh token
+                    var refreshToken = CreateRefreshToken();
+
+                    //  Once generated, we set the details of the Refresh Token to the Response Object
+                    authenticationModel.RefreshToken = refreshToken.Token;
+                    authenticationModel.RefreshTokenExpiration = refreshToken.Expires;
+                    user.RefreshTokens.Add(refreshToken);
+                    
+                    // Finally, we need to add these tokens into our RefreshTokens Table, so that we can reuse them
+                    await _uow._userManager.UpdateAsync(user);
+                    await _uow.SaveChangesAsync();
+                }
+                
+                
                 // Return the response object
                 return authenticationModel;
             }
@@ -218,6 +253,96 @@ namespace SchoolLibrary_EF.BLL.Services
                 signingCredentials: signingCredentials);
 
             return jwtSecurityToken;
+        }
+        
+        public async Task<AuthenticationModel> GetRefreshTokenAsync(string token)
+        {
+            // Create a new Response object
+            var authenticationModel = new AuthenticationModel();
+            
+            // Check if there any matching user for the token in database
+            var user = _uow._userManager.Users
+                .SingleOrDefault(u => u.RefreshTokens == null || u.RefreshTokens.Any(t => t.Token == token));
+            if (user == null) // If no matching user found, pass a message “Token did not match any users.”
+            {
+                authenticationModel.IsAuthenticated = false;
+                authenticationModel.Message = "Token did not match any users.";
+                
+                return authenticationModel;
+            }
+
+            //  Get the Refresh token object of the matching record
+            var refreshToken = user.RefreshTokens?.Single(x => x.Token == token);
+            
+            // Check is the selected token is active, if not active, send a message “Token Not Active.”
+            if (refreshToken == null || !refreshToken.IsActive)
+            {
+                authenticationModel.IsAuthenticated = false;
+                authenticationModel.Message = "Token Not Active.";
+                
+                return authenticationModel;
+            }
+
+            // Revoke Current Refresh Token. Every time we request a new JWT, we have to make sure
+            // that we replace the refresh token with a new one
+            refreshToken.Revoked = DateTime.UtcNow;
+            
+            // Generate new Refresh Token and save to Database
+            var newRefreshToken = CreateRefreshToken();
+            user.RefreshTokens?.Add(newRefreshToken);
+            await _uow._userManager.UpdateAsync(user);
+            await _uow.SaveChangesAsync();
+            
+            // Generates new jwt
+            authenticationModel.IsAuthenticated = true;
+            
+            JwtSecurityToken jwtSecurityToken = await CreateJwtToken(user);
+            authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            authenticationModel.Email = user.Email;
+            authenticationModel.UserName = user.UserName;
+            
+            var roleList = await _uow._userManager.GetRolesAsync(user).ConfigureAwait(false);
+            authenticationModel.RefreshToken = newRefreshToken.Token;
+            authenticationModel.RefreshTokenExpiration = newRefreshToken.Expires;
+            
+            return authenticationModel;
+        }
+        private RefreshToken CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+
+            using (var generator = RandomNumberGenerator.Create())
+            {
+                generator.GetBytes(randomNumber);
+
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomNumber),
+                    Expires = DateTime.UtcNow.AddDays(10),
+                    Created = DateTime.UtcNow
+                };
+            }
+        }
+
+        public async Task<bool> RevokeTokenAsync(string token)
+        {
+            var user = _uow._userManager.Users
+                .SingleOrDefault(u => u.RefreshTokens != null && u.RefreshTokens.Any(t => t.Token == token));
+
+            // Return false if no user found with token
+            if (user == null) return await Task.FromResult(false);
+
+            var refreshToken = user.RefreshTokens?.Single(x => x.Token == token);
+            
+            // Return false if token is not active
+            if (refreshToken == null || refreshToken.IsActive) return await Task.FromResult(false);
+            
+            // If the passed refresh token is valid, we revoke it here and save to the database
+            refreshToken.Revoked = DateTime.UtcNow;
+            await _uow._userManager.UpdateAsync(user);
+            await _uow.SaveChangesAsync();
+
+            return await Task.FromResult(true);
         }
     }
 }

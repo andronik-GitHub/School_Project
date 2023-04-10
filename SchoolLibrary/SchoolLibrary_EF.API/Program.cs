@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.API.Validation;
 using SchoolLibrary_EF.BLL.DTO;
-using SchoolLibrary_EF.BLL.DTO.Identity;
+using SchoolLibrary_EF.DAL.Entities.Identity;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
 

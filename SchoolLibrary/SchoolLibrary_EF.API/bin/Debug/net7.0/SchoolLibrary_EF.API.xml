@@ -1070,7 +1070,35 @@
             <response code="200">Success</response>
             <response code="401">If user not authentication</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAsync(SchoolLibrary_EF.BLL.DTO.Identity.RegisterModel)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GerSecuredDataForAdministrator">
+            <summary>
+            Get secured data for user with role "Administrator"
+            </summary>
+            <remarks>
+            Sample request:
+            GET https://localhost:5001/ef/User/secure%data/authorization
+            </remarks>
+            <returns>Returns secured data</returns>
+            <response code="200">Success</response>
+            <response code="403">Is user role is not "Administrator"</response>
+            <response code="401">If user not authentication</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetUserRefreshTokens(System.Guid)">
+            <summary>
+            Get all the refresh tokens
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/tokens/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69
+            </remarks>
+            <returns>returns all the refresh tokens</returns>
+            <response code="200">Success</response>
+            <response code="401">If user not authentication</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to adding element to the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAsync(SchoolLibrary_EF.DAL.Entities.Identity.RegisterModel)">
             <summary>
             Registering new user
             </summary>
@@ -1090,7 +1118,7 @@
             <returns>Returns a message about successful user registration</returns>
             <response code="200">Success</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAdministratorAsync(SchoolLibrary_EF.BLL.DTO.Identity.RegisterModel)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAdministratorAsync(SchoolLibrary_EF.DAL.Entities.Identity.RegisterModel)">
             <summary>
             Registering new user-administrator
             </summary>
@@ -1110,7 +1138,7 @@
             <returns>Returns a message about successful user-administrator registration</returns>
             <response code="200">Success</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddRoleAsync(SchoolLibrary_EF.BLL.DTO.Identity.AddRoleModel)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddRoleAsync(SchoolLibrary_EF.DAL.Entities.Identity.AddRoleModel)">
             <summary>
             Add role ot user
             </summary>
@@ -1128,7 +1156,7 @@
             <returns>Returns a message about successful user-administrator registration</returns>
             <response code="200">Success</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetTokenAsync(SchoolLibrary_EF.BLL.DTO.Identity.TokenRequestModel)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetTokenAsync(SchoolLibrary_EF.DAL.Entities.Identity.TokenRequestModel)">
             <summary>
             Get token
             </summary>
@@ -1136,6 +1164,22 @@
             Sample request:
             
                 POST https://localhost:5001/ef/User/token
+                {
+                    "Email": "john_snow@gmail.com",
+                    "Password": "Pa$$w0rd"
+                }
+            </remarks>
+            <returns>Returns JWT Security token</returns>
+            <response code="200">Success</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetRefreshTokenAsync">
+            <summary>
+            Get refresh-token
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/refresh-token
                 {
                     "Email": "john_snow@gmail.com",
                     "Password": "Pa$$w0rd"
@@ -1178,6 +1222,18 @@
             <inheritdoc />
         </member>
         <member name="M:SchoolLibrary_EF.API.Migrations.CorrectUserAddressMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SchoolLibrary_EF.API.Migrations.AddedRefreshTokens">
+            <inheritdoc />
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Migrations.AddedRefreshTokens.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Migrations.AddedRefreshTokens.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Migrations.AddedRefreshTokens.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>
