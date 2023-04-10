@@ -5,6 +5,7 @@ using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.DTO.HATEOAS;
 using SchoolLibrary_EF.BLL.DTO.Identity;
 using SchoolLibrary_EF.BLL.Services.Contracts;
+using SchoolLibrary_EF.DAL.Entities.Constants;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
 namespace SchoolLibrary_EF.API.Controllers
@@ -365,9 +366,21 @@ namespace SchoolLibrary_EF.API.Controllers
         [HttpGet("secure%data/")] // GET: ef/User/secure%data
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetSecuredData()
         {
             return await Task.Run(() => Ok("Secured data"));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("secure%data/authorization")] // GET: ef/User/secure%data/authorization
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GerSecuredDataForAdministrator()
+        {
+            return await Task.Run(() => Ok("This Secured Data is available only for Users-Administrator."));
         }
 
         /// <summary>
@@ -390,9 +403,60 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> RegisterAsync([FromBody]RegisterModel model)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> RegisterAsync(RegisterModel model)
         {
             var result = await _userService.RegisterAsync(model);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Registering new user-administrator
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/register-administrator
+        ///     {
+        ///         "FirstName": "John",
+        ///         "LastName": "Snow",
+        ///         "UserName": "John_Snow-administrator",
+        ///         "Email": "john_snow-administrator@gmail.com",
+        ///         "Password": "Pa$$w0rd"
+        ///     }
+        /// </remarks>
+        /// <param name="model">RegisterModel for creating new user-administrator</param>
+        /// <returns>Returns a message about successful user-administrator registration</returns>
+        /// <response code="200">Success</response>
+        [HttpPost("register-administrator")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> RegisterAdministratorAsync(RegisterModel model)
+        {
+            var result = await _userService.RegisterAdministratorAsync(model);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Add role ot user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/add-role
+        ///     {
+        ///         "Email": "john_snow@gmail.com",
+        ///         "Password": "Pa$$w0rd"
+        ///         "Role": "Administrator"
+        ///     }
+        /// </remarks>
+        /// <param name="model">RegisterModel for creating new user-administrator</param>
+        /// <returns>Returns a message about successful user-administrator registration</returns>
+        /// <response code="200">Success</response>
+        [HttpPost("add-role")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> AddRoleAsync(AddRoleModel model)
+        {
+            var result = await _userService.AddRoleAsync(model);
             return Ok(result);
         }
 
@@ -412,7 +476,8 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         [HttpPost("token")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetTokenAsync([FromBody]TokenRequestModel model)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetTokenAsync(TokenRequestModel model)
         {
             var result = await _userService.GetTokenAsync(model);
             return Ok(result);

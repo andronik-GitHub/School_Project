@@ -23,6 +23,7 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
             RegisterBookAuthorsConfig();
 
             RegisterRegisterModelConfig();
+            RegisterAddRoleModel();
 
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
@@ -115,6 +116,14 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.PasswordHash, src => 
                     new PasswordHasher<User>(null).HashPassword(null!, src.Password!));
+        }
+        private static void RegisterAddRoleModel()
+        {
+            TypeAdapterConfig<RegisterModel, AddRoleModel>
+                .NewConfig()
+                .TwoWays()
+                .Map(dest => dest.Email, src => src.Email)
+                .Map(dest => dest.Password, src => src.Password);
         }
     }
 }

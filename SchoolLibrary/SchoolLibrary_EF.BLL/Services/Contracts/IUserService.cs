@@ -9,6 +9,8 @@ namespace SchoolLibrary_EF.BLL.Services.Contracts
     public interface IUserService : IGenericService<UserDTO>
     {
         Task<string> RegisterAsync(RegisterModel model);
+        Task<string> RegisterAdministratorAsync(RegisterModel model);
+        Task<string> AddRoleAsync(AddRoleModel model);
         Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model);
     }
 }

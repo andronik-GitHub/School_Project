@@ -100,6 +100,53 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return $"User registered with username {user.UserName}";
         }
+        public async Task<string> RegisterAdministratorAsync(RegisterModel model)
+        {
+            // Register new user
+            var result = await RegisterAsync(model);
+            // Checking whether the user has been created correctly
+            if (model.UserName == null || !result.EndsWith(model.UserName)) return result;
+            
+            // Mapping using Mapster
+            var addRoleModel = MappingFunctions.MapSourceToDestination<RegisterModel, AddRoleModel>(model);
+            addRoleModel.Role = "Administrator";
+            
+            // Add to user new role "Administrator"
+            result = result + ". " + await AddRoleAsync(addRoleModel);
+            
+            // Checking whether the role has been added
+            if (model.Email == null || !result.EndsWith(model.Email)) return result;
+            
+            return $"User-Administrator registered with username {model.UserName}";
+        }
+
+        public async Task<string> AddRoleAsync(AddRoleModel model)
+        {
+            var user = await _uow._userManager.FindByEmailAsync(model.Email ?? "");
+            if (user == null) return "No Accounts Registered with this email!";
+
+            if (!await _uow._userManager.CheckPasswordAsync(user, model.Password ?? ""))
+                return "Incorrect Credentials for user!";
+            
+            //  if the user is a valid one
+            var roleExists = Enum
+                .GetNames(typeof(Authorization.Roles))
+                .Any(x => x.ToLower() == model.Role?.ToLower());
+
+            
+            // Check if the passed Role is present in our system. If not, throws an error message
+            if (!roleExists) return $"Role {model.Role} not found!";
+            
+            var validRole = Enum
+                .GetValues(typeof(Authorization.Roles))
+                .Cast<Authorization.Roles>()
+                .FirstOrDefault(x => x.ToString().ToLower() == model.Role?.ToLower());
+
+            await _uow._userManager.AddToRoleAsync(user, validRole.ToString());
+            
+            // Add the role to the valid user
+            return $"Added {model.Role} to user {model.Email}!";
+        }
 
         public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {

@@ -1090,6 +1090,44 @@
             <returns>Returns a message about successful user registration</returns>
             <response code="200">Success</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAdministratorAsync(SchoolLibrary_EF.BLL.DTO.Identity.RegisterModel)">
+            <summary>
+            Registering new user-administrator
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/register-administrator
+                {
+                    "FirstName": "John",
+                    "LastName": "Snow",
+                    "UserName": "John_Snow-administrator",
+                    "Email": "john_snow-administrator@gmail.com",
+                    "Password": "Pa$$w0rd"
+                }
+            </remarks>
+            <param name="model">RegisterModel for creating new user-administrator</param>
+            <returns>Returns a message about successful user-administrator registration</returns>
+            <response code="200">Success</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddRoleAsync(SchoolLibrary_EF.BLL.DTO.Identity.AddRoleModel)">
+            <summary>
+            Add role ot user
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/add-role
+                {
+                    "Email": "john_snow@gmail.com",
+                    "Password": "Pa$$w0rd"
+                    "Role": "Administrator"
+                }
+            </remarks>
+            <param name="model">RegisterModel for creating new user-administrator</param>
+            <returns>Returns a message about successful user-administrator registration</returns>
+            <response code="200">Success</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetTokenAsync(SchoolLibrary_EF.BLL.DTO.Identity.TokenRequestModel)">
             <summary>
             Get token
