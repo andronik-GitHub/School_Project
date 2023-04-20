@@ -1,0 +1,16 @@
+﻿using Domain.Common;
+
+namespace Domain.Entities
+{
+    public class Loan : BaseEntity
+    {
+        public Guid LoanId { get; set; }
+        public DateTime LoanDate { get; set; }
+        public DateTime ReturnDate { get; set;}
+
+        public Guid UserId { get; set; }
+        public User User { get; set; } = default!; // many-to-one
+        public Guid BookId { get; set; }
+        public Book Book { get; set; } = default!; // many-to-one
+    }
+}
