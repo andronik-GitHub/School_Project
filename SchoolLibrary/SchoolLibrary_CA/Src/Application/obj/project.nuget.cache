@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3+cPft8nfMBAIZlu6h2QOTQNxdFx155OIDrG08jdbKN0ZZYA+gDjNh1HagYGXEexDhXahq1AfMAkBymTqHnHwQ==",
+  "dgSpecHash": "36l9eWeG7J08TNWbrUrwzMEtSqJNcUayMbZQIU/IDi28XAGYfb+Q//iNkqyBD+VcxaK/n8Et1e8puVDb+cqL4Q==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",

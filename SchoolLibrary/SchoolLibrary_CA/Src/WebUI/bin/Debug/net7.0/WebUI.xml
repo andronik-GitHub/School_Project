@@ -4,5 +4,50 @@
         <name>WebUI</name>
     </assembly>
     <members>
+        <member name="T:WebUI.Controllers.AuthorController">
+            <summary>
+            AuthorController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync">
+            <summary>
+            Get list of Authors
+            </summary>
+            <returns>Returns list of Authors</returns>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAuthorByIdAsync(System.Guid)">
+            <summary>
+            Get Author by id
+            </summary>
+            <param name="id">Author id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.CreateAuthorAsync(Application.Features.AuthorFeatures.Commands.CreateAuthorCommand)">
+            <summary>
+            Craete new Author
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.UpdateAuthorAsync(System.Guid,Application.Features.AuthorFeatures.Commands.UpdateAuthorCommand)">
+            <summary>
+            Update Author by id
+            </summary>
+            <param name="id">Author Id</param>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.DeleteAuthorAsync(System.Guid)">
+            <summary>
+            Delete Author by id
+            </summary>
+            <param name="id">Author Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.BaseController">
+            <summary>
+            A base controller class with IMediator 
+            </summary>
+        </member>
     </members>
 </doc>

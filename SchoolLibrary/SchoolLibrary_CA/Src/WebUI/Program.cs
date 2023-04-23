@@ -1,8 +1,12 @@
 using System.Reflection;
+using Application;
+using Application.System.Commands.SeedBogusData;
 using Microsoft.OpenApi.Models;
+using Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 
 #region Swagger
@@ -25,9 +29,13 @@ var builder = WebApplication.CreateBuilder(args);
 }
 #endregion
 
-// builder.Services.AddApplication();
+builder.Services.AddPersistence(configuration);
+builder.Services.AddApplication();
+
 builder.Services.AddControllers();
 
+
+DataGenerator.InitBogusData(); // Seed data
 var app = builder.Build();
 
 

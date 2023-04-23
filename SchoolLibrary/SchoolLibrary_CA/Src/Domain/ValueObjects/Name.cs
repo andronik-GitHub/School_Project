@@ -9,9 +9,10 @@ namespace Domain.ValueObjects
             @"^[\p{L}\p{M}]{1,100}\z",
             RegexOptions.Singleline | RegexOptions.Compiled);
         
-        public string Value { get; }
+        public string Value { get; } = default!;
 
 
+        protected Name() { }
         public Name(string value)
         {
             if (!IsValid(value))
