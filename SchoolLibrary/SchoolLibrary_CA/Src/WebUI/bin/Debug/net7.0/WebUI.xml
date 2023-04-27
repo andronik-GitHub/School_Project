@@ -29,11 +29,10 @@
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.UpdateAuthorAsync(System.Guid,Application.Features.AuthorFeatures.Commands.UpdateAuthorCommand)">
+        <member name="M:WebUI.Controllers.AuthorController.UpdateAuthorAsync(Application.Features.AuthorFeatures.Commands.UpdateAuthorCommand)">
             <summary>
             Update Author by id
             </summary>
-            <param name="id">Author Id</param>
             <param name="command">Update command</param>
             <returns>Returns id updated entity</returns>
         </member>
@@ -48,6 +47,123 @@
             <summary>
             A base controller class with IMediator 
             </summary>
+        </member>
+        <member name="T:WebUI.Controllers.GenreController">
+            <summary>
+            GenreController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.GetAllGenreAsync">
+            <summary>
+            Get list of Genres
+            </summary>
+            <returns>Returns list of Genres</returns>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.GetGenreByIdAsync(System.Guid)">
+            <summary>
+            Get Genre by id
+            </summary>
+            <param name="id">Genre id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.CreateGenreAsync(Application.Features.GenreFeatures.Commands.CreateGenreCommand)">
+            <summary>
+            Craete new Genre
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.UpdateGenreAsync(Application.Features.GenreFeatures.Commands.UpdateGenreCommand)">
+            <summary>
+            Update Genre by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.DeleteGenreAsync(System.Guid)">
+            <summary>
+            Delete Genre by id
+            </summary>
+            <param name="id">Genre Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.PublisherController">
+            <summary>
+            PublisherController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.GetAllPublisherAsync">
+            <summary>
+            Get list of Publishers
+            </summary>
+            <returns>Returns list of Publishers</returns>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.GetPublisherByIdAsync(System.Guid)">
+            <summary>
+            Get Publisher by id
+            </summary>
+            <param name="id">Publisher id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.CreatePublisherAsync(Application.Features.PublisherFeatures.Commands.CreatePublisherCommand)">
+            <summary>
+            Craete new Publisher
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.UpdatePublisherAsync(Application.Features.PublisherFeatures.Commands.UpdatePublisherCommand)">
+            <summary>
+            Update Publisher by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.DeletePublisherAsync(System.Guid)">
+            <summary>
+            Delete Publisher by id
+            </summary>
+            <param name="id">Publisher Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.UserController">
+            <summary>
+            UserController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.GetAllUserAsync">
+            <summary>
+            Get list of Users
+            </summary>
+            <returns>Returns list of Users</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.GetUserByIdAsync(System.Guid)">
+            <summary>
+            Get User by id
+            </summary>
+            <param name="id">User id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.CreateUserAsync(Application.Features.UserFeatures.Commands.CreateUserCommand)">
+            <summary>
+            Craete new User
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.UpdateUserAsync(Application.Features.UserFeatures.Commands.UpdateUserCommand)">
+            <summary>
+            Update User by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.DeleteUserAsync(System.Guid)">
+            <summary>
+            Delete User by id
+            </summary>
+            <param name="id">User Id</param>
+            <returns>Return deleted entity id</returns>
         </member>
     </members>
 </doc>

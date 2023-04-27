@@ -1,72 +1,72 @@
-﻿using Application.Features.AuthorFeatures.Commands;
-using Application.Features.AuthorFeatures.Queries;
+﻿using Application.Features.PublisherFeatures.Commands;
+using Application.Features.PublisherFeatures.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
 {
     /// <summary>
-    /// AuthorController
+    /// PublisherController
     /// </summary>
-    public class AuthorController : BaseController
+    public class PublisherController : BaseController
     {
         /// <summary>
-        /// Get list of Authors
+        /// Get list of Publishers
         /// </summary>
-        /// <returns>Returns list of Authors</returns>
+        /// <returns>Returns list of Publishers</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllAuthorAsync()
+        public async Task<ActionResult> GetAllPublisherAsync()
         {
-            return Ok(await Mediator.Send(new GetAllAuthorsQuery()));
+            return Ok(await Mediator.Send(new GetAllPublishersQuery()));
         }
 
         /// <summary>
-        /// Get Author by id
+        /// Get Publisher by id
         /// </summary>
-        /// <param name="id">Author id</param>
+        /// <param name="id">Publisher id</param>
         /// <returns>Returns entity by id</returns>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAuthorByIdAsync(Guid id)
+        public async Task<ActionResult> GetPublisherByIdAsync(Guid id)
         {
-            return Ok(await Mediator.Send(new GetAuthorByIdQuery { Id = id }));
+            return Ok(await Mediator.Send(new GetPublisherByIdQuery { Id = id }));
         }
         
         /// <summary>
-        /// Craete new Author
+        /// Craete new Publisher
         /// </summary>
         /// <param name="command">Cteate command</param>
         /// <returns>Returns id created entity</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> CreateAuthorAsync(CreateAuthorCommand command)
+        public async Task<ActionResult> CreatePublisherAsync(CreatePublisherCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
         /// <summary>
-        /// Update Author by id
+        /// Update Publisher by id
         /// </summary>
         /// <param name="command">Update command</param>
         /// <returns>Returns id updated entity</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateAuthorAsync(UpdateAuthorCommand command)
+        public async Task<ActionResult> UpdatePublisherAsync(UpdatePublisherCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
         /// <summary>
-        /// Delete Author by id
+        /// Delete Publisher by id
         /// </summary>
-        /// <param name="id">Author Id</param>
+        /// <param name="id">Publisher Id</param>
         /// <returns>Return deleted entity id</returns>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> DeleteAuthorAsync(Guid id)
+        public async Task<ActionResult> DeletePublisherAsync(Guid id)
         {
-            return Ok(await Mediator.Send(new DeleteAuthorCommand { Id = id }));
+            return Ok(await Mediator.Send(new DeletePublisherCommand { Id = id }));
         }
     }
 }

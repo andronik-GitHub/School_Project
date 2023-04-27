@@ -30,7 +30,6 @@ namespace Application.Features.AuthorFeatures.Commands
                 
                 if (entity == null) throw new NotFoundException(nameof(Author), command.Id);
                 
-                entity.AuthorId = Guid.NewGuid();
                 entity.FirstName = command.FirstName;
                 entity.LastName = command.LastName;
                 entity.Birthdate = command.Birthdate;
