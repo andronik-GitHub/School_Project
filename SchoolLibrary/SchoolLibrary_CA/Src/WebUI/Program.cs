@@ -35,7 +35,7 @@ builder.Services.AddApplication();
 builder.Services.AddControllers();
 
 
-DataGenerator.InitBogusData(); // Seed data
+// DataGenerator.InitBogusData(); // Seed data
 var app = builder.Build();
 
 

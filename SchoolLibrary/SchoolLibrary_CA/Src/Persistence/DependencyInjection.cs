@@ -10,17 +10,17 @@ namespace Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<SchoolLibraryContext>(options =>
+            services.AddDbContext<SQLServer_SchoolLibraryContext>(options =>
             {
                 options
                     .UseSqlServer(
                         configuration.GetConnectionString("sqlConnection"),
-                        b => b.MigrationsAssembly(typeof(SchoolLibraryContext).Assembly.FullName)
+                        b => b.MigrationsAssembly(typeof(SQLServer_SchoolLibraryContext).Assembly.FullName)
                     )
                     .EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<ISchoolLibraryContext>(provider => provider.GetRequiredService<SchoolLibraryContext>());
+            services.AddScoped<ISchoolLibraryContext>(provider => provider.GetRequiredService<SQLServer_SchoolLibraryContext>());
         } 
     }
 }

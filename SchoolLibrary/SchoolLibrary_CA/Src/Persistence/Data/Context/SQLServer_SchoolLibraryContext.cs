@@ -1,12 +1,12 @@
 ﻿using Application.Common.Interfaces;
-using Application.System.Commands.SeedBogusData;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data.Configurations.DefaultConfiguration;
+using Persistence.Data.Seeding;
 
 namespace Persistence.Data.Context
 {
-    public class SchoolLibraryContext : DbContext, ISchoolLibraryContext
+    public class SQLServer_SchoolLibraryContext : DbContext, ISchoolLibraryContext
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<BookDetails> BookDetails { get; set; }
@@ -19,7 +19,7 @@ namespace Persistence.Data.Context
         public DbSet<BookGenres> BookGenres { get; set; }
         public DbSet<BookAuthors> BookAuthors { get; set; }
 
-        public SchoolLibraryContext(DbContextOptions<SchoolLibraryContext> options)
+        public SQLServer_SchoolLibraryContext(DbContextOptions<SQLServer_SchoolLibraryContext> options)
             : base(options)
         {
         }
@@ -46,16 +46,7 @@ namespace Persistence.Data.Context
             modelBuilder.ApplyConfiguration(new BookAuthorsConfiguration());
             
             // Seeding data
-            modelBuilder.Entity<Book>().HasData(DataGenerator.Books);
-            modelBuilder.Entity<BookDetails>().HasData(DataGenerator.BookDetails);
-            modelBuilder.Entity<Author>().HasData(DataGenerator.Authors);
-            modelBuilder.Entity<Publisher>().HasData(DataGenerator.Publishers);
-            modelBuilder.Entity<User>().HasData(DataGenerator.Users);
-            modelBuilder.Entity<Loan>().HasData(DataGenerator.Loans);
-            modelBuilder.Entity<Review>().HasData(DataGenerator.Reviews);
-            modelBuilder.Entity<Genre>().HasData(DataGenerator.Genres);
-            modelBuilder.Entity<BookGenres>().HasData(DataGenerator.BookGenres);
-            modelBuilder.Entity<BookAuthors>().HasData(DataGenerator.BookAuthors);
+            // SeedBogusData.Seed(modelBuilder);
         }
     }
 }

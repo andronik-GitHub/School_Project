@@ -5,14 +5,9 @@ namespace Domain.ValueObjects
 {
     public class Name : ValueObject
     {
-        private static readonly Regex ValidationRegex = new Regex(
-            @"^[\p{L}\p{M}]{1,100}\z",
-            RegexOptions.Singleline | RegexOptions.Compiled);
-        
         public string Value { get; } = default!;
 
-
-        protected Name() { }
+        public Name() { }
         public Name(string value)
         {
             if (!IsValid(value))
@@ -24,7 +19,7 @@ namespace Domain.ValueObjects
 
         public static bool IsValid(string value)
         {
-            return !string.IsNullOrWhiteSpace(value) && ValidationRegex.IsMatch(value);
+            return !string.IsNullOrWhiteSpace(value);
         }
         
         protected override IEnumerable<object> GetEqualityComponents()

@@ -11,7 +11,7 @@ using Persistence.Data.Context;
 
 namespace Persistence.Migrations
 {
-    [DbContext(typeof(SchoolLibraryContext))]
+    [DbContext(typeof(SQLServer_SchoolLibraryContext))]
     [Migration("20230423120204_SQLServer__Initial")]
     partial class SQLServer__Initial
     {

@@ -4,11 +4,11 @@ namespace Domain.ValueObjects
 {
     public class UserName : ValueObject
     {
-        public Name FirstName { get; } = default!;
-        public Name LastName { get; } = default!;
-        public string FullName => $"{FirstName} {LastName}";
+        public Name FirstName { get; init; } = default!;
+        public Name LastName { get; init; } = default!;
+        public string FullName => $"{FirstName.Value} {LastName.Value}";
 
-        public UserName() {}
+        public UserName() { }
         public UserName(Name firstName, Name lastName)
         {
             FirstName = firstName;

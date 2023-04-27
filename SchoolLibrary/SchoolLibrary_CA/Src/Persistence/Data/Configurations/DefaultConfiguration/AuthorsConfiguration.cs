@@ -29,7 +29,7 @@ namespace Persistence.Data.Configurations.DefaultConfiguration
                 .IsRequired();
             builder
                 .Property(a => a.Birthdate)
-                .HasColumnType("DATETIME")
+                .HasColumnType("DATETIME2")
                 .IsRequired();
             builder
                 .Property(a => a.Nationality)

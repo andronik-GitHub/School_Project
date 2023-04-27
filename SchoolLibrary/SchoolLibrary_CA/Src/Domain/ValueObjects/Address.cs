@@ -4,13 +4,13 @@ namespace Domain.ValueObjects
 {
     public class Address : ValueObject
     {
-        public string Street { get; } = default!;
-        public string City { get; } = default!;
-        public string Country { get; } = default!;
-        public string Location => $"{Country}, {City}, {Street}";
+        public Location Street { get; init; } = default!;
+        public Location City { get; init; } = default!;
+        public Location Country { get; init; } = default!;
+        public string Location => $"{Country.Value}, {City.Value}, {Street.Value}";
         
-        public Address() {}
-        public Address(string street, string city, string country)
+        public Address() { }
+        public Address(Location street, Location city, Location country)
         {
             Street = street;
             City = city;

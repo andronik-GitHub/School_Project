@@ -29,11 +29,11 @@ namespace Persistence.Data.Configurations.DefaultConfiguration
                 .IsRequired();
             builder
                 .Property(l => l.LoanDate)
-                .HasColumnType("DATETIME")
+                .HasColumnType("DATETIME2")
                 .IsRequired();
             builder
                 .Property(l => l.ReturnDate)
-                .HasColumnType("DATETIME")
+                .HasColumnType("DATETIME2")
                 .IsRequired();
             
 

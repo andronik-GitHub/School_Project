@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="SchoolLibrary_EF@localhost" uuid="c9a92239-bd6f-49e8-a8c4-7872cc265648">
+    <data-source source="LOCAL" name="@localhost" uuid="9c61d159-b3d2-4836-b8b0-6a808958ac16">
       <driver-ref>sqlserver.jb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Server=localhost;Database=SchoolLibrary_EF</jdbc-url>
+      <jdbc-url>Server=localhost</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

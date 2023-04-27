@@ -36,9 +36,9 @@ namespace Application.System.Commands.SeedBogusData
         private static Faker<Address> GetAddressGenerator()
         {
             return new Faker<Address>()
-                .RuleFor(un => un.Country, f => f.Address.Country())
-                .RuleFor(un => un.City, f => f.Address.City())
-                .RuleFor(un => un.Street, f => f.Address.StreetAddress());
+                .RuleFor(ua => ua.Country, f => new Location(f.Address.Country()))
+                .RuleFor(ua => ua.City, f => new Location(f.Address.City()))
+                .RuleFor(ua => ua.Street, f => new Location(f.Address.StreetAddress()));
         }
         
         private static Faker<Book> GetBookGenerator(Guid PublisherId)
@@ -77,18 +77,12 @@ namespace Application.System.Commands.SeedBogusData
         }
         private static Faker<User> GetUserGenerator()
         {
-            var userNameFaker = GetUserNameGenerator().Generate();
-            var addressFaker = GetAddressGenerator().Generate();
-
-            var FirstName = new Faker().Name.FirstName();
-            var LastName = new Faker().Name.LastName();
-            
             return new Faker<User>()
                 .RuleFor(u => u.UserId, _ => Guid.NewGuid())
-                .RuleFor(u => u.UserName, _ => userNameFaker)
-                .RuleFor(u => u.Email, (f, u) => f.Internet.Email(FirstName, LastName))
+                .RuleFor(u => u.UserName, _ => GetUserNameGenerator().Generate())
+                .RuleFor(u => u.Email, f => f.Internet.Email(f.Name.FindName(), f.Name.LastName()))
                 .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.Address, _ => addressFaker)
+                .RuleFor(u => u.Address, _ => GetAddressGenerator().Generate())
                 .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber(@"## (###) ##-##"));
         }
         private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
