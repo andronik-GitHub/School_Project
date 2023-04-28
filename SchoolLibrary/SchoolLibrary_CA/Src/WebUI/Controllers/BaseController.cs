@@ -10,7 +10,10 @@ namespace WebUI.Controllers
     [Route("ca/[controller]")]
     public abstract class BaseController : ControllerBase
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator? _mediator;
+        /// <summary>
+        /// Defines a mediator to encapsulate request/response and publishing interaction patterns
+        /// </summary>
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
     }
 }

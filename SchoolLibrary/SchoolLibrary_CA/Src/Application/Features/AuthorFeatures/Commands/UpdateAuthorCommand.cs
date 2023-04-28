@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.AuthorFeatures.Commands
 {
@@ -26,7 +27,8 @@ namespace Application.Features.AuthorFeatures.Commands
             public async Task<Guid> Handle(UpdateAuthorCommand command, CancellationToken cancellationToken)
             {
                 var entity = await _context.Authors
-                    .FindAsync(new object?[] { command.Id, cancellationToken }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(a => a.AuthorId == command.Id, cancellationToken);
                 
                 if (entity == null) throw new NotFoundException(nameof(Author), command.Id);
                 

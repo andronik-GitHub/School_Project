@@ -20,7 +20,9 @@ namespace Application.Features.PublisherFeatures.Queries
             public async Task<IEnumerable<Publisher>> Handle
                 (GetAllPublishersQuery query, CancellationToken cancellationToken)
             {
-                var list = await _context.Publishers.AsNoTracking().ToListAsync(cancellationToken);
+                var list = await _context.Publishers
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
 
                 return list.AsReadOnly();
             }

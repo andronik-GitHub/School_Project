@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.UserFeatures.Queries
 {
@@ -21,7 +22,8 @@ namespace Application.Features.UserFeatures.Queries
             public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
             {
                 var entity = await _context.Users
-                    .FindAsync(new object?[] { query.Id }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.UserId == query.Id, cancellationToken);
                 
                 return entity ?? throw new NotFoundException(nameof(User), query.Id);
             }

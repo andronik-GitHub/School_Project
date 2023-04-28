@@ -19,7 +19,9 @@ namespace Application.Features.AuthorFeatures.Queries
 
             public async Task<IEnumerable<Author>> Handle(GetAllAuthorsQuery query, CancellationToken cancellationToken)
             {
-                var list = await _context.Authors.AsNoTracking().ToListAsync(cancellationToken);
+                var list = await _context.Authors
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
 
                 return list.AsReadOnly();
             }

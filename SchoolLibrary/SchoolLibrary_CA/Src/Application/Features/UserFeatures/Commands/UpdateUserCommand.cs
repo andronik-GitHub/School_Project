@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.UserFeatures.Commands
 {
@@ -31,7 +32,8 @@ namespace Application.Features.UserFeatures.Commands
             public async Task<Guid> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
             {
                 var entity = await _context.Users
-                    .FindAsync(new object?[] { command.Id, cancellationToken }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.UserId == command.Id, cancellationToken);
                 
                 if (entity == null) throw new NotFoundException(nameof(User), command.Id);
 

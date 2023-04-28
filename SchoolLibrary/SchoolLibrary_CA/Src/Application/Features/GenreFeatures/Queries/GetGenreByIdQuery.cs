@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.GenreFeatures.Queries
 {
@@ -22,7 +23,8 @@ namespace Application.Features.GenreFeatures.Queries
             public async Task<Genre> Handle(GetGenreByIdQuery query, CancellationToken cancellationToken)
             {
                 var entity = await _context.Genres
-                    .FindAsync(new object?[] { query.Id, cancellationToken }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(g => g.GenreId == query.Id, cancellationToken);
                 
                 return entity ?? throw new NotFoundException(nameof(Author), query.Id);
             }

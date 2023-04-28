@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.PublisherFeatures.Queries
 {
@@ -22,7 +23,8 @@ namespace Application.Features.PublisherFeatures.Queries
             public async Task<Publisher> Handle(GetPublisherByIdQuery query, CancellationToken cancellationToken)
             {
                 var entity = await _context.Publishers
-                    .FindAsync(new object?[] { query.Id }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.PublisherId == query.Id, cancellationToken);
                 
                 return entity ?? throw new NotFoundException(nameof(Publisher), query.Id);
             }

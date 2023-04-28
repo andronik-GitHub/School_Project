@@ -19,7 +19,9 @@ namespace Application.Features.GenreFeatures.Queries
             
             public async Task<IEnumerable<Genre>> Handle(GetAllGenresQuery query, CancellationToken cancellationToken)
             {
-                var list = await _context.Genres.AsNoTracking().ToListAsync(cancellationToken);
+                var list = await _context.Genres
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
 
                 return list.AsReadOnly();
             }

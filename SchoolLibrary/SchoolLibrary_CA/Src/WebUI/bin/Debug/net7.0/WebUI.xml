@@ -48,6 +48,166 @@
             A base controller class with IMediator 
             </summary>
         </member>
+        <member name="T:WebUI.Controllers.BookAuthorsAuthorController">
+            <summary>
+            BookAuthorsAuthorController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.GetAllBookAuthorsAsync">
+            <summary>
+            Get list of BookAuthors
+            </summary>
+            <returns>Returns list of BookAuthorsAuthors</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.GetBookAuthorsByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Get BookAuthor by ids
+            </summary>
+            <param name="bookId">Book Id</param>
+            <param name="AuthorId">Author Id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.CreateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.CreateBookAuthorCommand)">
+            <summary>
+            Craete new BookAuthor
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns ids created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.UpdateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthorCommand)">
+            <summary>
+            Update BookAuthor by ids
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns ids updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.DeleteBookAuthorsAsync(System.Guid,System.Guid)">
+            <summary>
+            Delete BookAuthor by ids
+            </summary>
+            <param name="bookId">Book Id</param>
+            <param name="AuthorId">Author Id</param>
+            <returns>Return deleted entity ids</returns>
+        </member>
+        <member name="T:WebUI.Controllers.BookController">
+            <summary>
+            BookController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.GetAllBookAsync">
+            <summary>
+            Get list of Books
+            </summary>
+            <returns>Returns list of Books</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.GetBookByIdAsync(System.Guid)">
+            <summary>
+            Get Book by id
+            </summary>
+            <param name="id">Book id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.CreateBookAsync(Application.Features.BookFeatures.Commands.CreateBookCommand)">
+            <summary>
+            Craete new Book
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.UpdateBookAsync(Application.Features.BookFeatures.Commands.UpdateBookCommand)">
+            <summary>
+            Update Book by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.DeleteBookAsync(System.Guid)">
+            <summary>
+            Delete Book by id
+            </summary>
+            <param name="id">Book Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.BookDetailsController">
+            <summary>
+            BookDetailsController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.GetAllBookDetailsAsync">
+            <summary>
+            Get list of BookDetails
+            </summary>
+            <returns>Returns list of BookDetails</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.GetBookDetailsByIdAsync(System.Guid)">
+            <summary>
+            Get BookDetails by id
+            </summary>
+            <param name="id">BookDetails id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.CreateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.CreateBookDetailsCommand)">
+            <summary>
+            Craete new BookDetails
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.UpdateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.UpdateBookDetailsCommand)">
+            <summary>
+            Update BookDetails by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.DeleteBookDetailsAsync(System.Guid)">
+            <summary>
+            Delete BookDetails by id
+            </summary>
+            <param name="id">BookDetails Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.BookGenresGenreController">
+            <summary>
+            BookGenresGenreController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenresGenreController.GetAllBookGenresAsync">
+            <summary>
+            Get list of BookGenres
+            </summary>
+            <returns>Returns list of BookGenresGenres</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenresGenreController.GetBookGenresByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Get BookGenre by ids
+            </summary>
+            <param name="bookId">Book Id</param>
+            <param name="genreId">Genre Id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenresGenreController.CreateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.CreateBookGenreCommand)">
+            <summary>
+            Craete new BookGenre
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns ids created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenresGenreController.UpdateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.UpdateBookGenreCommand)">
+            <summary>
+            Update BookGenre by ids
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns ids updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenresGenreController.DeleteBookGenresAsync(System.Guid,System.Guid)">
+            <summary>
+            Delete BookGenre by ids
+            </summary>
+            <param name="bookId">Book Id</param>
+            <param name="genreId">Genre Id</param>
+            <returns>Return deleted entity ids</returns>
+        </member>
         <member name="T:WebUI.Controllers.GenreController">
             <summary>
             GenreController
@@ -87,6 +247,45 @@
             <param name="id">Genre Id</param>
             <returns>Return deleted entity id</returns>
         </member>
+        <member name="T:WebUI.Controllers.LoanController">
+            <summary>
+            LoanController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.GetAllLoanAsync">
+            <summary>
+            Get list of Loans
+            </summary>
+            <returns>Returns list of Loans</returns>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.GetLoanByIdAsync(System.Guid)">
+            <summary>
+            Get Loan by id
+            </summary>
+            <param name="id">Loan id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.CreateLoanAsync(Application.Features.LoanFeatures.Commands.CreateLoanCommand)">
+            <summary>
+            Craete new Loan
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.UpdateLoanAsync(Application.Features.LoanFeatures.Commands.UpdateLoanCommand)">
+            <summary>
+            Update Loan by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.DeleteLoanAsync(System.Guid)">
+            <summary>
+            Delete Loan by id
+            </summary>
+            <param name="id">Loan Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
         <member name="T:WebUI.Controllers.PublisherController">
             <summary>
             PublisherController
@@ -124,6 +323,45 @@
             Delete Publisher by id
             </summary>
             <param name="id">Publisher Id</param>
+            <returns>Return deleted entity id</returns>
+        </member>
+        <member name="T:WebUI.Controllers.ReviewController">
+            <summary>
+            ReviewController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.GetAllReviewAsync">
+            <summary>
+            Get list of Reviews
+            </summary>
+            <returns>Returns list of Reviews</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.GetReviewByIdAsync(System.Guid)">
+            <summary>
+            Get Review by id
+            </summary>
+            <param name="id">Review id</param>
+            <returns>Returns entity by id</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.CreateReviewAsync(Application.Features.ReviewFeatures.Commands.CreateReviewCommand)">
+            <summary>
+            Craete new Review
+            </summary>
+            <param name="command">Cteate command</param>
+            <returns>Returns id created entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.UpdateReviewAsync(Application.Features.ReviewFeatures.Commands.UpdateReviewCommand)">
+            <summary>
+            Update Review by id
+            </summary>
+            <param name="command">Update command</param>
+            <returns>Returns id updated entity</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.DeleteReviewAsync(System.Guid)">
+            <summary>
+            Delete Review by id
+            </summary>
+            <param name="id">Review Id</param>
             <returns>Return deleted entity id</returns>
         </member>
         <member name="T:WebUI.Controllers.UserController">

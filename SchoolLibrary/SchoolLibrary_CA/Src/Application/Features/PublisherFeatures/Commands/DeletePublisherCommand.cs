@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.PublisherFeatures.Commands
 {
@@ -22,7 +23,8 @@ namespace Application.Features.PublisherFeatures.Commands
             public async Task<Guid> Handle(DeletePublisherCommand command, CancellationToken cancellationToken)
             {
                 var entity = await _context.Publishers
-                    .FindAsync(new object?[] { command.Id, cancellationToken }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.PublisherId == command.Id, cancellationToken);
                 
                 if (entity == null) throw new NotFoundException(nameof(Publisher), command.Id);
 

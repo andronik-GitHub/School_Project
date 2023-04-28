@@ -18,7 +18,9 @@ namespace Application.Features.UserFeatures.Queries
             
             public async Task<IEnumerable<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
             {
-                var list = await _context.Users.AsNoTracking().ToListAsync(cancellationToken);
+                var list = await _context.Users
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
 
                 return list.AsReadOnly();
             }

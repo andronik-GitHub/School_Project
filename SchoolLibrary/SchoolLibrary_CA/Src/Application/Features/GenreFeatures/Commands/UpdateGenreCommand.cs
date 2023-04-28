@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.GenreFeatures.Commands
 {
@@ -23,7 +24,8 @@ namespace Application.Features.GenreFeatures.Commands
             public async Task<Guid> Handle(UpdateGenreCommand command, CancellationToken cancellationToken)
             {
                 var entity = await _context.Genres
-                    .FindAsync(new object?[] { command.Id, cancellationToken }, cancellationToken: cancellationToken);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(g => g.GenreId == command.Id, cancellationToken);
                 
                 if (entity == null) throw new NotFoundException(nameof(Genre), command.Id);
 
