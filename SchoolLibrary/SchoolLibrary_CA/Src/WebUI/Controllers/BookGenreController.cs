@@ -7,7 +7,7 @@ namespace WebUI.Controllers
     /// <summary>
     /// BookGenresGenreController
     /// </summary>
-    public class BookGenresGenreController : BaseController
+    public class BookGenreController : BaseController
     {
         /// <summary>
         /// Get list of BookGenres

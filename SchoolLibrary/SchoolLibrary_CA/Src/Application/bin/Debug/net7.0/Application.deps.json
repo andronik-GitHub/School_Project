@@ -10,6 +10,7 @@
         "dependencies": {
           "Bogus": "34.0.2",
           "Domain": "1.0.0",
+          "Mapster": "7.4.0-pre06",
           "MediatR.Extensions.Microsoft.DependencyInjection": "11.1.0",
           "Microsoft.EntityFrameworkCore": "7.0.4"
         },
@@ -22,6 +23,25 @@
           "lib/net6.0/Bogus.dll": {
             "assemblyVersion": "34.0.2.0",
             "fileVersion": "34.0.2.0"
+          }
+        }
+      },
+      "Mapster/7.4.0-pre06": {
+        "dependencies": {
+          "Mapster.Core": "1.2.1-pre04"
+        },
+        "runtime": {
+          "lib/net7.0/Mapster.dll": {
+            "assemblyVersion": "7.4.0.0",
+            "fileVersion": "7.4.0.0"
+          }
+        }
+      },
+      "Mapster.Core/1.2.1-pre04": {
+        "runtime": {
+          "lib/net7.0/Mapster.Core.dll": {
+            "assemblyVersion": "1.2.1.0",
+            "fileVersion": "1.2.1.0"
           }
         }
       },
@@ -186,6 +206,20 @@
       "sha512": "sha512-2KQAuMn3fLAQ2r6jeiffZnpv0bi3GCW3iRB2v1KeHIEBu8MNTh9dBlLTZwGvM0pr+9doKkU8L5JgCURmTmT88A==",
       "path": "bogus/34.0.2",
       "hashPath": "bogus.34.0.2.nupkg.sha512"
+    },
+    "Mapster/7.4.0-pre06": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+hpfk4vOonrr4VAZ3x6i93puZHy3SBKm39ffCq7d8qjNTir5a9cPyvIFiqqyLlnIFXZOblMWbJEegO4RE8DJyw==",
+      "path": "mapster/7.4.0-pre06",
+      "hashPath": "mapster.7.4.0-pre06.nupkg.sha512"
+    },
+    "Mapster.Core/1.2.1-pre04": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-en93KNBjIGorx2I9mEhTqBUOGb2ybMLdaZMXpwpnQVaWnERy38EoLtK9FDd8WT16IDaC0A4otmGuNI1Szlm6CQ==",
+      "path": "mapster.core/1.2.1-pre04",
+      "hashPath": "mapster.core.1.2.1-pre04.nupkg.sha512"
     },
     "MediatR/11.0.0": {
       "type": "package",

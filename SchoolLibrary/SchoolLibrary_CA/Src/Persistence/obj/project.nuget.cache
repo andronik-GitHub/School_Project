@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "mBDOLvIOdwYtLBw9qomXKhjvt+cVOaSOTSkP+I2Ncu5+FOG/dMkrjBQ0/7t84WURz9iMD6A83JfqI/Pi/HMWmw==",
+  "dgSpecHash": "2hOK12Oa8sJeMCNu3oRDK9Z1BP4i4TNCmLWDcQt9Bt5tTOT9crVYM7R9hRLYpt91kLspQAS9CU88trnn6BScVw==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster\\7.4.0-pre06\\mapster.7.4.0-pre06.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.1-pre04\\mapster.core.1.2.1-pre04.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",

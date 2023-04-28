@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "36l9eWeG7J08TNWbrUrwzMEtSqJNcUayMbZQIU/IDi28XAGYfb+Q//iNkqyBD+VcxaK/n8Et1e8puVDb+cqL4Q==",
+  "dgSpecHash": "OtUBynHGAWIk9G6+CCG4GaAslio6u2lLldyViWdMVmYiGE92ShrErlIW+jort+k0OjnbUngEKmVWwS94hsUggw==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster\\7.4.0-pre06\\mapster.7.4.0-pre06.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.1-pre04\\mapster.core.1.2.1-pre04.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",

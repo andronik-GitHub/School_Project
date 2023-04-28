@@ -7,7 +7,7 @@ namespace WebUI.Controllers
     /// <summary>
     /// BookAuthorsAuthorController
     /// </summary>
-    public class BookAuthorsAuthorController : BaseController
+    public class BookAuthorController : BaseController
     {
         /// <summary>
         /// Get list of BookAuthors

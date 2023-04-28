@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[34.0.2, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0-pre06, )"
+            },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[11.1.0, )"

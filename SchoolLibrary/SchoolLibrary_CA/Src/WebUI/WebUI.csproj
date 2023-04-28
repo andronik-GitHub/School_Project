@@ -4,7 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <DocumentationFile>$(ProjectDir)\WebUI.xml</DocumentationFile>
+        <DocumentationFile>$(ProjectDir)\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\WebUI.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

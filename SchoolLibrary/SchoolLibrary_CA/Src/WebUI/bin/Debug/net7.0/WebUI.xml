@@ -48,18 +48,23 @@
             A base controller class with IMediator 
             </summary>
         </member>
-        <member name="T:WebUI.Controllers.BookAuthorsAuthorController">
+        <member name="P:WebUI.Controllers.BaseController.Mediator">
+            <summary>
+            Defines a mediator to encapsulate request/response and publishing interaction patterns
+            </summary>
+        </member>
+        <member name="T:WebUI.Controllers.BookAuthorController">
             <summary>
             BookAuthorsAuthorController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.GetAllBookAuthorsAsync">
+        <member name="M:WebUI.Controllers.BookAuthorController.GetAllBookAuthorsAsync">
             <summary>
             Get list of BookAuthors
             </summary>
             <returns>Returns list of BookAuthorsAuthors</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.GetBookAuthorsByIdAsync(System.Guid,System.Guid)">
+        <member name="M:WebUI.Controllers.BookAuthorController.GetBookAuthorsByIdAsync(System.Guid,System.Guid)">
             <summary>
             Get BookAuthor by ids
             </summary>
@@ -67,21 +72,21 @@
             <param name="AuthorId">Author Id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.CreateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.CreateBookAuthorCommand)">
+        <member name="M:WebUI.Controllers.BookAuthorController.CreateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.CreateBookAuthorCommand)">
             <summary>
             Craete new BookAuthor
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns ids created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.UpdateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthorCommand)">
+        <member name="M:WebUI.Controllers.BookAuthorController.UpdateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthorCommand)">
             <summary>
             Update BookAuthor by ids
             </summary>
             <param name="command">Update command</param>
             <returns>Returns ids updated entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorsAuthorController.DeleteBookAuthorsAsync(System.Guid,System.Guid)">
+        <member name="M:WebUI.Controllers.BookAuthorController.DeleteBookAuthorsAsync(System.Guid,System.Guid)">
             <summary>
             Delete BookAuthor by ids
             </summary>
@@ -167,18 +172,18 @@
             <param name="id">BookDetails Id</param>
             <returns>Return deleted entity id</returns>
         </member>
-        <member name="T:WebUI.Controllers.BookGenresGenreController">
+        <member name="T:WebUI.Controllers.BookGenreController">
             <summary>
             BookGenresGenreController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookGenresGenreController.GetAllBookGenresAsync">
+        <member name="M:WebUI.Controllers.BookGenreController.GetAllBookGenresAsync">
             <summary>
             Get list of BookGenres
             </summary>
             <returns>Returns list of BookGenresGenres</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenresGenreController.GetBookGenresByIdAsync(System.Guid,System.Guid)">
+        <member name="M:WebUI.Controllers.BookGenreController.GetBookGenresByIdAsync(System.Guid,System.Guid)">
             <summary>
             Get BookGenre by ids
             </summary>
@@ -186,21 +191,21 @@
             <param name="genreId">Genre Id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenresGenreController.CreateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.CreateBookGenreCommand)">
+        <member name="M:WebUI.Controllers.BookGenreController.CreateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.CreateBookGenreCommand)">
             <summary>
             Craete new BookGenre
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns ids created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenresGenreController.UpdateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.UpdateBookGenreCommand)">
+        <member name="M:WebUI.Controllers.BookGenreController.UpdateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.UpdateBookGenreCommand)">
             <summary>
             Update BookGenre by ids
             </summary>
             <param name="command">Update command</param>
             <returns>Returns ids updated entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenresGenreController.DeleteBookGenresAsync(System.Guid,System.Guid)">
+        <member name="M:WebUI.Controllers.BookGenreController.DeleteBookGenresAsync(System.Guid,System.Guid)">
             <summary>
             Delete BookGenre by ids
             </summary>
@@ -382,14 +387,14 @@
             <param name="id">User id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.UserController.CreateUserAsync(Application.Features.UserFeatures.Commands.CreateUserCommand)">
+        <member name="M:WebUI.Controllers.UserController.CreateUserAsync(Application.Features.UserFeatures.Commands.CreateUser.CreateUserCommand)">
             <summary>
             Craete new User
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.UserController.UpdateUserAsync(Application.Features.UserFeatures.Commands.UpdateUserCommand)">
+        <member name="M:WebUI.Controllers.UserController.UpdateUserAsync(Application.Features.UserFeatures.Commands.UpdateUser.UpdateUserCommand)">
             <summary>
             Update User by id
             </summary>

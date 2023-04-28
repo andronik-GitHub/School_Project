@@ -1,5 +1,9 @@
 ﻿using Application.Features.UserFeatures.Commands;
+using Application.Features.UserFeatures.Commands.CreateUser;
+using Application.Features.UserFeatures.Commands.UpdateUser;
 using Application.Features.UserFeatures.Queries;
+using Application.Features.UserFeatures.Queries.GetAllUsers;
+using Application.Features.UserFeatures.Queries.GetUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
