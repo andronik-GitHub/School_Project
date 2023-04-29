@@ -20,8 +20,7 @@ namespace Application.Features.PublisherFeatures.Queries.GetAllPublishers
         public async Task<IEnumerable<PublisherDTO>> Handle
             (GetAllPublishersQuery query, CancellationToken cancellationToken)
         {
-            var list = MapsterFunctions.MapListSourceToDestination<Publisher, PublisherDTO>
-            (await _context.Publishers
+            var list = MapsterFunctions.MapListSourceToDestination<Publisher, PublisherDTO>(await _context.Publishers
                 .AsNoTracking()
                 .ToListAsync(cancellationToken));
 

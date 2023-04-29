@@ -1,5 +1,10 @@
 ﻿using Application.Features.LoanFeatures.Commands;
+using Application.Features.LoanFeatures.Commands.CreateLoan;
+using Application.Features.LoanFeatures.Commands.DeleteLoan;
+using Application.Features.LoanFeatures.Commands.UpdateLoan;
 using Application.Features.LoanFeatures.Queries;
+using Application.Features.LoanFeatures.Queries.GetAllLoans;
+using Application.Features.LoanFeatures.Queries.GetLoan;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers

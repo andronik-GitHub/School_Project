@@ -19,12 +19,11 @@ namespace Application.Features.ReviewFeatures.Queries.GetAllReviews
             
         public async Task<IEnumerable<ReviewDTO>> Handle(GetAllReviewsQuery query, CancellationToken cancellationToken)
         {
-            var list = MapsterFunctions.MapListSourceToDestination<Review, ReviewDTO>
-                (await _context.Reviews
-                    .AsNoTracking()
-                    .Include(r => r.Book)
-                    .Include(r => r.User)
-                    .ToListAsync(cancellationToken));
+            var list = MapsterFunctions.MapListSourceToDestination<Review, ReviewDTO>(await _context.Reviews
+                .AsNoTracking()
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .ToListAsync(cancellationToken));
 
             return list.ToList().AsReadOnly();
         }
