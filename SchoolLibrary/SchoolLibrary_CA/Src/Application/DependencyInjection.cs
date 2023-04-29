@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Common.Mapping;
+using Application.Common.Mapping.Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

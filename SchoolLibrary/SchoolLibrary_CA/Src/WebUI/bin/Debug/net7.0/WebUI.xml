@@ -348,14 +348,14 @@
             <param name="id">Review id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.ReviewController.CreateReviewAsync(Application.Features.ReviewFeatures.Commands.CreateReviewCommand)">
+        <member name="M:WebUI.Controllers.ReviewController.CreateReviewAsync(Application.Features.ReviewFeatures.Commands.CreateReview.CreateReviewCommand)">
             <summary>
             Craete new Review
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.ReviewController.UpdateReviewAsync(Application.Features.ReviewFeatures.Commands.UpdateReviewCommand)">
+        <member name="M:WebUI.Controllers.ReviewController.UpdateReviewAsync(Application.Features.ReviewFeatures.Commands.UpdateReview.UpdateReviewCommand)">
             <summary>
             Update Review by id
             </summary>

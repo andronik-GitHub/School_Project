@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Mapster;
 
-namespace Application.Common.Mapping
+namespace Application.Common.Mapping.Mapster
 {
     public class MapsterFunctions
     {
@@ -10,7 +10,7 @@ namespace Application.Common.Mapping
             return entity!.Adapt<TDestination>();
         }
         public static IQueryable<TDestination> MapListSourceToDestination<TSource, TDestination>
-            (IEnumerable<User> entities)
+            (IEnumerable<TSource> entities)
         {
             var entitiesQueryable = entities.AsQueryable();
 

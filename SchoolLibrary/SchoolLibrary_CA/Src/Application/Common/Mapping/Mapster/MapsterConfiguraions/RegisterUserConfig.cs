@@ -1,26 +1,21 @@
-﻿using System.Reflection;
-using Application.Features.UserFeatures.Commands.CreateUser;
+﻿using Application.Features.UserFeatures.Commands.CreateUser;
 using Application.Features.UserFeatures.Commands.UpdateUser;
 using Application.Features.UserFeatures.Queries.Common;
 using Domain.Entities;
 using Domain.ValueObjects;
 using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Common.Mapping
+namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
 {
-    public static class MapsterConfigurations
+    public static class RegisterUserConfig
     {
-        public static void RegisterMapsterConfiguration(this IServiceCollection services)
+        public static void Registration()
         {
             RegisterCreateUserCommandConfig();
             RegisterUpdateUserCommandConfig();
             RegisterUserDTOConfig();
-            
-            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }
-
-
+        
         private static void RegisterCreateUserCommandConfig()
         {
             TypeAdapterConfig<CreateUserCommand, User>
@@ -45,6 +40,7 @@ namespace Application.Common.Mapping
         {
             TypeAdapterConfig<UpdateUserCommand, User>
                 .NewConfig()
+                .Map(dest => dest.UserId, src => src.Id)
                 .Map(dest => dest.UserName, src => new UserName
                 {
                     FirstName = new Name(src.FirstName), 

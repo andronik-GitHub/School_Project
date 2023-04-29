@@ -1,6 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Common.Mapping;
+using Application.Common.Mapping.Mapster;
 using Application.Features.UserFeatures.Queries.Common;
 using Domain.Entities;
 using MediatR;

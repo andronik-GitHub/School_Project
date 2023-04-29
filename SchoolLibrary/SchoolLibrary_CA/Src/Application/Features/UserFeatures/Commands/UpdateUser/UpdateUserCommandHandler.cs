@@ -1,6 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Common.Mapping;
+using Application.Common.Mapping.Mapster;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +27,7 @@ namespace Application.Features.UserFeatures.Commands.UpdateUser
 
             entity = MapsterFunctions.MapSourceToDestination<UpdateUserCommand, User>(command);
 
+            _context.Users.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
             return entity.UserId;
         }

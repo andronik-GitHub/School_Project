@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mapping;
+using Application.Common.Mapping.Mapster;
 using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
