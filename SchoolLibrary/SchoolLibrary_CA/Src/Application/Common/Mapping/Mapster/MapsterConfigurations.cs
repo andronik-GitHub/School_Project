@@ -9,6 +9,7 @@ namespace Application.Common.Mapping.Mapster
     {
         public static void RegisterMapsterConfiguration(this IServiceCollection services)
         {
+            RegisterBookConfig.Registration();
             RegisterBookGenreConfig.Registration();
             RegisterGenreConfig.Registration();
             RegisterLoanConfig.Registration();
