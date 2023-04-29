@@ -1,5 +1,10 @@
 ﻿using Application.Features.GenreFeatures.Commands;
+using Application.Features.GenreFeatures.Commands.CreateGenre;
+using Application.Features.GenreFeatures.Commands.DeleteGenre;
+using Application.Features.GenreFeatures.Commands.UpdateGenre;
 using Application.Features.GenreFeatures.Queries;
+using Application.Features.GenreFeatures.Queries.GetAllGenres;
+using Application.Features.GenreFeatures.Queries.GetGenre;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
