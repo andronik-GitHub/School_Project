@@ -1,5 +1,6 @@
 ﻿using Application.Features.GenreFeatures.Commands.CreateGenre;
 using Application.Features.GenreFeatures.Commands.UpdateGenre;
+using Application.Features.GenreFeatures.Queries.Common;
 using Domain.Entities;
 using Mapster;
 
@@ -11,6 +12,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
         {
             RegisterCreateGenreCommandConfig();
             RegisterUpdateGenreCommandConfig();
+            RegisterGenreDTOConfig();
         }
 
         private static void RegisterCreateGenreCommandConfig()
@@ -25,6 +27,14 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             TypeAdapterConfig<UpdateGenreCommand, Genre>
                 .NewConfig()
                 .Map(dest => dest.GenreId, src => src.Id)
+                .Map(dest => dest.Name, src => src.Name)
+                .TwoWays();
+        }
+        private static void RegisterGenreDTOConfig()
+        {
+            TypeAdapterConfig<GenreDTO, Genre>
+                .NewConfig()
+                .Map(dest => dest.GenreId, src => src.GenreId)
                 .Map(dest => dest.Name, src => src.Name)
                 .TwoWays();
         }

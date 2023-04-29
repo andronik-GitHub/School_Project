@@ -1,5 +1,10 @@
 ﻿using Application.Features.BookGenreFeatures.Commands;
+using Application.Features.BookGenreFeatures.Commands.CreateBookGenre;
+using Application.Features.BookGenreFeatures.Commands.DeleteBookGenre;
+using Application.Features.BookGenreFeatures.Commands.UpdateBookGenre;
 using Application.Features.BookGenreFeatures.Queries;
+using Application.Features.BookGenreFeatures.Queries.GetAllBookGenres;
+using Application.Features.BookGenreFeatures.Queries.GetBookGenre;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
