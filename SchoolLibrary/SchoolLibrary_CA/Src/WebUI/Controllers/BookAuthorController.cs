@@ -1,5 +1,10 @@
 ﻿using Application.Features.BookAuthorFeatures.Commands;
+using Application.Features.BookAuthorFeatures.Commands.CreateBookAuthor;
+using Application.Features.BookAuthorFeatures.Commands.DeleteBookAuthor;
+using Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthor;
 using Application.Features.BookAuthorFeatures.Queries;
+using Application.Features.BookAuthorFeatures.Queries.GetAllBookAuthors;
+using Application.Features.BookAuthorFeatures.Queries.GetBookAuthor;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
