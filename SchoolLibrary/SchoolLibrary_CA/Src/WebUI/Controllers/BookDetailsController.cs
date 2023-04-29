@@ -1,5 +1,10 @@
 ﻿using Application.Features.BookDetailsFeatures.Commands;
+using Application.Features.BookDetailsFeatures.Commands.CreateBookDetails;
+using Application.Features.BookDetailsFeatures.Commands.DeleteBookDetails;
+using Application.Features.BookDetailsFeatures.Commands.UpdateBookDetails;
 using Application.Features.BookDetailsFeatures.Queries;
+using Application.Features.BookDetailsFeatures.Queries.GetAllBookDetails;
+using Application.Features.BookDetailsFeatures.Queries.GetBookDetails;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
