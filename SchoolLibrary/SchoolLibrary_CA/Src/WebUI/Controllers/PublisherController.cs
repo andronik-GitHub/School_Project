@@ -1,5 +1,10 @@
 ﻿using Application.Features.PublisherFeatures.Commands;
+using Application.Features.PublisherFeatures.Commands.CreatePublisher;
+using Application.Features.PublisherFeatures.Commands.DeletePublisher;
+using Application.Features.PublisherFeatures.Commands.UpdatePublisher;
 using Application.Features.PublisherFeatures.Queries;
+using Application.Features.PublisherFeatures.Queries.GetAllPublishers;
+using Application.Features.PublisherFeatures.Queries.GetPublisher;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers

@@ -19,8 +19,9 @@ namespace Application.Features.UserFeatures.Queries.GetUser
             
         public async Task<UserDTO> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
-            var entity = MapsterFunctions.MapSourceToDestination<User, UserDTO>
-                (await _context.Users.AsNoTracking().FirstAsync(u => u.UserId == query.Id, cancellationToken));
+            var entity = MapsterFunctions.MapSourceToDestination<User, UserDTO>(await _context.Users
+                .AsNoTracking()
+                .FirstAsync(u => u.UserId == query.Id, cancellationToken));
                 
             return entity ?? throw new NotFoundException(nameof(User), query.Id);
         }

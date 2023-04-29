@@ -20,12 +20,11 @@ namespace Application.Features.ReviewFeatures.Queries.GetReview
             
         public async Task<ReviewDTO> Handle(GetReviewByIdQuery query, CancellationToken cancellationToken)
         {
-            var entity = MapsterFunctions.MapSourceToDestination<Review, ReviewDTO>
-                (await _context.Reviews
-                    .AsNoTracking()
-                    .Include(r => r.Book)
-                    .Include(r => r.User)
-                    .FirstAsync(r => r.ReviewId == query.Id, cancellationToken: cancellationToken));
+            var entity = MapsterFunctions.MapSourceToDestination<Review, ReviewDTO>(await _context.Reviews
+                .AsNoTracking()
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .FirstAsync(r => r.ReviewId == query.Id, cancellationToken: cancellationToken));
                 
             return entity ?? throw new NotFoundException(nameof(Review), query.Id);
         }
