@@ -19,19 +19,29 @@ namespace Application.Features.AuthorFeatures.Queries.GetAllAuthors
 
         public async Task<IEnumerable<AuthorDTO>> Handle(GetAllAuthorsQuery query, CancellationToken cancellationToken)
         {
-            var list = MapsterFunctions.MapListSourceToDestination<Author, AuthorDTO>(await _context.Authors
-                .AsNoTracking()
-                // Filtering
-                .Where(a =>
-                    a.Birthdate.Year >= query._parameters.MinYearOfBirth && 
-                    a.Birthdate.Year <= query._parameters.MaxYearOfBirth)
-                // Paging
-                .OrderBy(a => a.AuthorId)
-                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
-                .Take(query._parameters.PageSize)
-                .ToListAsync(cancellationToken));
+            // Filtering
+            var list = _context.Authors.AsNoTracking().Where(a => 
+                a.Birthdate.Year >= query._parameters.MinYearOfBirth && 
+                a.Birthdate.Year <= query._parameters.MaxYearOfBirth);
+            
+            // Searching
+            SearchByName(ref list, query._parameters.FullName);
+            
+            // Paging
+            return await MapsterFunctions.MapListSourceToDestination<Author, AuthorDTO>(
+                    list.OrderBy(a => a.AuthorId)
+                        .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                        .Take(query._parameters.PageSize))
+                .ToListAsync(cancellationToken);
+        }
+        
 
-            return list.ToList().AsReadOnly();
+        private static void SearchByName(ref IQueryable<Author> entities, string? Name)
+        {
+            if (!entities.Any() || string.IsNullOrWhiteSpace(Name)) return;
+
+            entities = entities
+                .Where(p => (p.FirstName + " " + p.LastName).ToLower().Contains(Name.Trim().ToLower()));
         }
     }
 }
