@@ -6,9 +6,9 @@ namespace Application.Features.AuthorFeatures.Queries.GetAllAuthors
 {
     public class GetAllAuthorsQuery : IRequest<IEnumerable<AuthorDTO>>
     {
-        public BaseParameter _parameters { get; }
+        public AuthorParameter _parameters { get; }
 
-        public GetAllAuthorsQuery(BaseParameter parameters)
+        public GetAllAuthorsQuery(AuthorParameter parameters)
         {
             _parameters = parameters;
         }

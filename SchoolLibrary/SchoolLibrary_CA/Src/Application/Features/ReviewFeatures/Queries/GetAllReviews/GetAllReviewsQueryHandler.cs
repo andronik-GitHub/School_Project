@@ -21,6 +21,9 @@ namespace Application.Features.ReviewFeatures.Queries.GetAllReviews
         {
             var list = MapsterFunctions.MapListSourceToDestination<Review, ReviewDTO>(await _context.Reviews
                 .AsNoTracking()
+                .OrderBy(r => r.ReviewId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .Include(r => r.Book)
                 .Include(r => r.User)
                 .ToListAsync(cancellationToken));

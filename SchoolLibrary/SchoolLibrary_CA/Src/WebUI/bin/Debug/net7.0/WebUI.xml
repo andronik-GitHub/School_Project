@@ -15,7 +15,7 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync(Application.Common.Pagging.Entities.BaseParameter)">
+        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync(Application.Common.Pagging.Entities.AuthorParameter)">
             <summary>
             Get list of Authors
             </summary>
@@ -70,7 +70,13 @@
             BookAuthorsAuthorController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorController.GetAllBookAuthorsAsync">
+        <member name="M:WebUI.Controllers.BookAuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            BookAuthorController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorController.GetAllBookAuthorsAsync(Application.Common.Pagging.Entities.BookAuthorParameter)">
             <summary>
             Get list of BookAuthors
             </summary>
@@ -111,7 +117,13 @@
             BookController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookController.GetAllBookAsync">
+        <member name="M:WebUI.Controllers.BookController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            BookController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.GetAllBookAsync(Application.Common.Pagging.Entities.BookParameter)">
             <summary>
             Get list of Books
             </summary>
@@ -150,7 +162,13 @@
             BookDetailsController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookDetailsController.GetAllBookDetailsAsync">
+        <member name="M:WebUI.Controllers.BookDetailsController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            BookDetailsController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.BookDetailsController.GetAllBookDetailsAsync(Application.Common.Pagging.Entities.BookDetailsParameter)">
             <summary>
             Get list of BookDetails
             </summary>
@@ -189,7 +207,13 @@
             BookGenresGenreController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookGenreController.GetAllBookGenresAsync">
+        <member name="M:WebUI.Controllers.BookGenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            BookGenreController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.BookGenreController.GetAllBookGenresAsync(Application.Common.Pagging.Entities.BookGenreParameter)">
             <summary>
             Get list of BookGenres
             </summary>
@@ -230,7 +254,13 @@
             GenreController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.GenreController.GetAllGenreAsync">
+        <member name="M:WebUI.Controllers.GenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            GenreController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.GenreController.GetAllGenreAsync(Application.Common.Pagging.Entities.GenreParameter)">
             <summary>
             Get list of Genres
             </summary>
@@ -269,7 +299,13 @@
             LoanController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.LoanController.GetAllLoanAsync">
+        <member name="M:WebUI.Controllers.LoanController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            LoanController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.LoanController.GetAllLoanAsync(Application.Common.Pagging.Entities.LoanParameter)">
             <summary>
             Get list of Loans
             </summary>
@@ -308,7 +344,13 @@
             PublisherController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.PublisherController.GetAllPublisherAsync">
+        <member name="M:WebUI.Controllers.PublisherController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            PublisherController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.PublisherController.GetAllPublisherAsync(Application.Common.Pagging.Entities.PublisherParameter)">
             <summary>
             Get list of Publishers
             </summary>
@@ -347,7 +389,13 @@
             ReviewController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.ReviewController.GetAllReviewAsync">
+        <member name="M:WebUI.Controllers.ReviewController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            ReviewController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.ReviewController.GetAllReviewAsync(Application.Common.Pagging.Entities.ReviewParameter)">
             <summary>
             Get list of Reviews
             </summary>
@@ -386,7 +434,13 @@
             UserController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.UserController.GetAllUserAsync">
+        <member name="M:WebUI.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            UserController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.GetAllUserAsync(Application.Common.Pagging.Entities.UserParameter)">
             <summary>
             Get list of Users
             </summary>

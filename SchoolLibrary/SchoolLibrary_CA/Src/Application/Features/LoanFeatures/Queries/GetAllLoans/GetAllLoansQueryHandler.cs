@@ -21,6 +21,9 @@ namespace Application.Features.LoanFeatures.Queries.GetAllLoans
         {
             var list = MapsterFunctions.MapListSourceToDestination<Loan, LoanDTO>(await _context.Loans
                 .AsNoTracking()
+                .OrderBy(l => l.LoanId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .Include(l => l.Book)
                 .Include(l => l.User)
                 .ToListAsync(cancellationToken));

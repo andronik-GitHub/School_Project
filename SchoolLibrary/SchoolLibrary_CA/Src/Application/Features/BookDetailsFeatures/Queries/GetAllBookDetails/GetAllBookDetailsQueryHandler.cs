@@ -23,6 +23,9 @@ namespace Application.Features.BookDetailsFeatures.Queries.GetAllBookDetails
             var list = MapsterFunctions
                 .MapListSourceToDestination<BookDetails, BookDetailsDTO>(await _context.BookDetails
                     .AsNoTracking()
+                    .OrderBy(bd => bd.BookDetailId)
+                    .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                    .Take(query._parameters.PageSize)
                     .Include(bd => bd.Book)
                     .ToListAsync(cancellationToken));
 

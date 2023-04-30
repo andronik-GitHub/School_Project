@@ -1,8 +1,7 @@
-﻿using Application.Features.BookGenreFeatures.Commands;
+﻿using Application.Common.Pagging.Entities;
 using Application.Features.BookGenreFeatures.Commands.CreateBookGenre;
 using Application.Features.BookGenreFeatures.Commands.DeleteBookGenre;
 using Application.Features.BookGenreFeatures.Commands.UpdateBookGenre;
-using Application.Features.BookGenreFeatures.Queries;
 using Application.Features.BookGenreFeatures.Queries.GetAllBookGenres;
 using Application.Features.BookGenreFeatures.Queries.GetBookGenre;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,10 @@ namespace WebUI.Controllers
     /// </summary>
     public class BookGenreController : BaseController
     {
+        /// <summary>
+        /// BookGenreController constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public BookGenreController(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
@@ -25,9 +28,16 @@ namespace WebUI.Controllers
         /// <returns>Returns list of BookGenresGenres</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllBookGenresAsync()
+        public async Task<ActionResult> GetAllBookGenresAsync([FromQuery] BookGenreParameter parameters)
         {
-            return Ok(await Mediator.Send(new GetAllBookGenresQuery()));
+            var list = await Mediator.Send(new GetAllBookGenresQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]", 
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            return Ok(list);
         }
 
         /// <summary>
