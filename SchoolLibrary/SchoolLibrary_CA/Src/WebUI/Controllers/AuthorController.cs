@@ -29,8 +29,12 @@ namespace WebUI.Controllers
         /// <returns>Returns list of Authors</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> GetAllAuthorAsync([FromQuery] AuthorParameter parameters)
         {
+            if (!parameters.ValidYearRand) // if invalid filtering data is entered
+                return StatusCode(StatusCodes.Status400BadRequest);
+            
             var list = await Mediator.Send(new GetAllAuthorsQuery(parameters));
             
             _logger.LogInformation(

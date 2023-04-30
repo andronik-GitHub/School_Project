@@ -21,6 +21,11 @@ namespace Application.Features.AuthorFeatures.Queries.GetAllAuthors
         {
             var list = MapsterFunctions.MapListSourceToDestination<Author, AuthorDTO>(await _context.Authors
                 .AsNoTracking()
+                // Filtering
+                .Where(a =>
+                    a.Birthdate.Year >= query._parameters.MinYearOfBirth && 
+                    a.Birthdate.Year <= query._parameters.MaxYearOfBirth)
+                // Paging
                 .OrderBy(a => a.AuthorId)
                 .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
                 .Take(query._parameters.PageSize)
