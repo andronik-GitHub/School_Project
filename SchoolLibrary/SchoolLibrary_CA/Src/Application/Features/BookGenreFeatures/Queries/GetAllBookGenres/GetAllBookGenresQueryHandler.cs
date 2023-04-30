@@ -22,6 +22,9 @@ namespace Application.Features.BookGenreFeatures.Queries.GetAllBookGenres
         {
             var list = MapsterFunctions.MapListSourceToDestination<BookGenres, BookGenresDTO>(await _context.BookGenres
                 .AsNoTracking()
+                .OrderBy(bg => bg.BookId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .Include(bg => bg.Book)
                 .Include(bg => bg.Genre)
                 .ToListAsync(cancellationToken));

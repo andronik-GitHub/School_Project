@@ -1,8 +1,7 @@
-﻿using Application.Features.BookDetailsFeatures.Commands;
+﻿using Application.Common.Pagging.Entities;
 using Application.Features.BookDetailsFeatures.Commands.CreateBookDetails;
 using Application.Features.BookDetailsFeatures.Commands.DeleteBookDetails;
 using Application.Features.BookDetailsFeatures.Commands.UpdateBookDetails;
-using Application.Features.BookDetailsFeatures.Queries;
 using Application.Features.BookDetailsFeatures.Queries.GetAllBookDetails;
 using Application.Features.BookDetailsFeatures.Queries.GetBookDetails;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,10 @@ namespace WebUI.Controllers
     /// </summary>
     public class BookDetailsController : BaseController
     {
+        /// <summary>
+        /// BookDetailsController constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public BookDetailsController(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
@@ -25,9 +28,16 @@ namespace WebUI.Controllers
         /// <returns>Returns list of BookDetails</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllBookDetailsAsync()
+        public async Task<ActionResult> GetAllBookDetailsAsync([FromQuery] BookDetailsParameter parameters)
         {
-            return Ok(await Mediator.Send(new GetAllBookDetailsQuery()));
+            var list = await Mediator.Send(new GetAllBookDetailsQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]", 
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            return Ok(list);
         }
 
         /// <summary>

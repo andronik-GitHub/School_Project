@@ -22,6 +22,9 @@ namespace Application.Features.UserFeatures.Queries.GetAllUsers
         {
             var list = MapsterFunctions.MapListSourceToDestination<User, UserDTO>(await _context.Users
                 .AsNoTracking()
+                .OrderBy(u => u.UserId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .ToListAsync(cancellationToken));
 
             return list.ToList().AsReadOnly();

@@ -1,7 +1,7 @@
-﻿using Application.Features.UserFeatures.Commands;
+﻿using Application.Common.Pagging.Entities;
+using Application.Features.UserFeatures.Commands;
 using Application.Features.UserFeatures.Commands.CreateUser;
 using Application.Features.UserFeatures.Commands.UpdateUser;
-using Application.Features.UserFeatures.Queries;
 using Application.Features.UserFeatures.Queries.GetAllUsers;
 using Application.Features.UserFeatures.Queries.GetUser;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,10 @@ namespace WebUI.Controllers
     /// </summary>
     public class UserController : BaseController
     {
+        /// <summary>
+        /// UserController constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public UserController(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
@@ -24,9 +28,16 @@ namespace WebUI.Controllers
         /// <returns>Returns list of Users</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllUserAsync()
+        public async Task<ActionResult> GetAllUserAsync([FromQuery] UserParameter parameters)
         {
-            return Ok(await Mediator.Send(new GetAllUsersQuery()));
+            var list = await Mediator.Send(new GetAllUsersQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]", 
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            return Ok(list);
         }
 
         /// <summary>

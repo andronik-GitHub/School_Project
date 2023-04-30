@@ -21,6 +21,9 @@ namespace Application.Features.GenreFeatures.Queries.GetAllGenres
         {
             var list = MapsterFunctions.MapListSourceToDestination<Genre, GenreDTO>(await _context.Genres
                 .AsNoTracking()
+                .OrderBy(g => g.GenreId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .ToListAsync(cancellationToken));
 
             return list.ToList().AsReadOnly();

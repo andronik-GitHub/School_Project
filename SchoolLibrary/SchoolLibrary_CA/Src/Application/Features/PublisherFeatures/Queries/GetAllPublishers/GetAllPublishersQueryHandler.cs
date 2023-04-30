@@ -22,6 +22,9 @@ namespace Application.Features.PublisherFeatures.Queries.GetAllPublishers
         {
             var list = MapsterFunctions.MapListSourceToDestination<Publisher, PublisherDTO>(await _context.Publishers
                 .AsNoTracking()
+                .OrderBy(p => p.PublisherId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .ToListAsync(cancellationToken));
 
             return list.ToList().AsReadOnly();

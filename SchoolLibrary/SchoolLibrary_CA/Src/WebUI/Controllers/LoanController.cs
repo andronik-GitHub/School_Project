@@ -1,4 +1,5 @@
-﻿using Application.Features.LoanFeatures.Commands;
+﻿using Application.Common.Pagging.Entities;
+using Application.Features.LoanFeatures.Commands;
 using Application.Features.LoanFeatures.Commands.CreateLoan;
 using Application.Features.LoanFeatures.Commands.DeleteLoan;
 using Application.Features.LoanFeatures.Commands.UpdateLoan;
@@ -14,6 +15,10 @@ namespace WebUI.Controllers
     /// </summary>
     public class LoanController : BaseController
     {
+        /// <summary>
+        /// LoanController constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public LoanController(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
@@ -25,9 +30,16 @@ namespace WebUI.Controllers
         /// <returns>Returns list of Loans</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllLoanAsync()
+        public async Task<ActionResult> GetAllLoanAsync([FromQuery] LoanParameter parameters)
         {
-            return Ok(await Mediator.Send(new GetAllLoansQuery()));
+            var list = await Mediator.Send(new GetAllLoansQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]", 
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            return Ok(list);
         }
 
         /// <summary>
