@@ -15,7 +15,7 @@ namespace Application.Common.Helpers
         }
 
 
-        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string fieldsString)
+        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string? fieldsString)
         {
             // Parsing the input string and returns just the properties we need to return to the controller
             var requiredProperties = GetRequiredProperties(fieldsString);
@@ -23,7 +23,7 @@ namespace Application.Common.Helpers
             // and return extracted values from required prepared properties
             return FetchData(entities, requiredProperties);
         }
-        public ExpandoObject ShapeData(T entity, string fieldsString)
+        public ExpandoObject ShapeData(T entity, string? fieldsString)
         {
             // Parsing the input string and returns just the properties we need to return to the controller
             var requiredProperties = GetRequiredProperties(fieldsString);
@@ -33,7 +33,7 @@ namespace Application.Common.Helpers
         }
 
         // Parses the input string and returns just the properties we need to return to the controller
-        private IEnumerable<PropertyInfo> GetRequiredProperties(string fieldsString)
+        private IEnumerable<PropertyInfo> GetRequiredProperties(string? fieldsString)
         {
             var requiredProperties = new List<PropertyInfo>();
 
@@ -74,7 +74,8 @@ namespace Application.Common.Helpers
 
             return shapedObject;
         }
-        private IEnumerable<ExpandoObject> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
+        private static IEnumerable<ExpandoObject> FetchData
+            (IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
         {
             var shapedData = new List<ExpandoObject>();
 

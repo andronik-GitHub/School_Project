@@ -40,7 +40,6 @@ namespace Application.Features.AuthorFeatures.Queries.GetAllAuthors
                     .Take(query._parameters.PageSize))
                 .ToListAsync(cancellationToken);
         }
-        
 
         private static void SearchByName(ref IQueryable<Author> entities, string? Name)
         {
