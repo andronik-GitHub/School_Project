@@ -15,5 +15,17 @@ namespace WebUI.Controllers
         /// Defines a mediator to encapsulate request/response and publishing interaction patterns
         /// </summary>
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
+        
+        
+        protected readonly ILogger _logger;
+
+        /// <summary>
+        /// Base constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        protected BaseController(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+        }
     }
 }

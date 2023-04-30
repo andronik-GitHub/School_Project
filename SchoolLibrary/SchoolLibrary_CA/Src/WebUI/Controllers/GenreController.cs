@@ -14,6 +14,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class GenreController : BaseController
     {
+        public GenreController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+
+
         /// <summary>
         /// Get list of Genres
         /// </summary>

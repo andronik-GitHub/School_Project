@@ -14,6 +14,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class PublisherController : BaseController
     {
+        public PublisherController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+
+
         /// <summary>
         /// Get list of Publishers
         /// </summary>

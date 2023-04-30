@@ -14,6 +14,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class ReviewController : BaseController
     {
+        public ReviewController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+
+
         /// <summary>
         /// Get list of Reviews
         /// </summary>

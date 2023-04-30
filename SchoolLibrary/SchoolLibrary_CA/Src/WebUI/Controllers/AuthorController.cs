@@ -1,8 +1,7 @@
-﻿using Application.Features.AuthorFeatures.Commands;
+﻿using Application.Common.Pagging.Entities;
 using Application.Features.AuthorFeatures.Commands.CreateAuthor;
 using Application.Features.AuthorFeatures.Commands.DeleteAuthor;
 using Application.Features.AuthorFeatures.Commands.UpdateAuthor;
-using Application.Features.AuthorFeatures.Queries;
 using Application.Features.AuthorFeatures.Queries.GetAllAuthors;
 using Application.Features.AuthorFeatures.Queries.GetAuthor;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +14,31 @@ namespace WebUI.Controllers
     public class AuthorController : BaseController
     {
         /// <summary>
+        /// AuthorController constructor for initialisation ILogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        public AuthorController(ILoggerFactory loggerFactory) 
+            : base(loggerFactory)
+        {
+        }
+    
+    
+        /// <summary>
         /// Get list of Authors
         /// </summary>
         /// <returns>Returns list of Authors</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllAuthorAsync()
+        public async Task<ActionResult> GetAllAuthorAsync([FromQuery] AuthorParameter parameters)
         {
-            return Ok(await Mediator.Send(new GetAllAuthorsQuery()));
+            var list = await Mediator.Send(new GetAllAuthorsQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]", 
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            return Ok(list);
         }
 
         /// <summary>

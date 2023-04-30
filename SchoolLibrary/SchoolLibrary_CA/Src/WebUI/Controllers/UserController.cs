@@ -13,6 +13,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class UserController : BaseController
     {
+        public UserController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+
+
         /// <summary>
         /// Get list of Users
         /// </summary>

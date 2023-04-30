@@ -14,6 +14,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class LoanController : BaseController
     {
+        public LoanController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+
+
         /// <summary>
         /// Get list of Loans
         /// </summary>

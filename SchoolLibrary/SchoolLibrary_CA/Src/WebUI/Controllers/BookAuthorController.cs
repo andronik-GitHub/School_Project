@@ -14,6 +14,11 @@ namespace WebUI.Controllers
     /// </summary>
     public class BookAuthorController : BaseController
     {
+        public BookAuthorController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        {
+        }
+        
+        
         /// <summary>
         /// Get list of BookAuthors
         /// </summary>

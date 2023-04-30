@@ -9,7 +9,13 @@
             AuthorController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync">
+        <member name="M:WebUI.Controllers.AuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            AuthorController constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync(Application.Common.Pagging.Entities.BaseParameter)">
             <summary>
             Get list of Authors
             </summary>
@@ -22,14 +28,14 @@
             <param name="id">Author id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.CreateAuthorAsync(Application.Features.AuthorFeatures.Commands.CreateAuthorCommand)">
+        <member name="M:WebUI.Controllers.AuthorController.CreateAuthorAsync(Application.Features.AuthorFeatures.Commands.CreateAuthor.CreateAuthorCommand)">
             <summary>
             Craete new Author
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.UpdateAuthorAsync(Application.Features.AuthorFeatures.Commands.UpdateAuthorCommand)">
+        <member name="M:WebUI.Controllers.AuthorController.UpdateAuthorAsync(Application.Features.AuthorFeatures.Commands.UpdateAuthor.UpdateAuthorCommand)">
             <summary>
             Update Author by id
             </summary>
@@ -53,6 +59,12 @@
             Defines a mediator to encapsulate request/response and publishing interaction patterns
             </summary>
         </member>
+        <member name="M:WebUI.Controllers.BaseController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Base constructor for initialisation ILogger
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
         <member name="T:WebUI.Controllers.BookAuthorController">
             <summary>
             BookAuthorsAuthorController
@@ -72,14 +84,14 @@
             <param name="AuthorId">Author Id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorController.CreateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.CreateBookAuthorCommand)">
+        <member name="M:WebUI.Controllers.BookAuthorController.CreateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.CreateBookAuthor.CreateBookAuthorCommand)">
             <summary>
             Craete new BookAuthor
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns ids created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorController.UpdateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthorCommand)">
+        <member name="M:WebUI.Controllers.BookAuthorController.UpdateBookAuthorsAsync(Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthor.UpdateBookAuthorCommand)">
             <summary>
             Update BookAuthor by ids
             </summary>
@@ -112,14 +124,14 @@
             <param name="id">Book id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookController.CreateBookAsync(Application.Features.BookFeatures.Commands.CreateBookCommand)">
+        <member name="M:WebUI.Controllers.BookController.CreateBookAsync(Application.Features.BookFeatures.Commands.CreateBook.CreateBookCommand)">
             <summary>
             Craete new Book
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookController.UpdateBookAsync(Application.Features.BookFeatures.Commands.UpdateBookCommand)">
+        <member name="M:WebUI.Controllers.BookController.UpdateBookAsync(Application.Features.BookFeatures.Commands.UpdateBook.UpdateBookCommand)">
             <summary>
             Update Book by id
             </summary>
@@ -151,14 +163,14 @@
             <param name="id">BookDetails id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookDetailsController.CreateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.CreateBookDetailsCommand)">
+        <member name="M:WebUI.Controllers.BookDetailsController.CreateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.CreateBookDetails.CreateBookDetailsCommand)">
             <summary>
             Craete new BookDetails
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookDetailsController.UpdateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.UpdateBookDetailsCommand)">
+        <member name="M:WebUI.Controllers.BookDetailsController.UpdateBookDetailsAsync(Application.Features.BookDetailsFeatures.Commands.UpdateBookDetails.UpdateBookDetailsCommand)">
             <summary>
             Update BookDetails by id
             </summary>
@@ -191,14 +203,14 @@
             <param name="genreId">Genre Id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenreController.CreateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.CreateBookGenreCommand)">
+        <member name="M:WebUI.Controllers.BookGenreController.CreateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.CreateBookGenre.CreateBookGenreCommand)">
             <summary>
             Craete new BookGenre
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns ids created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.BookGenreController.UpdateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.UpdateBookGenreCommand)">
+        <member name="M:WebUI.Controllers.BookGenreController.UpdateBookGenresAsync(Application.Features.BookGenreFeatures.Commands.UpdateBookGenre.UpdateBookGenreCommand)">
             <summary>
             Update BookGenre by ids
             </summary>
@@ -231,14 +243,14 @@
             <param name="id">Genre id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.GenreController.CreateGenreAsync(Application.Features.GenreFeatures.Commands.CreateGenreCommand)">
+        <member name="M:WebUI.Controllers.GenreController.CreateGenreAsync(Application.Features.GenreFeatures.Commands.CreateGenre.CreateGenreCommand)">
             <summary>
             Craete new Genre
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.GenreController.UpdateGenreAsync(Application.Features.GenreFeatures.Commands.UpdateGenreCommand)">
+        <member name="M:WebUI.Controllers.GenreController.UpdateGenreAsync(Application.Features.GenreFeatures.Commands.UpdateGenre.UpdateGenreCommand)">
             <summary>
             Update Genre by id
             </summary>
@@ -270,14 +282,14 @@
             <param name="id">Loan id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.LoanController.CreateLoanAsync(Application.Features.LoanFeatures.Commands.CreateLoanCommand)">
+        <member name="M:WebUI.Controllers.LoanController.CreateLoanAsync(Application.Features.LoanFeatures.Commands.CreateLoan.CreateLoanCommand)">
             <summary>
             Craete new Loan
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.LoanController.UpdateLoanAsync(Application.Features.LoanFeatures.Commands.UpdateLoanCommand)">
+        <member name="M:WebUI.Controllers.LoanController.UpdateLoanAsync(Application.Features.LoanFeatures.Commands.UpdateLoan.UpdateLoanCommand)">
             <summary>
             Update Loan by id
             </summary>
@@ -309,14 +321,14 @@
             <param name="id">Publisher id</param>
             <returns>Returns entity by id</returns>
         </member>
-        <member name="M:WebUI.Controllers.PublisherController.CreatePublisherAsync(Application.Features.PublisherFeatures.Commands.CreatePublisherCommand)">
+        <member name="M:WebUI.Controllers.PublisherController.CreatePublisherAsync(Application.Features.PublisherFeatures.Commands.CreatePublisher.CreatePublisherCommand)">
             <summary>
             Craete new Publisher
             </summary>
             <param name="command">Cteate command</param>
             <returns>Returns id created entity</returns>
         </member>
-        <member name="M:WebUI.Controllers.PublisherController.UpdatePublisherAsync(Application.Features.PublisherFeatures.Commands.UpdatePublisherCommand)">
+        <member name="M:WebUI.Controllers.PublisherController.UpdatePublisherAsync(Application.Features.PublisherFeatures.Commands.UpdatePublisher.UpdatePublisherCommand)">
             <summary>
             Update Publisher by id
             </summary>

@@ -21,6 +21,9 @@ namespace Application.Features.AuthorFeatures.Queries.GetAllAuthors
         {
             var list = MapsterFunctions.MapListSourceToDestination<Author, AuthorDTO>(await _context.Authors
                 .AsNoTracking()
+                .OrderBy(a => a.AuthorId)
+                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                .Take(query._parameters.PageSize)
                 .ToListAsync(cancellationToken));
 
             return list.ToList().AsReadOnly();
