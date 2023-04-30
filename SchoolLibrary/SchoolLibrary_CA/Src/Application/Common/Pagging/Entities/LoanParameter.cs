@@ -2,6 +2,9 @@
 {
     public class LoanParameter : BaseParameter
     {
-        
+        public LoanParameter()
+        {
+            OrderBy = "LoanId"; // default sorting
+        }
     }
 }

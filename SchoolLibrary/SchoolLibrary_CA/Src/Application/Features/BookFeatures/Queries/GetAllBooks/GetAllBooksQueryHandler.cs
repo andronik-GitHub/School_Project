@@ -10,24 +10,30 @@ namespace Application.Features.BookFeatures.Queries.GetAllBooks
     public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumerable<BookDTO>>
     {
         private readonly ISchoolLibraryContext _context;
+        private readonly ISortHelper<Book> _sortHelper;
             
-        public GetAllBooksQueryHandler(ISchoolLibraryContext context)
+        public GetAllBooksQueryHandler(ISchoolLibraryContext context, ISortHelper<Book> sortHelper)
         {
             _context = context;
+            _sortHelper = sortHelper;
         }
             
             
         public async Task<IEnumerable<BookDTO>> Handle(GetAllBooksQuery query, CancellationToken cancellationToken)
         {
-            var list = MapsterFunctions.MapListSourceToDestination<Book, BookDTO>(await _context.Books
-                .AsNoTracking()
-                .OrderBy(b => b.BookId)
-                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
-                .Take(query._parameters.PageSize)
-                .Include(b => b.Publisher)
-                .ToListAsync(cancellationToken));
+            var list = _context.Books.AsNoTracking();
 
-            return list.ToList().AsReadOnly();
+            // Sorting
+            list = _sortHelper.ApplySort(list, query._parameters.OrderBy);
+            
+            // Paging
+            return await MapsterFunctions.MapListSourceToDestination<Book, BookDTO>(
+                list
+                    //.OrderBy(b => b.BookId)
+                    .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                    .Take(query._parameters.PageSize)
+                    .Include(b => b.Publisher))
+                .ToListAsync(cancellationToken);
         }
     }
 }

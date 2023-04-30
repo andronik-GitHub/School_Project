@@ -2,6 +2,9 @@
 {
     public class UserParameter : BaseParameter
     {
-        
+        public UserParameter()
+        {
+            OrderBy = "UserId"; // default sorting
+        }
     }
 }

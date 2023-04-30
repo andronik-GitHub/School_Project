@@ -2,6 +2,9 @@
 {
     public class ReviewParameter : BaseParameter
     {
-        
+        public ReviewParameter()
+        {
+            OrderBy = "ReviewId"; // default sorting
+        }
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2hOK12Oa8sJeMCNu3oRDK9Z1BP4i4TNCmLWDcQt9Bt5tTOT9crVYM7R9hRLYpt91kLspQAS9CU88trnn6BScVw==",
+  "dgSpecHash": "v9OICvRqcnz0nX7Li3CwM6nn3K4G+D6r8GLONN6PWBJYVR5kolt4JlSh8fxoABuv3y0fg+xDPHbjnGQm/QCVOA==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,7 @@
     "C:\\Users\\const\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\system.linq.dynamic.core\\1.3.2\\system.linq.dynamic.core.1.3.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

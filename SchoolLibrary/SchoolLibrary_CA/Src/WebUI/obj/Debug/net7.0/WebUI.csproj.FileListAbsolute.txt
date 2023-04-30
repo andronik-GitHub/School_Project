@@ -88,3 +88,4 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Bogus.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Mapster.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Mapster.Core.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll

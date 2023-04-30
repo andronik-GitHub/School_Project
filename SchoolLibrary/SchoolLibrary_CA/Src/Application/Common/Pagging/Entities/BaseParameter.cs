@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Pagging.Entities
 {
-    public class BaseParameter
+    public abstract class BaseParameter
     {
         private const int MaxPageSize = 150;
         public int PageNumber { get; set; } = 1;

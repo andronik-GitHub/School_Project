@@ -2,6 +2,9 @@
 {
     public class BookGenreParameter : BaseParameter
     {
-        
+        public BookGenreParameter()
+        {
+            OrderBy = "BookId, GenreId"; // default sorting
+        }
     }
 }

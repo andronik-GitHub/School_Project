@@ -10,25 +10,31 @@ namespace Application.Features.ReviewFeatures.Queries.GetAllReviews
     public class GetAllReviewsQueryHandler : IRequestHandler<GetAllReviewsQuery, IEnumerable<ReviewDTO>>
     {
         private readonly ISchoolLibraryContext _context;
+        private readonly ISortHelper<Review> _sortHelper;
 
-        public GetAllReviewsQueryHandler(ISchoolLibraryContext context)
+        public GetAllReviewsQueryHandler(ISchoolLibraryContext context, ISortHelper<Review> sortHelper)
         {
             _context = context;
+            _sortHelper = sortHelper;
         }
             
             
         public async Task<IEnumerable<ReviewDTO>> Handle(GetAllReviewsQuery query, CancellationToken cancellationToken)
         {
-            var list = MapsterFunctions.MapListSourceToDestination<Review, ReviewDTO>(await _context.Reviews
-                .AsNoTracking()
-                .OrderBy(r => r.ReviewId)
-                .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
-                .Take(query._parameters.PageSize)
-                .Include(r => r.Book)
-                .Include(r => r.User)
-                .ToListAsync(cancellationToken));
+            var list = _context.Reviews.AsNoTracking();
 
-            return list.ToList().AsReadOnly();
+            // Sorting
+            list = _sortHelper.ApplySort(list, query._parameters.OrderBy);
+            
+            // Paging
+            return await MapsterFunctions.MapListSourceToDestination<Review, ReviewDTO>(
+                list
+                    //.OrderBy(r => r.ReviewId)
+                    .Skip((query._parameters.PageNumber - 1) * query._parameters.PageSize)
+                    .Take(query._parameters.PageSize)
+                    .Include(r => r.Book)
+                    .Include(r => r.User))
+                .ToListAsync(cancellationToken);
         }
     }
 }

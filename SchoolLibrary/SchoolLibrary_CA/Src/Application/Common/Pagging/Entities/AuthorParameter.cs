@@ -7,5 +7,10 @@
         public bool ValidYearRand => MaxYearOfBirth > MinYearOfBirth;
 
         public string? FullName { get; set; } = default!;
+
+        public AuthorParameter()
+        {
+            OrderBy = "AuthorId"; // default sorting
+        }
     }
 }
