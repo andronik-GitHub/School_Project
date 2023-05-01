@@ -3,7 +3,9 @@ using Application.Features.AuthorFeatures.Commands.CreateAuthor;
 using Application.Features.AuthorFeatures.Commands.DeleteAuthor;
 using Application.Features.AuthorFeatures.Commands.UpdateAuthor;
 using Application.Features.AuthorFeatures.Queries.GetAllAuthors;
+using Application.Features.AuthorFeatures.Queries.GetAllAuthors_DataShaping;
 using Application.Features.AuthorFeatures.Queries.GetAuthor;
+using Application.Features.AuthorFeatures.Queries.GetAuthor_DataShaping;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -92,6 +94,52 @@ namespace WebUI.Controllers
         public async Task<ActionResult> DeleteAuthorAsync(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteAuthorCommand { Id = id }));
+        }
+
+
+        /// <summary>
+        /// Get list of Authors with selected fields
+        /// </summary>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns list of Authors with selected fields</returns>
+        [HttpGet("datashaping/", Name = nameof(GetAllAuthors_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetAllAuthors_DataShapingAsync([FromQuery] AuthorParameter parameters)
+        {
+            if (!parameters.ValidYearRand) // if invalid filtering data is entered
+                return StatusCode(StatusCodes.Status400BadRequest);
+
+            var list = await Mediator.Send(new GetAllAuthors_DataShapingQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]",
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            return Ok(list);
+        }
+
+        /// <summary>
+        /// Get Author by id with selected fields
+        /// </summary>
+        /// <param name="id">Author id</param>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns entity by id with selected fields</returns>
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetAuthorById_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAuthorById_DataShapingAsync(Guid id, [FromQuery] AuthorParameter parameters)
+        {
+            if (!parameters.ValidYearRand) // if invalid filtering data is entered
+                return StatusCode(StatusCodes.Status400BadRequest);
+            
+            var entity = await Mediator.Send(new GetAuthorById_DataShapingQuery(parameters) { Id = id });
+            
+            _logger.LogInformation(
+                "Entity were successfully extracted from [{Table}]",
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            return Ok(entity);
         }
     }
 }

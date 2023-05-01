@@ -49,6 +49,21 @@
             <param name="id">Author Id</param>
             <returns>Return deleted entity id</returns>
         </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAllAuthors_DataShapingAsync(Application.Common.Pagging.Entities.AuthorParameter)">
+            <summary>
+            Get list of Authors with selected fields
+            </summary>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns list of Authors with selected fields</returns>
+        </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAuthorById_DataShapingAsync(System.Guid,Application.Common.Pagging.Entities.AuthorParameter)">
+            <summary>
+            Get Author by id with selected fields
+            </summary>
+            <param name="id">Author id</param>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns entity by id with selected fields</returns>
+        </member>
         <member name="T:WebUI.Controllers.BaseController">
             <summary>
             A base controller class with IMediator 
@@ -111,6 +126,22 @@
             <param name="bookId">Book Id</param>
             <param name="AuthorId">Author Id</param>
             <returns>Return deleted entity ids</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorController.GetAllBookAuthors_DataShapingAsync(Application.Common.Pagging.Entities.BookAuthorParameter)">
+            <summary>
+            Get list of BookAuthors with selected fields
+            </summary>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns list of BookAuthors with selected fields</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookAuthorController.GetBookAuthorByIds_DataShapingAsync(System.Guid,System.Guid,Application.Common.Pagging.Entities.BookAuthorParameter)">
+            <summary>
+            Get BookAuthor by ids with selected fields
+            </summary>
+            <param name="bookId">Book Id</param>
+            <param name="AuthorId">Author Id</param>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns entity by id with selected fields</returns>
         </member>
         <member name="T:WebUI.Controllers.BookController">
             <summary>

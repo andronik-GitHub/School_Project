@@ -26,6 +26,18 @@ namespace Application
             services.AddScoped<ISortHelper<Publisher>, SortHelper<Publisher>>();
             services.AddScoped<ISortHelper<Review>, SortHelper<Review>>();
             services.AddScoped<ISortHelper<User>, SortHelper<User>>();
+
+            // For DataShaping
+            services.AddScoped<IDataShaper<Author>, DataShaper<Author>>();
+            services.AddScoped<IDataShaper<BookAuthors>, DataShaper<BookAuthors>>();
+            services.AddScoped<IDataShaper<BookDetails>, DataShaper<BookDetails>>();
+            services.AddScoped<IDataShaper<BookGenres>, DataShaper<BookGenres>>();
+            services.AddScoped<IDataShaper<Book>, DataShaper<Book>>();
+            services.AddScoped<IDataShaper<Genre>, DataShaper<Genre>>();
+            services.AddScoped<IDataShaper<Loan>, DataShaper<Loan>>();
+            services.AddScoped<IDataShaper<Publisher>, DataShaper<Publisher>>();
+            services.AddScoped<IDataShaper<Review>, DataShaper<Review>>();
+            services.AddScoped<IDataShaper<User>, DataShaper<User>>();
         } 
     }
 }
