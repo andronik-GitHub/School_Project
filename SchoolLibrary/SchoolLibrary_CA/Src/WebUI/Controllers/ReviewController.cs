@@ -1,9 +1,13 @@
-﻿using Application.Common.Pagging.Entities;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Application.Common.Pagging.Entities;
 using Application.Features.ReviewFeatures.Commands.CreateReview;
 using Application.Features.ReviewFeatures.Commands.DeleteReview;
 using Application.Features.ReviewFeatures.Commands.UpdateReview;
 using Application.Features.ReviewFeatures.Queries.GetAllReviews;
+using Application.Features.ReviewFeatures.Queries.GetAllReviews_DataShaping;
 using Application.Features.ReviewFeatures.Queries.GetReview;
+using Application.Features.ReviewFeatures.Queries.GetReview_DataShaping;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -87,6 +91,61 @@ namespace WebUI.Controllers
         public async Task<ActionResult> DeleteReviewAsync(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteReviewCommand { Id = id }));
+        }
+  
+
+        /// <summary>
+        /// Get list of Review with selected fields
+        /// </summary>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns list of Review with selected fields</returns>
+        [HttpGet("datashaping/", Name = nameof(GetAllReview_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetAllReview_DataShapingAsync([FromQuery] ReviewParameter parameters)
+        {
+            var list = await Mediator.Send(new GetAllReviews_DataShapingQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]",
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            
+            string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
+        }
+
+        /// <summary>
+        /// Get Review by id with selected fields
+        /// </summary>
+        /// <param name="id">Review id</param>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns entity by id with selected fields</returns>
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetReviewById_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetReviewById_DataShapingAsync
+            (Guid id, [FromQuery] ReviewParameter parameters)
+        {
+            var entity = await Mediator.Send(new GetReviewById_DataShapingQuery(parameters) { Id = id });
+            
+            _logger.LogInformation(
+                "Entity were successfully extracted from [{Table}]",
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            
+            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
         }
     }
 }
