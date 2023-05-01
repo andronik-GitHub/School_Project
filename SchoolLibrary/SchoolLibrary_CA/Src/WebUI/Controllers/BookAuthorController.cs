@@ -1,4 +1,6 @@
-﻿using Application.Common.Pagging.Entities;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Application.Common.Pagging.Entities;
 using Application.Features.BookAuthorFeatures.Commands.CreateBookAuthor;
 using Application.Features.BookAuthorFeatures.Commands.DeleteBookAuthor;
 using Application.Features.BookAuthorFeatures.Commands.UpdateBookAuthor;
@@ -111,7 +113,14 @@ namespace WebUI.Controllers
                 list.Count(), 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
-            return Ok(list);
+            
+            string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
         }
 
         
@@ -134,7 +143,14 @@ namespace WebUI.Controllers
                 "Entity were successfully extracted from [{Table}]",
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
-            return Ok(entity);
+            
+            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
         }
     }
 }

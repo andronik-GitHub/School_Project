@@ -188,6 +188,21 @@
             <param name="id">Book Id</param>
             <returns>Return deleted entity id</returns>
         </member>
+        <member name="M:WebUI.Controllers.BookController.GetAllBook_DataShapingAsync(Application.Common.Pagging.Entities.BookParameter)">
+            <summary>
+            Get list of Book with selected fields
+            </summary>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns list of Book with selected fields</returns>
+        </member>
+        <member name="M:WebUI.Controllers.BookController.GetBookById_DataShapingAsync(System.Guid,Application.Common.Pagging.Entities.BookParameter)">
+            <summary>
+            Get Book by id with selected fields
+            </summary>
+            <param name="id">Book id</param>
+            <param name="parameters">Fields, that need select</param>
+            <returns>Returns entity by id with selected fields</returns>
+        </member>
         <member name="T:WebUI.Controllers.BookDetailsController">
             <summary>
             BookDetailsController
