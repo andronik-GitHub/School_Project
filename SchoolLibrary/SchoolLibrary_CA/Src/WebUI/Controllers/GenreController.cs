@@ -1,9 +1,13 @@
-﻿using Application.Common.Pagging.Entities;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Application.Common.Pagging.Entities;
 using Application.Features.GenreFeatures.Commands.CreateGenre;
 using Application.Features.GenreFeatures.Commands.DeleteGenre;
 using Application.Features.GenreFeatures.Commands.UpdateGenre;
 using Application.Features.GenreFeatures.Queries.GetAllGenres;
+using Application.Features.GenreFeatures.Queries.GetAllGenres_DataShaping;
 using Application.Features.GenreFeatures.Queries.GetGenre;
+using Application.Features.GenreFeatures.Queries.GetGenre_DataShaping;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -87,6 +91,61 @@ namespace WebUI.Controllers
         public async Task<ActionResult> DeleteGenreAsync(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteGenreCommand { Id = id }));
+        }
+ 
+
+        /// <summary>
+        /// Get list of Genre with selected fields
+        /// </summary>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns list of Genre with selected fields</returns>
+        [HttpGet("datashaping/", Name = nameof(GetAllGenre_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetAllGenre_DataShapingAsync([FromQuery] GenreParameter parameters)
+        {
+            var list = await Mediator.Send(new GetAllGenres_DataShapingQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]",
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            
+            string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
+        }
+
+        /// <summary>
+        /// Get Genre by id with selected fields
+        /// </summary>
+        /// <param name="id">Genre id</param>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns entity by id with selected fields</returns>
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetGenreById_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetGenreById_DataShapingAsync
+            (Guid id, [FromQuery] GenreParameter parameters)
+        {
+            var entity = await Mediator.Send(new GetGenreById_DataShapingQuery(parameters) { Id = id });
+            
+            _logger.LogInformation(
+                "Entity were successfully extracted from [{Table}]",
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+
+            
+            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
         }
     }
 }

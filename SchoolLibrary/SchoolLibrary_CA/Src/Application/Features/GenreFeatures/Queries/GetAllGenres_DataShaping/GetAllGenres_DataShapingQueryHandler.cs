@@ -5,34 +5,31 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.BookDetailsFeatures.Queries.GetAllBookDetails_DataShaping
+namespace Application.Features.GenreFeatures.Queries.GetAllGenres_DataShaping
 {
-    public class GetAllBookDetails_DataShapingQueryHandler 
-        : IRequestHandler<GetAllBookDetails_DataShapingQuery, PagedList<ExpandoObject>>
+    public class GetAllGenres_DataShapingQueryHandler 
+        : IRequestHandler<GetAllGenres_DataShapingQuery, PagedList<ExpandoObject>>
     {
         private readonly ISchoolLibraryContext _context;
-        private readonly ISortHelper<BookDetails> _sortHelper;
-        private readonly IDataShaper<BookDetails> _dataShaper;
+        private readonly ISortHelper<Genre> _sortHelper;
+        private readonly IDataShaper<Genre> _dataShaper;
         
-        public GetAllBookDetails_DataShapingQueryHandler(
+        public GetAllGenres_DataShapingQueryHandler(
             ISchoolLibraryContext context,
-            ISortHelper<BookDetails> sortHelper,
-            IDataShaper<BookDetails> dataShaper)
+            ISortHelper<Genre> sortHelper,
+            IDataShaper<Genre> dataShaper)
         {
             _context = context;
             _sortHelper = sortHelper;
             _dataShaper = dataShaper;
         }
-        
-        
+
+
         public async Task<PagedList<ExpandoObject>> Handle
-            (GetAllBookDetails_DataShapingQuery query, CancellationToken cancellationToken)
+            (GetAllGenres_DataShapingQuery query, CancellationToken cancellationToken)
         {
             // Filtering
-            var list = _context.BookDetails
-                .AsNoTracking()
-                .Include(bd => bd.Book)
-                .AsQueryable();
+            var list = _context.Genres.AsNoTracking();
             
             // Sorting
             list = _sortHelper.ApplySort(list, query._parameters.OrderBy);

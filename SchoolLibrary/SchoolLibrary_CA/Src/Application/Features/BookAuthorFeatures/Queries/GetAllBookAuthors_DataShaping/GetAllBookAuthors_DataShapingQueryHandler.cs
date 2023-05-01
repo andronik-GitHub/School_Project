@@ -28,7 +28,10 @@ namespace Application.Features.BookAuthorFeatures.Queries.GetAllBookAuthors_Data
             (GetAllBookAuthors_DataShapingQuery query, CancellationToken cancellationToken)
         {
             // Filtering
-            var list = _context.BookAuthors.AsNoTracking();
+            var list = _context.BookAuthors
+                .Include(bg => bg.Book)
+                .Include(bg => bg.Author)
+                .AsQueryable();
             
             // Sorting
             list = _sortHelper.ApplySort(list, query._parameters.OrderBy);

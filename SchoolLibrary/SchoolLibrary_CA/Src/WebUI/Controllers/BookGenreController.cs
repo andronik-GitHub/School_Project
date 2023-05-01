@@ -1,9 +1,14 @@
-﻿using Application.Common.Pagging.Entities;
+﻿using System.Dynamic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Application.Common.Pagging.Entities;
 using Application.Features.BookGenreFeatures.Commands.CreateBookGenre;
 using Application.Features.BookGenreFeatures.Commands.DeleteBookGenre;
 using Application.Features.BookGenreFeatures.Commands.UpdateBookGenre;
 using Application.Features.BookGenreFeatures.Queries.GetAllBookGenres;
+using Application.Features.BookGenreFeatures.Queries.GetAllBookGenres_DataShaping;
 using Application.Features.BookGenreFeatures.Queries.GetBookGenre;
+using Application.Features.BookGenreFeatures.Queries.GetBookGenre_DataShaping;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -89,6 +94,63 @@ namespace WebUI.Controllers
         public async Task<ActionResult> DeleteBookGenresAsync(Guid bookId, Guid genreId)
         {
             return Ok(await Mediator.Send(new DeleteBookGenreCommand { BookId = bookId, GenreId = genreId }));
+        }
+
+
+        /// <summary>
+        /// Get list of BookGenres with selected fields
+        /// </summary>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns list of BookGenres with selected fields</returns>
+        [HttpGet("datashaping/", Name = nameof(GetAllBookGenres_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetAllBookGenres_DataShapingAsync([FromQuery] BookGenreParameter parameters)
+        {
+            var list = await Mediator.Send(new GetAllBookGenres_DataShapingQuery(parameters));
+            
+            _logger.LogInformation(
+                "{Count} entities were successfully extracted from [{Table}]",
+                list.Count(), 
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            
+            string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
+        }
+        
+        /// <summary>
+        /// Get BookGenre by ids with selected fields
+        /// </summary>
+        /// <param name="bookId">Book Id</param>
+        /// <param name="GenreId">Genre Id</param>
+        /// <param name="parameters">Fields, that need select</param>
+        /// <returns>Returns entity by id with selected fields</returns>
+        [HttpGet("datashaping/{bookId:guid}&{GenreId:guid}", Name = nameof(GetBookGenreByIds_DataShapingAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetBookGenreByIds_DataShapingAsync
+            (Guid bookId, Guid GenreId, [FromQuery] BookGenreParameter parameters)
+        {
+            var entity = await Mediator.Send(
+                new GetBookGenreByIds_DataShapingQuery(parameters) { BookId = bookId, GenreId = GenreId });
+            
+            _logger.LogInformation(
+                "Entity were successfully extracted from [{Table}]",
+                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+            
+            
+            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
+            {
+                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
+            });
+            
+            return Ok(json);
         }
     }
 }

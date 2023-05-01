@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.BookFeatures.Queries.GetAllBooks_DataShaping
 {
     public class GetAllBooks_DataShapingQueryHandler 
-        : IRequestHandler<GetAllBooks_DataShapingQuery, IEnumerable<ExpandoObject>>
+        : IRequestHandler<GetAllBooks_DataShapingQuery, PagedList<ExpandoObject>>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly ISortHelper<Book> _sortHelper;
@@ -25,11 +25,14 @@ namespace Application.Features.BookFeatures.Queries.GetAllBooks_DataShaping
         }
 
 
-        public async Task<IEnumerable<ExpandoObject>> Handle
+        public async Task<PagedList<ExpandoObject>> Handle
             (GetAllBooks_DataShapingQuery query, CancellationToken cancellationToken)
         {
             // Filtering
-            var list = _context.Books.AsNoTracking().Include(b => b.Publisher).AsQueryable();
+            var list = _context.Books
+                .AsNoTracking()
+                .Include(b => b.Publisher)
+                .AsQueryable();
             
             // Sorting
             list = _sortHelper.ApplySort(list, query._parameters.OrderBy);

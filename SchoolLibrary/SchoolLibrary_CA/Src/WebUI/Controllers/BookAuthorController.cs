@@ -122,7 +122,6 @@ namespace WebUI.Controllers
             
             return Ok(json);
         }
-
         
         /// <summary>
         /// Get BookAuthor by ids with selected fields
