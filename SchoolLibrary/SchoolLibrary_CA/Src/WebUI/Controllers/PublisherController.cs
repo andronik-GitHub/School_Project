@@ -92,7 +92,7 @@ namespace WebUI.Controllers
         {
             return Ok(await Mediator.Send(new DeletePublisherCommand { Id = id }));
         }
- 
+  
 
         /// <summary>
         /// Get list of Publisher with selected fields
