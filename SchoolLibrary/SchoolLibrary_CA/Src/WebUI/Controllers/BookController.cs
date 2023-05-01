@@ -92,7 +92,7 @@ namespace WebUI.Controllers
         {
             return Ok(await Mediator.Send(new DeleteBookCommand { Id = id }));
         }
-
+ 
 
         /// <summary>
         /// Get list of Book with selected fields
