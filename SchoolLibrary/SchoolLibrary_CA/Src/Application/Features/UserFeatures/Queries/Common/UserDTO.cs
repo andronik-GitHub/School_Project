@@ -1,6 +1,8 @@
-﻿namespace Application.Features.UserFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.UserFeatures.Queries.Common
 {
-    public class UserDTO
+    public class UserDTO: LinkBaseEntity
     {
         public Guid UserId { get; set; } = default!;
         public string FirstName { get; set; } = default!;

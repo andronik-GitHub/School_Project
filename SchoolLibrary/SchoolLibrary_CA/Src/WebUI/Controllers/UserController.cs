@@ -18,10 +18,12 @@ namespace WebUI.Controllers
     public class UserController : BaseController
     {
         /// <summary>
-        /// UserController constructor for initialisation ILogger
+        /// UserController constructor for initialisation ILogger and IUrlHelper
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        public UserController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        /// <param name="loggerFactory">ILoggerFactory</param>
+        /// <param name="urlHelper">IUrlHelper</param>
+        public UserController(ILoggerFactory loggerFactory, IUrlHelper urlHelper) 
+            : base(loggerFactory, urlHelper)
         {
         }
 
@@ -30,17 +32,23 @@ namespace WebUI.Controllers
         /// Get list of Users
         /// </summary>
         /// <returns>Returns list of Users</returns>
-        [HttpGet]
+        [HttpGet(Name = nameof(GetAllUserAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllUserAsync([FromQuery] UserParameter parameters)
         {
-            var list = await Mediator.Send(new GetAllUsersQuery(parameters));
+            var list = (await Mediator.Send(new GetAllUsersQuery(parameters))).ToList();
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]", 
-                list.Count(), 
+                list.Count, 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
 
+            list.ForEach(item => this.CreateLinksForEntity(
+                item,
+                item.UserId,
+                nameof(GetUserByIdAsync), 
+                nameof(UpdateUserAsync), 
+                nameof(DeleteUserAsync))); // HATEOAS
             return Ok(list);
         }
 
@@ -49,11 +57,17 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>Returns entity by id</returns>
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = nameof(GetUserByIdAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetUserByIdAsync(Guid id)
         {
-            return Ok(await Mediator.Send(new GetUserByIdQuery { Id = id }));
+            var entity = await Mediator.Send(new GetUserByIdQuery { Id = id });
+            return Ok(this.CreateLinksForEntity(
+                entity,
+                entity.UserId,
+                nameof(GetUserByIdAsync), 
+                nameof(UpdateUserAsync), 
+                nameof(DeleteUserAsync))); // HATEOAS
         }
         
         /// <summary>
@@ -61,7 +75,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Cteate command</param>
         /// <returns>Returns id created entity</returns>
-        [HttpPost]
+        [HttpPost(Name = nameof(CreateUserAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> CreateUserAsync(CreateUserCommand command)
         {
@@ -73,7 +87,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Update command</param>
         /// <returns>Returns id updated entity</returns>
-        [HttpPut]
+        [HttpPut(Name = nameof(UpdateUserAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateUserAsync(UpdateUserCommand command)
@@ -86,7 +100,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns>Return deleted entity id</returns>
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}", Name = nameof(DeleteUserAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteUserAsync(Guid id)
         {

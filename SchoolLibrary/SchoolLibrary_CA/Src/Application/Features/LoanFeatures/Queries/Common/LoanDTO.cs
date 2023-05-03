@@ -1,6 +1,8 @@
-﻿namespace Application.Features.LoanFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.LoanFeatures.Queries.Common
 {
-    public class LoanDTO
+    public class LoanDTO: LinkBaseEntity
     {
         public Guid LoanId { get; set; }
         public DateTime LoanDate { get; set; }

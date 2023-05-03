@@ -1,6 +1,8 @@
-﻿namespace Application.Features.PublisherFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.PublisherFeatures.Queries.Common
 {
-    public class PublisherDTO
+    public class PublisherDTO: LinkBaseEntity
     {
         public Guid PublisherId { get; set; }
         public string Name { get; set; } = default!;

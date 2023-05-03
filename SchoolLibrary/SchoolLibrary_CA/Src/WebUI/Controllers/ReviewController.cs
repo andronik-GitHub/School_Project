@@ -18,10 +18,12 @@ namespace WebUI.Controllers
     public class ReviewController : BaseController
     {
         /// <summary>
-        /// ReviewController constructor for initialisation ILogger
+        /// ReviewController constructor for initialisation ILogger and IUrlHelper
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        public ReviewController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        /// <param name="loggerFactory">ILoggerFactory</param>
+        /// <param name="urlHelper">IUrlHelper</param>
+        public ReviewController(ILoggerFactory loggerFactory, IUrlHelper urlHelper) 
+            : base(loggerFactory, urlHelper)
         {
         }
 
@@ -30,17 +32,23 @@ namespace WebUI.Controllers
         /// Get list of Reviews
         /// </summary>
         /// <returns>Returns list of Reviews</returns>
-        [HttpGet]
+        [HttpGet(Name = nameof(GetAllReviewAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllReviewAsync([FromQuery] ReviewParameter parameters)
         {
-            var list = await Mediator.Send(new GetAllReviewsQuery(parameters));
+            var list = (await Mediator.Send(new GetAllReviewsQuery(parameters))).ToList();
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]", 
-                list.Count(), 
+                list.Count, 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
 
+            list.ForEach(item => this.CreateLinksForEntity(
+                item,
+                item.ReviewId,
+                nameof(GetReviewByIdAsync), 
+                nameof(UpdateReviewAsync), 
+                nameof(DeleteReviewAsync))); // HATEOAS
             return Ok(list);
         }
 
@@ -49,11 +57,17 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">Review id</param>
         /// <returns>Returns entity by id</returns>
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = nameof(GetReviewByIdAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetReviewByIdAsync(Guid id)
         {
-            return Ok(await Mediator.Send(new GetReviewByIdQuery { Id = id }));
+            var entity = await Mediator.Send(new GetReviewByIdQuery { Id = id });
+            return Ok(this.CreateLinksForEntity(
+                entity,
+                entity.ReviewId,
+                nameof(GetReviewByIdAsync), 
+                nameof(UpdateReviewAsync), 
+                nameof(DeleteReviewAsync))); // HATEOAS
         }
         
         /// <summary>
@@ -61,7 +75,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Cteate command</param>
         /// <returns>Returns id created entity</returns>
-        [HttpPost]
+        [HttpPost(Name = nameof(CreateReviewAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> CreateReviewAsync(CreateReviewCommand command)
         {
@@ -73,7 +87,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Update command</param>
         /// <returns>Returns id updated entity</returns>
-        [HttpPut]
+        [HttpPut(Name = nameof(UpdateReviewAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateReviewAsync(UpdateReviewCommand command)
@@ -86,7 +100,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">Review Id</param>
         /// <returns>Return deleted entity id</returns>
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}", Name = nameof(DeleteReviewAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteReviewAsync(Guid id)
         {

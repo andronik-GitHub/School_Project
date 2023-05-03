@@ -32,7 +32,8 @@ var configuration = builder.Configuration;
 builder.Services.AddPersistence(configuration);
 builder.Services.AddApplication();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(); // HATEOS | NuGet package - Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
 
 // DataGenerator.InitBogusData(); // Seed data

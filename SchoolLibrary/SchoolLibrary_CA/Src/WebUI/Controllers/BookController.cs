@@ -18,10 +18,12 @@ namespace WebUI.Controllers
     public class BookController : BaseController
     {
         /// <summary>
-        /// BookController constructor for initialisation ILogger
+        /// BookController constructor for initialisation ILogger and IUrlHelper
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        public BookController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        /// <param name="loggerFactory">ILoggerFactory</param>
+        /// <param name="urlHelper">IUrlHelper</param>
+        public BookController(ILoggerFactory loggerFactory, IUrlHelper urlHelper) 
+            : base(loggerFactory, urlHelper)
         {
         }
 
@@ -30,17 +32,23 @@ namespace WebUI.Controllers
         /// Get list of Books
         /// </summary>
         /// <returns>Returns list of Books</returns>
-        [HttpGet]
+        [HttpGet(Name = nameof(GetAllBookAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllBookAsync([FromQuery] BookParameter parameters)
         {
-            var list = await Mediator.Send(new GetAllBooksQuery(parameters));
+            var list = (await Mediator.Send(new GetAllBooksQuery(parameters))).ToList();
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]", 
-                list.Count(), 
+                list.Count, 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
 
+            list.ForEach(item => this.CreateLinksForEntity(
+                item, 
+                item.BookId,
+                nameof(GetBookByIdAsync), 
+                nameof(UpdateBookAsync), 
+                nameof(DeleteBookAsync))); // HATEOAS
             return Ok(list);
         }
 
@@ -49,11 +57,17 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">Book id</param>
         /// <returns>Returns entity by id</returns>
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = nameof(GetBookByIdAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetBookByIdAsync(Guid id)
         {
-            return Ok(await Mediator.Send(new GetBookByIdQuery { Id = id }));
+            var entity = await Mediator.Send(new GetBookByIdQuery { Id = id });
+            return Ok(this.CreateLinksForEntity(
+                entity,
+                entity.BookId,
+                nameof(GetBookByIdAsync),
+                nameof(UpdateBookAsync),
+                nameof(DeleteBookAsync))); // HATEOAS
         }
         
         /// <summary>
@@ -61,7 +75,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Cteate command</param>
         /// <returns>Returns id created entity</returns>
-        [HttpPost]
+        [HttpPost(Name = nameof(CreateBookAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> CreateBookAsync(CreateBookCommand command)
         {
@@ -73,7 +87,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="command">Update command</param>
         /// <returns>Returns id updated entity</returns>
-        [HttpPut]
+        [HttpPut(Name = nameof(UpdateBookAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateBookAsync(UpdateBookCommand command)
@@ -86,7 +100,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="id">Book Id</param>
         /// <returns>Return deleted entity id</returns>
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}", Name = nameof(DeleteBookAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteBookAsync(Guid id)
         {

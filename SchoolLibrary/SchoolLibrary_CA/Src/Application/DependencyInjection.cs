@@ -4,6 +4,9 @@ using Application.Common.Interfaces;
 using Application.Common.Mapping.Mapster;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -14,6 +17,15 @@ namespace Application
         {
             services.AddMediatR(Assembly.GetExecutingAssembly()); // MediatR
             services.RegisterMapsterConfiguration(); // Mapster
+            
+            // HATEOAS
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper>(x =>
+            {
+                var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+                var factory = x.GetRequiredService<IUrlHelperFactory>();
+                return factory.GetUrlHelper(actionContext!);
+            });
 
             // For Sorting
             services.AddScoped<ISortHelper<Author>, SortHelper<Author>>();

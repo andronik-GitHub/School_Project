@@ -1,6 +1,8 @@
-﻿namespace Application.Features.BookDetailsFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.BookDetailsFeatures.Queries.Common
 {
-    public class BookDetailsDTO
+    public class BookDetailsDTO: LinkBaseEntity
     {
         public Guid BookDetailId { get; set; }
         public int Pages { get; set; }

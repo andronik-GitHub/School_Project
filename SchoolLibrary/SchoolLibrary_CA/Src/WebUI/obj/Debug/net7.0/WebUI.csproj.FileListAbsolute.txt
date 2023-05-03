@@ -89,3 +89,7 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Mapster.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Mapster.Core.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Newtonsoft.Json.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

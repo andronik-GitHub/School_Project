@@ -18,10 +18,12 @@ namespace WebUI.Controllers
     public class BookAuthorController : BaseController
     {
         /// <summary>
-        /// BookAuthorController constructor for initialisation ILogger
+        /// BookAuthorController constructor for initialisation ILogger and IUrlHelper
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        public BookAuthorController(ILoggerFactory loggerFactory) : base(loggerFactory)
+        /// <param name="loggerFactory">ILoggerFactory</param>
+        /// <param name="urlHelper">IUrlHelper</param>
+        public BookAuthorController(ILoggerFactory loggerFactory, IUrlHelper urlHelper) 
+            : base(loggerFactory, urlHelper)
         {
         }
         

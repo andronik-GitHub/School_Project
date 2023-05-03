@@ -9,11 +9,12 @@
             AuthorController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.AuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.AuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            AuthorController constructor for initialisation ILogger
+            AuthorController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.AuthorController.GetAllAuthorAsync(Application.Common.Pagging.Entities.AuthorParameter)">
             <summary>
@@ -66,7 +67,7 @@
         </member>
         <member name="T:WebUI.Controllers.BaseController">
             <summary>
-            A base controller class with IMediator 
+            A base controller class for an MVC controller without view support. With IMediator, ILogger, IUrlHelper
             </summary>
         </member>
         <member name="P:WebUI.Controllers.BaseController.Mediator">
@@ -74,22 +75,46 @@
             Defines a mediator to encapsulate request/response and publishing interaction patterns
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BaseController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="F:WebUI.Controllers.BaseController._logger">
             <summary>
-            Base constructor for initialisation ILogger
+            Represents a type used to perform logging.
             </summary>
-            <param name="loggerFactory"></param>
+        </member>
+        <member name="F:WebUI.Controllers.BaseController._urlHelper">
+            <summary>
+            Defines the contract for the helper to build URLs for ASP.NET MVC within an application
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.BaseController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
+            <summary>
+            Base constructor for initialisation ILogger and IUrlHelper
+            </summary>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
+        </member>
+        <member name="M:WebUI.Controllers.BaseController.CreateLinksForEntity``1(``0,System.Guid,System.String,System.String,System.String)">
+            <summary>
+            Create links for implementation HATEOAS in entity
+            </summary>
+            <param name="entity">Essential entity(DTO)</param>
+            <param name="entityId">Entity Id</param>
+            <param name="selfLinkName">Self link name</param>
+            <param name="updateLinkName">Update link name</param>
+            <param name="deleteLinkName">Delete link name</param>
+            <typeparam name="TEntity">Type essential entity(DTO)</typeparam>
+            <returns>Returns entity with generated links</returns>
         </member>
         <member name="T:WebUI.Controllers.BookAuthorController">
             <summary>
             BookAuthorsAuthorController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookAuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.BookAuthorController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            BookAuthorController constructor for initialisation ILogger
+            BookAuthorController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.BookAuthorController.GetAllBookAuthorsAsync(Application.Common.Pagging.Entities.BookAuthorParameter)">
             <summary>
@@ -148,11 +173,12 @@
             BookController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.BookController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            BookController constructor for initialisation ILogger
+            BookController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.BookController.GetAllBookAsync(Application.Common.Pagging.Entities.BookParameter)">
             <summary>
@@ -208,11 +234,12 @@
             BookDetailsController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookDetailsController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.BookDetailsController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            BookDetailsController constructor for initialisation ILogger
+            BookDetailsController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.BookDetailsController.GetAllBookDetailsAsync(Application.Common.Pagging.Entities.BookDetailsParameter)">
             <summary>
@@ -268,11 +295,12 @@
             BookGenresGenreController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.BookGenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.BookGenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            BookGenreController constructor for initialisation ILogger
+            BookGenreController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.BookGenreController.GetAllBookGenresAsync(Application.Common.Pagging.Entities.BookGenreParameter)">
             <summary>
@@ -331,11 +359,12 @@
             GenreController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.GenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.GenreController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            GenreController constructor for initialisation ILogger
+            GenreController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.GenreController.GetAllGenreAsync(Application.Common.Pagging.Entities.GenreParameter)">
             <summary>
@@ -391,11 +420,12 @@
             LoanController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.LoanController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.LoanController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            LoanController constructor for initialisation ILogger
+            LoanController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.LoanController.GetAllLoanAsync(Application.Common.Pagging.Entities.LoanParameter)">
             <summary>
@@ -451,11 +481,12 @@
             PublisherController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.PublisherController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.PublisherController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            PublisherController constructor for initialisation ILogger
+            PublisherController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.PublisherController.GetAllPublisherAsync(Application.Common.Pagging.Entities.PublisherParameter)">
             <summary>
@@ -511,11 +542,12 @@
             ReviewController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.ReviewController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.ReviewController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            ReviewController constructor for initialisation ILogger
+            ReviewController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.ReviewController.GetAllReviewAsync(Application.Common.Pagging.Entities.ReviewParameter)">
             <summary>
@@ -571,11 +603,12 @@
             UserController
             </summary>
         </member>
-        <member name="M:WebUI.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:WebUI.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
-            UserController constructor for initialisation ILogger
+            UserController constructor for initialisation ILogger and IUrlHelper
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
         </member>
         <member name="M:WebUI.Controllers.UserController.GetAllUserAsync(Application.Common.Pagging.Entities.UserParameter)">
             <summary>

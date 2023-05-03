@@ -1,6 +1,8 @@
-﻿namespace Application.Features.AuthorFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.AuthorFeatures.Queries.Common
 {
-    public class AuthorDTO
+    public class AuthorDTO : LinkBaseEntity
     {
         public Guid AuthorId { get; set; }
         public string FirstName { get; set; } = default!;

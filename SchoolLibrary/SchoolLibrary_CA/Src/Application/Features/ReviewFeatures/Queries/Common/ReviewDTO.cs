@@ -1,6 +1,8 @@
-﻿namespace Application.Features.ReviewFeatures.Queries.Common
+﻿using Application.Common.HATEOS;
+
+namespace Application.Features.ReviewFeatures.Queries.Common
 {
-    public class ReviewDTO
+    public class ReviewDTO: LinkBaseEntity
     {
         public Guid ReviewId { get; set; }
         public decimal Rating { get; set; }
