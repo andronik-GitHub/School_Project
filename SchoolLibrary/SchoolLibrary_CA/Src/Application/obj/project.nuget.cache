@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "gvHAE7hETTDPJlo/X6bxb9bEjnGE2CsD1fNRs6o8JTbsNlDvSCJ0mp7EfgVQmuQqnHkFgxjfVBKzP6yKaMwJJA==",
+  "dgSpecHash": "OB4yyPuoiKTLrPWKJh+H9dFLKvth+Y01FsHiZdAKPYZLOa7IPvu0NQVAeTKKcJhYegaQZpTzQnibzJN7SJnupw==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mapster\\7.4.0-pre06\\mapster.7.4.0-pre06.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mapster.core\\1.2.1-pre04\\mapster.core.1.2.1-pre04.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",

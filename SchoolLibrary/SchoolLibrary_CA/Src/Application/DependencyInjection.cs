@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
+using Application.Common.Behaviours;
 using Application.Common.Helpers;
 using Application.Common.Interfaces;
 using Application.Common.Mapping.Mapster;
 using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -16,6 +18,12 @@ namespace Application
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly()); // MediatR
+            
+            // ValidationBehavior registration
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            // Add the validators that implemented using FluentValidation
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            
             services.RegisterMapsterConfiguration(); // Mapster
             
             // HATEOAS
