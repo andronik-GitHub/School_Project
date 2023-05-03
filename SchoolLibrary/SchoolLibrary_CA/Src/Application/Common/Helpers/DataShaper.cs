@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Reflection;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 
 namespace Application.Common.Helpers
@@ -15,7 +16,7 @@ namespace Application.Common.Helpers
         }
 
 
-        public IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> entities, string? fieldsString)
+        public IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string? fieldsString)
         {
             // Parsing the input string and returns just the properties we need to return to the controller
             var requiredProperties = GetRequiredProperties(fieldsString);
@@ -23,7 +24,7 @@ namespace Application.Common.Helpers
             // and return extracted values from required prepared properties
             return FetchData(entities, requiredProperties);
         }
-        public ExpandoObject ShapeData(T entity, string? fieldsString)
+        public ShapedEntity ShapeData(T entity, string? fieldsString)
         {
             // Parsing the input string and returns just the properties we need to return to the controller
             var requiredProperties = GetRequiredProperties(fieldsString);
@@ -60,24 +61,34 @@ namespace Application.Common.Helpers
         }
 
         // Private methods to extract values from required prepared properties
-        private static ExpandoObject FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
+        private static ShapedEntity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
         {
-            var shapedObject = new ExpandoObject();
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            
+            var shapedObject = new ShapedEntity();
 
             // Iterating over the required properties
             foreach (var property in requiredProperties)
             {
                 // and using a bit of reflection, to extract the values and add them to ExpandoObject
                 var objectPropertyValue = property.GetValue(entity);
-                shapedObject.TryAdd(property.Name, objectPropertyValue);
+                shapedObject.Entity.TryAdd(property.Name, objectPropertyValue);
             }
+            
+            var objectProperty = entity
+                .GetType()
+                .GetProperties()
+                .FirstOrDefault(pi => pi.Name.Contains("Id")); // searching param in class
+            
+            if (objectProperty == null) throw new ArgumentNullException(nameof(entity));
+            shapedObject.Id = (Guid)objectProperty.GetValue(entity)!;
 
             return shapedObject;
         }
-        private static IEnumerable<ExpandoObject> FetchData
+        private static IEnumerable<ShapedEntity> FetchData
             (IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
         {
-            var shapedData = new List<ExpandoObject>();
+            var shapedData = new List<ShapedEntity>();
 
             // Looping through the list of entities
             entities.ToList().ForEach(entity =>

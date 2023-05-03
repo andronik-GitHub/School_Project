@@ -122,9 +122,16 @@ namespace WebUI.Controllers
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]",
-                list.Count(), 
+                list.Count, 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
+            
+            list.ForEach(item => this.CreateLinksForEntity(
+                item,
+                item.Id,
+                nameof(GetBookDetailsByIdAsync), 
+                nameof(UpdateBookDetailsAsync), 
+                nameof(DeleteBookDetailsAsync))); // HATEOAS
             
             string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
             {
@@ -153,13 +160,13 @@ namespace WebUI.Controllers
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
             
-            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
-            {
-                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
-                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
-            });
-            
-            return Ok(json);
+            return Ok(this.CreateLinksForEntity(
+                    entity,
+                    entity.Id,
+                    nameof(GetBookDetailsByIdAsync), 
+                    nameof(UpdateBookDetailsAsync), 
+                    nameof(DeleteBookDetailsAsync))
+                .ToString()); // HATEOAS
         }
     }
 }

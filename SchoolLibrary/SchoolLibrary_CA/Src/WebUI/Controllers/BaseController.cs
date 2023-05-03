@@ -1,4 +1,5 @@
-﻿using Application.Common.HATEOS;
+﻿using System.Dynamic;
+using Application.Common.HATEOS;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Dynamic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using Application.Common.HATEOS;
 using Application.Common.Pagging.Entities;
 using Application.Features.AuthorFeatures.Commands.CreateAuthor;
 using Application.Features.AuthorFeatures.Commands.DeleteAuthor;
@@ -125,13 +127,20 @@ namespace WebUI.Controllers
             if (!parameters.ValidYearRand) // if invalid filtering data is entered
                 return StatusCode(StatusCodes.Status400BadRequest);
 
-            var list = await Mediator.Send(new GetAllAuthors_DataShapingQuery(parameters));
+            var list = (await Mediator.Send(new GetAllAuthors_DataShapingQuery(parameters))).ToList();
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]",
-                list.Count(), 
+                list.Count, 
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
+            
+            list.ForEach(item => this.CreateLinksForEntity(
+                item,
+                item.Id,
+                nameof(GetAuthorByIdAsync),
+                nameof(UpdateAuthorAsync),
+                nameof(DeleteAuthorAsync))); // HATEOAS
             
             string json = JsonSerializer.Serialize(list, new JsonSerializerOptions
             {
@@ -161,14 +170,13 @@ namespace WebUI.Controllers
                 "Entity were successfully extracted from [{Table}]",
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
             
-            
-            string json = JsonSerializer.Serialize(entity, new JsonSerializerOptions
-            {
-                WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
-                ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references
-            });
-            
-            return Ok(json);
+            return Ok(this.CreateLinksForEntity(
+                    entity,
+                    entity.Id,
+                    nameof(GetAuthorByIdAsync),
+                    nameof(UpdateAuthorAsync),
+                    nameof(DeleteAuthorAsync))
+                .ToString()); // HATEOAS
         }
     }
 }

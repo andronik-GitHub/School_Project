@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 using Application.Common.Pagging;
 using Domain.Entities;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.BookAuthorFeatures.Queries.GetAllBookAuthors_DataShaping
 {
     public class GetAllBookAuthors_DataShapingQueryHandler 
-        : IRequestHandler<GetAllBookAuthors_DataShapingQuery, PagedList<ExpandoObject>>
+        : IRequestHandler<GetAllBookAuthors_DataShapingQuery, PagedList<ShapedEntity>>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly ISortHelper<BookAuthors> _sortHelper;
@@ -24,7 +25,7 @@ namespace Application.Features.BookAuthorFeatures.Queries.GetAllBookAuthors_Data
             _dataShaper = dataShaper;
         }
 
-        public async Task<PagedList<ExpandoObject>> Handle
+        public async Task<PagedList<ShapedEntity>> Handle
             (GetAllBookAuthors_DataShapingQuery query, CancellationToken cancellationToken)
         {
             // Filtering
@@ -41,7 +42,7 @@ namespace Application.Features.BookAuthorFeatures.Queries.GetAllBookAuthors_Data
             
             // Paging
             return await Task.Run(
-                () => PagedList<ExpandoObject>.ToPagedList(
+                () => PagedList<ShapedEntity>.ToPagedList(
                     shapedList, 
                     query._parameters.PageNumber, 
                     query._parameters.PageSize),

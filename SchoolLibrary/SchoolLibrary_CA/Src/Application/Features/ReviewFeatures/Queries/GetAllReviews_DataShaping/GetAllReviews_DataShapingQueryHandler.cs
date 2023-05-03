@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 using Application.Common.Pagging;
 using Domain.Entities;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.ReviewFeatures.Queries.GetAllReviews_DataShaping
 {
     public class GetAllReviews_DataShapingQueryHandler
-        : IRequestHandler<GetAllReviews_DataShapingQuery, PagedList<ExpandoObject>>
+        : IRequestHandler<GetAllReviews_DataShapingQuery, PagedList<ShapedEntity>>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly ISortHelper<Review> _sortHelper;
@@ -25,7 +26,7 @@ namespace Application.Features.ReviewFeatures.Queries.GetAllReviews_DataShaping
         }
 
 
-        public async Task<PagedList<ExpandoObject>> Handle
+        public async Task<PagedList<ShapedEntity>> Handle
             (GetAllReviews_DataShapingQuery query, CancellationToken cancellationToken)
         {
             // Filtering
@@ -43,7 +44,7 @@ namespace Application.Features.ReviewFeatures.Queries.GetAllReviews_DataShaping
             
             // Paging
             return await Task.Run(
-                () => PagedList<ExpandoObject>.ToPagedList(
+                () => PagedList<ShapedEntity>.ToPagedList(
                     shapedList, 
                     query._parameters.PageNumber, 
                     query._parameters.PageSize),

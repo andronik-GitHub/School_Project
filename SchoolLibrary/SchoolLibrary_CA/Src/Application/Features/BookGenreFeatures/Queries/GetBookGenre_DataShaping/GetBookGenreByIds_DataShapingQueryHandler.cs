@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using Application.Common.Exceptions;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.BookGenreFeatures.Queries.GetBookGenre_DataShaping
 {
     public class GetBookGenreByIds_DataShapingQueryHandler 
-        : IRequestHandler<GetBookGenreByIds_DataShapingQuery, ExpandoObject>
+        : IRequestHandler<GetBookGenreByIds_DataShapingQuery, ShapedEntity>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly IDataShaper<BookGenres> _dataShaper;
@@ -22,7 +23,7 @@ namespace Application.Features.BookGenreFeatures.Queries.GetBookGenre_DataShapin
         }
 
 
-        public async Task<ExpandoObject> Handle
+        public async Task<ShapedEntity> Handle
             (GetBookGenreByIds_DataShapingQuery query, CancellationToken cancellationToken)
         {
             var entity = await _context.BookGenres

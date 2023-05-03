@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using Application.Common.Exceptions;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.PublisherFeatures.Queries.GetPublisher_DataShaping
 {
     public class GetPublisherById_DataShapingQueryHandler
-        : IRequestHandler<GetPublisherById_DataShapingQuery, ExpandoObject>
+        : IRequestHandler<GetPublisherById_DataShapingQuery, ShapedEntity>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly IDataShaper<Publisher> _dataShaper;
@@ -22,7 +23,7 @@ namespace Application.Features.PublisherFeatures.Queries.GetPublisher_DataShapin
         }
 
 
-        public async Task<ExpandoObject> Handle
+        public async Task<ShapedEntity> Handle
             (GetPublisherById_DataShapingQuery query, CancellationToken cancellationToken)
         {
             var entity = await _context.Publishers

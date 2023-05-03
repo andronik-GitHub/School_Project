@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using Application.Common.Exceptions;
+using Application.Common.HATEOS;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.LoanFeatures.Queries.GetLoan_DataShaping
 {
-    public class GetLoanById_DataShapingQueryHandler : IRequestHandler<GetLoanById_DataShapingQuery, ExpandoObject>
+    public class GetLoanById_DataShapingQueryHandler : IRequestHandler<GetLoanById_DataShapingQuery, ShapedEntity>
     {
         private readonly ISchoolLibraryContext _context;
         private readonly IDataShaper<Loan> _dataShaper;
@@ -21,7 +22,7 @@ namespace Application.Features.LoanFeatures.Queries.GetLoan_DataShaping
         }
 
 
-        public async Task<ExpandoObject> Handle(GetLoanById_DataShapingQuery query, CancellationToken cancellationToken)
+        public async Task<ShapedEntity> Handle(GetLoanById_DataShapingQuery query, CancellationToken cancellationToken)
         {
             var entity = await _context.Loans
                 .AsNoTracking()
