@@ -83,6 +83,7 @@ namespace WebUI.Controllers
         /// <returns>Returns id created entity</returns>
         [HttpPost(Name = nameof(CreateAuthorAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> CreateAuthorAsync(CreateAuthorCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -96,6 +97,7 @@ namespace WebUI.Controllers
         [HttpPut(Name = nameof(UpdateAuthorAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> UpdateAuthorAsync(UpdateAuthorCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -108,6 +110,7 @@ namespace WebUI.Controllers
         /// <returns>Return deleted entity id</returns>
         [HttpDelete("{id:guid}", Name = nameof(DeleteAuthorAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> DeleteAuthorAsync(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteAuthorCommand { Id = id }));

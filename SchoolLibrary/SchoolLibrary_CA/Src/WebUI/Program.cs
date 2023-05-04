@@ -1,5 +1,6 @@
 using System.Reflection;
 using Application;
+using Application.Common.Behaviours;
 using Application.System.Commands.SeedBogusData;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -39,6 +40,7 @@ builder.Services.AddControllers()
 // DataGenerator.InitBogusData(); // Seed data
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>(); // registration custom ExceptionHandlingMiddleware
 
 #region Swagger
 {

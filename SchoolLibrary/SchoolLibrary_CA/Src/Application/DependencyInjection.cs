@@ -21,6 +21,8 @@ namespace Application
             
             // ValidationBehavior registration
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            // add the ExceptionHandlingMiddleware in the ConfigureServices
+            services.AddTransient<ExceptionHandlingMiddleware>();
             // Add the validators that implemented using FluentValidation
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             
