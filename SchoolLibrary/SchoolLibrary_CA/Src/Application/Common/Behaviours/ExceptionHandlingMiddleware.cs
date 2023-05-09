@@ -15,11 +15,16 @@ namespace Application.Common.Behaviours
         }
 
 
+        // Request handling method
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
             {
+                // If everything goes well, the _next delegate should process the request
                 await next(context);
+                
+                // But if a request is unsuccessful, middleware will trigger
+                // the catch block and call the HandleExceptionAsync method
             }
             catch (Exception ex)
             {
@@ -29,6 +34,7 @@ namespace Application.Common.Behaviours
             }
         }
 
+        // Sets up the response status code and content type and return a response
         private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var statusCode = GetStatusCode(exception);
@@ -57,7 +63,6 @@ namespace Application.Common.Behaviours
         {
             return exception.GetType().Name;
         }
-
         private static IReadOnlyDictionary<string, string[]> GetErrors(Exception exception)
         {
             IReadOnlyDictionary<string, string[]> errors = default!;

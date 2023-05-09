@@ -40,7 +40,7 @@ builder.Services.AddControllers()
 // DataGenerator.InitBogusData(); // Seed data
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>(); // registration custom ExceptionHandlingMiddleware
+app.UseMiddleware<ExceptionHandlingMiddleware>(); // Custom middleware (ExceptionHandlingMiddleware)
 
 #region Swagger
 {

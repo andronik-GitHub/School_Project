@@ -1,7 +1,5 @@
-﻿using System.Dynamic;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Application.Common.HATEOS;
 using Application.Common.Pagging.Entities;
 using Application.Features.AuthorFeatures.Commands.CreateAuthor;
 using Application.Features.AuthorFeatures.Commands.DeleteAuthor;
