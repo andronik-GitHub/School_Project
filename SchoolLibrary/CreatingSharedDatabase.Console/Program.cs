@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
-// DataGenerator.InitBogusData(); // seeding dbcontext
+DataGenerator.InitBogusData(); // seeding dbcontext
 // GenericHost
 using IHost host = Host.CreateDefaultBuilder()
     .ConfigureAppConfiguration((context, builder) =>

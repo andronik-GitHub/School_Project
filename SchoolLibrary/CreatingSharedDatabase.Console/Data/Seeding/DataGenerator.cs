@@ -1,20 +1,26 @@
 ﻿using Bogus;
 using CreatingSharedDatabase.Console.Entities;
+using CreatingSharedDatabase.Console.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreatingSharedDatabase.Console.Data.Seeding
 {
-    public class DataGenerator
+    public static class DataGenerator
     {
         public static List<Book> Books = new();
         public static List<BookDetails> BookDetails = new();
         public static List<Author> Authors = new();
         public static List<Publisher> Publishers = new();
-        public static List<User> Users = new();
+        // public static List<User> Users = new();
         public static List<Loan> Loans = new();
         public static List<Review> Reviews = new();
         public static List<Genre> Genres = new();
         public static List<BookGenres> BookGenres = new();
         public static List<BookAuthors> BookAuthors = new();
+        
+        public static List<User> Users = new();
+        public static List<IdentityRole<Guid>> Roles = new();
+        public static List<IdentityUserRole<Guid>> UsersRoles = new();
         
 
         private const int BOOKS = 500;
@@ -63,15 +69,16 @@ namespace CreatingSharedDatabase.Console.Data.Seeding
         private static Faker<User> GetUserGenerator()
         {
             return new Faker<User>()
-                .RuleFor(u => u.UserId, _ => Guid.NewGuid())
+                .RuleFor(u => u.Id, _ => Guid.NewGuid())
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
                 .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
-                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor
+                    (u => u.PasswordHash, f => new PasswordHasher<User>().HashPassword(null!, f.Internet.Password()))
                 .RuleFor(u => u.Street, f => f.Address.StreetAddress())
                 .RuleFor(u => u.City, f => f.Address.City())
                 .RuleFor(u => u.Country, f => f.Address.Country())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber(@"## (###) ##-##"));
+                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber(@"+## ## (###) ##-##"));
         }
         private static Faker<Loan> GetLoanGenerator(Guid UserId, Guid BookId)
         {
@@ -155,9 +162,41 @@ namespace CreatingSharedDatabase.Console.Data.Seeding
 
         public static void InitBogusData()
         {
+            // Add IdentityRoles
+            Roles.AddRange(new List<IdentityRole<Guid>>
+            {
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = AuthorizationRoles.Administrator.ToString(),
+                    NormalizedName = AuthorizationRoles.Administrator.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = AuthorizationRoles.Moderator.ToString(),
+                    NormalizedName = AuthorizationRoles.Moderator.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = AuthorizationRoles.User.ToString(),
+                    NormalizedName = AuthorizationRoles.User.ToString().ToUpper()
+                }
+            });
+            // Add IdentityUsers
+            Users.AddRange(GetUserGenerator().Generate(USERS));
+            // Add IdentityUserRole
+            UsersRoles.AddRange(Users.Select(u => new IdentityUserRole<Guid>
+            {
+                RoleId = Roles[new Random().Next(0, Roles.Count)].Id,
+                UserId = u.Id
+            }));
+            
+            
             Authors.AddRange(GetAuthorGenerator().Generate(AUTHORS));
             Publishers.AddRange(GetPublisherGenerator().Generate(PUBLISHERS));
-            Users.AddRange(GetUserGenerator().Generate(USERS));
+            // Users.AddRange(GetUserGenerator().Generate(USERS));
             Genres.AddRange(GetGenreGenerator().Generate(GENRES));
 
             Publishers.ForEach(publisher =>
@@ -168,7 +207,7 @@ namespace CreatingSharedDatabase.Console.Data.Seeding
             for (int i = 0; i < LOANS; i++)
                 Loans.AddRange(
                     GetBogusLoanData(
-                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Users[new Random().Next(0, Users.Count)].Id,
                         Books[new Random().Next(0, Books.Count)].BookId
                     )
                 );
@@ -176,7 +215,7 @@ namespace CreatingSharedDatabase.Console.Data.Seeding
             for (int i = 0; i < REVIEWS; i++)
                 Reviews.AddRange(
                     GetBogusReviewData(
-                        Users[new Random().Next(0, Users.Count)].UserId,
+                        Users[new Random().Next(0, Users.Count)].Id,
                         Books[new Random().Next(0, Books.Count)].BookId
                     )
                 );

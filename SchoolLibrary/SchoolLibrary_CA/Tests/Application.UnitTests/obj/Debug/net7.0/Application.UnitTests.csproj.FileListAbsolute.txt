@@ -15,14 +15,6 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Applica
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Caching.Memory.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Logging.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.TestPlatform.CoreUtilities.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
@@ -116,3 +108,11 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Applica
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\obj\Debug\net7.0\Application.UnitTests.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\obj\Debug\net7.0\Application.UnitTests.genruntimeconfig.cache
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\obj\Debug\net7.0\ref\Application.UnitTests.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\FluentValidation.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Mapster.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Mapster.Core.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Tests\Application.UnitTests\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll

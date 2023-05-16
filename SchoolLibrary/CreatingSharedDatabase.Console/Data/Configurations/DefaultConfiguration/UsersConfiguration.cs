@@ -9,12 +9,6 @@ namespace CreatingSharedDatabase.Console.Data.Configurations.DefaultConfiguratio
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasKey(u => u.UserId);
-            builder
-                .Property(u => u.UserId)
-                .ValueGeneratedOnAdd();
-
-            builder
                 .Property(e => e.DateCreated)
                 .HasDefaultValueSql("GETUTCDATE()");
 
@@ -43,25 +37,17 @@ namespace CreatingSharedDatabase.Console.Data.Configurations.DefaultConfiguratio
                 .Property(p => p.Country)
                 .HasColumnType("NVARCHAR(50)")
                 .IsRequired();
-            builder
-                .Property(p => p.Password)
-                .HasColumnType("NVARCHAR(30)")
-                .IsRequired();
-            builder
-                .Property(p => p.Phone)
-                .HasColumnType("NVARCHAR(20)")
-                .IsRequired();
             
             
             builder // one-to-many  Users - Loans
                 .HasMany(u => u.Loans)
                 .WithOne(l => l.User)
-                .HasPrincipalKey(l => l.UserId);
+                .HasPrincipalKey(l => l.Id);
 
             builder // one-to-many  Users - Reviews
                 .HasMany(u => u.Reviews)
                 .WithOne(r => r.User)
-                .HasPrincipalKey(r => r.UserId);
+                .HasPrincipalKey(r => r.Id);
         }
     }
 }
