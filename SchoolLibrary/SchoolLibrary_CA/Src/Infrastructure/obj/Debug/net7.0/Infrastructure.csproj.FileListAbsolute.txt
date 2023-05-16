@@ -10,3 +10,8 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastru
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\obj\Debug\net7.0\refint\Infrastructure.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\obj\Debug\net7.0\Infrastructure.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\obj\Debug\net7.0\ref\Infrastructure.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\bin\Debug\net7.0\Application.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\bin\Debug\net7.0\Domain.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\bin\Debug\net7.0\Application.pdb
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\bin\Debug\net7.0\Domain.pdb
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Infrastructure\obj\Debug\net7.0\Infrastructure.csproj.CopyComplete

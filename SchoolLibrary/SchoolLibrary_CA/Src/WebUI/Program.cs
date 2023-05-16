@@ -2,6 +2,7 @@ using System.Reflection;
 using Application;
 using Application.Common.Behaviours;
 using Application.System.Commands.SeedBogusData;
+using Infrastructure;
 using Microsoft.OpenApi.Models;
 using Persistence;
 
@@ -30,6 +31,7 @@ var configuration = builder.Configuration;
 }
 #endregion
 
+builder.Services.AddInfrastructure(configuration);
 builder.Services.AddPersistence(configuration);
 builder.Services.AddApplication();
 

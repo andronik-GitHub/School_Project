@@ -4,8 +4,10 @@
     <option name="keyValueStorage">
       <map>
         <entry key="Common:91de8e9f-dc0f-4980-92e6-a99939a2b4f1:dbContext" value="SchoolLibrary_EF.DAL.Data.SchoolLibraryContext" />
+        <entry key="Common:9a7b1e3e-d678-4d77-916b-eccbc2d77a7e:dbContext" value="CreatingSharedDatabase.Console.Data.SchoolLibraryContext" />
         <entry key="Common:b9aa7e1d-76dc-49b3-9069-c18c1a720609:dbContext" value="Persistence.Data.Context.SQLServer_SchoolLibraryContext" />
         <entry key="Common:buildConfiguration" value="Debug" />
+        <entry key="Common:fcbd2803-2daa-47e3-b355-37d5e21b40a2:dbContext" value="Infrastructure.Identity.Context.ApplicationDbContext" />
         <entry key="Common:noBuild" value="false" />
         <entry key="Common:outputFolder" value="Migrations" />
         <entry key="Common:useDefaultConnection" value="true" />

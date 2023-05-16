@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "SchoolL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "SchoolLibrary_CA\Tests\Application.UnitTests\Application.UnitTests.csproj", "{82C98B8C-C540-43C1-A37F-9892FB144253}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingSharedDatabase.Console", "CreatingSharedDatabase.Console\CreatingSharedDatabase.Console.csproj", "{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{82C98B8C-C540-43C1-A37F-9892FB144253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82C98B8C-C540-43C1-A37F-9892FB144253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82C98B8C-C540-43C1-A37F-9892FB144253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

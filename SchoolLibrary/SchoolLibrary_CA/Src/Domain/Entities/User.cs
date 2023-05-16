@@ -11,7 +11,7 @@ namespace Domain.Entities
         public string Password { get; set; } = default!;
         public Address Address { get; set; } = default!; // ValueObject
         public string Phone { get; set; } = default!;
-
+    
         public ICollection<Loan> Loans { get; private set; } = new HashSet<Loan>(); // one-to-many
         public ICollection<Review> Reviews { get; private set; } = new HashSet<Review>(); // one-to-many
 

@@ -20,7 +20,8 @@ namespace Persistence
                     .EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<ISchoolLibraryContext>(provider => provider.GetRequiredService<SQLServer_SchoolLibraryContext>());
+            services.AddScoped<ISchoolLibraryContext>
+                (provider => provider.GetRequiredService<SQLServer_SchoolLibraryContext>());
         } 
     }
 }

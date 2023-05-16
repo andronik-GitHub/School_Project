@@ -15,3 +15,5 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persisten
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persistence\obj\Debug\net7.0\refint\Persistence.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persistence\obj\Debug\net7.0\Persistence.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persistence\obj\Debug\net7.0\ref\Persistence.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persistence\bin\Debug\net7.0\Infrastructure.dll
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\Persistence\bin\Debug\net7.0\Infrastructure.pdb
