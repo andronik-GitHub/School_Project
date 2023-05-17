@@ -20,7 +20,7 @@ namespace Persistence.Data.Seeding
                     {
                         user.UserId,
                         user.Email,
-                        user.Password,
+                        user.PasswordHash,
                         user.Phone
                     });
                     

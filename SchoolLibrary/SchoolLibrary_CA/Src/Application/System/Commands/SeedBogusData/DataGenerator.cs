@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Domain.Entities;
 using Domain.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.System.Commands.SeedBogusData
 {
@@ -81,7 +82,8 @@ namespace Application.System.Commands.SeedBogusData
                 .RuleFor(u => u.UserId, _ => Guid.NewGuid())
                 .RuleFor(u => u.UserName, _ => GetUserNameGenerator().Generate())
                 .RuleFor(u => u.Email, f => f.Internet.Email(f.Name.FindName(), f.Name.LastName()))
-                .RuleFor(u => u.Password, f => f.Internet.Password())
+                .RuleFor
+                    (u => u.PasswordHash, f => new PasswordHasher<User>().HashPassword(null!, f.Internet.Password()))
                 .RuleFor(u => u.Address, _ => GetAddressGenerator().Generate())
                 .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber(@"## (###) ##-##"));
         }

@@ -41,6 +41,7 @@ using (IServiceScope serviceScope = host.Services.CreateScope())
     try
     {
         var dbcontext = provider.GetRequiredService<SchoolLibraryContext>();
+        dbcontext.Database.Migrate();
         
         string json = JsonSerializer.Serialize(dbcontext.Users.ToList(), new JsonSerializerOptions
         {

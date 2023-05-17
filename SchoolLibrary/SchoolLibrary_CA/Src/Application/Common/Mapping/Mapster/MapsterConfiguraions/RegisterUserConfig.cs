@@ -26,7 +26,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                     LastName = new Name(src.LastName)
                 })
                 .Map(dest => dest.Email, src => src.Email)
-                .Map(dest => dest.Password, src => src.Password)
+                .Map(dest => dest.PasswordHash, src => src.Password)
                 .Map(dest => dest.Address, src => new Address
                 {
                     Street = new Location(src.Street),
@@ -47,7 +47,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                     LastName = new Name(src.LastName)
                 })
                 .Map(dest => dest.Email, src => src.Email)
-                .Map(dest => dest.Password, src => src.Password)
+                .Map(dest => dest.PasswordHash, src => src.Password)
                 .Map(dest => dest.Address, src => new Address
                 {
                     Street = new Location(src.Street),
@@ -65,7 +65,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .Map(dest => dest.FirstName, src => src.UserName.FirstName.Value)
                 .Map(dest => dest.LastName, src => src.UserName.LastName.Value)
                 .Map(dest => dest.Email, src => src.Email)
-                .Map(dest => dest.Password, src => src.Password)
+                .Map(dest => dest.Password, src => src.PasswordHash)
                 .Map(dest => dest.Street, src => src.Address.Street.Value)
                 .Map(dest => dest.City, src => src.Address.City.Value)
                 .Map(dest => dest.Country, src => src.Address.Country.Value)

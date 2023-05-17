@@ -8,6 +8,8 @@ namespace Persistence.Data.Configurations.DefaultConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("AspNetUsers");
+        
             #region Configuration ValueObjects
             {
                 builder.OwnsOne(u => u.UserName, userName =>
@@ -53,6 +55,7 @@ namespace Persistence.Data.Configurations.DefaultConfiguration
                 .HasKey(u => u.UserId);
             builder
                 .Property(u => u.UserId)
+                .HasColumnName("Id")
                 .ValueGeneratedOnAdd();
 
             builder
@@ -65,12 +68,13 @@ namespace Persistence.Data.Configurations.DefaultConfiguration
                 .HasColumnType("NVARCHAR(80)")
                 .IsRequired();
             builder
-                .Property(p => p.Password)
+                .Property(p => p.PasswordHash)
                 .HasColumnType("NVARCHAR(30)")
                 .IsRequired();
             builder
                 .Property(p => p.Phone)
                 .HasColumnType("NVARCHAR(20)")
+                .HasColumnName("PhoneNumber")
                 .IsRequired();
             
             

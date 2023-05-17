@@ -8,7 +8,7 @@ namespace Domain.Entities
         public Guid UserId { get; set; }
         public UserName UserName { get; set; } = default!; // ValueObject
         public string Email { get; set; } = default!;
-        public string Password { get; set; } = default!;
+        public string PasswordHash { get; set; } = default!;
         public Address Address { get; set; } = default!; // ValueObject
         public string Phone { get; set; } = default!;
     

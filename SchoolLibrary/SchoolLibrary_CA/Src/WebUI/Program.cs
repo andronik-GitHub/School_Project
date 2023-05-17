@@ -10,7 +10,6 @@ using Persistence;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-
 #region Swagger
 {
     // Register a Swagger generator by defining 1 or more Swagger documents
@@ -60,7 +59,6 @@ app.UseMiddleware<ExceptionHandlingMiddleware>(); // Custom middleware (Exceptio
     }
 }
 #endregion
-
 
 app.MapControllers();
 
