@@ -659,5 +659,23 @@
             <param name="parameters">Fields, that need select</param>
             <returns>Returns entity by id with selected fields</returns>
         </member>
+        <member name="T:WebUI.Controllers.UserIdentityController">
+            <summary>
+            UserIdentityController
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
+            <summary>
+            UserIdentityController constructor for initialisation ILogger and IUrlHelper
+            </summary>
+            <param name="loggerFactory">ILoggerFactory</param>
+            <param name="urlHelper">IUrlHelper</param>
+        </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetUsersIdentityAsync">
+            <summary>
+            Get list of UsersIdentity
+            </summary>
+            <returns>Returns list of UsersIdentity</returns>
+        </member>
     </members>
 </doc>

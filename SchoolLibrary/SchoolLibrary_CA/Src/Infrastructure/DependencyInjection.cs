@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Infrastructure.Identity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,14 @@ namespace Infrastructure
                     )
                     .EnableSensitiveDataLogging();
             });
-
+            
+            services
+                // Register ASP.NET Core Identity with method AddIdentity<TUser, TRole>
+                .AddIdentity<UserIdentity, IdentityRole<Guid>>()
+                // To register the required EF Core implementation of Identity stores
+                .AddEntityFrameworkStores<IdentitySchoolLibraryDbContext>()
+                .AddDefaultTokenProviders();
+            
             services.AddScoped<IUserManager, UserManagerService>();
         }
     }
