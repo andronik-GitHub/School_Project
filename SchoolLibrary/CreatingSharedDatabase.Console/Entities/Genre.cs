@@ -6,6 +6,6 @@
         public string Name { get; set; } = default!;
 
         
-        public ICollection<BookGenres> BookGenres { get; set; } // many-to-many
+        public ICollection<BookGenres> BookGenres { get; set; } = default!; // many-to-many
     }
 }

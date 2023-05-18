@@ -12,9 +12,9 @@
         public Publisher Publisher { get; set; } = default!; // many-to-one
         
         
-        public ICollection<BookGenres> BookGenres { get; set; } // many-to-many
-        public ICollection<BookAuthors> BookAuthors { get; set; } // many-to-many
-        public ICollection<Loan> Loans { get; set; } // one-to-many
-        public ICollection<Review> Reviews { get; set; } // one-to-many
+        public ICollection<BookGenres> BookGenres { get; set; } = default!; // many-to-many
+        public ICollection<BookAuthors> BookAuthors { get; set; } = default!; // many-to-many
+        public ICollection<Loan> Loans { get; set; } = default!; // one-to-many
+        public ICollection<Review> Reviews { get; set; } = default!; // one-to-many
     }
 }

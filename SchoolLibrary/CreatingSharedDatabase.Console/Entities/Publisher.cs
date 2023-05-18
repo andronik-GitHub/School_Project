@@ -6,6 +6,6 @@
         public string Name { get; set; } = default!;
         public string Location { get; set; } = default!;
 
-        public ICollection<Book> Books { get; set; } // one-to-many
+        public ICollection<Book> Books { get; set; } = default!; // one-to-many
     }
 }

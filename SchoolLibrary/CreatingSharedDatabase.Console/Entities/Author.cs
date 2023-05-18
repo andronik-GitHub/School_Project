@@ -9,6 +9,6 @@
         public string Nationality { get; set; } = default!;
 
         
-        public ICollection<BookAuthors> BookAuthors { get; set; } // many-to-many
+        public ICollection<BookAuthors> BookAuthors { get; set; } = default!; // many-to-many
     }
 }
