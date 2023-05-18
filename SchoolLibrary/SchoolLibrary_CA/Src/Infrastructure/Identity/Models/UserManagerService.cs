@@ -27,6 +27,7 @@ namespace Infrastructure.Identity.Models
 
             return new UserIdentityDTO
             {
+                DateCreated = user.DateCreated,
                 Id = user.Id,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
@@ -40,8 +41,10 @@ namespace Infrastructure.Identity.Models
         public async Task<IEnumerable<object>> GetUsersAsync()
         {
             return await _userManager.Users
+                .AsNoTracking()
                 .Select(u => new UserIdentityDTO
                 {
+                    DateCreated = u.DateCreated,
                     Id = u.Id,
                     UserName = u.UserName,
                     FirstName = u.FirstName,
@@ -95,7 +98,7 @@ namespace Infrastructure.Identity.Models
             if (entity is not UpdateUserIdentityCommand command) 
                 throw new BadRequestException("Invalid user update data!");
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == command.Id);
+            var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == command.Id);
             if (user == null) throw new NotFoundException(nameof(UserIdentity), command.Id);
             
             user.Id = command.Id;
@@ -112,7 +115,7 @@ namespace Infrastructure.Identity.Models
         }
         public async Task DeleteUserAsync(Guid UserId)
         {
-            var user = _userManager.Users.FirstOrDefault(u => u.Id == UserId);
+            var user = _userManager.Users.AsNoTracking().FirstOrDefault(u => u.Id == UserId);
 
             if (user == null) throw new NotFoundException(nameof(UserIdentity), UserId);
             await _userManager.DeleteAsync(user);
