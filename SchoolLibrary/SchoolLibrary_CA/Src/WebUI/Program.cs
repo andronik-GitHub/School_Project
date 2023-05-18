@@ -30,7 +30,7 @@ var configuration = builder.Configuration;
 }
 #endregion
 
-builder.Services.AddInfrastructure(configuration);
+builder.Services.AddInfrastructure(configuration); // register ASP.NET Core Identity (AddAuthentication)
 builder.Services.AddPersistence(configuration);
 builder.Services.AddApplication();
 
@@ -59,6 +59,9 @@ app.UseMiddleware<ExceptionHandlingMiddleware>(); // Custom middleware (Exceptio
     }
 }
 #endregion
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

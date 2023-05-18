@@ -1,5 +1,6 @@
 ﻿using Application.Features.UserIdentityFeatures.Queries.GetUserIdentity;
 using Application.Features.UserIdentityFeatures.Queries.GetUsersIdentity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -74,6 +75,15 @@ namespace WebUI.Controllers
                 this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
 
             return Ok(entity);
+        }
+
+
+        /// 
+        [HttpGet(Name = nameof(GetSecuredData))]
+        [Authorize]
+        public async Task<ActionResult> GetSecuredData()
+        {
+            return await Task.Run(() => Ok("This Secured Data is available only for Authenticated Users"));
         }
     }
 }
