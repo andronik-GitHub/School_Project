@@ -35,7 +35,6 @@ namespace WebUI.Controllers
         [HttpGet(Name = nameof(GetUsersIdentityAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetUsersIdentityAsync()
         {
@@ -64,7 +63,6 @@ namespace WebUI.Controllers
         [HttpGet("{id:guid}", Name = nameof(GetUserIdentityByIdAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetUserIdentityByIdAsync(Guid id)
@@ -78,10 +76,23 @@ namespace WebUI.Controllers
             return Ok(entity);
         }
 
-        ///
+        /// <summary>
+        /// Register user with role "USER"
+        /// </summary>
+        /// <param name="command">Register models</param>
+        /// <returns>Returns id registered user</returns>
+        /// <response code="200">All data has been successfully entered into the database</response>
+        /// <response code="400">If incorrect data is entered or retrieved</response>
+        /// <response code="401">If the user is not authorized</response>
+        /// <response code="422">If the input data is invalid</response>
+        /// <response code="500">
+        /// If it was not possible to get a list of elements from the database or anothers errors
+        /// </response>
         [HttpPost("register-user", Name = nameof(RegisterUserAsync))]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RegisterUserAsync(RegisterUserIdentityCommand command)
         {
             var id = await Mediator.Send(command);
@@ -90,9 +101,12 @@ namespace WebUI.Controllers
         }
 
 
-        /// 
-        [HttpGet("secured", Name = nameof(GetSecuredData))]
+        /// <summary>Get secured data to user</summary>
+        /// <returns>Returns secured data to user</returns>
         [Authorize]
+        [HttpGet("secured-user", Name = nameof(GetSecuredData))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> GetSecuredData()
         {
             return await Task.Run(() => Ok("This Secured Data is available only for Authenticated Users"));
