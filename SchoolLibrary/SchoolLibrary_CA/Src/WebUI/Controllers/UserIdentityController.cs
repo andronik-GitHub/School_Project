@@ -1,4 +1,5 @@
-﻿using Application.Features.UserIdentityFeatures.Queries.GetUserIdentity;
+﻿using Application.Features.UserIdentityFeatures.Commands.RegisterUserIdentity;
+using Application.Features.UserIdentityFeatures.Queries.GetUserIdentity;
 using Application.Features.UserIdentityFeatures.Queries.GetUsersIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -77,9 +78,20 @@ namespace WebUI.Controllers
             return Ok(entity);
         }
 
+        ///
+        [HttpPost("register-user", Name = nameof(RegisterUserAsync))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> RegisterUserAsync(RegisterUserIdentityCommand command)
+        {
+            var id = await Mediator.Send(command);
+            _logger.LogInformation("User with id [{id}] were successfully register", id);
+            return Ok(id);
+        }
+
 
         /// 
-        [HttpGet(Name = nameof(GetSecuredData))]
+        [HttpGet("secured", Name = nameof(GetSecuredData))]
         [Authorize]
         public async Task<ActionResult> GetSecuredData()
         {

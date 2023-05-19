@@ -697,5 +697,11 @@
             If it was not possible to get a list of elements from the database or anothers errors
             </response>
         </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.RegisterUserAsync(Application.Features.UserIdentityFeatures.Commands.RegisterUserIdentity.RegisterUserIdentityCommand)">
+            
+        </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetSecuredData">
+            
+        </member>
     </members>
 </doc>

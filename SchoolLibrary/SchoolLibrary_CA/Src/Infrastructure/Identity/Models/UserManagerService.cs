@@ -78,7 +78,12 @@ namespace Infrastructure.Identity.Models
             var user = new UserIdentity
             {
                 UserName = userName,
-                Email = email
+                Email = email,
+                FirstName = String.Empty,
+                LastName = String.Empty,
+                Street = String.Empty,
+                City = String.Empty,
+                Country = String.Empty,
             };
             
             var result = await _userManager.CreateAsync(user, password); // register user
@@ -90,9 +95,22 @@ namespace Infrastructure.Identity.Models
                     await _userManager.AddToRoleAsync(user, AuthorizationRoles.Moderator.ToString());
                 else 
                     await _userManager.AddToRoleAsync(user, AuthorizationRoles.User.ToString());
+            
+                return user.Id;
             }
 
-            return user.Id;
+            // If user creation failed
+            var errors = result.Errors
+                .GroupBy(
+                    e => e.Code,
+                    e => e.Description,
+                    (Code, Description) => new
+                    {
+                        Key = Code,
+                        Values = Description.Distinct().ToArray()
+                    })
+                .ToDictionary(e => e.Key, e => e.Values);
+            throw new ValidationException(errors);
         }
         public async Task<Guid> RegisterAdministratorAsync(string userName, string email, string password)
         {
