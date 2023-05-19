@@ -17,9 +17,7 @@ namespace Application.Features.UserIdentityFeatures.Queries.GetUserIdentity
 
         public async Task<UserIdentityDTO> Handle(GetUserIdentityQuery query, CancellationToken cancellationToken)
         {
-            var entity = await _userManager.GetUserByIdAsync(query.Id);
-            if (entity is not UserIdentityDTO userDTO) 
-                throw new BadRequestException("The received data does not match the requested data type!");
+            var userDTO = await _userManager.GetUserByIdAsync(query.Id);
             return userDTO ?? throw new NotFoundException(nameof(UserIdentityDTO), query.Id);
         }
     }

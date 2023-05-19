@@ -1,4 +1,7 @@
-﻿using Application.Common.Exceptions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Features.UserIdentityFeatures.Commands.UpdateUserIdentity;
 using Application.Features.UserIdentityFeatures.Queries.Common;
@@ -6,6 +9,7 @@ using Infrastructure.Identity.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Identity.Models
 {
@@ -29,7 +33,7 @@ namespace Infrastructure.Identity.Models
         }
 
 
-        public async Task<object> GetUserByIdAsync(Guid UserId)
+        public async Task<UserIdentityDTO> GetUserByIdAsync(Guid UserId)
         {
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             if (user == null) throw new NotFoundException(nameof(UserIdentity), UserId);
@@ -47,7 +51,7 @@ namespace Infrastructure.Identity.Models
                 Country = user.Country,
             };
         }
-        public async Task<IEnumerable<object>> GetUsersAsync()
+        public async Task<IEnumerable<UserIdentityDTO>> GetUsersAsync()
         {
             return await _userManager.Users
                 .AsNoTracking()
@@ -120,11 +124,8 @@ namespace Infrastructure.Identity.Models
         {
             return await RegisterUserAsync(userName, email, password, AuthorizationRoles.Moderator.ToString());
         }
-        public async Task UpdateUserAsync(object entity)
+        public async Task UpdateUserAsync(UpdateUserIdentityCommand command)
         {
-            if (entity is not UpdateUserIdentityCommand command) 
-                throw new BadRequestException("Invalid user update data!");
-
             var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == command.Id);
             if (user == null) throw new NotFoundException(nameof(UserIdentity), command.Id);
             
@@ -146,6 +147,66 @@ namespace Infrastructure.Identity.Models
 
             if (user == null) throw new NotFoundException(nameof(UserIdentity), UserId);
             await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
+        {
+            var authenticationModel = new AuthenticationModel();
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null) // Return a message if not find
+            {
+                authenticationModel.IsAuthenticated = false;
+                authenticationModel.Message = $"No Accounts Registered with {model.Email}";
+                return authenticationModel;
+            }
+            if (await _userManager.CheckPasswordAsync(user, model.Password)) // Checking if the password is valid
+            {
+                authenticationModel.IsAuthenticated = true;
+                
+                JwtSecurityToken jwtSecurityToken = await CreateJwtToken(user); // create jwt token
+                authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                authenticationModel.UserName = user.UserName ?? user.FirstName;
+                authenticationModel.Email = user.Email!;
+
+                var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                authenticationModel.Roles = roleList.ToList();
+                
+                return authenticationModel;
+            }
+            
+            authenticationModel.IsAuthenticated = false;
+            authenticationModel.Message = $"Incorrect Credentials for user {model.Email}";
+            return authenticationModel;
+        }
+        private async Task<JwtSecurityToken> CreateJwtToken(UserIdentity user)
+        {
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Creating a new JWT Security Token and returns them
+            var roleClaims = new List<Claim>();
+            roles.ToList().ForEach(role => roleClaims.Add(new Claim("roles", role)));
+
+            var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("uid", user.Id.ToString())
+                }
+                .Union(userClaims)
+                .Union(roleClaims);
+
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            return new JwtSecurityToken(
+                issuer: _jwt.Issuer,
+                audience: _jwt.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
+                signingCredentials: signingCredentials);
         }
     }
 }
