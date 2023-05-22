@@ -151,7 +151,7 @@ namespace Infrastructure.Identity.Models
 
         public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {
-            var authenticationModel = new AuthenticationModel();
+            var authenticationModel = new AuthenticationModel(); // returns token or error message
             var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user == null) // Return a message if not find
@@ -190,15 +190,18 @@ namespace Infrastructure.Identity.Models
 
             var claims = new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("uid", user.Id.ToString())
+                    // Include claims about username
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? user.FirstName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // unique identifier
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty), // email address
+                    new Claim("uid", user.Id.ToString()) // user ID
                 }
                 .Union(userClaims)
                 .Union(roleClaims);
 
+            // Here the symmetric key is used based on the key _jwt.Key (represented as an array of bytes)
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
+            // Then an object is created that uses the symmetric key and the HMAC-SHA256 algorithm to sign the token
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             return new JwtSecurityToken(
@@ -207,6 +210,42 @@ namespace Infrastructure.Identity.Models
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
                 signingCredentials: signingCredentials);
+        }
+
+        public async Task<Guid> AddRoleAsync(AddRoleModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password)) 
+                throw new BadRequestException("Incorrect Credentials. Login or password is incorrect");
+            
+            
+            var roleExists = Enum
+                .GetNames(typeof(AuthorizationRoles))
+                .Any(role => role.ToLower().Equals(model.Role.ToLower()));
+
+            if (!roleExists) throw new NotFoundException(nameof(AuthorizationRoles), model.Role);
+
+            
+            var validRole = Enum
+                .GetValues(typeof(AuthorizationRoles))
+                .Cast<AuthorizationRoles>()
+                .FirstOrDefault(role => role.ToString().ToLower().Equals(model.Role.ToLower()));
+            
+            var result = await _userManager.AddToRoleAsync(user, validRole.ToString());
+            if (result.Succeeded) return user.Id;
+            
+            // If result not succeeded
+            var errors = result.Errors
+                .GroupBy(
+                    e => e.Code,
+                    e => e.Description,
+                    (Code, Description) => new
+                    {
+                        Key = Code,
+                        Values = Description.Distinct().ToArray()
+                    })
+                .ToDictionary(e => e.Key, e => e.Values);
+            throw new ValidationException(errors);
         }
     }
 }
