@@ -17,18 +17,15 @@ namespace Infrastructure.Identity.Models
     {
         private readonly ISchoolLibraryContext _context;
         private readonly UserManager<UserIdentity> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly JWT _jwt;
 
         public UserManagerService(
             ISchoolLibraryContext context, 
             UserManager<UserIdentity> userManager, 
-            RoleManager<IdentityRole<Guid>> roleManager, 
             IOptions<JWT> jwt)
         {
             _context = context;
             _userManager = userManager;
-            _roleManager = roleManager;
             _jwt = jwt.Value;
         }
 
