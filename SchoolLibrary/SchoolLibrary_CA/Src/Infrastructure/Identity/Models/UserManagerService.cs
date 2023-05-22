@@ -228,7 +228,7 @@ namespace Infrastructure.Identity.Models
             
             var validRole = Enum
                 .GetValues(typeof(AuthorizationRoles))
-                .Cast<AuthorizationRoles>()
+                .Cast<AuthorizationRoles>() // to IEnumerable<AuthorizationRoles>
                 .FirstOrDefault(role => role.ToString().ToLower().Equals(model.Role.ToLower()));
             
             var result = await _userManager.AddToRoleAsync(user, validRole.ToString());
