@@ -1,4 +1,6 @@
-﻿namespace Application.Features.UserIdentityFeatures.Queries.Common
+﻿using System.Text.Json.Serialization;
+
+namespace Application.Features.UserIdentityFeatures.Queries.Common
 {
     public class AuthenticationModel
     {
@@ -8,5 +10,9 @@
         public string Email { get; set; } = default!;
         public List<string> Roles { get; set; } = default!;
         public string Token { get; set; } = default!;
+
+        [JsonIgnore]
+        public string RefreshToken { get; set; } = default!;
+        public DateTime RefreshTokenExpiration { get; set; } = default!;
     }
 }

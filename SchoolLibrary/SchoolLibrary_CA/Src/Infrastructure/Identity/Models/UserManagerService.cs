@@ -169,6 +169,31 @@ namespace Infrastructure.Identity.Models
                 var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
                 authenticationModel.Roles = roleList.ToList();
                 
+                
+                // RefreshToken
+                if (user.RefreshTokens.Any(rt => rt.IsActive))
+                {
+                    var activeRefreshToken = user.RefreshTokens.FirstOrDefault(rt => rt.IsActive);
+
+                    if (activeRefreshToken != null)
+                    {
+                        authenticationModel.RefreshToken = activeRefreshToken.Token;
+                        authenticationModel.RefreshTokenExpiration = activeRefreshToken.Expires;
+                    }
+                }
+                else
+                {
+                    var refreshToken = CreateRefreshToken();
+                    
+                    authenticationModel.RefreshToken = refreshToken.Token;
+                    authenticationModel.RefreshTokenExpiration = refreshToken.Expires;
+                    user.RefreshTokens.Add(refreshToken);
+                    
+                    await _userManager.UpdateAsync(user);
+                    await _context.SaveChangesAsync();
+                }
+                
+                
                 return authenticationModel;
             }
             
@@ -209,6 +234,61 @@ namespace Infrastructure.Identity.Models
                 signingCredentials: signingCredentials);
         }
 
+        public async Task<AuthenticationModel> RefreshToken(string token)
+        {
+            var authenticationModel = new AuthenticationModel();
+            var user = _userManager.Users.FirstOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+            if (user == null)
+            {
+                authenticationModel.IsAuthenticated = false;
+                authenticationModel.Message = "Token did not match any users!";
+
+                return authenticationModel;
+            }
+
+            var refreshToken = user.RefreshTokens.Single(rt => rt.Token == token);
+            
+            if (!refreshToken.IsActive)
+            {
+                authenticationModel.IsAuthenticated = false;
+                authenticationModel.Message = "Token not Active!";
+
+                return authenticationModel;
+            }
+            
+            // Revokes current refresh token
+            refreshToken.Revoked = DateTime.UtcNow;
+            
+            // Generate new refresh token and save to db
+            var newRefreshToken = CreateRefreshToken();
+            user.RefreshTokens.Add(newRefreshToken);
+            await _userManager.UpdateAsync(user);
+            await _context.SaveChangesAsync();
+            
+            // Generate new jwt
+            authenticationModel.IsAuthenticated = true;
+            authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(await CreateJwtToken(user));
+            authenticationModel.Email = user.Email ?? string.Empty;
+            authenticationModel.UserName = user.UserName ?? user.FirstName;
+            authenticationModel.Roles = (await _userManager.GetRolesAsync(user).ConfigureAwait(false)).ToList();
+            authenticationModel.RefreshToken = newRefreshToken.Token;
+            authenticationModel.RefreshTokenExpiration = newRefreshToken.Expires;
+            
+            return authenticationModel;
+        }
+        private RefreshToken CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            new Random().NextBytes(randomNumber);
+            
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomNumber),
+                Expires = DateTime.UtcNow.AddDays(10),
+                Created = DateTime.UtcNow
+            };
+        }
+        
         public async Task<Guid> AddRoleAsync(AddRoleModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);

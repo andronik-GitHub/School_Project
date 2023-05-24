@@ -36,6 +36,21 @@ namespace Infrastructure.Identity.Models
                 .Property(p => p.Country)
                 .HasColumnType("NVARCHAR(50)")
                 .IsRequired();
+
+            builder
+                .OwnsMany(
+                    user => user.RefreshTokens,
+                    refreshToken =>
+                    {
+                        // Created table in the Creating Shared Database.Console application has PK { User Id , Id }
+                        // Without specifying the name of the FK, there will be an error of names (UserIdentityId)
+                        refreshToken.WithOwner().HasForeignKey("UserId");
+                        
+                        refreshToken.Property(rt => rt.Token).IsRequired();
+                        refreshToken.Property(rt => rt.Expires).IsRequired();
+                        refreshToken.Property(rt => rt.Created).IsRequired();
+                        refreshToken.Property(rt => rt.Revoked);
+                    });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CreatingSharedDatabase.Console.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreatingSharedDatabase.Console.Entities
 {
@@ -14,6 +15,8 @@ namespace CreatingSharedDatabase.Console.Entities
         public string Street { get; set; } = default!;
         public string City { get; set; } = default!;
         public string Country { get; set; } = default!;
+        
+        public List<RefreshToken> RefreshTokens { get; set; } = default!;
     
         public ICollection<Loan> Loans { get; set; } = default!; // one-to-many
         public ICollection<Review> Reviews { get; set; } = default!; // one-to-many

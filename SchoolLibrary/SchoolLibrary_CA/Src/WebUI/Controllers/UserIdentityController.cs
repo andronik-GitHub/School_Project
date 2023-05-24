@@ -148,6 +148,7 @@ namespace WebUI.Controllers
         public async Task<ActionResult> GetTokenAsync(TokenRequestModel model)
         {
             var result = await Mediator.Send(new GetJwtTokenQuery { Email = model.Email, Password = model.Password });
+            SetRefreshTokenInCookie(result.RefreshToken);
             return Ok(result);
         }
 
@@ -175,6 +176,22 @@ namespace WebUI.Controllers
         public async Task<ActionResult> GetSecuredData_Administrator()
         {
             return await Task.Run(() => Ok("This Secured Data is available only for Administrators"));
+        }
+
+
+
+        /// <summary>
+        /// Takes a refresh token as a parameter and stores it as a browser cookie
+        /// </summary>
+        /// <param name="refreshToken">RefreshToken</param>
+        private void SetRefreshTokenInCookie(string refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(10),
+            };
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
     }
 }

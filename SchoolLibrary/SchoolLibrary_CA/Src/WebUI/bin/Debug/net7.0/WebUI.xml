@@ -744,5 +744,11 @@
             <summary>Get secured data to administrator</summary>
             <returns>Returns secured data to administrator</returns>
         </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.SetRefreshTokenInCookie(System.String)">
+            <summary>
+            Takes a refresh token as a parameter and stores it as a browser cookie
+            </summary>
+            <param name="refreshToken">RefreshToken</param>
+        </member>
     </members>
 </doc>

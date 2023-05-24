@@ -37,6 +37,16 @@ namespace CreatingSharedDatabase.Console.Data.Configurations.DefaultConfiguratio
                 .Property(p => p.Country)
                 .HasColumnType("NVARCHAR(50)")
                 .IsRequired();
+            builder
+                .OwnsMany(
+                    user => user.RefreshTokens,
+                    refreshToken =>
+                    {
+                        refreshToken.Property(rt => rt.Token).IsRequired();
+                        refreshToken.Property(rt => rt.Expires).IsRequired();
+                        refreshToken.Property(rt => rt.Created).IsRequired();
+                        refreshToken.Property(rt => rt.Revoked);
+                    });
             
             
             builder // one-to-many  Users - Loans

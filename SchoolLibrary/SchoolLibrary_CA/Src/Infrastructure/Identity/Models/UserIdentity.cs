@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Infrastructure.Identity.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity.Models
@@ -14,6 +15,8 @@ namespace Infrastructure.Identity.Models
         public string Street { get; set; } = default!;
         public string City { get; set; } = default!;
         public string Country { get; set; } = default!;
+
+        public List<RefreshToken> RefreshTokens { get; set; } = default!;
 
 
         [IgnoreDataMember]
