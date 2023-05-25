@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Application.Features.UserIdentityFeatures.Queries.Common
 {
@@ -14,5 +15,14 @@ namespace Application.Features.UserIdentityFeatures.Queries.Common
         [JsonIgnore]
         public string RefreshToken { get; set; } = default!;
         public DateTime RefreshTokenExpiration { get; set; } = default!;
+        
+        public override string ToString()
+        {
+            return JsonSerializer // for visual display of values
+                .Serialize(this, new JsonSerializerOptions
+                {
+                    WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
+                });
+        }
     }
 }

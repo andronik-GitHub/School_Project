@@ -17,6 +17,7 @@ namespace Application.Features.UserIdentityFeatures.Queries.Common
         public string Country { get; set; } = default!;
         
         
+        
         public override string ToString()
         {
             return JsonSerializer // for visual display of values

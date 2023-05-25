@@ -45,7 +45,7 @@ namespace Infrastructure.Identity.Models
                 Email = user.Email,
                 Street = user.Street,
                 City = user.City,
-                Country = user.Country,
+                Country = user.Country
             };
         }
         public async Task<IEnumerable<UserIdentityDTO>> GetUsersAsync()
@@ -62,7 +62,7 @@ namespace Infrastructure.Identity.Models
                     Email = u.Email,
                     Street = u.Street,
                     City = u.City,
-                    Country = u.Country,
+                    Country = u.Country
                 })
                 .ToListAsync();
         }
@@ -166,7 +166,7 @@ namespace Infrastructure.Identity.Models
                 authenticationModel.UserName = user.UserName ?? user.FirstName;
                 authenticationModel.Email = user.Email!;
 
-                var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                var roleList = await _userManager.GetRolesAsync(user);
                 authenticationModel.Roles = roleList.ToList();
                 
                 
@@ -234,7 +234,7 @@ namespace Infrastructure.Identity.Models
                 signingCredentials: signingCredentials);
         }
 
-        public async Task<AuthenticationModel> RefreshToken(string token)
+        public async Task<AuthenticationModel> RefreshTokenAsync(string token)
         {
             var authenticationModel = new AuthenticationModel();
             var user = _userManager.Users.FirstOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
@@ -276,7 +276,7 @@ namespace Infrastructure.Identity.Models
             
             return authenticationModel;
         }
-        private RefreshToken CreateRefreshToken()
+        private static RefreshToken CreateRefreshToken()
         {
             var randomNumber = new byte[32];
             new Random().NextBytes(randomNumber);
@@ -323,6 +323,28 @@ namespace Infrastructure.Identity.Models
                     })
                 .ToDictionary(e => e.Key, e => e.Values);
             throw new ValidationException(errors);
+        }
+        public async Task<IEnumerable<Object>> GetRefreshTokensByUserId(Guid UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            if (user == null) throw new NotFoundException(nameof(UserIdentity), UserId);
+            return user.RefreshTokens;
+        }
+        public async Task<bool> RevokeRefreshTokenAsync(string? token)
+        {
+            if (string.IsNullOrEmpty(token)) throw new BadRequestException("Token is invalid");
+            
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == token));
+            if (user == null) throw new NotFoundException(nameof(RefreshToken), token);
+
+            var refreshToken = user.RefreshTokens.First(rt => rt.Token == token);
+            if (!refreshToken.IsActive) return false;
+
+            refreshToken.Revoked = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

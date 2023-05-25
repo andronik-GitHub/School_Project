@@ -14,8 +14,10 @@ namespace Application.Common.Interfaces
         Task DeleteUserAsync(Guid UserId);
 
         Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model);
-        Task<AuthenticationModel> RefreshToken(string token);
-        
+        Task<AuthenticationModel> RefreshTokenAsync(string token);
+
         Task<Guid> AddRoleAsync(AddRoleModel model);
+        Task<IEnumerable<Object>> GetRefreshTokensByUserId(Guid UserId);
+        Task<bool> RevokeRefreshTokenAsync(string? token);
     }
 }

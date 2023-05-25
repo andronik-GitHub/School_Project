@@ -697,6 +697,20 @@
             If it was not possible to get a list of elements from the database or anothers errors
             </response>
         </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetTokensByIdAsync(System.Guid)">
+            <summary>
+            Get tokens by user id
+            </summary>
+            <param name="id">User id</param>
+            <returns>Returns tokens by user id</returns>
+            <response code="200">All database data retrieved successfully</response>
+            <response code="400">If incorrect data is entered or retrieved</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="404">If the user is not found in the database</response>
+            <response code="500">
+            If it was not possible to get a list of elements from the database or anothers errors
+            </response>
+        </member>
         <member name="M:WebUI.Controllers.UserIdentityController.RegisterUserAsync(Application.Features.UserIdentityFeatures.Commands.RegisterUserIdentity.RegisterUserIdentityCommand)">
             <summary>
             Register user with role "USER"
@@ -710,6 +724,14 @@
             <response code="500">
             If it was not possible to get a list of elements from the database or anothers errors
             </response>
+        </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetSecuredData_User">
+            <summary>Get secured data to user</summary>
+            <returns>Returns secured data to user</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetSecuredData_Administrator">
+            <summary>Get secured data to administrator</summary>
+            <returns>Returns secured data to administrator</returns>
         </member>
         <member name="M:WebUI.Controllers.UserIdentityController.AddRoleAsync(Application.Features.UserIdentityFeatures.Queries.AddRole.AddRoleQuery)">
             <summary>
@@ -725,6 +747,9 @@
             If it was not possible to get a list of elements from the database or anothers errors
             </response>
         </member>
+        <member name="M:WebUI.Controllers.UserIdentityController.RevokeRefreshTokenAsync(System.String)">
+            
+        </member>
         <member name="M:WebUI.Controllers.UserIdentityController.GetTokenAsync(Application.Features.UserIdentityFeatures.Queries.Common.TokenRequestModel)">
             <summary>
             Get token
@@ -736,13 +761,16 @@
             If it was not possible to get a list of elements from the database or anothers errors
             </response>
         </member>
-        <member name="M:WebUI.Controllers.UserIdentityController.GetSecuredData_User">
-            <summary>Get secured data to user</summary>
-            <returns>Returns secured data to user</returns>
-        </member>
-        <member name="M:WebUI.Controllers.UserIdentityController.GetSecuredData_Administrator">
-            <summary>Get secured data to administrator</summary>
-            <returns>Returns secured data to administrator</returns>
+        <member name="M:WebUI.Controllers.UserIdentityController.GetRefreshTokenAsync">
+            <summary>
+            Get RefreshToken
+            </summary>
+            <returns>Returns JWT Security token and RefreshToken</returns>
+            <response code="200">All database data retrieved successfully</response>
+            <response code="400">If incorrect data is entered or retrieved</response>
+            <response code="500">
+            If it was not possible to get a list of elements from the database or anothers errors
+            </response>
         </member>
         <member name="M:WebUI.Controllers.UserIdentityController.SetRefreshTokenInCookie(System.String)">
             <summary>

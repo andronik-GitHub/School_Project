@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Application.Features.UserIdentityFeatures.Queries.Common;
 using Infrastructure.Identity.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 
