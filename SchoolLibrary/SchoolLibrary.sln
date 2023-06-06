@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "Sc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingSharedDatabase.Console", "CreatingSharedDatabase.Console\CreatingSharedDatabase.Console.csproj", "{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.WPF", "SchoolLibrary_CA\Src\UI.WPF\UI.WPF.csproj", "{303556C4-92D7-4C97-94EC-16D811F8FC24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A7B1E3E-D678-4D77-916B-ECCBC2D77A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{303556C4-92D7-4C97-94EC-16D811F8FC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{303556C4-92D7-4C97-94EC-16D811F8FC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{303556C4-92D7-4C97-94EC-16D811F8FC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{303556C4-92D7-4C97-94EC-16D811F8FC24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{A7E51A27-1D1B-4B16-991E-5B6B68E6EEB8} = {61A13AAD-DDDA-4FFA-9AF9-DD4C84F83382}
 		{BC87E587-1315-4219-A34B-8909A2E01E71} = {F4F53E78-600C-4DF1-9108-D65920A062B7}
 		{82C98B8C-C540-43C1-A37F-9892FB144253} = {F4F53E78-600C-4DF1-9108-D65920A062B7}
+		{303556C4-92D7-4C97-94EC-16D811F8FC24} = {61A13AAD-DDDA-4FFA-9AF9-DD4C84F83382}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4389797B-AC66-417C-9F30-5E674253AD66}
