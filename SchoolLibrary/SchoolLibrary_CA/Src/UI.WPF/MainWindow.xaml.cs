@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UI.WPF.Directory;
 
 namespace UI.WPF
 {
@@ -21,6 +20,18 @@ namespace UI.WPF
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+
+        private void HeaderButtonHoverEnter(object sender, MouseEventArgs e)
+        {
+            var border = (Border)sender;
+            border.Background = new SolidColorBrush(Color.FromRgb(51, 51, 53));
+        }
+        private void HeaderButtonHoverLeave(object sender, MouseEventArgs e)
+        {
+            var border = (Border)sender;
+            border.Background = new SolidColorBrush(Colors.Transparent);
         }
     }
 }

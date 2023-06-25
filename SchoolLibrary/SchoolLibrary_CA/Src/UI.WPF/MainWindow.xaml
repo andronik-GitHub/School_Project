@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.WPF"
-        xmlns:localDir="clr-namespace:UI.WPF.Directory"
         
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -13,65 +12,451 @@
         
         Title="SchoolLibrary" 
         MinHeight="500" MaxHeight="700" Height="700" 
-        MaxWidth="1440" MinWidth="1280" Width="1440" >
+        MaxWidth="1440" MinWidth="1350" Width="1440" >
 
-        <Grid Background="#141414" ShowGridLines="True" >
-                <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="1280" />
-                        <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="150" />
-                </Grid.RowDefinitions>
-                
-                <Grid Grid.Column="0" Grid.Row="0" ColumnSpan="3" Background="#1C1C1C" ShowGridLines="True" >
+        <ScrollViewer>
+                <Grid Background="#141414" ShowGridLines="True" >
                         <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="1280" />
                                 <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                                <RowDefinition Height="100" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
                         
-                        <Grid Grid.Column="1" ShowGridLines="True" >
+                        <Grid Grid.Column="0" Grid.Row="0" x:Name="Header" ColumnSpan="3" Background="#1C1C1C" ShowGridLines="True" >
                                 <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="270" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="340" />
+                                        <ColumnDefinition Width="1280" />
+                                        <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 
-                                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left"
-                                            Margin="25 0 0 0">
-                                        <Image Source="/Images/free-icon-books-7579057.png" MaxWidth="30" MaxHeight="30"
-                                               />
+                                <Grid Grid.Column="1" x:Name="HeaderFrame" >
+                                        <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="270" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="340" />
+                                        </Grid.ColumnDefinitions>
                                         
-                                        <TextBlock Text="SchoolLibrary" Margin="10" VerticalAlignment="Center"
-                                                   Foreground="White" FontSize="28" FontFamily="Arial" 
-                                                   FontWeight="Regular" />
-                                </StackPanel>
-                                
-                                
-                                
-                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock Text="Login" VerticalAlignment="Center" Padding="12 6"
-                                                   Foreground="White" FontSize="18" FontFamily="Arial" 
-                                                   FontWeight="Regular" />
                                         
-                                        <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center" 
-                                                Margin="25 0 20 0" CornerRadius="6" >
-                                                <TextBlock Text="Registration" VerticalAlignment="Center" Padding="12 6"
-                                                           Foreground="White" FontSize="18" FontFamily="Arial" 
-                                                           FontWeight="Regular" />
+                                        <StackPanel x:Name="HeaderFrame_LogoBar" Grid.Column="0" Orientation="Horizontal" 
+                                                    HorizontalAlignment="Left" Margin="25 0 0 0" Cursor="Hand" >
+                                                <Image x:Name="HeaderFrame_LogoBar_Img" Source="/Images/free-icon-books-7579057.png" 
+                                                       MaxWidth="30" MaxHeight="30" />
+                                                
+                                                <TextBlock x:Name="HeaderFrame_LogoBar_Text" Text="SchoolLibrary" Margin="10" 
+                                                           VerticalAlignment="Center" Foreground="White" FontSize="28"
+                                                           FontFamily="Arial" FontWeight="Regular" TextDecorations="Underline" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel x:Name="HeaderFrame_MenuBar" Grid.Column="1" Orientation="Horizontal"
+                                                    HorizontalAlignment="Center" >
+                                                
+                                                <Border x:Name="HeaderFrame_MenuBar_Catalog" Cursor="Hand"
+                                                        VerticalAlignment="Center" MaxHeight="44"
+                                                        Padding="10" CornerRadius="4" Margin="12.5 0"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave">
+                                                        <StackPanel Orientation="Horizontal" >
+                                                                <Image Source="../Images/menu.png"
+                                                                       MaxHeight="15" MaxWidth="19" />
+                                                                <TextBlock Text="Catalog"  Margin="10 0"
+                                                                           Foreground="White" FontSize="22" 
+                                                                           FontWeight="Regular" FontFamily="Arial" />
+                                                                <Polygon Height="7" Points="0, 0, 10, 0, 5, 5"
+                                                                         Fill="White" Margin="0 5 0 0" />
+                                                        </StackPanel>         
+                                                </Border>
+                                                
+                                                <Border x:Name="HeaderFrame_MenuBar_Search" Cursor="Hand"
+                                                        VerticalAlignment="Center" MaxHeight="44"
+                                                        Padding="10" CornerRadius="4" Margin="12.5 0"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave">
+                                                        <StackPanel Orientation="Horizontal" >
+                                                                <Image Source="../Images/magnifying-glass.png"
+                                                                       MaxHeight="15" MaxWidth="15" />
+                                                                <TextBlock Text="Search" Margin="10 0 0 0"
+                                                                           Foreground="White" FontSize="22" 
+                                                                           FontWeight="Regular" FontFamily="Arial" />
+                                                        </StackPanel>
+                                                </Border>
+                                                
+                                                <Border x:Name="HeaderFrame_MenuBar_Forum" Cursor="Hand"
+                                                        VerticalAlignment="Center" MaxHeight="44"
+                                                        Padding="10" CornerRadius="4" Margin="12.5 0"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave">
+                                                        <StackPanel Orientation="Horizontal" >
+                                                                <Image Source="../Images/forum.png"
+                                                                       MaxHeight="18" MaxWidth="18" />
+                                                                <TextBlock Text="Forum" Margin="10 0 0 0"
+                                                                           Foreground="White" FontSize="22" 
+                                                                           FontWeight="Regular" FontFamily="Arial"  />
+                                                        </StackPanel>
+                                                </Border>
+                                                
+                                                <Border x:Name="HeaderFrame_MenuBar_FAQ" Cursor="Hand"
+                                                        VerticalAlignment="Center" MaxHeight="44"
+                                                        Padding="10" CornerRadius="4" Margin="12.5 0"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave">
+                                                        <StackPanel Orientation="Horizontal" >
+                                                                <Image Source="../Images/help-circle-outline.png"
+                                                                       MaxHeight="18" MaxWidth="18" />
+                                                                <TextBlock Text="FAQ" Margin="10 0 0 0"
+                                                                           Foreground="White" FontSize="22" 
+                                                                           FontWeight="Regular" FontFamily="Arial"  />
+                                                        </StackPanel>
+                                                </Border>
+                                                
+                                                <Border x:Name="HeaderFrame_MenuBar_Another" Cursor="Hand"
+                                                        VerticalAlignment="Center" MaxHeight="44"
+                                                        Padding="10" CornerRadius="4" Margin="12.5 0"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave">
+                                                        <Image Source="../Images/dots-horizontal.png"
+                                                               MaxHeight="28" MaxWidth="28"/>
+                                                </Border>
+                                                
+                                        </StackPanel>
+                                        
+                                        <StackPanel x:Name="HeaderFrame_AccountBar" Grid.Column="2"
+                                                    Orientation="Horizontal" HorizontalAlignment="Right" >
+                                                
+                                                <Border x:Name="HeaderFrame_AccountBar_LoginBorder" 
+                                                        BorderThickness="1" VerticalAlignment="Center" Margin="0 0 0 0" 
+                                                        CornerRadius="6" Cursor="Hand"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave" >
+                                                        <TextBlock  x:Name="HeaderFrame_AccountBar_LoginText"
+                                                                    Text="Login" VerticalAlignment="Center" Padding="12 6"
+                                                                    Foreground="White" FontSize="18" FontFamily="Arial" 
+                                                                    FontWeight="Regular" />
+                                                </Border>   
+                                                  
+                                                <Border x:Name="HeaderFrame_AccountBar_RegistrationBorder" 
+                                                        BorderBrush="White" BorderThickness="1" VerticalAlignment="Center" 
+                                                        Margin="25 0 20 0" CornerRadius="6" Cursor="Hand"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave" >
+                                                        <TextBlock x:Name="HeaderFrame_AccountBar_RegistrationText" 
+                                                                   Text="Registration" VerticalAlignment="Center" Padding="12 6"
+                                                                   Foreground="White" FontSize="18" FontFamily="Arial" 
+                                                                   FontWeight="Regular" />
+                                                </Border>   
+                                                
+                                                <Border x:Name="HeaderFrame_AccountBar_ThemeBorder" 
+                                                        BorderThickness="1" VerticalAlignment="Center" Cursor="Hand" Margin="0 0 10 0"
+                                                        CornerRadius="3" Height="36" Width="36"
+                                                        MouseEnter="HeaderButtonHoverEnter" MouseLeave="HeaderButtonHoverLeave" >
+                                                        <Image x:Name="HeaderFrame_AccountBar_ThemeImg" 
+                                                               Source="/Images/free-icon-night-1082231.png" MaxWidth="16" 
+                                                               MaxHeight="16" VerticalAlignment="Center" />
+                                                        
+                                                        <Border.ToolTip>
+                                                                <ToolTip Background="#333335" BorderThickness="0" BorderBrush="Transparent"
+                                                                         Placement="RelativePoint" HorizontalOffset="-90" VerticalOffset="45">
+                                                                        <TextBlock Text="Change the theme" Foreground="White" Padding="6"
+                                                                                   FontFamily="Arial" FontSize="12" />
+                                                                </ToolTip>
+                                                        </Border.ToolTip>
+                                                </Border>   
+                                                
+                                        </StackPanel>
+                                </Grid>
+                        </Grid>
+                        
+                        <Grid Grid.Column="1" Grid.Row="1" x:Name="BodyFrame" Margin="0 0 0 15" ShowGridLines="True" >
+                               <Grid.ColumnDefinitions>
+                                       <ColumnDefinition Width="*"></ColumnDefinition>
+                                       <ColumnDefinition Width=".45*"></ColumnDefinition>
+                               </Grid.ColumnDefinitions> 
+                                
+                                <StackPanel Grid.Column="0" x:Name="BodyFrame_MainBar" Orientation="Vertical" Margin="0 15 15 0">
+                                        <Border Height="300" Background="#1C1C1C" CornerRadius="6">
                                         </Border>
                                         
-                                        <Image Source="/Images/free-icon-night-1082231.png" MaxWidth="22" MaxHeight="22"
-                                               Margin="0 0 10 0"/>
+                                        <Grid Margin="0 15">
+                                                <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions> 
+                                                
+                                                <Border Grid.Column="0" Height="260" Background="#1C1C1C" CornerRadius="6" Margin="0 0 10 0" >
+                                                </Border> 
+                                                <Border Grid.Column="1" Height="260" Background="#1C1C1C" CornerRadius="6" Margin="10 0 0 0" >
+                                                </Border> 
+                                        </Grid>
+                                        
+                                        <Border MinHeight="300" Background="#1C1C1C" CornerRadius="6">
+                                        </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" x:Name="BodyFrame_RightBar" Orientation="Vertical" MaxWidth="410" Margin="15 15 0 0">
+                                        <Border x:Name="BodyFrame_RightBar_TopActiveBorder" Background="#1C1C1C" CornerRadius="5" Margin="0 0 0 15">
+                                                <StackPanel x:Name="BodyFrame_RightBar_TopActive" Orientation="Vertical">
+                                                        <Border x:Name="BodyFrame_RightBar_TopActive_TitleBorder" Height="45" BorderThickness="0 0 0 1" 
+                                                                BorderBrush="#E47F09" Margin="0 15 0 0" Padding="15 0" >
+                                                                <TextBlock x:Name="BodyFrame_RightBar_TopActive_TitleText" Foreground="White" FontFamily="Arial" 
+                                                                           FontSize="22" VerticalAlignment="Center" Text="Top active of the week"/>
+                                                        </Border>
+                                                        
+                                                        <StackPanel x:Name="BodyFrame_RightBar_TopActive_UsersBox" Orientation="Vertical" Margin="0 10">
+                                                                <Border x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border" MaxHeight="90" BorderThickness="0 0 0 1" BorderBrush="#535353"
+                                                                        Margin="15 0 15 5" Padding="0 0 0 5" >
+                                                                        <Grid x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                
+                                                                                <Border x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame_UserImage" Grid.Column="0" Width="80" Height="80" 
+                                                                                        BorderThickness="1" BorderBrush="#CDCDCD" HorizontalAlignment="Left">
+                                                                                        <Image Width="62" Height="62" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                                                                Source="/Images/free-icon-user-8763526.png" />
+                                                                                </Border>
+                                                                                
+                                                                                <Grid Grid.Column="1" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame_Description">
+                                                                                        <Grid.RowDefinitions>
+                                                                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                                                                <RowDefinition Height="*"></RowDefinition>
+                                                                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                                                        </Grid.RowDefinitions>
+                                                                                        
+                                                                                        <TextBlock Grid.Row="0" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame_UserName"
+                                                                                                Text="Username" Foreground="White" FontFamily="A" FontSize="14" />
+                                                                                        <TextBlock Grid.Row="2" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame_TopCounter"
+                                                                                                Text="Books read: N" Foreground="White" FontFamily="A" FontSize="14" />
+                                                                                </Grid>
+                                                                                
+                                                                                <TextBlock x:Name="BodyFrame_RightBar_TopActive_UsersBox_User1Border_Frame_TopNumber"
+                                                                                        Grid.Column="2" Text="#1" Foreground="White" FontFamily="A" FontSize="20" FontWeight="Bold" 
+                                                                                        TextAlignment="Center" HorizontalAlignment="Right" />
+                                                                        </Grid>
+                                                                </Border>
+                                                                
+                                                                <Border x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border" MaxHeight="90" BorderThickness="0 0 0 0" BorderBrush="#535353"
+                                                                        Margin="15 0 15 5" Padding="0 0 0 5" >
+                                                                        <Grid x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                
+                                                                                <Border x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame_UserImage" Grid.Column="0" Width="80" Height="80" 
+                                                                                        BorderThickness="1" BorderBrush="#CDCDCD" HorizontalAlignment="Left">
+                                                                                        <Image Width="62" Height="62" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                                                                Source="/Images/free-icon-user-8763526.png" />
+                                                                                </Border>
+                                                                                
+                                                                                <Grid Grid.Column="1" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame_Description">
+                                                                                        <Grid.RowDefinitions>
+                                                                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                                                                <RowDefinition Height="*"></RowDefinition>
+                                                                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                                                        </Grid.RowDefinitions>
+                                                                                        
+                                                                                        <TextBlock Grid.Row="0" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame_UserName"
+                                                                                                Text="Username" Foreground="White" FontFamily="A" FontSize="14" />
+                                                                                        <TextBlock Grid.Row="2" x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame_TopCounter"
+                                                                                                Text="Books read: N" Foreground="White" FontFamily="A" FontSize="14" />
+                                                                                </Grid>
+                                                                                
+                                                                                <TextBlock x:Name="BodyFrame_RightBar_TopActive_UsersBox_User10Border_Frame_TopNumber"
+                                                                                        Grid.Column="2" Text="#10" Foreground="White" FontFamily="A" FontSize="20" FontWeight="Bold" 
+                                                                                        TextAlignment="Center" HorizontalAlignment="Right" />
+                                                                        </Grid>
+                                                                </Border>
+                                                        </StackPanel>
+                                                </StackPanel>
+                                        </Border>
+                                        
+                                        <Border x:Name="BodyFrame_RightBar_GenresBorder" Background="#1C1C1C" CornerRadius="5" Padding="0 0 0 15">
+                                                <StackPanel x:Name="BodyFrame_RightBar_Genres" Orientation="Vertical">
+                                                        <Border x:Name="BodyFrame_RightBar_Genres_TitleBorder" Height="45" BorderThickness="0 0 0 1" 
+                                                                BorderBrush="#E47F09" Margin="0 15 0 0" Padding="15 0" >
+                                                                <TextBlock x:Name="BodyFrame_RightBar_Genres_TitleText" Foreground="White" FontFamily="Arial" 
+                                                                           FontSize="22" VerticalAlignment="Center" Text="Genres"/>
+                                                        </Border> 
+                                                        
+                                                        <WrapPanel x:Name="BodyFrame_RightBar_Genres_Box" Orientation="Horizontal" Margin="5 10">
+                                                                <WrapPanel.Resources>
+                                                                        <Style TargetType="Border">
+                                                                                <Setter Property="Width" Value="auto" />
+                                                                                <Setter Property="Height" Value="30" />
+                                                                                <Setter Property="CornerRadius" Value="5" />
+                                                                                <Setter Property="Background" Value="#313131" />
+                                                                                <Setter Property="Margin" Value="5" />
+                                                                                <Setter Property="Padding" Value="10 5" />
+                                                                        </Style>
+                                                                </WrapPanel.Resources>
+                                                                
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre-Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                                
+                                                                <Border >
+                                                                        <TextBlock Text="Genre" Foreground="White" FontFamily="Inter" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                        </WrapPanel>
+                                                        
+                                                        <Border>
+                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Cursor="Hand" >
+                                                                        <TextBlock HorizontalAlignment="Center" Text="Expand" Foreground="#9C9C9C" FontFamily="Inter" FontSize="16" />
+                                                                        <Image Source="/Images/ExpandoIcon.png" Margin="5 0 0 0"></Image>
+                                                                </StackPanel>
+                                                        </Border>
+                                                </StackPanel>
+                                        </Border>
                                 </StackPanel>
                         </Grid>
-                </Grid>
-                <Grid Grid.Column="0" Grid.Row="2" ColumnSpan="3" Background="#1C1C1C">
                         
+                        <Grid Grid.Column="0" Grid.Row="2" x:Name="Foot" ColumnSpan="3" Background="#1C1C1C">
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="1280" />
+                                        <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid Grid.Column="1" x:Name="FootFrame" >
+                                        <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="0.4*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackPanel Grid.Column="0" x:Name="FootFrame_MainInfo" Margin="25 15 25 25" Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal" x:Name="FootFrame_MainInfo_ChangeTheme">
+                                                        <TextBlock x:Name="FootFrame_MainInfo_ChangeTheme_Text" Text="Theme" Foreground="White" FontFamily="Arial" FontSize="32"/>
+                                                        
+                                                        <Border x:Name="FootFrame_MainInfo_ChangeTheme_WhiteTheme" Height="40" Width="40" Background="White" CornerRadius="3" 
+                                                                Margin="20 0 15 0" BorderThickness="1" BorderBrush="#8A8A8A" Cursor="Hand" >
+                                                                <TextBlock x:Name="FootFrame_MainInfo_ChangeTheme_WhiteTheme_Text" Text="A" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                                                                           FontFamily="Arial" FontSize="22" Margin="7 2" Foreground="Black"/>
+                                                                
+                                                                <Border.ToolTip>
+                                                                        <ToolTip Background="#333335" BorderThickness="0" BorderBrush="Transparent"
+                                                                                 Placement="RelativePoint" HorizontalOffset="-25" VerticalOffset="-40">
+                                                                                <TextBlock Text="White theme" Foreground="White" Padding="6"
+                                                                                        FontFamily="Arial" FontSize="12" />
+                                                                        </ToolTip>
+                                                                </Border.ToolTip>
+                                                        </Border>
+                                                        
+                                                        <Border x:Name="FootFrame_MainInfo_ChangeTheme_DarkTheme" Height="40" Width="40" Background="Black" CornerRadius="3" 
+                                                                BorderThickness="1" BorderBrush="White" Cursor="Hand">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_ChangeTheme_DarkTheme_Text" Text="A" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                                                                           FontFamily="Arial" FontSize="22" Margin="7 2" Foreground="White"/>
+                                                                
+                                                                <Border.ToolTip>
+                                                                        <ToolTip Background="#333335" BorderThickness="0" BorderBrush="Transparent"
+                                                                                 Placement="RelativePoint" HorizontalOffset="-25" VerticalOffset="-40">
+                                                                                <TextBlock Text="Dark theme" Foreground="White" Padding="6"
+                                                                                        FontFamily="Arial" FontSize="12" />
+                                                                        </ToolTip>
+                                                                </Border.ToolTip>
+                                                        </Border>
+                                                </StackPanel>
+                                                
+                                                <TextBlock x:Name="FootFrame_MainInfo_CopyrightInfringement" Foreground="White" FontFamily="Arial" FontSize="22" Margin="0 10"
+                                                           Text="In cases of copyright infringement - please contact info@schoollibrary.me"/>
+                                                
+                                                <StackPanel x:Name="FootFrame_MainInfo_About" Orientation="Horizontal">
+                                                        <StackPanel x:Name="FootFrame_MainInfo_About_Feedback" Orientation="Horizontal">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_About_Feedback_Text" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Text="Feedback" Cursor="Hand" />
+                                                                <Border Width="5" Height="5" CornerRadius="100" Background="White" Margin="10" />
+                                                        </StackPanel>
+                                                        
+                                                        <StackPanel x:Name="FootFrame_MainInfo_About_ForCopyrightHolders" Orientation="Horizontal">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_About_ForCopyrightHolders_Text" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Text="For copyright holders" Cursor="Hand" />
+                                                                <Border Width="5" Height="5" CornerRadius="100" Background="White" Margin="10" />
+                                                        </StackPanel>
+                                                        
+                                                        <StackPanel x:Name="FootFrame_MainInfo_About_TermsOfUse" Orientation="Horizontal">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_About_TermsOfUse_Text" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Text="Terms of use" Cursor="Hand" />
+                                                                <Border Width="5" Height="5" CornerRadius="100" Background="White" Margin="10" />
+                                                        </StackPanel>
+                                                        
+                                                        <StackPanel x:Name="FootFrame_MainInfo_About_DMCA" Orientation="Horizontal">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_About_DMCA_Text" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Text="DMCA" Cursor="Hand" />
+                                                                <Border Width="5" Height="5" CornerRadius="100" Background="White" Margin="10" />
+                                                        </StackPanel>
+                                                        
+                                                        <StackPanel x:Name="FootFrame_MainInfo_About_License" Orientation="Horizontal">
+                                                                <TextBlock x:Name="FootFrame_MainInfo_About_License_Text" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Text="License" Cursor="Hand" />
+                                                        </StackPanel>
+                                                </StackPanel>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Grid.Column="1" x:Name="FootFrame_Copyright" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                                    Margin="25">
+                                                <TextBlock Text="©2023" Foreground="White" FontFamily="Arial" FontSize="22" Margin="0 0 5 0" />
+                                                <TextBlock Text="SchoolLibrary" Foreground="#E47F09" FontFamily="Arial" FontSize="22" Margin="5 0 0 0" Cursor="Hand" />
+                                        </StackPanel>
+                                </Grid>
+                        </Grid>
                 </Grid>
-        </Grid>
+        </ScrollViewer>
 </Window>
