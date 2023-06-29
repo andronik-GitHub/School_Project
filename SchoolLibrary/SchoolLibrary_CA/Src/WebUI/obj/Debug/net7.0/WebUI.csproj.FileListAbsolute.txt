@@ -103,15 +103,4 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\BrowserDebugHost.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\BrowserDebugHost.runtimeconfig.json
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\BrowserDebugProxy.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\Microsoft.CodeAnalysis.CSharp.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\Microsoft.CodeAnalysis.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\Microsoft.CodeAnalysis.Scripting.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\BlazorDebugProxy\Newtonsoft.Json.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\WebUI.staticwebassets.runtime.json
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Components.WebAssembly.Server.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\obj\Debug\net7.0\WebUI.RazorAssemblyInfo.cache
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\obj\Debug\net7.0\WebUI.RazorAssemblyInfo.cs

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace UI.WPF.MVVM.View
 {
@@ -7,6 +8,11 @@ namespace UI.WPF.MVVM.View
         public LoginControl()
         {
             InitializeComponent();
+        }
+
+        private void BackToHomePaige(object sendes, MouseButtonEventArgs e)
+        {
+            ContentLoginControl.Content = new MainWindowControl();
         }
     }
 }

@@ -10,7 +10,6 @@
         "dependencies": {
           "Application": "1.0.0",
           "Infrastructure": "1.0.0",
-          "Microsoft.AspNetCore.Components.WebAssembly.Server": "7.0.4",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "7.0.4",
           "Microsoft.EntityFrameworkCore.Design": "7.0.4",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.4",
@@ -189,14 +188,6 @@
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Authorization": "2.2.0"
-        }
-      },
-      "Microsoft.AspNetCore.Components.WebAssembly.Server/7.0.4": {
-        "runtime": {
-          "lib/net7.0/Microsoft.AspNetCore.Components.WebAssembly.Server.dll": {
-            "assemblyVersion": "7.0.4.0",
-            "fileVersion": "7.0.423.11903"
-          }
         }
       },
       "Microsoft.AspNetCore.Cryptography.Internal/7.0.4": {
@@ -1195,13 +1186,6 @@
       "sha512": "sha512-aJCo6niDRKuNg2uS2WMEmhJTooQUGARhV2ENQ2tO5443zVHUo19MSgrgGo9FIrfD+4yKPF8Q+FF33WkWfPbyKw==",
       "path": "microsoft.aspnetcore.authorization.policy/2.2.0",
       "hashPath": "microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512"
-    },
-    "Microsoft.AspNetCore.Components.WebAssembly.Server/7.0.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6MtsxTCbuxm+oMSI29JBBpeD3aDAzTtfQIRv6VeiRjhLJ6wZKcNxRG+7VbRgdeMujqcn0vAQFETHE8FSWllZzA==",
-      "path": "microsoft.aspnetcore.components.webassembly.server/7.0.4",
-      "hashPath": "microsoft.aspnetcore.components.webassembly.server.7.0.4.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/7.0.4": {
       "type": "package",

@@ -8,15 +8,6 @@ namespace UI.WPF.MVVM.ViewModel.Data.Configurations.DefaultConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("AspNetUsers");
-        
-            builder
-                .HasKey(u => u.UserId);
-            builder
-                .Property(u => u.UserId)
-                .HasColumnName("Id")
-                .ValueGeneratedOnAdd();
-
             builder
                 .Property(e => e.DateCreated)
                 .HasDefaultValueSql("GETUTCDATE()");
@@ -35,30 +26,36 @@ namespace UI.WPF.MVVM.ViewModel.Data.Configurations.DefaultConfiguration
                 .HasColumnType("NVARCHAR(80)")
                 .IsRequired();
             builder
-                .Property(p => p.Address)
-                .HasColumnType("NVARCHAR(255)")
+                .Property(p => p.Country)
+                .HasColumnType("NVARCHAR(50)")
+                .IsRequired();
+            builder
+                .Property(p => p.City)
+                .HasColumnType("NVARCHAR(50)")
+                .IsRequired();
+            builder
+                .Property(p => p.Street)
+                .HasColumnType("NVARCHAR(80)")
                 .IsRequired();
             builder
                 .Property(p => p.PasswordHash)
                 .HasColumnType("NVARCHAR(30)")
                 .IsRequired();
-            builder
-                .Property(p => p.Phone)
-                .HasColumnType("NVARCHAR(20)")
-                .HasColumnName("PhoneNumber")
-                .IsRequired();
-            
-            
-            // Relationships
-            builder // one-to-many  Users - Loans
-                .HasMany(u => u.Loans)
-                .WithOne(l => l.User)
-                .HasPrincipalKey(l => l.UserId);
 
-            builder // one-to-many  Users - Reviews
-                .HasMany(u => u.Reviews)
-                .WithOne(r => r.User)
-                .HasPrincipalKey(r => r.UserId);
+            builder
+                .OwnsMany(
+                    user => user.RefreshTokens,
+                    refreshToken =>
+                    {
+                        // Created table in the Creating Shared Database.Console application has PK { User Id , Id }
+                        // Without specifying the name of the FK, there will be an error of names (UserIdentityId)
+                        refreshToken.WithOwner().HasForeignKey("UserId");
+                        
+                        refreshToken.Property(rt => rt.Token).IsRequired();
+                        refreshToken.Property(rt => rt.Expires).IsRequired();
+                        refreshToken.Property(rt => rt.Created).IsRequired();
+                        refreshToken.Property(rt => rt.Revoked);
+                    });
         }
     }
 }

@@ -5,8 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.WPF.Temp.View"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="600" d:DesignWidth="1200">
+    <Grid Background="#F5965F">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         
+        <ListBox Background="#F5722C">
+            <ListBoxItem>
+                <TextBlock Text="Authors" FontSize="25" FontWeight="Bold" Foreground="White" />
+            </ListBoxItem>
+            <ListBoxItem>
+                <TextBlock Text="Genres" FontSize="25" FontWeight="Bold" Foreground="White" />
+            </ListBoxItem>
+        </ListBox>
     </Grid>
 </UserControl>

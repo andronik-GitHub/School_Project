@@ -1,37 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using UI.WPF.Temp.View;
 
-namespace UI.WPF
+namespace UI.WPF.MVVM.View
 {
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-
-        private void HeaderButtonHoverEnter(object sender, MouseEventArgs e)
-        {
-            var border = (Border)sender;
-            border.Background = new SolidColorBrush(Color.FromRgb(51, 51, 53));
-        }
-        private void HeaderButtonHoverLeave(object sender, MouseEventArgs e)
-        {
-            var border = (Border)sender;
-            border.Background = new SolidColorBrush(Colors.Transparent);
+            MainWindowContent.Content = new HomeControl();
         }
     }
 }
