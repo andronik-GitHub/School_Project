@@ -1,0 +1,51 @@
+﻿<Window x:Class="UI.WPF.MVVM.V.AuthorV.Edit_Author"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.WPF.MVVM.V.AuthorV"
+        mc:Ignorable="d"
+        Title="Edit_Author" Height="450" Width="800">
+    <StackPanel>
+
+        <StackPanel Margin="15">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="25 0" />
+                    <Setter Property="Padding" Value="5 0" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontWeight" Value="Regular" />
+                    <Setter Property="MinWidth" Value="100" />
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="0 5" />
+                </Style>
+            </StackPanel.Resources>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="FirstName" />
+                <TextBox x:Name="FirstName" Text="{Binding FirstName}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="LastName" />
+                <TextBox x:Name="LastName" Text="{Binding LastName}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Birthdate" />
+                <Calendar x:Name="Birthdate" FirstDayOfWeek="Monday" SelectedDate="{Binding Birthdate}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Nationality" />
+                <TextBox x:Name="Nationality" Text="{Binding Nationality}" />
+            </StackPanel>
+        </StackPanel>
+        <Button Content="Update" Margin="0 20" Width="150" Click="Update_Click" />
+    </StackPanel>
+</Window>

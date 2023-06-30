@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.WPF.MVVM.V.AuthorV;
+using UI.WPF.MVVM.V.BookV;
+using UI.WPF.MVVM.V.GenreV;
 
 namespace UI.WPF
 {
@@ -20,18 +23,14 @@ namespace UI.WPF
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += Author_Block;
         }
 
-
-        private void HeaderButtonHoverEnter(object sender, MouseEventArgs e)
-        {
-            var border = (Border)sender;
-            border.Background = new SolidColorBrush(Color.FromRgb(51, 51, 53));
-        }
-        private void HeaderButtonHoverLeave(object sender, MouseEventArgs e)
-        {
-            var border = (Border)sender;
-            border.Background = new SolidColorBrush(Colors.Transparent);
-        }
+        private void Author_Block(object sender, RoutedEventArgs e) => 
+            MainWindowContent.Content = new AuthorControl();
+        private void Genre_Block(object sender, RoutedEventArgs e) =>
+            MainWindowContent.Content = new GenreControl();
+        private void Book_Block(object sender, RoutedEventArgs e) =>
+            MainWindowContent.Content = new BookControl();
     }
 }

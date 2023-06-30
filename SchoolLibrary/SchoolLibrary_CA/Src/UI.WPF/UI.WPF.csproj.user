@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="MVVM\V\AuthorV\Add_Author.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\AuthorV\AuthorControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\AuthorV\Edit_Author.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\BookV\Add_Book.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\BookV\BookControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\BookV\Edit_Book.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\GenreV\Add_Genre.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\GenreV\Edit_Genre.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\V\GenreV\GenreControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MVVM\V\AuthorV\Add_Author.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\AuthorV\AuthorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\AuthorV\Edit_Author.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\BookV\Add_Book.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\BookV\BookControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\BookV\Edit_Book.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\GenreV\Add_Genre.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\GenreV\Edit_Genre.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\V\GenreV\GenreControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
