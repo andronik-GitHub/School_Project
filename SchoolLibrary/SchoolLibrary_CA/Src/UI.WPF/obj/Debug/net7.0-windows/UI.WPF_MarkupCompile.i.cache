@@ -16,5 +16,9 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\Ap
 375-613986248
 MainWindow.xaml;MVVM\V\AuthorV\Add_Author.xaml;MVVM\V\AuthorV\AuthorControl.xaml;MVVM\V\AuthorV\Edit_Author.xaml;MVVM\V\BookV\Add_Book.xaml;MVVM\V\BookV\BookControl.xaml;MVVM\V\BookV\Edit_Book.xaml;MVVM\V\GenreV\Add_Genre.xaml;MVVM\V\GenreV\Edit_Genre.xaml;MVVM\V\GenreV\GenreControl.xaml;
 
+<<<<<<< HEAD
 True
+=======
+False
+>>>>>>> Implementation for working with CRUD operations  created
 
