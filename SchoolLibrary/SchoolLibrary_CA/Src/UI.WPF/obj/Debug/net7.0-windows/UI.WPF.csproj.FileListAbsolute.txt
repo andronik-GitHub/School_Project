@@ -81,5 +81,7 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\bi
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\bin\Debug\net7.0-windows\Infrastructure.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\bin\Debug\net7.0-windows\Persistence.pdb
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\bin\Debug\net7.0-windows\Domain.pdb
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\HomeControl.g.cs
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\HomeControl.baml
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\tempControl.g.cs
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\ViewAuthor\AuthorControl.g.cs
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\tempControl.baml
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\obj\Debug\net7.0-windows\Temp\View\ViewAuthor\AuthorControl.baml

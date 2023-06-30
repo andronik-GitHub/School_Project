@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\App.xaml
-51363239292
+6-1249830763
 
-37-1115532991
+38-1517463181
 367-380307393
-MVVM\View\LoginControl.xaml;MVVM\View\MainWindow.xaml;MVVM\View\MainWindowControl.xaml;Resources\Styles\example.xaml;Temp\View\HomeControl.xaml;
+MVVM\View\LoginControl.xaml;MVVM\View\MainWindow.xaml;MVVM\View\MainWindowControl.xaml;Resources\Styles\example.xaml;Temp\View\tempControl.xaml;Temp\View\ViewAuthor\AuthorControl.xaml;
 
 False
 

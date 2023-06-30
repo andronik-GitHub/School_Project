@@ -8,7 +8,7 @@ namespace UI.WPF.MVVM.View
         public MainWindow()
         {
             InitializeComponent();
-            MainWindowContent.Content = new HomeControl();
+            MainWindowContent.Content = new tempControl();
         }
     }
 }
