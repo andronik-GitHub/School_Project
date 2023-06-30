@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+<<<<<<< HEAD
       <None Remove="Images\dots-horizontal.png" />
       <None Remove="Images\forum.png" />
       <None Remove="Images\free-icon-block-10629553.png" />
@@ -164,16 +165,23 @@
       <Resource Include="Resources\Images\ExpandoIcon.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Resource>
+=======
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+>>>>>>> old-state
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
       <ProjectReference Include="..\Persistence\Persistence.csproj" />
+<<<<<<< HEAD
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Temp\ViewModel" />
+=======
+      <ProjectReference Include="..\WebUI\WebUI.csproj" />
+>>>>>>> old-state
     </ItemGroup>
 
 </Project>

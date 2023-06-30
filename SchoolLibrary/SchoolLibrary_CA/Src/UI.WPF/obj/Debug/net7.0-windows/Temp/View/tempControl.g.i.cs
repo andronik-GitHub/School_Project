@@ -61,7 +61,7 @@ namespace UI.WPF.Temp.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI.WPF;component/temp/view/tempcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI.WPF;V1.0.0.0;component/temp/view/tempcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Temp\View\tempControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

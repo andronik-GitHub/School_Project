@@ -350,6 +350,12 @@
               },
               "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
                 "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
+<<<<<<< HEAD
+=======
+              },
+              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
+                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj"
+>>>>>>> old-state
               }
             }
           }
@@ -364,6 +370,7 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "dependencies": {
+<<<<<<< HEAD
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.4, )"
@@ -379,6 +386,11 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+=======
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+>>>>>>> old-state
             }
           },
           "imports": [
@@ -398,6 +410,106 @@
             },
             "Microsoft.WindowsDesktop.App.WPF": {
               "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
+        "projectName": "WebUI",
+        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
+        "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
+        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\const\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
+                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
+              },
+              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj"
+              },
+              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
+                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"

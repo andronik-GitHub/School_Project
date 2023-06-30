@@ -1,8 +1,21 @@
 ﻿
 
+<<<<<<< HEAD
 FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\View\LoginControl.xaml;;
 FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\View\MainWindow.xaml;;
 FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\View\MainWindowControl.xaml;;
 FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\Temp\View\tempControl.xaml;;
 FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\Temp\View\ViewAuthor\AuthorControl.xaml;;
+=======
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MainWindow.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\AuthorV\Add_Author.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\AuthorV\AuthorControl.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\AuthorV\Edit_Author.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\BookV\Add_Book.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\BookV\BookControl.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\GenreV\Add_Genre.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\GenreV\Edit_Genre.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\GenreV\GenreControl.xaml;;
+FE:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\MVVM\V\BookV\Edit_Book.xaml;;
+>>>>>>> old-state
 

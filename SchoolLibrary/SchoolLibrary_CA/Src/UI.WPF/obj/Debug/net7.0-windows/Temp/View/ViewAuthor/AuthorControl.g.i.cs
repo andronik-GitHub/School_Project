@@ -69,7 +69,7 @@ namespace UI.WPF.Temp.View.ViewAuthor {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI.WPF;component/temp/view/viewauthor/authorcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI.WPF;V1.0.0.0;component/temp/view/viewauthor/authorcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Temp\View\ViewAuthor\AuthorControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
