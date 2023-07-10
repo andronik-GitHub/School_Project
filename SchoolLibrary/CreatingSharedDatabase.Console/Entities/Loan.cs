@@ -2,7 +2,11 @@
 {
     public class Loan : BaseEntity
     {
-        public Guid LoanId { get; set; }
+        public Guid LoanId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public DateTime LoanDate { get; set; }
         public DateTime ReturnDate { get; set;}
 

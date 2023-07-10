@@ -10,7 +10,7 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         public UserRepository(
             SqlConnection sqlConnection,
             IDbTransaction dbTransaction)
-            : base(sqlConnection, dbTransaction, "Users")
+            : base(sqlConnection, dbTransaction, "AspNetUsers")
         {
         }
     }

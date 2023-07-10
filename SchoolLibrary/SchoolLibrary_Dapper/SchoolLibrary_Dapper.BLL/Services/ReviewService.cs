@@ -1,78 +1,72 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.ReviewDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class ReviewService : IReviewService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public ReviewService(IUnitOfWork uow)
+        public ReviewService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(ReviewDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Review entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.Reviews.CreateAsync(new Review
-            {
-                ReviewId = entity.ReviewId,
-                UserId = entity.UserId,
-                Rating = entity.Rating,
-                ReviewText = entity.ReviewText,
-            });
+            Review newEntity = _mapper.Map<Review>(entity); // Mapping without AutoMapper
+            
+            var id = await _uow.Reviews.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<ReviewDTO> GetAsync(Guid id)
+        public async Task<GetDTO_Review?> GetAsync(Guid id)
         {
             var entity = await _uow.Reviews.GetByIdAsync(id);
 
-            // Mapping without AutoMapper
-            return new ReviewDTO
-            {
-                ReviewId = entity.ReviewId,
-                UserId = entity.UserId,
-                Rating = entity.Rating,
-                ReviewText = entity.ReviewText,
-            };
+            GetDTO_Review? dto = _mapper.Map<GetDTO_Review?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<ReviewDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetDTO_Review>> GetAllAsync()
         {
-            var list = await _uow.Reviews.GetAllAsync();
-            var result = new List<ReviewDTO>();
-
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new ReviewDTO
-            {
-                ReviewId = entity.ReviewId,
-                UserId = entity.UserId,
-                Rating = entity.Rating,
-                ReviewText = entity.ReviewText,
-            }));
-
-            return result;
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper.Map<IEnumerable<Review>, IEnumerable<GetDTO_Review>>(await _uow.Reviews.GetAllAsync());
+            return list;
         }
-        public async Task UpdateAsync(ReviewDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Review entity)
         {
-            // Mapping without AutoMapper
-            await _uow.Reviews.UpdateAsync(new Review
-            {
-                ReviewId = entity.ReviewId,
-                UserId = entity.UserId,
-                Rating = entity.Rating,
-                ReviewText = entity.ReviewText,
-            });
+            Review upEntity = _mapper.Map<Review>(entity); // Mapping without AutoMapper
+
+            await _uow.Reviews.UpdateAsync(upEntity);
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)
         {
             await _uow.Reviews.DeleteAsync(id);
             _uow.Commit();
+        }
+        
+        public async Task<IEnumerable<GetDTO_ReviewWithUserAndBook>> GetReviewsWithUsersAndBooksAsync()
+        {
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper.Map<IEnumerable<(Review, User, Book)>, IEnumerable<GetDTO_ReviewWithUserAndBook>>
+                (await _uow.Reviews.GetReviewsWithUsersAndBooksAsync());
+            return list;
+        }
+        public async Task<GetDTO_ReviewWithUserAndBook?> GetReviewWithUserAndBookAsync(Guid id)
+        {
+            var entity = await _uow.Reviews.GetByIdReviewWithUserAndBookAsync(id);
+
+            GetDTO_ReviewWithUserAndBook? dto = _mapper.Map<GetDTO_ReviewWithUserAndBook?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
 
         public void Dispose()

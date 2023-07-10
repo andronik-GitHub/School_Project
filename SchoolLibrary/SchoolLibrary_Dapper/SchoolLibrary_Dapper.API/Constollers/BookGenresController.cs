@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.BookGenreDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class BookGenresController : ControllerBase
     {
-        IBookGenresService _bookGenresService;
+        private readonly IBookGenresService _bookGenresService;
+        private readonly string TableName = nameof(BookGenresController).Replace("Controller", "");
 
         public BookGenresController(IBookGenresService bookGenresService)
         {
@@ -17,85 +18,126 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/bookgenres
-        public async Task<ActionResult<IEnumerable<BookGenresDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_BookGenres>>> GetAllAsync()
         {
             try
             {
                 var result = await _bookGenresService.GetAllAsync();
-                Console.WriteLine("All BookGenres were successfully extracted from [BookGenres]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [BookGenresConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("include")] // GET: ado/bookgenres/include
+        public async Task<ActionResult<IEnumerable<GetDTOInclude_BookGenres>>> Include_GetAllAsync()
+        {
+            try
+            {
+                var result = await _bookGenresService.Include_GetAllAsync();
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(Include_GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("{id}")] // GET: ado/bookgenres/id
-        public async Task<ActionResult<BookGenresDTO>> GetByIdAsync(Guid id)
+        [HttpGet("{BookId}/{GenreId}")] // GET: ado/bookgenres/bookid/genreid
+        public async Task<ActionResult<GetDTO_BookGenres>> GetByIdAsync(Guid BookId, Guid GenreId)
         {
             try
             {
-                var result = await _bookGenresService.GetAsync(id); // чи взагалі є такий запис в БД
+                var result = await _bookGenresService.GetAsync(BookId, GenreId); // чи взагалі є такий запис в БД
 
                 if (result == null)
                 {
-                    Console.WriteLine($"BookGenres {id} from [BookGenres] not found");
+                    Console.WriteLine($"Entity [{BookId} - {GenreId}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    Console.WriteLine(
-                        $"BookGenres {result.BookId} {result.GenreId} were successfully extracted from [BookGenres]");
-                    return Ok(result);
-                }
+                
+                
+                Console.WriteLine(
+                    $"Entity [{result.BookId} - {result.GenreId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [BookGenresController]->[GetByIdAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("include/{BookId}/{GenreId}")] // GET: ado/bookgenres/bookid/genreid
+        public async Task<ActionResult<GetDTO_BookGenres>> Include_GetByIdAsync(Guid BookId, Guid GenreId)
+        {
+            try
+            {
+                var result = await _bookGenresService.Include_GetAsync(BookId, GenreId); // чи взагалі є такий запис в БД
+
+                if (result == null)
+                {
+                    Console.WriteLine($"Entity [{BookId} - {GenreId}] from [{TableName}] not found");
+                    return NotFound();
+                }
+                
+                
+                Console.WriteLine(
+                    $"Entity [{result.BookId} - {result.GenreId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(Include_GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/bookgenres
-        public async Task<ActionResult> AddAsync(BookGenresDTO newBookGenres)
+        public async Task<ActionResult> AddAsync(InsertDTO_BookGenres newGetDtoBookGenres)
         {
             try
             {
-                var id = await _bookGenresService.CreateAsync(newBookGenres);
-                Console.WriteLine($"BookGenres {id} successfully added to [BookGenres]");
+                var ids = await _bookGenresService.CreateAsync(newGetDtoBookGenres);
+                Console.WriteLine($"Entity [{ids.Item1} - {ids.Item2}] successfully added to [{TableName}]");
 
-                return Ok(id);
+                return Ok(ids);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [BookGenresConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/bookgenres
-        public async Task<ActionResult> UpdateAsync(BookGenresDTO upBookGenres)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_BookGenres upGetDtoBookGenres)
         {
             try
             {
-                var result = await _bookGenresService.GetAsync(upBookGenres.BookId); // чи взагалі є такий запис в БД
+                var result = await _bookGenresService.GetAsync(upGetDtoBookGenres.BookId, upGetDtoBookGenres.GenreId); // чи взагалі є такий запис в БД
 
                 if (result == null)
                 {
-                    Console.WriteLine($"BookGenres {upBookGenres.BookId} from [BookGenres] not found");
+                    Console.WriteLine
+                        ($"Entity [{upGetDtoBookGenres.BookId} - {upGetDtoBookGenres.GenreId}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _bookGenresService.UpdateAsync(upBookGenres);
-                    Console.WriteLine(
-                        $"BookGenres {upBookGenres.BookId} {upBookGenres.GenreId} successfully update to [BookGenres]");
+                
+                
+                await _bookGenresService.UpdateAsync(upGetDtoBookGenres);
+                Console.WriteLine(
+                    $"BookGenres {upGetDtoBookGenres.BookId} {upGetDtoBookGenres.GenreId} successfully update to [BookGenres]");
 
-                    return Ok();
-                }
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -104,29 +146,28 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
         }
 
-        [HttpDelete("{id}")] // DELETE: ado/bookgenres/id
-        public async Task<ActionResult> DeleteByIdAsync(Guid id)
+        [HttpDelete("{BookId}/{GenreId}")] // DELETE: ado/bookgenres/bookid/genreid
+        public async Task<ActionResult> DeleteByIdAsync(Guid BookId, Guid GenreId)
         {
             try
             {
-                var result = await _bookGenresService.GetAsync(id); // чи взагалі є такий запис в БД
+                var result = await _bookGenresService.GetAsync(BookId, GenreId); // чи взагалі є такий запис в БД
 
                 if (result == null)
                 {
-                    Console.WriteLine($"BookGenres {id} from [BookGenres] not found");
+                    Console.WriteLine($"Entity [{BookId} - {GenreId}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _bookGenresService.DeleteAsync(id);
-                    Console.WriteLine($"BookGenres {id} successfully deleted to [BookGenres]");
+                
+                
+                await _bookGenresService.DeleteAsync(BookId, GenreId);
+                Console.WriteLine($"Entity [{BookId} - {GenreId}] successfully deleted to [{TableName}]");
 
-                    return Ok();
-                }
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [BookGenresConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

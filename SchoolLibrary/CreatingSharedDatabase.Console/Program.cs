@@ -43,7 +43,7 @@ using (IServiceScope serviceScope = host.Services.CreateScope())
         var dbcontext = provider.GetRequiredService<SchoolLibraryContext>();
         dbcontext.Database.Migrate();
         
-        string json = JsonSerializer.Serialize(dbcontext.Users.ToList(), new JsonSerializerOptions
+        string json = JsonSerializer.Serialize(dbcontext.Users.Take(100).ToList(), new JsonSerializerOptions
         {
             WriteIndented = true, // spaces are included in json (relatively speaking, for beauty)
             ReferenceHandler = ReferenceHandler.Preserve // "Preserve" to avoid circular references

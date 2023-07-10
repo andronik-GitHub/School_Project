@@ -55,7 +55,6 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\Mono.TextTemplating.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.CodeDom.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.Diagnostics.DiagnosticSource.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.Diagnostics.EventLog.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.Drawing.Common.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

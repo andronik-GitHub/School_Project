@@ -1,69 +1,71 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.BLL.DTOs.BookGenreDTOs;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class BookGenresService : IBookGenresService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public BookGenresService(IUnitOfWork uow)
+        public BookGenresService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(BookGenresDTO entity)
+        public async Task<(Guid, Guid)> CreateAsync(InsertDTO_BookGenres entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.BookGenres.CreateAsync(new BookGenres
-            {
-                BookId = entity.BookId,
-                GenreId = entity.GenreId,
-            });
+            BookGenres newEntity = _mapper.Map<BookGenres>(entity); // Mapping without AutoMapper
+
+            var id = await _uow.BookGenres.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<BookGenresDTO> GetAsync(Guid id)
+        public async Task<GetDTO_BookGenres?> GetAsync(Guid BookId, Guid GenreId)
         {
-            var entity = await _uow.BookGenres.GetByIdAsync(id);
-
-            // Mapping without AutoMapper
-            return new BookGenresDTO
-            {
-                BookId = entity.BookId,
-                GenreId = entity.GenreId,
-            };
+            var entity = await _uow.BookGenres.GetByIdsAsync(BookId, GenreId);
+            
+            GetDTO_BookGenres? dto = _mapper.Map<GetDTO_BookGenres?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<BookGenresDTO>> GetAllAsync()
+        public async Task<GetDTOInclude_BookGenres?> Include_GetAsync(Guid BookId, Guid GenreId)
         {
-            var list = await _uow.BookGenres.GetAllAsync();
-            var result = new List<BookGenresDTO>();
+            var entity = await _uow.BookGenres.Include_GetByIdsAsync(BookId, GenreId);
+            
+            GetDTOInclude_BookGenres? dto = _mapper.Map<GetDTOInclude_BookGenres?>(entity); // Mapping without AutoMapper
 
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new BookGenresDTO
-            {
-                BookId = entity.BookId,
-                GenreId = entity.GenreId,
-            }));
-
-            return result;
+            return dto;
         }
-        public async Task UpdateAsync(BookGenresDTO entity)
+        public async Task<IEnumerable<GetDTO_BookGenres>> GetAllAsync()
         {
-            // Mapping without AutoMapper
-            await _uow.BookGenres.UpdateAsync(new BookGenres
-            {
-                BookId = entity.BookId,
-                GenreId = entity.GenreId,
-            });
+            var list = _mapper.Map<IEnumerable<BookGenres>, IEnumerable<GetDTO_BookGenres>>
+                (await _uow.BookGenres.GetAllAsync());
+
+            return list;
+        }
+        public async Task<IEnumerable<GetDTOInclude_BookGenres>> Include_GetAllAsync()
+        {
+            var list = _mapper.Map<IEnumerable<(Book, Genre)>, IEnumerable<GetDTOInclude_BookGenres>>
+                (await _uow.BookGenres.Include_GetAllAsync());
+
+            return list;
+        }
+        public async Task UpdateAsync(UpdateDTO_BookGenres entity)
+        {
+            BookGenres upEntity = _mapper.Map<BookGenres>(entity); // Mapping without AutoMapper
+
+            await _uow.BookGenres.UpdateAsync(upEntity);
             _uow.Commit();
         }
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid BookId, Guid GenreId)
         {
-            await _uow.BookGenres.DeleteAsync(id);
+            await _uow.BookGenres.DeleteAsync(BookId, GenreId);
             _uow.Commit();
         }
 

@@ -1,69 +1,71 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.BookAuthorDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class BookAuthorsService : IBookAuthorsService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public BookAuthorsService(IUnitOfWork uow)
+        public BookAuthorsService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(BookAuthorsDTO entity)
+        public async Task<(Guid, Guid)> CreateAsync(InsertDTO_BookAuthors entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.BookAuthors.CreateAsync(new BookAuthors
-            {
-                BookId = entity.BookId,
-                AuthorId = entity.AuthorId,
-            });
+            BookAuthors newEntity = _mapper.Map<BookAuthors>(entity); // Mapping without AutoMapper
+
+            var id = await _uow.BookAuthors.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<BookAuthorsDTO> GetAsync(Guid id)
+        public async Task<GetDTO_BookAuthors?> GetAsync(Guid BookId, Guid AuthorId)
         {
-            var entity = await _uow.BookAuthors.GetByIdAsync(id);
-
-            // Mapping without AutoMapper
-            return new BookAuthorsDTO
-            {
-                BookId = entity.BookId,
-                AuthorId = entity.AuthorId,
-            };
+            var entity = await _uow.BookAuthors.GetByIdsAsync(BookId, AuthorId);
+            
+            GetDTO_BookAuthors? dto = _mapper.Map<GetDTO_BookAuthors?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<BookAuthorsDTO>> GetAllAsync()
+        public async Task<GetDTOInclude_BookAuthors?> Include_GetAsync(Guid BookId, Guid AuthorId)
         {
-            var list = await _uow.BookAuthors.GetAllAsync();
-            var result = new List<BookAuthorsDTO>();
+            var entity = await _uow.BookAuthors.Include_GetByIdsAsync(BookId, AuthorId);
+            
+            GetDTOInclude_BookAuthors? dto = _mapper.Map<GetDTOInclude_BookAuthors?>(entity); // Mapping without AutoMapper
 
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new BookAuthorsDTO
-            {
-                BookId = entity.BookId,
-                AuthorId = entity.AuthorId,
-            }));
-
-            return result;
+            return dto;
         }
-        public async Task UpdateAsync(BookAuthorsDTO entity)
+        public async Task<IEnumerable<GetDTO_BookAuthors>> GetAllAsync()
         {
-            // Mapping without AutoMapper
-            await _uow.BookAuthors.UpdateAsync(new BookAuthors
-            {
-                BookId = entity.BookId,
-                AuthorId = entity.AuthorId,
-            });
+            var list = _mapper.Map<IEnumerable<BookAuthors>, IEnumerable<GetDTO_BookAuthors>>
+                (await _uow.BookAuthors.GetAllAsync());
+
+            return list;
+        }
+        public async Task<IEnumerable<GetDTOInclude_BookAuthors>> Include_GetAllAsync()
+        {
+            var list = _mapper.Map<IEnumerable<(Book, Author)>, IEnumerable<GetDTOInclude_BookAuthors>>
+                (await _uow.BookAuthors.Include_GetAllAsync());
+
+            return list;
+        }
+        public async Task UpdateAsync(UpdateDTO_BookAuthors entity)
+        {
+            BookAuthors upEntity = _mapper.Map<BookAuthors>(entity); // Mapping without AutoMapper
+            
+            await _uow.BookAuthors.UpdateAsync(upEntity);
             _uow.Commit();
         }
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid BookId, Guid AuthorId)
         {
-            await _uow.BookAuthors.DeleteAsync(id);
+            await _uow.BookAuthors.DeleteAsync(BookId, AuthorId);
             _uow.Commit();
         }
 

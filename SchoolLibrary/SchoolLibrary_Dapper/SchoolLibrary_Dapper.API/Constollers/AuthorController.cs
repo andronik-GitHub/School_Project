@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.AuthorDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class AuthorController : ControllerBase
     {
-        IAuthorService _authorService;
+        private readonly IAuthorService _authorService;
+        private readonly string TableName = nameof(AuthorController).Replace("Controller", "");
 
         public AuthorController(IAuthorService authorService)
         {
@@ -18,24 +19,24 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/author
-        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_Author>>> GetAllAsync()
         {
             try
             {
                 var result = await _authorService.GetAllAsync();
-                Console.WriteLine("All Authors were successfully extracted from [Authors]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [AuthorConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")] // GET: ado/author/id
-        public async Task<ActionResult<AuthorDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Author>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -43,78 +44,73 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Author {id} from [Authors] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
                 else
                 {
-                    Console.WriteLine($"Author {result.AuthorId} were successfully extracted from [Authors]");
+                    Console.WriteLine(
+                        $"Entity [{result.AuthorId}] were successfully extracted from [{TableName}]");
                     return Ok(result);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [AuthorController]->[GetByIdAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/author
-        public async Task<ActionResult> AddAsync(AuthorDTO newAuthor)
+        public async Task<ActionResult> AddAsync(InsertDTO_Author newEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (newAuthor.FirstName == null || newAuthor.LastName == null)
+                if (newEntity?.FirstName == null || newEntity?.LastName == null || newEntity?.Nationality == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
-                {
-                    var id = await _authorService.CreateAsync(newAuthor);
-                    Console.WriteLine($"Author {id} successfully added to [Authors]");
+                
+                
+                var id = await _authorService.CreateAsync(newEntity);
+                Console.WriteLine($"Entity [{id}] successfully added to [{TableName}]");
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [AuthorConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/author
-        public async Task<ActionResult> UpdateAsync(AuthorDTO upAuthor)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_Author upEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (upAuthor.FirstName == null || upAuthor.LastName == null)
-                {
+                if (upEntity?.FirstName == null || upEntity?.LastName == null || upEntity?.Nationality == null)
                     return BadRequest("Invalid information");
-                }
-                else
+                
+                
+                var result = await _authorService.GetAsync(upEntity.AuthorId); // чи взагалі є такий запис в БД
+                if (result == null)
                 {
-                    var result = await _authorService.GetAsync(upAuthor.AuthorId); // чи взагалі є такий запис в БД
-
-                    if (result == null)
-                    {
-                        Console.WriteLine($"Author {upAuthor.AuthorId} from [Authors] not found");
-                        return NotFound();
-                    }
-                    else
-                    {
-                        await _authorService.UpdateAsync(upAuthor);
-                        Console.WriteLine($"Author {upAuthor.AuthorId} successfully update to [Authors]");
-
-                        return Ok();
-                    }
+                    Console.WriteLine($"Entity [{upEntity.AuthorId}] from [{TableName}] not found");
+                    return NotFound();
                 }
+                
+                
+                await _authorService.UpdateAsync(upEntity);
+                Console.WriteLine($"Entity {upEntity.AuthorId} successfully update to [{TableName}]");
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [AuthorConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(UpdateAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -128,20 +124,20 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Author {id} from [Authors] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
                 else
                 {
                     await _authorService.DeleteAsync(id);
-                    Console.WriteLine($"Author {id} successfully deleted to [Authors]");
+                    Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
 
                     return Ok();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [AuthorConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

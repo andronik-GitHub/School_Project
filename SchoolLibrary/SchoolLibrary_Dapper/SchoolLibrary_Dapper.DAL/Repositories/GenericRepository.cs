@@ -5,14 +5,16 @@ using Dapper;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text;
+using SchoolLibrary_Dapper.DAL.Entities;
 
 namespace SchoolLibrary_Dapper.DAL.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         protected SqlConnection sqlConnection;
         protected IDbTransaction dbTransaction;
         protected readonly string tableName;
+        protected readonly string nameId;
 
         // For creating Update/Insert query
         private static IEnumerable<PropertyInfo> GetProperties => typeof(TEntity).GetProperties();
@@ -25,6 +27,8 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
             this.sqlConnection = sqlConnection;
             this.dbTransaction = dbTransaction;
             this.tableName = tableName;
+            this.nameId = typeof(TEntity).Name == "BookDetails" ? "BookDetailId" 
+                : typeof(TEntity).Name == "User" ? "Id" : $"{typeof(TEntity).Name + "Id"}";
         }
 
 
@@ -32,28 +36,27 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         {
             var insertQuery = GenerateInsertQuery();
 
-            return await sqlConnection.ExecuteScalarAsync<Guid>(
+            var result = await sqlConnection.ExecuteScalarAsync<Guid>(
                 insertQuery,
                 param: entity,
                 transaction: dbTransaction);
+
+            return result;
         }
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await sqlConnection.QueryAsync<TEntity>(
                 $"SELECT * FROM [{tableName}]",
                 transaction: dbTransaction);
         }
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            string nameId = $"{typeof(TEntity).Name + "Id"}";
-
             var retult =  await sqlConnection.QuerySingleOrDefaultAsync<TEntity>(
                 $"SELECT * FROM [{tableName}] WHERE {nameId}=@Id",
                 param: new { Id = id },
                 transaction: dbTransaction);
-
-            if (retult == null) throw new Exception($"Error in: public virtual async Task<{typeof(TEntity).Name}> GetAsync(int id)");
-            else return retult;
+            
+            return retult;
         }
         public virtual async Task UpdateAsync(TEntity entity)
         {
@@ -64,10 +67,8 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
                 param: entity,
                 transaction: dbTransaction);
         }
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
-            string nameId = $"{typeof(TEntity).Name + "Id"}";
-
             await sqlConnection.ExecuteAsync(
                 $"DELETE FROM [{tableName}] WHERE {nameId}=@Id",
                 param: new { Id = id },
@@ -76,40 +77,45 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
 
 
         // For update/insert query
-        private static List<string> GenerateListOfProperties(IEnumerable<PropertyInfo> listOfProperties)
+        private List<string> GenerateListOfProperties(IEnumerable<PropertyInfo> listOfProperties)
         {
-            return (from prop in listOfProperties
-                    let attributes = prop.GetCustomAttributes(typeof(DescriptionAttribute), false)
-                    where attributes.Length <= 0 || (attributes[0] as DescriptionAttribute)?.Description != "ignore"
-                    select prop.Name).ToList();
+            var list = listOfProperties
+                .Select(prop => new
+                {
+                    attributes = prop.GetCustomAttributes(typeof(DescriptionAttribute), false),
+                    name = prop.Name
+                })
+                .Where(prop => 
+                    prop.attributes.Length <= 0 || 
+                    (prop.attributes[0] as DescriptionAttribute)?.Description != "ignore")
+                .Select(prop => prop.name)
+                .Where(propName => (nameId != "Id" && propName != "Id") || (nameId == "Id"))
+                .ToList();
+            return list;
         }
         private string GenerateInsertQuery()
         {
-            var insertQuery = new StringBuilder($"INSERT INTO {tableName} ");
+            var insertQuery = new StringBuilder
+                ($"DECLARE @InsertedIds TABLE (Identifier uniqueidentifier); INSERT INTO [{tableName}] ");
 
             insertQuery.Append('(');
-
             var properties = GenerateListOfProperties(GetProperties);
             properties.ForEach(prop => { insertQuery.Append($"[{prop}],"); });
 
             insertQuery
-                .Remove(insertQuery.Length - 1, 1)
-                .Append(") VALUES (");
-
+                .Remove(insertQuery.Length - 1, 1) // remove last comma
+                .Append($") OUTPUT inserted.{nameId} INTO @InsertedIds VALUES (");
             properties.ForEach(prop => { insertQuery.Append($"@{prop},"); });
 
             insertQuery
                 .Remove(insertQuery.Length - 1, 1)
-                .Append("); SELECT SCOPE_IDENTITY()");
+                .Append("); SELECT Identifier FROM @InsertedIds;");
 
             return insertQuery.ToString();
         }
         private string GenerateUpdateQuery()
         {
-            // PK tables Users => UserId
-            string nameId = $"{typeof(TEntity).Name + "Id"}";
-
-            var updateQuery = new StringBuilder($"UPDATE {tableName} SET ");
+            var updateQuery = new StringBuilder($"UPDATE [{tableName}] SET ");
             var properties = GenerateListOfProperties(GetProperties);
 
             properties.ForEach(property =>
@@ -118,7 +124,7 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
                     updateQuery.Append($"{property}=@{property},");
             });
 
-            updateQuery.Remove(updateQuery.Length - 1, 1); //remove last comma
+            updateQuery.Remove(updateQuery.Length - 1, 1); // remove last comma
             updateQuery.Append($" WHERE {nameId}=@{nameId}");
 
             return updateQuery.ToString();

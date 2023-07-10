@@ -2,7 +2,11 @@
 {
     public class Review : BaseEntity
     {
-        public Guid ReviewId { get; set; }
+        public Guid ReviewId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public decimal Rating { get; set; }
         public string ReviewText { get; set; } = default!;
 

@@ -1,8 +1,12 @@
 ﻿namespace SchoolLibrary_Dapper.DAL.Entities
 {
-    public class BookDetails
+    public class BookDetails : BaseEntity
     {
-        public Guid BookDetailId { get; set; }
+        public Guid BookDetailId
+        {
+            get => id;
+            set => id = value;
+        }
         public Guid BookId { get; set; }
         public int Pages { get; set; }
         public string Language { get; set; } = default!;

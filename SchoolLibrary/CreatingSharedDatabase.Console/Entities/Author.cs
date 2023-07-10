@@ -2,7 +2,11 @@
 {
     public class Author : BaseEntity
     {
-        public Guid AuthorId { get; set; }
+        public Guid AuthorId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;
         public DateTime Birthdate { get; set; }

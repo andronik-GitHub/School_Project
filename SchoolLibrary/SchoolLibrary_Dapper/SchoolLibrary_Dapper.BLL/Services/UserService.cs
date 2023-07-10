@@ -1,84 +1,50 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.UserDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class UserService : IUserService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public UserService(IUnitOfWork uow)
+        public UserService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(UserDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_User entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.Users.CreateAsync(new User
-            {
-                UserId = entity.UserId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Email = entity.Email,
-                Password = entity.Password,
-                Address = entity.Address,
-                Phone = entity.Phone,
-            });
+            User newEntity = _mapper.Map<User>(entity); // Mapping without AutoMapper
+
+            var id = await _uow.Users.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<UserDTO> GetAsync(Guid id)
+        public async Task<GetDTO_User?> GetAsync(Guid id)
         {
             var entity = await _uow.Users.GetByIdAsync(id);
 
-            // Mapping without AutoMapper
-            return new UserDTO
-            {
-                UserId = entity.UserId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Email = entity.Email,
-                Password = entity.Password,
-                Address = entity.Address,
-                Phone = entity.Phone,
-            };
+            GetDTO_User? dto = _mapper.Map<GetDTO_User?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<UserDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetDTO_User>> GetAllAsync()
         {
-            var list = await _uow.Users.GetAllAsync();
-            var result = new List<UserDTO>();
-
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new UserDTO
-            {
-                UserId = entity.UserId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Email = entity.Email,
-                Password = entity.Password,
-                Address = entity.Address,
-                Phone = entity.Phone,
-            }));
-
-            return result;
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper.Map<IEnumerable<User>, IEnumerable<GetDTO_User>>(await _uow.Users.GetAllAsync());
+            return list;
         }
-        public async Task UpdateAsync(UserDTO entity)
+        public async Task UpdateAsync(UpdateDTO_User entity)
         {
-            // Mapping without AutoMapper
-            await _uow.Users.UpdateAsync(new User
-            {
-                UserId = entity.UserId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Email = entity.Email,
-                Password = entity.Password,
-                Address = entity.Address,
-                Phone = entity.Phone,
-            });
+            User upEntity = _mapper.Map<User>(entity); // Mapping without AutoMapper
+
+            await _uow.Users.UpdateAsync(upEntity);
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

@@ -1,68 +1,51 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.PublisherDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class PublisherService : IPublisherService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public PublisherService(IUnitOfWork uow)
+        public PublisherService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(PublisherDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Publisher entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.Publishers.CreateAsync(new Publisher
-            {
-                PublisherId = entity.PublisherId,
-                Name = entity.Name,
-                Location = entity.Location,
-            });
+            Publisher newEntity = _mapper.Map<Publisher>(entity); // Mapping without AutoMapper
+
+            var id = await _uow.Publishers.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<PublisherDTO> GetAsync(Guid id)
+        public async Task<GetDTO_Publisher?> GetAsync(Guid id)
         {
             var entity = await _uow.Publishers.GetByIdAsync(id);
 
-            // Mapping without AutoMapper
-            return new PublisherDTO
-            {
-                PublisherId = entity.PublisherId,
-                Name = entity.Name,
-                Location = entity.Location,
-            };
+            GetDTO_Publisher? dto = _mapper.Map<GetDTO_Publisher?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<PublisherDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetDTO_Publisher>> GetAllAsync()
         {
-            var list = await _uow.Publishers.GetAllAsync();
-            var result = new List<PublisherDTO>();
-
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new PublisherDTO
-            {
-                PublisherId = entity.PublisherId,
-                Name = entity.Name,
-                Location = entity.Location,
-            }));
-
-            return result;
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper
+                .Map<IEnumerable<Publisher>, IEnumerable<GetDTO_Publisher>>(await _uow.Publishers.GetAllAsync());
+            return list;
         }
-        public async Task UpdateAsync(PublisherDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Publisher entity)
         {
-            // Mapping without AutoMapper
-            await _uow.Publishers.UpdateAsync(new Publisher
-            {
-                PublisherId = entity.PublisherId,
-                Name = entity.Name,
-                Location = entity.Location,
-            });
+            Publisher upEntity = _mapper.Map<Publisher>(entity); // Mapping without AutoMapper
+
+            await _uow.Publishers.UpdateAsync(upEntity);
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

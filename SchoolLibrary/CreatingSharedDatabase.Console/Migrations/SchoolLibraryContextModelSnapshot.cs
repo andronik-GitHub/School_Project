@@ -56,7 +56,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
 
                     b.HasData(
                         new
@@ -1446,7 +1446,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
 
                     b.HasData(
                         new
@@ -5884,7 +5884,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthors", (string)null);
 
                     b.HasData(
                         new
@@ -8865,7 +8865,7 @@ namespace CreatingSharedDatabase.Console.Migrations
                     b.HasIndex("BookId")
                         .IsUnique();
 
-                    b.ToTable("BookDetails");
+                    b.ToTable("BookDetails", (string)null);
 
                     b.HasData(
                         new
@@ -13303,7 +13303,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres");
+                    b.ToTable("BookGenres", (string)null);
 
                     b.HasData(
                         new
@@ -16271,7 +16271,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasKey("GenreId");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
 
                     b.HasData(
                         new
@@ -16491,7 +16491,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
 
                     b.HasData(
                         new
@@ -18773,7 +18773,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasKey("PublisherId");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
 
                     b.HasData(
                         new
@@ -19304,7 +19304,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
 
                     b.HasData(
                         new
@@ -28062,7 +28062,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
             modelBuilder.Entity("CreatingSharedDatabase.Console.Entities.User", b =>
                 {
-                    b.OwnsMany("CreatingSharedDatabase.Console.Entities.Identity.RefreshToken", "RefreshTokens", b1 =>
+                    b.OwnsMany("CreatingSharedDatabase.Console.Entities.User.RefreshTokens#CreatingSharedDatabase.Console.Entities.Identity.RefreshToken", "RefreshTokens", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
@@ -28088,7 +28088,7 @@ namespace CreatingSharedDatabase.Console.Migrations
 
                             b1.HasKey("UserId", "Id");
 
-                            b1.ToTable("RefreshToken");
+                            b1.ToTable("RefreshToken", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");

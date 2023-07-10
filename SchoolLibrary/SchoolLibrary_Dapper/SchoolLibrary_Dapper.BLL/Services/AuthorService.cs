@@ -1,76 +1,50 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.AuthorDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class AuthorService : IAuthorService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public AuthorService(IUnitOfWork uow)
+        public AuthorService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(AuthorDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Author entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.Authors.CreateAsync(new Author
-            {
-                AuthorId = entity.AuthorId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Birthdate = entity.Birthdate,
-                Nationality = entity.Nationality,
-            });
+            Author newEntity = _mapper.Map<Author>(entity); // Mapping without AutoMapper
+            
+            var id = await _uow.Authors.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<AuthorDTO> GetAsync(Guid id)
+        public async Task<GetDTO_Author?> GetAsync(Guid id)
         {
             var entity =  await _uow.Authors.GetByIdAsync(id);
 
-            // Mapping without AutoMapper
-            return new AuthorDTO
-            {
-                AuthorId = entity.AuthorId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Birthdate = entity.Birthdate,
-                Nationality = entity.Nationality,
-            };
+            GetDTO_Author? dto = _mapper.Map<GetDTO_Author?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetDTO_Author>> GetAllAsync()
         {
-            var list = await _uow.Authors.GetAllAsync();
-            var result = new List<AuthorDTO>();
-
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new AuthorDTO
-            {
-                AuthorId = entity.AuthorId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Birthdate = entity.Birthdate,
-                Nationality = entity.Nationality,
-            }));
-
-            return result;
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper.Map<IEnumerable<Author>, IEnumerable<GetDTO_Author>>(await _uow.Authors.GetAllAsync());
+            return list;
         }
-        public async Task UpdateAsync(AuthorDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Author entity)
         {
-            // Mapping without AutoMapper
-            await _uow.Authors.UpdateAsync(new Author
-            {
-                AuthorId = entity.AuthorId,
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Birthdate = entity.Birthdate,
-                Nationality = entity.Nationality,
-            });
+            Author upEntity = _mapper.Map<Author>(entity); // Mapping without AutoMapper
+            
+            await _uow.Authors.UpdateAsync(upEntity);
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

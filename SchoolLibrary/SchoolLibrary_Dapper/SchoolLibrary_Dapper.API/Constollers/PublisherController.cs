@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.PublisherDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class PublisherController : ControllerBase
     {
-        IPublisherService _publisherService;
+        private readonly IPublisherService _publisherService;
+        private readonly string TableName = nameof(PublisherController).Replace("Controller", "");
 
         public PublisherController(IPublisherService publisherService)
         {
@@ -18,24 +19,24 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/publisher
-        public async Task<ActionResult<IEnumerable<PublisherDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_Publisher>>> GetAllAsync()
         {
             try
             {
                 var result = await _publisherService.GetAllAsync();
-                Console.WriteLine("All Publisher were successfully extracted from [Publishers]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [PublisherConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")] // GET: ado/publisher/id
-        public async Task<ActionResult<PublisherDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Publisher>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -43,78 +44,74 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Publisher {id} from [Publishers] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    Console.WriteLine($"Publisher {result.PublisherId} were successfully extracted from [Publishers]");
-                    return Ok(result);
-                }
+
+
+                Console.WriteLine(
+                    $"Entity [{result.PublisherId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [PublisherController]->[GetByIdAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/publisher
-        public async Task<ActionResult> AddAsync(PublisherDTO newPublisher)
+        public async Task<ActionResult> AddAsync(InsertDTO_Publisher newEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (newPublisher.Name == null || newPublisher.Location == null)
+                if (newEntity?.Name == null || newEntity?.Location == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
-                {
-                    var id = await _publisherService.CreateAsync(newPublisher);
-                    Console.WriteLine($"Publisher {id} successfully added to [Publishers]");
+                    
+                    
+                var id = await _publisherService.CreateAsync(newEntity);
+                Console.WriteLine($"Entity [{id}] successfully added to [{TableName}]");
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [PublisherConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/publisher
-        public async Task<ActionResult> UpdateAsync(PublisherDTO upPublisher)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_Publisher upEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (upPublisher.Name == null || upPublisher.Location == null)
+                if (upEntity?.Name == null || upEntity?.Location == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
+                    
+                    
+                var result = await _publisherService.GetAsync(upEntity.PublisherId); // чи взагалі є такий запис в БД
+                if (result == null)
                 {
-                    var result = await _publisherService.GetAsync(upPublisher.PublisherId); // чи взагалі є такий запис в БД
-
-                    if (result == null)
-                    {
-                        Console.WriteLine($"Publisher {upPublisher.PublisherId} from [Publishers] not found");
-                        return NotFound();
-                    }
-                    else
-                    {
-                        await _publisherService.UpdateAsync(upPublisher);
-                        Console.WriteLine($"Publisher {upPublisher.PublisherId} successfully update to [Publishers]");
-
-                        return Ok();
-                    }
+                    Console.WriteLine($"Entity [{upEntity.PublisherId}] from [{TableName}] not found");
+                    return NotFound();
                 }
+
+
+                await _publisherService.UpdateAsync(upEntity);
+                Console.WriteLine($"Entity {upEntity.PublisherId} successfully update to [{TableName}]");
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [PublisherConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(UpdateAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -128,20 +125,19 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Publisher {id} from [Publishers] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _publisherService.DeleteAsync(id);
-                    Console.WriteLine($"Publisher {id} successfully deleted to [Publishers]");
+                    
+                    
+                await _publisherService.DeleteAsync(id);
+                Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
 
-                    return Ok();
-                }
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [PublisherConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

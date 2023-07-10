@@ -2,7 +2,11 @@
 {
     public class Genre : BaseEntity
     {
-        public Guid GenreId { get; set; }
+        public Guid GenreId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public string Name { get; set; } = default!;
 
         

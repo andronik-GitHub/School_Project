@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "MY0IFDIojxynoM6fCMmaii0IQKarBMa7x6xv/DCtGCluMtLE8f8M2d21mRlW0MlVR0o0U3pdqwKTj16p3cUTKg==",
+  "dgSpecHash": "CvuqXfgEul2TZpkw7AYTB39r1c4y06Gpmm9Y9WrcJ/GyjKTVbXKLXUhJPx9Q2LHjD8JoEsp9kDAxcANT67uqlg==",
   "success": true,
   "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper\\SchoolLibrary_Dapper.DAL\\SchoolLibrary_Dapper.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.4\\microsoft.aspnetcore.cryptography.internal.7.0.4.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.4\\microsoft.aspnetcore.cryptography.keyderivation.7.0.4.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.configuration.binder\\7.0.3\\microsoft.extensions.configuration.binder.7.0.3.nupkg.sha512",
@@ -20,6 +22,7 @@
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\7.0.0\\microsoft.extensions.filesystemglobbing.7.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.hosting\\7.0.1\\microsoft.extensions.hosting.7.0.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\7.0.0\\microsoft.extensions.hosting.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.identity.core\\7.0.4\\microsoft.extensions.identity.core.7.0.4.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\microsoft.extensions.logging.configuration\\7.0.0\\microsoft.extensions.logging.configuration.7.0.0.nupkg.sha512",

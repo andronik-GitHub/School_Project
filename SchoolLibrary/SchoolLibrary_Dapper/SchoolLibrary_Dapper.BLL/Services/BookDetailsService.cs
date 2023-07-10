@@ -1,77 +1,52 @@
-﻿using SchoolLibrary_Dapper.DAL.Entities;
+﻿using AutoMapper;
+using SchoolLibrary_Dapper.DAL.Entities;
 using SchoolLibrary_Dapper.DAL.Repositories.Contracts;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.BookDetailsDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.BLL.Services
 {
     public class BookDetailsService : IBookDetailsService
     {
-        IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public BookDetailsService(IUnitOfWork uow)
+        public BookDetailsService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
 
-        public async Task<Guid> CreateAsync(BookDetailsDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_BookDetails entity)
         {
-            // Mapping without AutoMapper
-            var id = await _uow.BookDetails.CreateAsync(new BookDetails
-            {
-                BookDetailId = entity.BookDetailId,
-                BookId = entity.BookId,
-                Pages = entity.Pages,
-                Language = entity.Language,
-                Format = entity.Format,
-            });
+            BookDetails newEntity = _mapper.Map<BookDetails>(entity); // Mapping without AutoMapper
+            
+            var id = await _uow.BookDetails.CreateAsync(newEntity);
             _uow.Commit();
 
             return id;
         }
-        public async Task<BookDetailsDTO> GetAsync(Guid id)
+        public async Task<GetDTO_BookDetails?> GetAsync(Guid id)
         {
             var entity = await _uow.BookDetails.GetByIdAsync(id);
-
-            // Mapping without AutoMapper
-            return new BookDetailsDTO
-            {
-                BookDetailId = entity.BookDetailId,
-                BookId = entity.BookId,
-                Pages = entity.Pages,
-                Language = entity.Language,
-                Format = entity.Format,
-            };
+            
+            GetDTO_BookDetails? dto = _mapper.Map<GetDTO_BookDetails?>(entity); // Mapping without AutoMapper
+            
+            return dto;
         }
-        public async Task<IEnumerable<BookDetailsDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetDTO_BookDetails>> GetAllAsync()
         {
-            var list = await _uow.BookDetails.GetAllAsync();
-            var result = new List<BookDetailsDTO>();
-
-            // Mapping without AutoMapper
-            list.ToList().ForEach(entity => result.Add(new BookDetailsDTO
-            {
-                BookDetailId = entity.BookDetailId,
-                BookId = entity.BookId,
-                Pages = entity.Pages,
-                Language = entity.Language,
-                Format = entity.Format,
-            }));
-
-            return result;
+            // Use AutoMapper to project one collection onto another
+            var list = _mapper
+                .Map<IEnumerable<BookDetails>, IEnumerable<GetDTO_BookDetails>>(await _uow.BookDetails.GetAllAsync());
+            return list;
         }
-        public async Task UpdateAsync(BookDetailsDTO entity)
+        public async Task UpdateAsync(UpdateDTO_BookDetails entity)
         {
-            // Mapping without AutoMapper
-            await _uow.BookDetails.UpdateAsync(new BookDetails
-            {
-                BookDetailId = entity.BookDetailId,
-                BookId = entity.BookId,
-                Pages = entity.Pages,
-                Language = entity.Language,
-                Format = entity.Format,
-            });
+            BookDetails upEntity = _mapper.Map<BookDetails>(entity); // Mapping without AutoMapper
+            
+            await _uow.BookDetails.UpdateAsync(upEntity);
             _uow.Commit();
         }
         public async Task DeleteAsync(Guid id)

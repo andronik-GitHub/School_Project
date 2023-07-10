@@ -2,7 +2,11 @@
 {
     public class BookDetails : BaseEntity
     {
-        public Guid BookDetailId { get; set; }
+        public Guid BookDetailId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public int Pages { get; set; }
         public string Language { get; set; } = default!;
         public string Format { get; set; } = default!;

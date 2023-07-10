@@ -22,21 +22,8 @@ builder.Services.AddSwaggerGen();
         connection.Open();
         return connection.BeginTransaction();
     });
-
-    // DAL
-    {
-        builder.Services.AddScoped<IBookRepository, BookRepository>();
-        builder.Services.AddScoped<IBookDetailsRepository, BookDetailsRepository>();
-        builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-        builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<ILoanRepository, LoanRepository>();
-        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-        builder.Services.AddScoped<IGenreRepository, GenreRepository>();
-        builder.Services.AddScoped<IBookGenresRepository, BookGenresRepository>();
-        builder.Services.AddScoped<IBookAuthorsRepository, BookAuthorsRepository>();
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-    }
+    
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AutoMapper
 
     // BLL
     {
@@ -50,6 +37,21 @@ builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<IGenreService, GenreService>();
         builder.Services.AddScoped<IBookGenresService, BookGenresService>();
         builder.Services.AddScoped<IBookAuthorsService, BookAuthorsService>();
+    }
+    
+    // DAL
+    {
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IBookDetailsRepository, BookDetailsRepository>();
+        builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+        builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+        builder.Services.AddScoped<IBookGenresRepository, BookGenresRepository>();
+        builder.Services.AddScoped<IBookAuthorsRepository, BookAuthorsRepository>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
 #endregion

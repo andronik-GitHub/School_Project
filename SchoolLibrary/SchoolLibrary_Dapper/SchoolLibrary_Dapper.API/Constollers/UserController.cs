@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.UserDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserService _userService;
+        private readonly IUserService _userService;
+        private readonly string TableName = nameof(UserController).Replace("Controller", "");
 
         public  UserController(IUserService userService)
         {
@@ -18,24 +19,24 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/user
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_User>>> GetAllAsync()
         {
             try
             {
                 var result = await _userService.GetAllAsync();
-                Console.WriteLine("All User were successfully extracted from [Users]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [UserConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")] // GET: ado/user/id
-        public async Task<ActionResult<UserDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_User>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -43,82 +44,79 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"User {id} from [Users] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    Console.WriteLine($"User {result.UserId} were successfully extracted from [Users]");
-                    return Ok(result);
-                }
+                    
+                    
+                Console.WriteLine($"Entity [{result.UserId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [UserController]->[GetByIdAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/user
-        public async Task<ActionResult> AddAsync(UserDTO newUser)
+        public async Task<ActionResult> AddAsync(InsertDTO_User newEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (newUser.FirstName == null || newUser.LastName == null ||
-                    newUser.Email == null || newUser.Password == null ||
-                    newUser.Address == null || newUser.Phone == null)
+                if (newEntity?.FirstName == null || newEntity?.LastName == null ||
+                    newEntity?.Email == null || newEntity?.Password == null ||
+                    newEntity?.Street == null || newEntity?.Country == null ||
+                    newEntity?.City == null || newEntity?.PhoneNumber == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
-                {
-                    var id = await _userService.CreateAsync(newUser);
-                    Console.WriteLine($"User {id} successfully added to [Users]");
+                
+                
+                var id = await _userService.CreateAsync(newEntity);
+                Console.WriteLine($"Entity [{id}] successfully added to [{TableName}]");
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [UserConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/user
-        public async Task<ActionResult> UpdateAsync(UserDTO upUser)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_User upEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (upUser.FirstName == null || upUser.LastName == null ||
-                    upUser.Email == null || upUser.Password == null ||
-                    upUser.Address == null || upUser.Phone == null)
+                if (upEntity?.FirstName == null || upEntity?.LastName == null ||
+                    upEntity?.Email == null || upEntity?.Password == null ||
+                    upEntity?.Street == null || upEntity?.Country == null ||
+                    upEntity?.City == null || upEntity?.PhoneNumber == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
+                    
+                    
+                var result = await _userService.GetAsync(upEntity.UserId); // чи взагалі є такий запис в БД
+                if (result == null)
                 {
-                    var result = await _userService.GetAsync(upUser.UserId); // чи взагалі є такий запис в БД
-
-                    if (result == null)
-                    {
-                        Console.WriteLine($"User {upUser.UserId} from [Users] not found");
-                        return NotFound();
-                    }
-                    else
-                    {
-                        await _userService.UpdateAsync(upUser);
-                        Console.WriteLine($"User {upUser.UserId} successfully update to [Users]");
-
-                        return Ok();
-                    }
+                    Console.WriteLine($"Entity [{upEntity.UserId}] from [{TableName}] not found");
+                    return NotFound();
                 }
+                    
+                    
+                await _userService.UpdateAsync(upEntity);
+                Console.WriteLine($"Entity {upEntity.UserId} successfully update to [{TableName}]");
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [UserConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(UpdateAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -132,20 +130,20 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"User {id} from [Users] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
                 else
                 {
                     await _userService.DeleteAsync(id);
-                    Console.WriteLine($"User {id} successfully deleted to [Users]");
+                    Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
 
                     return Ok();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [UserConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.LoanDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class LoanController : ControllerBase
     {
-        ILoanService _loanService;
+        private readonly ILoanService _loanService;
+        private readonly string TableName = nameof(LoanController).Replace("Controller", "");
 
         public LoanController(ILoanService loanService)
         {
@@ -17,24 +18,24 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/loan
-        public async Task<ActionResult<IEnumerable<LoanDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_Loan>>> GetAllAsync()
         {
             try
             {
                 var result = await _loanService.GetAllAsync();
-                Console.WriteLine("All Loan were successfully extracted from [Loans]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [LoanConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")] // GET: ado/loan/id
-        public async Task<ActionResult<LoanDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Loan>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -42,62 +43,61 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Loan {id} from [Loans] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    Console.WriteLine($"Loan {result.LoanId} were successfully extracted from [Loans]");
-                    return Ok(result);
-                }
+                
+                
+                Console.WriteLine(
+                    $"Entity [{result.LoanId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [LoanConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/loan
-        public async Task<ActionResult> AddAsync(LoanDTO newLoan)
+        public async Task<ActionResult> AddAsync(InsertDTO_Loan newEntity)
         {
             try
             {
-                var id = await _loanService.CreateAsync(newLoan);
-                Console.WriteLine($"Loan {id} successfully added to [Loans]");
+                var id = await _loanService.CreateAsync(newEntity);
+                Console.WriteLine($"Entity [{id}] successfully added to [{TableName}]");
 
                 return Ok(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [LoanConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/loan
-        public async Task<ActionResult> UpdateAsync(LoanDTO upLoan)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_Loan upEntity)
         {
             try
             {
-                var result = await _loanService.GetAsync(upLoan.LoanId); // чи взагалі є такий запис в БД
+                var result = await _loanService.GetAsync(upEntity.LoanId); // чи взагалі є такий запис в БД
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Loan {upLoan.LoanId} from [Loans] not found");
+                    Console.WriteLine($"Entity [{upEntity.LoanId}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _loanService.UpdateAsync(upLoan);
-                    Console.WriteLine($"Loan {upLoan.LoanId} successfully update to [Loans]");
+                    
+                    
+                await _loanService.UpdateAsync(upEntity);
+                Console.WriteLine($"Entity {upEntity.LoanId} successfully update to [{TableName}]");
 
-                    return Ok();
-                }
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [LoanConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(UpdateAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -111,20 +111,19 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Loan {id} from [Loans] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _loanService.DeleteAsync(id);
-                    Console.WriteLine($"Loan {id} successfully deleted to [Loans]");
+                   
 
-                    return Ok();
-                }
+                await _loanService.DeleteAsync(id);
+                Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [LoanConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }

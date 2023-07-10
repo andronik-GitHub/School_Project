@@ -2,7 +2,11 @@
 {
     public class Publisher : BaseEntity
     {
-        public Guid PublisherId { get; set; }
+        public Guid PublisherId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public string Name { get; set; } = default!;
         public string Location { get; set; } = default!;
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_Dapper.BLL.DTO;
+using SchoolLibrary_Dapper.BLL.DTOs.GenreDTOs;
 using SchoolLibrary_Dapper.BLL.Services.Consracts;
 
 namespace SchoolLibrary_Dapper.API.Constollers
@@ -8,7 +8,8 @@ namespace SchoolLibrary_Dapper.API.Constollers
     [ApiController]
     public class GenreController : ControllerBase
     {
-        IGenreService _genreService;
+        private readonly IGenreService _genreService;
+        private readonly string TableName = nameof(GenreController).Replace("Controller", "");
 
         public GenreController(IGenreService genreService)
         {
@@ -17,24 +18,24 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
 
         [HttpGet] // GET: ado/genre
-        public async Task<ActionResult<IEnumerable<GenreDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<GetDTO_Genre>>> GetAllAsync()
         {
             try
             {
                 var result = await _genreService.GetAllAsync();
-                Console.WriteLine("All Genre were successfully extracted from [Genre]");
+                Console.WriteLine($"All entities were successfully extracted from [{TableName}]");
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [GenreConstoller]->[GetAllAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetAllAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")] // GET: ado/genre/id
-        public async Task<ActionResult<GenreDTO>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Genre>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -42,70 +43,69 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Genre {id} from [Genres] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    Console.WriteLine($"Genre {result.GenreId} were successfully extracted from [Genres]");
-                    return Ok(result);
-                }
+                
+                
+                Console.WriteLine(
+                    $"Entity [{result.GenreId}] were successfully extracted from [{TableName}]");
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [GenreController]->[GetByIdAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(GetByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost] // POST: ado/genre
-        public async Task<ActionResult> AddAsync(GenreDTO newGenre)
+        public async Task<ActionResult> AddAsync(InsertDTO_Genre newEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (newGenre.Name == null)
+                if (newEntity?.Name == null)
                 {
                     return BadRequest("Invalid information");
                 }
-                else
-                {
-                    var id = await _genreService.CreateAsync(newGenre);
-                    Console.WriteLine($"Genre {id} successfully added to [Genres]");
 
-                    return Ok(id);
-                }
+
+                var id = await _genreService.CreateAsync(newEntity);
+                Console.WriteLine($"Entity [{id}] successfully added to [{TableName}]");
+
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [GenreConstoller]->[AddAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(AddAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut] // PUT: ado/genre
-        public async Task<ActionResult> UpdateAsync(GenreDTO upGenre)
+        public async Task<ActionResult> UpdateAsync(UpdateDTO_Genre upEntity)
         {
             try
             {
                 // Чи введені валідні данні
-                if (upGenre.Name == null)
+                if (upEntity?.Name == null)
                 {
                     return BadRequest("Invalid information");
                 }
                 else
                 {
-                    var result = await _genreService.GetAsync(upGenre.GenreId); // чи взагалі є такий запис в БД
+                    var result = await _genreService.GetAsync(upEntity.GenreId); // чи взагалі є такий запис в БД
 
                     if (result == null)
                     {
-                        Console.WriteLine($"Genre {upGenre.GenreId} from [Genres] not found");
+                        Console.WriteLine($"Entity [{upEntity.GenreId}] from [{TableName}] not found");
                         return NotFound();
                     }
                     else
                     {
-                        await _genreService.UpdateAsync(upGenre);
-                        Console.WriteLine($"Genre {upGenre.GenreId} successfully update to [Genres]");
+                        await _genreService.UpdateAsync(upEntity);
+                        Console.WriteLine($"Entity {upEntity.GenreId} successfully update to [{TableName}]");
 
                         return Ok();
                     }
@@ -113,7 +113,7 @@ namespace SchoolLibrary_Dapper.API.Constollers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [GenreConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(UpdateAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -127,20 +127,19 @@ namespace SchoolLibrary_Dapper.API.Constollers
 
                 if (result == null)
                 {
-                    Console.WriteLine($"Genre {id} from [Genres] not found");
+                    Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _genreService.DeleteAsync(id);
-                    Console.WriteLine($"Genre {id} successfully deleted to [Genres]");
 
-                    return Ok();
-                }
+
+                await _genreService.DeleteAsync(id);
+                Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in [GenreConstoller]->[UpdateAsync]\n " + ex.Message);
+                Console.WriteLine($"Error in [{this.GetType().Name}]->[{nameof(DeleteByIdAsync)}]\n " + ex.Message);
                 return BadRequest(ex.Message);
             }
         }
