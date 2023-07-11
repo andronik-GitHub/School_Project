@@ -19,7 +19,7 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         // For creating Update/Insert query
         private static IEnumerable<PropertyInfo> GetProperties => typeof(TEntity).GetProperties();
 
-        public GenericRepository(
+        protected GenericRepository(
             SqlConnection sqlConnection,
             IDbTransaction dbTransaction,
             string tableName)
@@ -35,6 +35,9 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         public virtual async Task<Guid> CreateAsync(TEntity entity)
         {
             var insertQuery = GenerateInsertQuery();
+
+            entity.id = Guid.NewGuid();
+            entity.DateCreated = DateTime.UtcNow;
 
             var result = await sqlConnection.ExecuteScalarAsync<Guid>(
                 insertQuery,
@@ -69,10 +72,16 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         }
         public virtual async Task DeleteAsync(Guid id)
         {
-            await sqlConnection.ExecuteAsync(
-                $"DELETE FROM [{tableName}] WHERE {nameId}=@Id",
-                param: new { Id = id },
-                transaction: dbTransaction);
+            var entity = GetByIdAsync(id).Result;
+            if (entity == null) throw new Exception($"Entity [{id}] from [{tableName}] not found");
+
+            entity.DateDeleted = DateTime.UtcNow;
+            await UpdateAsync(entity);
+            
+            // await sqlConnection.ExecuteAsync(
+            //     $"DELETE FROM [{tableName}] WHERE {nameId}=@Id",
+            //     param: new { Id = id },
+            //     transaction: dbTransaction);
         }
 
 
@@ -89,14 +98,14 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
                     prop.attributes.Length <= 0 || 
                     (prop.attributes[0] as DescriptionAttribute)?.Description != "ignore")
                 .Select(prop => prop.name)
-                .Where(propName => (nameId != "Id" && propName != "Id") || (nameId == "Id"))
+                .Where(propName => (nameId != "Id" && propName != "id") || (nameId == "id"))
                 .ToList();
             return list;
         }
         private string GenerateInsertQuery()
         {
             var insertQuery = new StringBuilder
-                ($"DECLARE @InsertedIds TABLE (Identifier uniqueidentifier); INSERT INTO [{tableName}] ");
+                ($"DECLARE @InsertedIds TABLE (InsertId uniqueidentifier); INSERT INTO [{tableName}] ");
 
             insertQuery.Append('(');
             var properties = GenerateListOfProperties(GetProperties);
@@ -109,7 +118,7 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
 
             insertQuery
                 .Remove(insertQuery.Length - 1, 1)
-                .Append("); SELECT Identifier FROM @InsertedIds;");
+                .Append("); SELECT InsertId FROM @InsertedIds;");
 
             return insertQuery.ToString();
         }

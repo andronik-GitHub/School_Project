@@ -43,6 +43,9 @@ namespace SchoolLibrary_Dapper.BLL.Services
         public async Task UpdateAsync(UpdateDTO_Review entity)
         {
             Review upEntity = _mapper.Map<Review>(entity); // Mapping without AutoMapper
+            
+            upEntity.DateCreated = (await _uow.Reviews.GetByIdAsync(upEntity.ReviewId))!.DateCreated;
+            upEntity.DateUpdated = DateTime.UtcNow;
 
             await _uow.Reviews.UpdateAsync(upEntity);
             _uow.Commit();

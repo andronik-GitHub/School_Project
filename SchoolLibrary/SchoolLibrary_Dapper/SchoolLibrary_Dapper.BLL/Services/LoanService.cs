@@ -43,6 +43,9 @@ namespace SchoolLibrary_Dapper.BLL.Services
         public async Task UpdateAsync(UpdateDTO_Loan entity)
         {
             Loan upEntity = _mapper.Map<Loan>(entity); // Mapping without AutoMapper
+            
+            upEntity.DateCreated = (await _uow.Loans.GetByIdAsync(upEntity.LoanId))!.DateCreated;
+            upEntity.DateUpdated = DateTime.UtcNow;
 
             await _uow.Loans.UpdateAsync(upEntity);
             _uow.Commit();

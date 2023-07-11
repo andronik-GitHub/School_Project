@@ -127,13 +127,12 @@ namespace SchoolLibrary_Dapper.API.Constollers
                     Console.WriteLine($"Entity [{id}] from [{TableName}] not found");
                     return NotFound();
                 }
-                else
-                {
-                    await _authorService.DeleteAsync(id);
-                    Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
+                
+                
+                await _authorService.DeleteAsync(id);
+                Console.WriteLine($"Entity [{id}] successfully deleted to [{TableName}]");
 
-                    return Ok();
-                }
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -43,6 +43,9 @@ namespace SchoolLibrary_Dapper.BLL.Services
         public async Task UpdateAsync(UpdateDTO_Genre entity)
         {
             Genre upEntity = _mapper.Map<Genre>(entity); // Mapping without AutoMapper
+            
+            upEntity.DateCreated = (await _uow.Genres.GetByIdAsync(upEntity.GenreId))!.DateCreated;
+            upEntity.DateUpdated = DateTime.UtcNow;
 
             await _uow.Genres.UpdateAsync(upEntity);
             _uow.Commit();

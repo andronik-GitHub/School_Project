@@ -83,10 +83,16 @@ namespace SchoolLibrary_Dapper.DAL.Repositories
         }
         public async Task DeleteAsync(Guid BookId, Guid AuthorId)
         {
-            await sqlConnection.ExecuteAsync(
-                $"DELETE FROM [{tableName}] WHERE BookId=@BookId AND AuthorId=@AuthorId",
-                param: new { BookId, AuthorId },
-                transaction: dbTransaction);
+            var entity = GetByIdsAsync(BookId, AuthorId).Result;
+            if (entity == null) throw new Exception($"Entity [{BookId} - {AuthorId}] from [{tableName}] not found");
+
+            entity.DateDeleted = DateTime.UtcNow;
+            await UpdateAsync(entity);
+            
+            // await sqlConnection.ExecuteAsync(
+            //     $"DELETE FROM [{tableName}] WHERE BookId=@BookId AND AuthorId=@AuthorId",
+            //     param: new { BookId, AuthorId },
+            //     transaction: dbTransaction);
         }
     }
 }

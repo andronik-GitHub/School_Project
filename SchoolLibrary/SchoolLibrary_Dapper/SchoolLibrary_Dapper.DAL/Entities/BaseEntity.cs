@@ -7,9 +7,9 @@ namespace SchoolLibrary_Dapper.DAL.Entities
     {
         [IgnoreDataMember]
         [NotMapped]
-        protected Guid id { get; set; }
+        public Guid id { get; set; }
     
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public DateTime? DateDeleted { get; set; }
     }

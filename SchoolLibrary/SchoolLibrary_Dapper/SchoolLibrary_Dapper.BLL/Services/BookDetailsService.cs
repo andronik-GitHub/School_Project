@@ -46,6 +46,9 @@ namespace SchoolLibrary_Dapper.BLL.Services
         {
             BookDetails upEntity = _mapper.Map<BookDetails>(entity); // Mapping without AutoMapper
             
+            upEntity.DateCreated = (await _uow.BookDetails.GetByIdAsync(upEntity.BookDetailId))!.DateCreated;
+            upEntity.DateUpdated = DateTime.UtcNow;
+            
             await _uow.BookDetails.UpdateAsync(upEntity);
             _uow.Commit();
         }

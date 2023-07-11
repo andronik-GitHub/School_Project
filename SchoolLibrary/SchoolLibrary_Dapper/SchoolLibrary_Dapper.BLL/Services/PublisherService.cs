@@ -44,6 +44,9 @@ namespace SchoolLibrary_Dapper.BLL.Services
         public async Task UpdateAsync(UpdateDTO_Publisher entity)
         {
             Publisher upEntity = _mapper.Map<Publisher>(entity); // Mapping without AutoMapper
+            
+            upEntity.DateCreated = (await _uow.Publishers.GetByIdAsync(upEntity.PublisherId))!.DateCreated;
+            upEntity.DateUpdated = DateTime.UtcNow;
 
             await _uow.Publishers.UpdateAsync(upEntity);
             _uow.Commit();
