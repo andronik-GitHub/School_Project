@@ -1,59 +1,96 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Dynamic;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
+using SchoolLibrary_EF.DAL.Helpers.Contracts;
+using SchoolLibrary_EF.DAL.Paging;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
-    public class BookAuthorsRepository : GenericIntermediateRepository<BookAuthors>, IBookAuthorsRepository
+    public class BookAuthorsRepository : IBookAuthorsRepository
     {
+        private readonly SchoolLibraryContext dbContext;
+        private readonly DbSet<BookAuthors> entities;
         private readonly ISortHelper<BookAuthors> _sortHelper;
+        private readonly IDataShaper<BookAuthors> _dataShaper;
 
-        public BookAuthorsRepository(SchoolLibraryContext dbContext, ISortHelper<BookAuthors> sortHelper)
-            : base(dbContext)
+        public BookAuthorsRepository(
+            SchoolLibraryContext dbContext, 
+            ISortHelper<BookAuthors> sortHelper,
+            IDataShaper<BookAuthors> dataShaper)
         {
+            this.dbContext = dbContext;
+            this.entities = dbContext.Set<BookAuthors>();
+            
             _sortHelper = sortHelper;
+            _dataShaper = dataShaper;
         }
 
 
-        public override async Task<IEnumerable<BookAuthors>> GetAllAsync(BaseParameters? parameters = null)
+        public async Task<(Guid, Guid)> CreateAsync(BookAuthors entity)
         {
-            if (parameters == null) return await base.GetAllAsync();
-
-
-            var collection = entities.AsNoTracking();
-
-            if (parameters is BookAuthorsParameters param)
-            {
-                var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
-
-                return await newCollection
-                    //.OrderBy(entity => entity.BookId) after sorting, it makes no sense to sort by id
-                    //.ThenBy(entity => entity.AuthorId)
-                    .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                    .Take(parameters.PageSize)
-                    .Include(entity => entity.Book)
-                    .Include(entity => entity.Author)
-                    .ToListAsync();
-            }
-
-            return await collection
-                .OrderBy(entity => entity.BookId)
-                .ThenBy(entity => entity.AuthorId)
-                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                .Take(parameters.PageSize)
-                .Include(entity => entity.Book)
-                .Include(entity => entity.Author)
-                .ToListAsync();
+            await entities.AddAsync(entity);
+            return (entity.BookId, entity.AuthorId);
         }
-        public override async Task<BookAuthors?> GetByIdAsync(Guid firstId, Guid secondId)
+        public async Task<PagedList<BookAuthors>> GetAllAsync(BaseParameters parameters)
+        {
+            var collection = entities
+                .AsNoTracking()
+                .Include(ba => ba.Book)
+                .Include(ba => ba.Author);
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy); // sorting
+
+            return await Task.Run(() => // paging
+                PagedList<BookAuthors>.ToPagedList(sortCollection, parameters.PageNumber, parameters.PageSize));
+        }
+        public async Task<BookAuthors?> GetByIdAsync((Guid, Guid) key)
         {
             return await entities
-                .Include(entity => entity.Book)
-                .Include(entity => entity.Author)
-                .FirstOrDefaultAsync(entity => entity.BookId == firstId && entity.AuthorId == secondId);
+                .AsNoTracking()
+                .Include(ba => ba.Book)
+                .Include(ba => ba.Author)
+                .FirstOrDefaultAsync(ba => ba.BookId == key.Item1 && ba.AuthorId == key.Item2);
+        }
+        public async Task UpdateAsync(BookAuthors entity)
+        {
+            await Task.Run(() => entities.Update(entity));
+        }
+        public async Task DeleteAsync((Guid, Guid) key)
+        {
+            var result = await GetByIdAsync(key);
+            if (result != null) await Task.Run(() => entities.Remove(result));
+        }
+
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
+        {
+            var collection = entities
+                .AsNoTracking()
+                .Include(ba => ba.Book)
+                .Include(ba => ba.Author);
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy);
+            var shapedCollection = _dataShaper.ShapeData(sortCollection, parameters.Fields ?? "");
+            
+            return await Task.Run(() =>
+                PagedList<ExpandoObject>.ToPagedList(
+                    shapedCollection.AsQueryable(),
+                    parameters.PageNumber,
+                    parameters.PageSize));
+        }
+        public async Task<ExpandoObject?> GetById_DataShaping_Async((Guid, Guid) key, BaseParameters parameters)
+        {
+            var entity = await GetByIdAsync(key);
+            return entity == null ? 
+                null : 
+                _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
+        }
+        
+        public async Task<IQueryable<BookAuthors>> GetByConditionAsync(Expression<Func<BookAuthors, bool>> expression)
+        {
+            return await Task.Run(() => entities.Where(expression).AsNoTracking());
         }
     }
 }

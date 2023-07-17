@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
-using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.PublisherDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -19,43 +19,35 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(PublisherDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Publisher entity)
         {
-            // We create a Publisher object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Publisher publisher = MappingFunctions.MapSourceToDestination<PublisherDTO, Publisher>(entity);
+            // Mapping with Mapster
+            Publisher publisher = MappingFunctions.MapSourceToDestination<InsertDTO_Publisher, Publisher>(entity);
 
             var id = await _uow.Publishers.CreateAsync(publisher);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<PublisherDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_Publisher>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<Publisher, PublisherDTO>
+            return MappingFunctions.MapListSourceToDestination<Publisher, GetDTO_Publisher>
                 (await _uow.Publishers.GetAllAsync(parameters));
         }
-        public async Task<PublisherDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_Publisher?> GetAsync(Guid id)
         {
-            // Get entity from db
             Publisher? publisher = await _uow.Publishers.GetByIdAsync(id);
 
-            // We create a PublisherDTO object and copy the values ​​of the properties
-            // of the genre object into its properties (we perform mapping)
-            PublisherDTO? publisherDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                publisher == null ?
-                null : MappingFunctions.MapSourceToDestination<Publisher, PublisherDTO>(publisher);
+            GetDTO_Publisher? publisherDTO = MappingFunctions
+                .MapSourceToDestination<Publisher?, GetDTO_Publisher?>(publisher); // Mapping with Mapster
 
             return publisherDTO;
         }
-        public async Task UpdateAsync(PublisherDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Publisher entity)
         {
-            // We create a Publisher object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Publisher publisher = MappingFunctions.MapSourceToDestination<PublisherDTO, Publisher>(entity);
+            // Mapping with Mapster
+            Publisher publisher = MappingFunctions.MapSourceToDestination<UpdateDTO_Publisher, Publisher>(entity);
 
             await _uow.Publishers.UpdateAsync(publisher);
             await _uow.SaveChangesAsync();
@@ -66,11 +58,11 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Publishers.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Publishers.GetById_DataShaping_Async(id, parameters);
         }

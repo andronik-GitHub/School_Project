@@ -1,15 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolLibrary_EF.DAL.Entities
+﻿namespace SchoolLibrary_EF.DAL.Entities
 {
-    [Table("Genres")]
-    public class Genre
+    public class Genre : BaseEntity
     {
-        [Key]
-        public Guid GenreId { get; set; }
-        [Required]
-        [MaxLength(50)]
+        public Guid GenreId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public string Name { get; set; } = default!;
 
 

@@ -5,6 +5,7 @@
         public BookGenresParameters()
         {
             OrderBy = "BookId"; // default sorting
+            Fields = "BookId, GenreId, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
         }
     }
 }

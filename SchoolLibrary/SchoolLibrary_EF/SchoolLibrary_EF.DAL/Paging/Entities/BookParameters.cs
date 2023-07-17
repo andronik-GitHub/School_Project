@@ -4,7 +4,8 @@
     {
         public BookParameters()
         {
-            OrderBy = "Title,PublishingYear desc"; // default sorting
+            OrderBy = "Title, PublishingYear desc"; // default sorting
+            Fields = "BookId, Title, PublishingYear, ISBN, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
         }
     }
 }

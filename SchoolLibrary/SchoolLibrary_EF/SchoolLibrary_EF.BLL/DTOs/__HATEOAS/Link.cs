@@ -1,4 +1,4 @@
-﻿namespace SchoolLibrary_EF.BLL.DTO.HATEOAS
+﻿namespace SchoolLibrary_EF.BLL.DTOs.__HATEOAS
 {
     public class Link
     {

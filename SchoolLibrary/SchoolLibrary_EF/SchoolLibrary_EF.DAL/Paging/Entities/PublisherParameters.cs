@@ -5,6 +5,7 @@
         public PublisherParameters()
         {
             OrderBy = "PublisherId"; // default sorting
+            Fields = "PublisherId, Name, Location, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
         }
     }
 }

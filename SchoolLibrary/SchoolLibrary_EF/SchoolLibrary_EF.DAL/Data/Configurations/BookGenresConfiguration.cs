@@ -8,8 +8,9 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<BookGenres> builder)
         {
-            builder
-                .HasKey(bg => new { bg.BookId, bg.GenreId });
+            builder.ToTable("BookGenres");
+            
+            builder.HasKey(bg => new { bg.BookId, bg.GenreId });
 
 
             builder // many-to-many  Books - BookGenres - Genres

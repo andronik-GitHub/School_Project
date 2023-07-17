@@ -1,8 +1,8 @@
 ﻿using Mapster;
 
-namespace SchoolLibrary_EF.API.Mapping.Configurations
+namespace SchoolLibrary_EF.BLL.Mapping
 {
-    public class MappingFunctions
+    public static class MappingFunctions
     {
         public static TDestination MapSourceToDestination<TSource, TDestination>(TSource entity)
         {

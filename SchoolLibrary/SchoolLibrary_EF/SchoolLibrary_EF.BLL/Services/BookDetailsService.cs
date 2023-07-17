@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
-using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.BookDetailsDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -19,46 +19,37 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(BookDetailsDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_BookDetails entity)
         {
-            // We create a BookDetails object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            BookDetails bookDetails = MappingFunctions.MapSourceToDestination<BookDetailsDTO, BookDetails>(entity);
-
-            
-            await SeedingBookDetailsObject(entity, bookDetails);
+            // Mapping with Mapster
+            BookDetails bookDetails = MappingFunctions
+                .MapSourceToDestination<InsertDTO_BookDetails, BookDetails>(entity);
 
             var id = await _uow.BookDetails.CreateAsync(bookDetails);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<BookDetailsDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_BookDetails>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<BookDetails, BookDetailsDTO>
+            return MappingFunctions.MapListSourceToDestination<BookDetails, GetDTO_BookDetails>
                 (await _uow.BookDetails.GetAllAsync(parameters));
         }
-        public async Task<BookDetailsDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_BookDetails?> GetAsync(Guid id)
         {
-            // Get entity from db
             BookDetails? bookDetails = await _uow.BookDetails.GetByIdAsync(id);
 
-            // We create a BookDetailsDTO object and copy the values ​​of the properties
-            // of the bookDetails object into its properties (we perform mapping)
-            BookDetailsDTO? bookDetailsDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                bookDetails == null ?
-                null : MappingFunctions.MapSourceToDestination<BookDetails, BookDetailsDTO>(bookDetails);
+            GetDTO_BookDetails? bookDetailsDTO = MappingFunctions
+                .MapSourceToDestination<BookDetails?, GetDTO_BookDetails?>(bookDetails); // Mapping with Mapster
 
             return bookDetailsDTO;
         }
-        public async Task UpdateAsync(BookDetailsDTO entity)
+        public async Task UpdateAsync(UpdateDTO_BookDetails entity)
         {
-            // We create a BookDetails object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            BookDetails bookDetails = MappingFunctions.MapSourceToDestination<BookDetailsDTO, BookDetails>(entity);
+            // Mapping with Mapster
+            BookDetails bookDetails = MappingFunctions
+                .MapSourceToDestination<UpdateDTO_BookDetails, BookDetails>(entity);
 
             await _uow.BookDetails.UpdateAsync(bookDetails);
             await _uow.SaveChangesAsync();
@@ -69,26 +60,13 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.BookDetails.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid key, BaseParameters parameters)
         {
-            return await _uow.BookDetails.GetById_DataShaping_Async(id, parameters);
-        }
-        
-        private async Task SeedingBookDetailsObject(BookDetailsDTO entity, BookDetails bookDetails)
-        {
-            var bdList = await _uow.BookDetails.GetAllAsync();
-            var book = (await _uow.Books.GetAllAsync()).FirstOrDefault(book =>
-                    book.Title == entity.BookTitle && bdList.All(bd => bd.BookId != book.BookId));
-
-            if (book == null) throw new Exception
-                    ("No book with this title was found, or details of this book are already in the database!");
-            
-            bookDetails.Book.ISBN = book.ISBN;
-            bookDetails.Book.PublisherId = book.PublisherId;
+            return await _uow.BookDetails.GetById_DataShaping_Async(key, parameters);
         }
     }
 }

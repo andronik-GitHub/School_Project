@@ -196,7 +196,6 @@ namespace CreatingSharedDatabase.Console.Data.Seeding
             
             Authors.AddRange(GetAuthorGenerator().Generate(AUTHORS));
             Publishers.AddRange(GetPublisherGenerator().Generate(PUBLISHERS));
-            // Users.AddRange(GetUserGenerator().Generate(USERS));
             Genres.AddRange(GetGenreGenerator().Generate(GENRES));
 
             Publishers.ForEach(publisher =>

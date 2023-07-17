@@ -2,7 +2,7 @@
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
-    public interface IPublisherRepository : IGenericRepository<Publisher>
+    public interface IPublisherRepository : IGenericRepository<Publisher, Guid>
     {
     }
 }

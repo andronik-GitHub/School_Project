@@ -7,7 +7,7 @@ namespace SchoolLibrary_EF.DAL.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public SchoolLibraryContext dbContext { get; set; }
+        private SchoolLibraryContext _dbContext { get; set; }
         public IBookRepository Books { get; }
         public IBookDetailsRepository BookDetails { get; }
         public IAuthorRepository Authors { get; }
@@ -41,7 +41,7 @@ namespace SchoolLibrary_EF.DAL.Repository
             RoleManager<IdentityRole<Guid>> roleManager
             )
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
 
             Books = books;
             BookDetails = bookDetails;
@@ -61,7 +61,7 @@ namespace SchoolLibrary_EF.DAL.Repository
 
         public async Task SaveChangesAsync()
         {
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

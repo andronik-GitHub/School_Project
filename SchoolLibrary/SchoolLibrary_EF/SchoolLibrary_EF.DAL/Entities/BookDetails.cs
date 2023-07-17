@@ -1,18 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SchoolLibrary_EF.DAL.Entities
+﻿namespace SchoolLibrary_EF.DAL.Entities
 {
-    public class BookDetails
+    public class BookDetails : BaseEntity
     {
-        [Key]
-        public Guid BookDetailId { get; set; }
-        [Required]
+        public Guid BookDetailId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public int Pages { get; set; }
-        [Required]
-        [MaxLength(20)]
         public string Language { get; set; } = default!;
-        [Required]
-        [MaxLength(30)]
         public string Format { get; set; } = default!;
 
 

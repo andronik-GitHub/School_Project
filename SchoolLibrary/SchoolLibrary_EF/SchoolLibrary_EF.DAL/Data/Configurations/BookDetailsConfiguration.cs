@@ -8,9 +8,23 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<BookDetails> builder)
         {
-            builder
-                .HasKey(bd => bd.BookDetailId);
+            builder.ToTable("BookDetails");
+            
+            builder.HasKey(bd => bd.BookDetailId);
 
+            
+            builder
+                .Property(bd => bd.Pages)
+                .IsRequired();
+            builder
+                .Property(bd => bd.Language)
+                .HasColumnType("NVARCHAR(20)")
+                .IsRequired();
+            builder
+                .Property(bd => bd.Format)
+                .HasColumnType("NVARCHAR(30)")
+                .IsRequired();
+            
             builder
                 .HasIndex(bd => bd.BookId)
                 .IsUnique();

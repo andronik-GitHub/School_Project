@@ -8,12 +8,19 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Review> builder)
         {
-            builder
-                .HasKey(r => r.ReviewId);
+            builder.ToTable("Reviews");
+            
+            builder.HasKey(r => r.ReviewId);
 
+            
             builder
                 .Property(r => r.Rating)
-                .HasColumnType("decimal(2, 1)");
+                .HasColumnType("decimal(2, 1)")
+                .IsRequired();
+            builder
+                .Property(r => r.ReviewText)
+                .HasColumnType("NVARCHAR(1000)")
+                .IsRequired();
 
 
             builder // one-to-many  Reviews - Users

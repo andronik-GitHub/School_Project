@@ -1,7 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_EF.BLL.DTO;
-using SchoolLibrary_EF.BLL.DTO.HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.ReviewDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -15,12 +15,16 @@ namespace SchoolLibrary_EF.API.Controllers
         private readonly IReviewService _reviewService;
         private readonly ILogger _logger;
         private readonly IUrlHelper _urlHelper;
+        private readonly string _tableName;
 
         public ReviewController(IReviewService reviewService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _reviewService = reviewService;
             _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 
@@ -31,28 +35,29 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/review?PageNumber=5(amp)PageSize=10
         /// </remarks>
-        /// <returns>Returns list of ReviewDTO</returns>
+        /// <returns>Returns list of GetDTO_Review</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet(Name = nameof(GetAllReviewsAsync))] // GET: ef/review?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync
+        public async Task<ActionResult<IEnumerable<GetDTO_Review>>> GetAllReviewsAsync
             ([FromQuery] AuthorParameters parameters)
         {
             try
             {
                 var collection = (await _reviewService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Reviews]", collection.Count);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllReviewsAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -66,7 +71,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/review/13ce1333-7b7c-4395-8565-0474a6ad05ad
         /// </remarks>
         /// <param name="id">Review id (Guid)</param>
-        /// <returns>Returns element of ReviewDTO</returns>
+        /// <returns>Returns element of GetDTO_Review</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -74,7 +79,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ReviewDTO>> GetReviewByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Review>> GetReviewByIdAsync(Guid id)
         {
             try
             {
@@ -82,23 +87,21 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Reviews] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully extracted from [Reviews]", id);
 
-                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
-                }
+                    
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully extracted from [{Table}]", id, _tableName);
+
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetReviewByIdAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -112,14 +115,13 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     POST: ef/review
         ///     {
-        ///         "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "rating": 0,
         ///         "reviewText": "string",
-        ///         "userFullName": "string",
-        ///         "bookTitle": "string"
+        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         ///     }
         /// </remarks>
-        /// <param name="newReview">ReviewDTO newEntity</param>
+        /// <param name="newEntity">InsertDTO_Review newEntity</param>
         /// <returns>Returns id (Guid)</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -128,31 +130,29 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddReviewAsync(ReviewDTO newReview)
+        public async Task<ActionResult<Guid>> AddReviewAsync(InsertDTO_Review newEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (newReview.ReviewText == null || newReview.UserFullName == null || newReview.BookTitle == null)
+                if (newEntity?.ReviewText == null)
                 {
                     _logger.LogError("Invalid data entered");
-
                     return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
                 }
-                else
-                {
-                    var id = await _reviewService.CreateAsync(newReview);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully added to [Reviews]", id);
+                
+                
+                var id = await _reviewService.CreateAsync(newEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully added to [{Table}]", id, _tableName);
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddReviewAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -169,11 +169,11 @@ namespace SchoolLibrary_EF.API.Controllers
         ///         "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "rating": 0,
         ///         "reviewText": "string",
-        ///         "userFullName": "string",
-        ///         "bookTitle": "string"
+        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         ///     }
         /// </remarks>
-        /// <param name="updateReview">ReviewDTO updateEntity</param>
+        /// <param name="updateEntity">UpdateDTO_Review updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -183,47 +183,41 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateReviewAsync(ReviewDTO updateReview)
+        public async Task<ActionResult> UpdateReviewAsync(UpdateDTO_Review updateEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updateReview.ReviewText == null || updateReview.UserFullName == null || updateReview.BookTitle == null)
+                if (updateEntity?.ReviewText == null)
                 {
                     _logger.LogError("Invalid data entered");
-
                     return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
                 }
-                else
+                    
+                    
+                // Whether there is such a record in the database at all
+                var findResult = await _reviewService.GetAsync(updateEntity.ReviewId);
+                if (findResult == null)
                 {
-                    // Whether there is such a record in the database at all
-                    var findResult = await _reviewService.GetAsync(updateReview.ReviewId);
+                    _logger.LogError
+                        ("Entity with id: [{EntityId}] from [{Table}] not found", updateEntity.ReviewId, _tableName);
 
-                    if (findResult == null)
-                    {
-                        _logger.LogError
-                            ("Entity with id: [{EntityId}] from [Reviews] not found",
-                                updateReview.ReviewId);
-
-                        return StatusCode(StatusCodes.Status404NotFound);
-                        //return NotFound();
-                    }
-                    else
-                    {
-                        await _reviewService.UpdateAsync(updateReview);
-                        _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Reviews]",
-                                updateReview.ReviewId);
-
-                        return StatusCode(StatusCodes.Status204NoContent);
-                    }
+                    return StatusCode(StatusCodes.Status404NotFound);
                 }
+
+                    
+                await _reviewService.UpdateAsync(updateEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully updated from [{Table}]",
+                        updateEntity.ReviewId, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(UpdateReviewAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -251,27 +245,24 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 // Whether there is such a record in the database at all
                 var findResult = await _reviewService.GetAsync(id);
-
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Reviews] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _reviewService.DeleteAsync(id);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [Reviews]", id);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                    
+                await _reviewService.DeleteAsync(id);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(DeleteReviewAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -298,14 +289,15 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 var collection = await _reviewService.GetAll_DataShaping_Async(parameters);
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Reviews]", collection.Count());
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllReviews_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -324,11 +316,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetReviewById_DataShaping_Async))] // ef/review/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetReviewById_DataShaping_Async))] // ef/review/datashaping/id?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetReviewById_DataShaping_Async(Guid id, [FromQuery] ReviewParameters? parameters)
+        public async Task<ActionResult> GetReviewById_DataShaping_Async
+            (Guid id, [FromQuery] ReviewParameters parameters)
         {
             try
             {
@@ -336,7 +329,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == default(ExpandoObject))
                 {
-                    _logger.LogError("Review with id: {id}, hasn't been found in db.", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
 
@@ -344,8 +337,9 @@ namespace SchoolLibrary_EF.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetReviewById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -354,7 +348,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
 
 
-        private ReviewDTO CreateLinksForEntity(ReviewDTO entity) // HATEOAS
+        private GetDTO_Review CreateLinksForEntity(GetDTO_Review entity) // HATEOAS
         {
             var idObj = new { id = entity.ReviewId };
             

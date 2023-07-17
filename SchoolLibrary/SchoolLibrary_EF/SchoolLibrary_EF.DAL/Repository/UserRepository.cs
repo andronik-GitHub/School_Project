@@ -1,98 +1,92 @@
-﻿using SchoolLibrary_EF.DAL.Entities;
-using SchoolLibrary_EF.DAL.Repository.Contracts;
-using SchoolLibrary_EF.DAL.Data;
-using SchoolLibrary_EF.DAL.Paging.Entities;
+﻿using System.Dynamic;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Repository.Contracts;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 using SchoolLibrary_EF.DAL.Paging;
-using System.Dynamic;
+using SchoolLibrary_EF.DAL.Paging.Entities;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository :  IUserRepository
     {
+        private readonly UserManager<User> _userManager;
         private readonly ISortHelper<User> _sortHelper;
         private readonly IDataShaper<User> _dataShaper;
+        
+        private readonly IQueryable<User> entities;
 
         public UserRepository(
-            SchoolLibraryContext dbContext,
             ISortHelper<User> sortHelper,
-            IDataShaper<User> dataShaper)
-            : base(dbContext, dataShaper)
+            IDataShaper<User> dataShaper, 
+            UserManager<User> userManager)
         {
+            _userManager = userManager;
             _sortHelper = sortHelper;
             _dataShaper = dataShaper;
+
+            entities = _userManager.Users;
         }
 
-
-        public override async Task<Guid> CreateAsync(User user)
+        public async Task<Guid> CreateAsync(User entity)
         {
-            await entities.AddAsync(user);
-
-            return user.Id;
+            var result = await _userManager.CreateAsync(entity);
+            
+            if (result.Succeeded) return entity.Id;
+            throw new Exception("Adding user to database failed.");
         }
-        public override async Task<IEnumerable<User>> GetAllAsync(BaseParameters? parameters = null)
+        public async Task<PagedList<User>> GetAllAsync(BaseParameters parameters)
         {
-            if (parameters == null) return await base.GetAllAsync(parameters);
-            var collection = entities.AsNoTracking(); // filtering
+            var collection = entities.AsNoTracking();
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy); // sorting
 
-            if (parameters is not UserParameters param)
-                return await collection
-                    .OrderBy(a => a.Id)
-                    .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                    .Take(parameters.PageSize)
-                    .ToListAsync();
+            return await Task.Run(() => // paging
+                PagedList<User>.ToPagedList(sortCollection, parameters.PageNumber, parameters.PageSize));
+        }
+        public async Task<User?> GetByIdAsync(Guid key)
+        {
+            return await entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == key);
+        }
+        public async Task UpdateAsync(User entity)
+        {
+            var result = await _userManager.UpdateAsync(entity);
             
-            
-            SearchByUserName(ref collection, param.UserName); // searching(after filtering)
-            var newCollection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
-
-            return await newCollection
-                //.OrderBy(a => a.UserId) after sorting, it makes no sense to sort by id
-                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
-                .Take(parameters.PageSize)
-                .ToListAsync();
-
+            if (!result.Succeeded) throw new Exception("Error updating user in database.");
+        }
+        public async Task DeleteAsync(Guid key)
+        {
+            var entity = await GetByIdAsync(key);
+            if (entity != null) await _userManager.DeleteAsync(entity);
         }
 
-        public override async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
-            if (parameters == null) return await base.GetAll_DataShaping_Async(parameters);
-            var collection = entities.AsNoTracking(); // filtering
-
-            if (parameters is not UserParameters param)
-                return await Task.Run(() =>
-                    PagedList<ExpandoObject>.ToPagedList(
-                        _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
-                        parameters.PageNumber,
-                        parameters.PageSize));
+            var collection = entities.AsNoTracking();
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy);
+            var shapedCollection = _dataShaper.ShapeData(sortCollection, parameters.Fields ?? "");
             
-            
-            SearchByUserName(ref collection, param.UserName); // searching(after filtering)
-            collection = _sortHelper.ApplySort(collection, param.OrderBy); // sorting
-
             return await Task.Run(() =>
-                    PagedList<ExpandoObject>.ToPagedList(
-                        _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
-                        parameters.PageNumber,
-                        parameters.PageSize));
+                PagedList<ExpandoObject>.ToPagedList(
+                    shapedCollection.AsQueryable(),
+                    parameters.PageNumber,
+                    parameters.PageSize));
         }
-        public override async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
-            var entity = (await GetByConditionAsync(temp => temp.Id.Equals(id)))
-                .FirstOrDefault();
-
-            return entity == null ? null :
+            var entity = await GetByIdAsync(id);
+            return entity == null ? 
+                null : 
                 _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
         }
 
-        private static void SearchByUserName(ref IQueryable<User> entities, string? userName)
+        public async Task<IQueryable<User>> GetByConditionAsync(Expression<Func<User, bool>> expression)
         {
-            if (!entities.Any() || string.IsNullOrWhiteSpace(userName)) return;
-
-            entities = entities
-                .Where(p => (p.FirstName + " " + p.LastName).ToLower().Contains(userName.Trim().ToLower()));
+            return await Task.Run(() => entities.Where(expression).AsNoTracking());
         }
     }
 }

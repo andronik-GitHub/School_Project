@@ -4,26 +4,14 @@
         <name>SchoolLibrary_EF.API</name>
     </assembly>
     <members>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
-            <summary>
-            Gets the list of all Authors
-            </summary>
-            <remarks>
-            Sample request:
-            GET ef/author?MinYearOfBirth=1990(amp)MaxYearOfBirth=2000(amp)PageNumber=5(amp)PageSize=10
-            </remarks>
-            <returns>Returns list of AuthorDTO</returns>
-            <response code="200">Success</response>
-            <response code="400">If invalid filtering data is entered</response>
-            <response code="500">If it was not possible to get a list of elements from the database</response>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)" -->
         <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorByIdAsync(System.Guid)">
             <summary>
             Gets the Author by id
             </summary>
             <remarks>
             Sample request:
-            GET ef/author/13ce1333-7b7c-4395-8565-0474a6ad05ad
+            GET ef/author/id
             </remarks>
             <param name="id">Author id (Guid)</param>
             <returns>Returns element of AuthorDTO</returns>
@@ -31,7 +19,7 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.AddAuthorAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.AddAuthorAsync(SchoolLibrary_EF.BLL.DTOs.AuthorDTOs.InsertDTO_Author)">
             <summary>
             Creates new Author
             </summary>
@@ -40,20 +28,20 @@
             
                 POST: ef/author
                 {
-                    "authorid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "authorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "firstName": "string",
                     "lastName": "string",
                     "birthdate": "2023-03-20T14:31:27.294Z",
-                    "country": "string"
+                    "nationality": "string"
                 }
             </remarks>
-            <param name="newAuthor">AuthorDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Author newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.UpdateAuthorAsync(SchoolLibrary_EF.BLL.DTO.AuthorDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.UpdateAuthorAsync(SchoolLibrary_EF.BLL.DTOs.AuthorDTOs.UpdateDTO_Author)">
             <summary>
             Update the Author
             </summary>
@@ -62,14 +50,14 @@
             
                 PUT: ef/author
                 {
-                    "authorid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "authorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "firstName": "string",
                     "lastName": "string",
                     "birthdate": "2023-03-20T14:31:27.294Z",
-                    "country": "string"
+                    "nationality": "string"
                 }
             </remarks>
-            <param name="updateAuthor">AuthorDTO updateEntity</param>
+            <param name="updateDTO">AuthorDTO updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -124,7 +112,7 @@
             Sample request:
             GET ef/bookauthors?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of BookAuthorsDTO</returns>
+            <returns>Returns list of GetDTO_BookAuthors</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -138,12 +126,12 @@
             </remarks>
             <param name="bookId">BookAuthors BookId (Guid)</param>
             <param name="authorId">BookAuthors AuthorId (Guid)</param>
-            <returns>Returns element of BookAuthorsDTO</returns>
+            <returns>Returns element of GetDTO_BookAuthors</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.AddBookAuthorsAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.AddBookAuthorsAsync(SchoolLibrary_EF.BLL.DTOs.BookAuthorDTOs.InsertDTO_BookAuthors)">
             <summary>
             Creates new BookAuthors
             </summary>
@@ -152,18 +140,18 @@
             
                 POST: ef/bookauthors
                 {
-                    "bookTitle": "string",
-                    "authorFullName": "string string"
+                    "bookId": 68c64e3b-7bc4-4ce2-b9c4-005783abb248,
+                    "authorId": 68c64e3b-7bc4-4ce2-b9c4-005783abb248
                 }
             </remarks>
-            <param name="newBookAuthors">BookAuthorsDTO newEntity</param>
-            <returns>Returns id (Guid, Guid)</returns>
+            <param name="newEntity">InsertDTO_BookAuthors newEntity</param>
+            <returns>Returns ids (Guid, Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="409">If an existing object is adding</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.UpdateBookAuthorsAsync(SchoolLibrary_EF.BLL.DTO.BookAuthorsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.UpdateBookAuthorsAsync(SchoolLibrary_EF.BLL.DTOs.BookAuthorDTOs.UpdateDTO_BookAuthors)">
             <summary>
             Update the BookAuthors
             </summary>
@@ -172,11 +160,11 @@
             
                 PUT: ef/bookauthors
                 {
-                    "bookTitle": "string",
-                    "authorFullName": "string string"
+                    "bookId": 68c64e3b-7bc4-4ce2-b9c4-005783abb248,
+                    "authorId": 68c64e3b-7bc4-4ce2-b9c4-005783abb248
                 }
             </remarks>
-            <param name="updateBookAuthors">BookAuthorsDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_BookAuthors updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -197,6 +185,34 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthors_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+            <summary>
+            Gets the list of all BookAuthors
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookauthors/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+            </remarks>
+            <returns>Returns list of ExpandoObject(BookAuthors)</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.BookAuthors_DataShaping_Async(System.Guid,System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+            <summary>
+            Gets the BookAuthors by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookauthors/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+            </remarks>
+            <param name="bookId">BookAuthors BookId (Guid)</param>
+            <param name="authorId">BookAuthors AuthorId (Guid)</param>
+            <param name="parameters">Book parameters for sort/paging/... (BookAuthorsParameters)</param>
+            <returns>Returns element of ExpandoObject(Book)</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetAllBooksAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
             <summary>
             Gets the list of all Books
@@ -205,7 +221,7 @@
             Sample request:
             GET ef/book?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of BookDTO</returns>
+            <returns>Returns list of GetDTO_Book</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -218,12 +234,12 @@
             GET ef/book/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">Book id (Guid)</param>
-            <returns>Returns element of BookDTO</returns>
+            <returns>Returns element of GetDTO_Book</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.AddBookAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.AddBookAsync(SchoolLibrary_EF.BLL.DTOs.BookDTOs.InsertDTO_Book)">
             <summary>
             Creates new Book
             </summary>
@@ -232,21 +248,19 @@
             
                 POST: ef/book
                 {
-                    "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "title": "string",
-                    "publishingYear": 0,
+                    "publishingYear": 1990,
                     "isbn": "string",
-                    "publisherName": "string",
-                    "publisherLocation": "string, string, string"
+                    "PublisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="newBook">BookDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Book newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.UpdateBookAsync(SchoolLibrary_EF.BLL.DTO.BookDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.UpdateBookAsync(SchoolLibrary_EF.BLL.DTOs.BookDTOs.UpdateDTO_Book)">
             <summary>
             Update the Book
             </summary>
@@ -257,13 +271,12 @@
                 {
                     "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "title": "string",
-                    "publishingYear": 0,
+                    "publishingYear": 1990,
                     "isbn": "string",
-                    "publisherName": "string",
-                    "publisherLocation": "string, string, string"
+                    "PublisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="updateBook">BookDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_Book updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -318,7 +331,7 @@
             Sample request:
             GET ef/bookdetails?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of BookDetailsDTO</returns>
+            <returns>Returns list of GetDTO_BookDetails</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -331,12 +344,12 @@
             GET ef/bookdetails/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">BookDetails id (Guid)</param>
-            <returns>Returns element of BookDetailsDTO</returns>
+            <returns>Returns element of GetDTO_BookDetails</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.AddBookDetailsAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.AddBookDetailsAsync(SchoolLibrary_EF.BLL.DTOs.BookDetailsDTOs.InsertDTO_BookDetails)">
             <summary>
             Creates new BookDetails
             </summary>
@@ -345,21 +358,19 @@
             
                 POST: ef/bookdetails
                 {
-                    "bookDetailId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "pages": 0,
                     "language": "string",
                     "format": "string",
-                    "bookTitle": "string",
-                    "bookPublishingYear": 0
+                    "BookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="newBookDetails">BookDetailsDTO newEntity</param>
+            <param name="newEntity">InsertDTO_BookDetails newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.UpdateBookDetailsAsync(SchoolLibrary_EF.BLL.DTO.BookDetailsDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookDetailsController.UpdateBookDetailsAsync(SchoolLibrary_EF.BLL.DTOs.BookDetailsDTOs.UpdateDTO_BookDetails)">
             <summary>
             Update the BookDetails
             </summary>
@@ -372,11 +383,10 @@
                     "pages": 0,
                     "language": "string",
                     "format": "string",
-                    "bookTitle": "string",
-                    "bookPublishingYear": 0
+                    "BookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="updateBookDetails">BookDetailsDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_BookDetails updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -431,7 +441,7 @@
             Sample request:
             GET ef/bookgenres?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of BookGenresDTO</returns>
+            <returns>Returns list of GetDTO_BookGenres</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -445,12 +455,12 @@
             </remarks>
             <param name="bookId">BookGenres BookId (Guid)</param>
             <param name="genreId">BookGenres GenreId (Guid)</param>
-            <returns>Returns element of BookGenresDTO</returns>
+            <returns>Returns element of GetDTO_BookGenres</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.AddBookGenresAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.AddBookGenresAsync(SchoolLibrary_EF.BLL.DTOs.BookGenreDTOs.InsertDTO_BookGenres)">
             <summary>
             Creates new BookGenres
             </summary>
@@ -459,18 +469,18 @@
             
                 POST: ef/bookgenres
                 {
-                    "bookTitle": "string",
-                    "genreName": "string"
+                    "bookId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248",
+                    "genreId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248"
                 }
             </remarks>
-            <param name="newBookGenres">BookGenresDTO newEntity</param>
+            <param name="newEntity">InsertDTO_BookGenres newEntity</param>
             <returns>Returns id (Guid, Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="409">If an existing object is adding</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateBookGenresAsync(SchoolLibrary_EF.BLL.DTO.BookGenresDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.UpdateBookGenresAsync(SchoolLibrary_EF.BLL.DTOs.BookGenreDTOs.UpdateDTO_BookGenres)">
             <summary>
             Update the BookGenres
             </summary>
@@ -479,11 +489,11 @@
             
                 PUT: ef/bookgenres
                 {
-                    "bookTitle": "string",
-                    "genreName": "string"
+                    "bookId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248",
+                    "genreId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248"
                 }
             </remarks>
-            <param name="updateBookGenres">BookGenresDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_BookGenres updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -504,6 +514,34 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenress_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+            <summary>
+            Gets the list of all BookGenres
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookgenres/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+            </remarks>
+            <returns>Returns list of ExpandoObject(BookGenres)</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetBookGenresById_DataShaping_Async(System.Guid,System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+            <summary>
+            Gets the BookGenres by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/bookgenres/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+            </remarks>
+            <param name="bookId">BookGenres BookId (Guid)</param>
+            <param name="genreId">BookGenres GenreId (Guid)</param>
+            <param name="parameters">Book parameters for sort/paging/... (BookAuthorsParameters)</param>
+            <returns>Returns element of ExpandoObject(Book)</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
             <summary>
             Gets the list of all Genres
@@ -512,7 +550,7 @@
             Sample request:
             GET ef/genre?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of GenreDTO</returns>
+            <returns>Returns list of GetDTO_Genre</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -525,12 +563,12 @@
             GET ef/genre/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">Genre id (Guid)</param>
-            <returns>Returns element of GenreDTO</returns>
+            <returns>Returns element of GetDTO_Genre</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.AddGenreAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.AddGenreAsync(SchoolLibrary_EF.BLL.DTOs.GenreDTOs.InsertDTO_Genre)">
             <summary>
             Creates new Genre
             </summary>
@@ -539,19 +577,16 @@
             
                 POST: ef/genre
                 {
-                    "genreId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "name": "string",
-                    "author": "string",
-                    "rating": 0
                 }
             </remarks>
-            <param name="newGenre">GenreDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Genre newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.UpdateGenreAsync(SchoolLibrary_EF.BLL.DTO.GenreDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.UpdateGenreAsync(SchoolLibrary_EF.BLL.DTOs.GenreDTOs.UpdateDTO_Genre)">
             <summary>
             Update the Genre
             </summary>
@@ -562,11 +597,9 @@
                 {
                     "genreId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "name": "string",
-                    "author": "string",
-                    "rating": 0
                 }
             </remarks>
-            <param name="updateGenre">GenreDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_Genre updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -621,7 +654,7 @@
             Sample request:
             GET ef/loan?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of LoanDTO</returns>
+            <returns>Returns list of GetDTO_Loan</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -634,12 +667,12 @@
             GET ef/loan/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">Loan id (Guid)</param>
-            <returns>Returns element of LoanDTO</returns>
+            <returns>Returns element of GetDTO_Loan</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.AddLoanAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.AddLoanAsync(SchoolLibrary_EF.BLL.DTOs.LoanDTOs.InsertDTO_Loan)">
             <summary>
             Creates new Loan
             </summary>
@@ -648,21 +681,19 @@
             
                 POST: ef/loan
                 {
-                    "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "loanDate": "2023-03-21T07:55:11.461Z",
                     "returnDate": "2023-03-21T07:55:11.461Z",
-                    "userFullName": "string",
-                    "bookTitle": "string",
-                    "bookISBN": "string"
+                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="newLoan">LoanDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Loan newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.UpdateLoanAsync(SchoolLibrary_EF.BLL.DTO.LoanDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.UpdateLoanAsync(SchoolLibrary_EF.BLL.DTOs.LoanDTOs.UpdateDTO_Loan)">
             <summary>
             Update the Loan
             </summary>
@@ -674,12 +705,11 @@
                     "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "loanDate": "2023-03-21T07:55:11.461Z",
                     "returnDate": "2023-03-21T07:55:11.461Z",
-                    "userFullName": "string",
-                    "bookTitle": "string",
-                    "bookISBN": "string"
+                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="updateLoan">LoanDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_Loan updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -734,7 +764,7 @@
             Sample request:
             GET ef/publisher?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of PublisherDTO</returns>
+            <returns>Returns list of GetDTO_Publisher</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -747,12 +777,12 @@
             GET ef/publisher/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">Publisher id (Guid)</param>
-            <returns>Returns element of PublisherDTO</returns>
+            <returns>Returns element of GetDTO_Publisher</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.AddPublisherAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.AddPublisherAsync(SchoolLibrary_EF.BLL.DTOs.PublisherDTOs.InsertDTO_Publisher)">
             <summary>
             Creates new Publisher
             </summary>
@@ -763,18 +793,16 @@
                 {
                     "publisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "name": "string",
-                    "country": "string",
-                    "city": "string",
-                    "street": "string"
+                    "location": "string"
                 }
             </remarks>
-            <param name="newPublisher">PublisherDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Publisher newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.UpdatePublisherAsync(SchoolLibrary_EF.BLL.DTO.PublisherDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.UpdatePublisherAsync(SchoolLibrary_EF.BLL.DTOs.PublisherDTOs.UpdateDTO_Publisher)">
             <summary>
             Update the Publisher
             </summary>
@@ -783,14 +811,12 @@
             
                 PUT: ef/publisher
                 {
-                    "authorid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    "firstName": "string",
-                    "lastName": "string",
-                    "birthdate": "2023-03-20T14:31:27.294Z",
-                    "country": "string"
+                    "publisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "name": "string",
+                    "location": "string"
                 }
             </remarks>
-            <param name="updatePublisher">PublisherDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_Publisher updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -845,7 +871,7 @@
             Sample request:
             GET ef/review?PageNumber=5(amp)PageSize=10
             </remarks>
-            <returns>Returns list of ReviewDTO</returns>
+            <returns>Returns list of GetDTO_Review</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -858,12 +884,12 @@
             GET ef/review/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">Review id (Guid)</param>
-            <returns>Returns element of ReviewDTO</returns>
+            <returns>Returns element of GetDTO_Review</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.AddReviewAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.AddReviewAsync(SchoolLibrary_EF.BLL.DTOs.ReviewDTOs.InsertDTO_Review)">
             <summary>
             Creates new Review
             </summary>
@@ -872,20 +898,19 @@
             
                 POST: ef/review
                 {
-                    "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "rating": 0,
                     "reviewText": "string",
-                    "userFullName": "string",
-                    "bookTitle": "string"
+                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="newReview">ReviewDTO newEntity</param>
+            <param name="newEntity">InsertDTO_Review newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.UpdateReviewAsync(SchoolLibrary_EF.BLL.DTO.ReviewDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.UpdateReviewAsync(SchoolLibrary_EF.BLL.DTOs.ReviewDTOs.UpdateDTO_Review)">
             <summary>
             Update the Review
             </summary>
@@ -897,11 +922,11 @@
                     "reviewId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "rating": 0,
                     "reviewText": "string",
-                    "userFullName": "string",
-                    "bookTitle": "string"
+                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 }
             </remarks>
-            <param name="updateReview">ReviewDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_Review updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -957,7 +982,7 @@
             GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
             </remarks>
             <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
-            <returns>Returns list of UserDTO</returns>
+            <returns>Returns list of GetDTO_User</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -970,12 +995,12 @@
             GET ef/user/13ce1333-7b7c-4395-8565-0474a6ad05ad
             </remarks>
             <param name="id">User id (Guid)</param>
-            <returns>Returns element of UserDTO</returns>
+            <returns>Returns element of GetDTO_User</returns>
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddUserAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.AddUserAsync(SchoolLibrary_EF.BLL.DTOs.UserDTOs.InsertDTO_User)">
             <summary>
             Creates new User
             </summary>
@@ -984,19 +1009,20 @@
             
                 POST: ef/user
                 {
-                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "firstName": "string",
                     "lastName": "string",
-                    "email": "string"
+                    "street": "string",
+                    "city": "string",
+                    "country": "string"
                 }
             </remarks>
-            <param name="newUser">UserDTO newEntity</param>
+            <param name="newEntity">InsertDTO_User newEntity</param>
             <returns>Returns id (Guid)</returns>
             <response code="200">Success</response>
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.UpdateUserAsync(SchoolLibrary_EF.BLL.DTO.UserDTO)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.UpdateUserAsync(SchoolLibrary_EF.BLL.DTOs.UserDTOs.UpdateDTO_User)">
             <summary>
             Update the User
             </summary>
@@ -1008,10 +1034,12 @@
                     "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     "firstName": "string",
                     "lastName": "string",
-                    "email": "string"
+                    "street": "string",
+                    "city": "string",
+                    "country": "string"
                 }
             </remarks>
-            <param name="updateUser">UserDTO updateEntity</param>
+            <param name="updateEntity">UpdateDTO_User updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>
@@ -1186,6 +1214,21 @@
                 }
             </remarks>
             <returns>Returns JWT Security token</returns>
+            <response code="200">Success</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RevokeTokenAsync(SchoolLibrary_EF.DAL.Entities.Identity.RevokeTokenRequest)">
+            <summary>
+            Revoke token
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/revoke-token
+                {
+                    "token": "string-token"
+                }
+            </remarks>
+            <returns>Returns a message whether the token was successfully revoked</returns>
             <response code="200">Success</response>
         </member>
         <member name="T:SchoolLibrary_EF.API.Migrations.FirstMigration">

@@ -1,16 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolLibrary_EF.DAL.Entities
+﻿namespace SchoolLibrary_EF.DAL.Entities
 {
-    [Table("Loans")]
-    public class Loan
+    public class Loan : BaseEntity
     {
-        [Key]
-        public Guid LoanId { get; set; }
-        [Required]
+        public Guid LoanId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public DateTime LoanDate { get; set; }
-        [Required]
         public DateTime ReturnDate { get; set;}
 
 

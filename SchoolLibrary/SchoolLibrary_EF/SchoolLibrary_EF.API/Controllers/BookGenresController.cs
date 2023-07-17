@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.BookGenreDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -12,11 +12,15 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IBookGenresService _bookGenresService;
         private readonly ILogger _logger;
+        private readonly string _tableName;
 
         public BookGenresController(IBookGenresService bookGenresService, ILoggerFactory loggerFactory)
         {
             _bookGenresService = bookGenresService;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 
@@ -27,27 +31,28 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/bookgenres?PageNumber=5(amp)PageSize=10
         /// </remarks>
-        /// <returns>Returns list of BookGenresDTO</returns>
+        /// <returns>Returns list of GetDTO_BookGenres</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet(Name = nameof(GetAllBookGenresAsync))] // GET: ef/bookgenres?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookGenresDTO>>> GetAllBookGenresAsync
+        public async Task<ActionResult<IEnumerable<GetDTO_BookGenres>>> GetAllBookGenresAsync
             ([FromQuery] AuthorParameters parameters)
         {
             try
             {
                 var collection = await _bookGenresService.GetAllAsync(parameters);
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [BookGenres]", collection.Count());
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count(), _tableName);
 
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllBookGenresAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -62,7 +67,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </remarks>
         /// <param name="bookId">BookGenres BookId (Guid)</param>
         /// <param name="genreId">BookGenres GenreId (Guid)</param>
-        /// <returns>Returns element of BookGenresDTO</returns>
+        /// <returns>Returns element of GetDTO_BookGenres</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -70,33 +75,33 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookGenresDTO>> GetBookGenresByIdAsync(Guid bookId, Guid genreId)
+        public async Task<ActionResult<GetDTO_BookGenres>> GetBookGenresByIdAsync(Guid bookId, Guid genreId)
         {
             try
             {
-                var entity = await _bookGenresService.GetByIdAsync(bookId, genreId);
+                var entity = await _bookGenresService.GetAsync((bookId, genreId));
 
                 if (entity == null)
                 {
                     _logger.LogError
-                        ("Entity with id: [{FirstId}]-[{SecondId}] from [BookGenres] not found", bookId, genreId);
+                        ("Entity with id: [{FirstId}]-[{SecondId}] from [{Table}] not found", 
+                            bookId, genreId, _tableName);
 
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    _logger.LogInformation
-                        ("Entity with id: [{FirstId}]-[{SecondId}] were successfully extracted from [BookGenres]", 
-                        bookId, genreId);
+                
+                
+                _logger.LogInformation
+                    ("Entity with id: [{FirstId}]-[{SecondId}] were successfully extracted from [{Table}]", 
+                    bookId, genreId, _tableName);
 
-                    return Ok(entity);
-                }
+                return Ok(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetBookGenresByIdAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -110,11 +115,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     POST: ef/bookgenres
         ///     {
-        ///         "bookTitle": "string",
-        ///         "genreName": "string"
+        ///         "bookId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248",
+        ///         "genreId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248"
         ///     }
         /// </remarks>
-        /// <param name="newBookGenres">BookGenresDTO newEntity</param>
+        /// <param name="newEntity">InsertDTO_BookGenres newEntity</param>
         /// <returns>Returns id (Guid, Guid)</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -125,45 +130,23 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<(Guid, Guid)>> AddBookGenresAsync(BookGenresDTO newBookGenres)
+        public async Task<ActionResult<string>> AddBookGenresAsync(InsertDTO_BookGenres newEntity)
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (newBookGenres.BookTitle == null || newBookGenres.GenreName == null)
-                {
-                    _logger.LogError("Invalid data entered");
+                var id = await _bookGenresService.CreateAsync(newEntity);
+                
+                _logger.LogInformation
+                    ("Entity with id: [{FirstId}]-[{SecondId}] were successfully added to [{Table}]",
+                        id.Item1, id.Item2, _tableName);
 
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
-                }
-                else
-                {
-                    // Checking whether such an object does not already exist
-                    var id = await _bookGenresService.CreateAsync(newBookGenres);
-                    
-                    if (id == null)
-                    {
-                        _logger.LogInformation
-                            ("Entity with id: [{FirstId}]-[{SecondId}] may already exist in [BookGenres]",
-                                id?.Item1, id?.Item2);
-
-                        return StatusCode(StatusCodes.Status409Conflict);
-                    }
-                    else
-                    {
-                        _logger.LogInformation
-                            ("Entity with id: [{FirstId}]-[{SecondId}] were successfully added to [BookGenres]",
-                                id?.Item1, id?.Item2);
-
-                        return Ok($"{id?.Item1}, {id?.Item2}");
-                    }
-                }
+                return Ok($"{id.Item1}, {id.Item2}");
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddBookGenresAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -177,11 +160,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     PUT: ef/bookgenres
         ///     {
-        ///         "bookTitle": "string",
-        ///         "genreName": "string"
+        ///         "bookId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248",
+        ///         "genreId": "68c64e3b-7bc4-4ce2-b9c4-005783abb248"
         ///     }
         /// </remarks>
-        /// <param name="updateBookGenres">BookGenresDTO updateEntity</param>
+        /// <param name="updateEntity">UpdateDTO_BookGenres updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -191,49 +174,34 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateBookGenresAsync(BookGenresDTO updateBookGenres)
+        public async Task<ActionResult> UpdateBookGenresAsync(UpdateDTO_BookGenres updateEntity)
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (updateBookGenres.BookTitle == null || updateBookGenres.GenreName == null)
+                // Whether there is such a record in the database at all
+                var findResult = await _bookGenresService.GetAsync((updateEntity.BookId, updateEntity.GenreId));
+                if (findResult == null)
                 {
-                    _logger.LogError("Invalid data entered");
+                    _logger.LogError(
+                        "Entity with id: [{FirstId}]-[{SecondId}] from [{Table}] not found", 
+                        updateEntity.BookId, updateEntity.GenreId, _tableName);
 
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
+                    return StatusCode(StatusCodes.Status404NotFound);
                 }
-                else
-                {
-                    // Mapping dest->src and get ids
-                    var item = _bookGenresService.GetIdsToOjbect(updateBookGenres);
-                    // Whether there is such a record in the database at all
-                    var findResult = await _bookGenresService.GetByIdAsync(item.Result.Item1, item.Result.Item2);
+                
+                
+                await _bookGenresService.UpdateAsync(updateEntity);
+                _logger.LogInformation(
+                    "Entity with id: [{FirstId}]-[{SecondId}] were successfully updated from [{Table}]",
+                    updateEntity.BookId, updateEntity.GenreId, _tableName);
 
-                    if (findResult == null)
-                    {
-                        _logger.LogError
-                            ("Entity: [{Entity}] from [BookGenres] not found",
-                                updateBookGenres.ToString());
-
-                        return StatusCode(StatusCodes.Status404NotFound);
-                        //return NotFound();
-                    }
-                    else
-                    {
-                        await _bookGenresService.UpdateAsync(updateBookGenres);
-                        _logger.LogInformation
-                            ("Entity: [{Entity}] were successfully updated from [BookGenres]",
-                                updateBookGenres.ToString());
-
-                        return StatusCode(StatusCodes.Status204NoContent);
-                    }
-                }
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(UpdateBookGenresAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -261,30 +229,111 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Whether there is such a record in the database at all
-                var findResult = await _bookGenresService.GetByIdAsync(bookId, genreId);
+                var findResult = await _bookGenresService.GetAsync((bookId, genreId));
 
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{FirstId}]-[{SecondId}] from [BookGenres] not found", 
-                        bookId, genreId);
+                    _logger.LogError("Entity with id: [{FirstId}]-[{SecondId}] from [{Table}] not found", 
+                        bookId, genreId, _tableName);
 
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _bookGenresService.DeleteAsync(bookId, genreId);
-                    _logger.LogInformation
-                        ("Entity with id: [{FirstId}]-[{SecondId}] were successfully deleted from [BookGenres]",
-                            bookId, genreId);
+                
+                
+                await _bookGenresService.DeleteAsync((bookId, genreId));
+                _logger.LogInformation(
+                    "Entity with id: [{FirstId}]-[{SecondId}] were successfully deleted from [{Table}]",
+                    bookId, genreId, _tableName);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(DeleteBookGenresAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        
+        /// <summary>
+        /// Gets the list of all BookGenres
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/bookgenres/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        /// </remarks>
+        /// <returns>Returns list of ExpandoObject(BookGenres)</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
+        [HttpGet("datashaping/", Name = nameof(GetAllBookGenress_DataShaping_Async))] // ef/bookgenres/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetAllBookGenress_DataShaping_Async
+            ([FromQuery] BookAuthorsParameters parameters)
+        {
+            try
+            {
+                var collection = await _bookGenresService.GetAll_DataShaping_Async(parameters);
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
+
+                return Ok(collection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllBookGenress_DataShaping_Async), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// Gets the BookGenres by id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/bookgenres/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        /// </remarks>
+        /// <param name="bookId">BookGenres BookId (Guid)</param>
+        /// <param name="genreId">BookGenres GenreId (Guid)</param>
+        /// <param name="parameters">Book parameters for sort/paging/... (BookAuthorsParameters)</param>
+        /// <returns>Returns element of ExpandoObject(Book)</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">If the element with such ID is not found in the database</response>
+        /// <response code="500">If it was not possible to get element from the database</response>
+        [HttpGet("datashaping/{bookId:guid}/{genreId:guid}", Name = nameof(GetBookGenresById_DataShaping_Async))] // ef/bookgenres/datashaping/bookId/genreId
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetBookGenresById_DataShaping_Async
+            (Guid bookId, Guid genreId, [FromQuery] BookAuthorsParameters parameters)
+        {
+            try
+            {
+                var entity = await _bookGenresService.GetById_DataShaping_Async((bookId, genreId), parameters);
+                if (entity == null)
+                {
+                    _logger.LogError(
+                        "Entity with id: [{FirstId}]-[{SecondId}] from [{Table}] not found", 
+                        bookId, genreId, _tableName);
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+
+                _logger.LogInformation(
+                    "Entity with id: [{FirstId}]-[{SecondId}] were successfully extracted from [{Table}]",
+                    bookId, genreId, _tableName);
+                return Ok(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetBookGenresById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }

@@ -2,7 +2,7 @@
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
-    public interface ILoanRepository : IGenericRepository<Loan>
+    public interface ILoanRepository : IGenericRepository<Loan, Guid>
     {
     }
 }

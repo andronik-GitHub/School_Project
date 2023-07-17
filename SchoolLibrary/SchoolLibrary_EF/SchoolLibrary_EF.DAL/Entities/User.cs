@@ -1,25 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.DAL.Entities
 {
-    [Table("Users")]
     public class User : IdentityUser<Guid>
     {
-        [Required]
-        [MaxLength(50)]
+        public DateTime DateCreated { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public DateTime? DeleteDate { get; set; }
+        
+        
         public string FirstName { get; set; } = default!;
-        [Required]
-        [MaxLength(50)]
         public string LastName { get; set; } = default!;
-        [MaxLength(100)]
-        public string? Address { get; set; } = default!;
-        [Required]
+        public string Street { get; set; } = default!;
+        public string City { get; set; } = default!;
+        public string Country { get; set; } = default!;
+
+        
         public List<RefreshToken>? RefreshTokens { get; set; }
-
-
         public ICollection<Loan> Loans { get; set; } = default!; // one-to-many
         public ICollection<Review> Reviews { get; set; } = default!; // one-to-many
     }

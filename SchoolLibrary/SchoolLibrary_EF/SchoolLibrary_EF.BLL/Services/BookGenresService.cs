@@ -1,7 +1,9 @@
-﻿using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+﻿using System.Dynamic;
+using SchoolLibrary_EF.BLL.DTOs.BookGenreDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Paging;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
@@ -17,97 +19,58 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<(Guid, Guid)?> CreateAsync(BookGenresDTO entity)
+        public async Task<(Guid, Guid)> CreateAsync(InsertDTO_BookGenres entity)
         {
-            // We create a BookGenres object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            var bookGenres = MappingFunctions.MapSourceToDestination<BookGenresDTO, BookGenres>(entity);
+            // Mapping with Mapster
+            var bookGenres = MappingFunctions.MapSourceToDestination<InsertDTO_BookGenres, BookGenres>(entity);
 
-            await SeedingBookGenresObject(entity, bookGenres);
+            var checkFind = _uow.BookGenres.GetByIdAsync((bookGenres.BookId, bookGenres.GenreId));
+            if (checkFind != null) throw new Exception("Object with such values already exists in the database!");
 
-            // Checking whether such an object does not already exist
-            var checkFind = _uow.BookGenres.GetByIdAsync(bookGenres.BookId, bookGenres.GenreId);
-            if (checkFind != null) return null;
-
-            var id = await _uow.BookGenres.CreateAsync(bookGenres.BookId, bookGenres.GenreId, bookGenres);
+            var id = await _uow.BookGenres.CreateAsync(bookGenres);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<BookGenresDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_BookGenres>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<BookGenres, BookGenresDTO>
+            return MappingFunctions.MapListSourceToDestination<BookGenres, GetDTO_BookGenres>
                 (await _uow.BookGenres.GetAllAsync(parameters));
         }
-        public async Task<BookGenresDTO?> GetByIdAsync(Guid firstId, Guid secondId)
+        public async Task<GetDTO_BookGenres?> GetAsync((Guid , Guid) key)
         {
-            // Get entity from db
-            BookGenres? bookGenres = await _uow.BookGenres.GetByIdAsync(firstId, secondId);
+            BookGenres? bookGenres = await _uow.BookGenres.GetByIdAsync(key);
 
-            // We create a BookGenresDTO object and copy the values ​​of the properties
-            // of the bookGenres object into its properties (we perform mapping)
-            BookGenresDTO? bookGenresDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                bookGenres == null ?
-                null : MappingFunctions.MapSourceToDestination<BookGenres, BookGenresDTO>(bookGenres);
+            GetDTO_BookGenres? bookGenresDTO = MappingFunctions
+                .MapSourceToDestination<BookGenres?, GetDTO_BookGenres?>(bookGenres); // Mapping with Mapster
 
             return bookGenresDTO;
         }
-        public async Task UpdateAsync(BookGenresDTO entity)
+        public async Task UpdateAsync(UpdateDTO_BookGenres entity)
         {
-            // We create a BookGenres object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            BookGenres bookGenres = MappingFunctions.MapSourceToDestination<BookGenresDTO, BookGenres>(entity);
-
-            await SeedingBookGenresObject(entity, bookGenres);
+            // Mapping with Mapster
+            BookGenres bookGenres = MappingFunctions.MapSourceToDestination<UpdateDTO_BookGenres, BookGenres>(entity);
 
             await _uow.BookGenres.UpdateAsync(bookGenres);
             await _uow.SaveChangesAsync();
         }
-        public async Task DeleteAsync(Guid firstId, Guid secondId)
+        public async Task DeleteAsync((Guid , Guid) key)
         {
-            var entity = await _uow.BookGenres.GetByIdAsync(firstId, secondId);
-            if (entity == null) throw new Exception($"BookGenres with id: [{firstId}]-[{secondId}] was not found");
+            var entity = await _uow.BookGenres.GetByIdAsync(key);
+            if (entity == null) throw new Exception($"BookGenres with id: [{key.Item1}]-[{key.Item2}] was not found");
 
-            await _uow.BookGenres.DeleteAsync(entity);
+            await _uow.BookGenres.DeleteAsync(key);
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<(Guid, Guid)> GetIdsToOjbect(BookGenresDTO entity)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
-            // We create a BookGenres object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            var obj = MappingFunctions.MapSourceToDestination<BookGenresDTO, BookGenres>(entity);
-
-            return await Task.Run(() => (obj.BookId, obj.GenreId));
+            return await _uow.BookGenres.GetAll_DataShaping_Async(parameters);
         }
-        // For filling FK and objects
-        private async Task SeedingBookGenresObject(BookGenresDTO entity, BookGenres bookGenres)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async((Guid, Guid) key, BaseParameters parameters)
         {
-            var book = (await _uow.Books.GetAllAsync())
-                .ToList()
-                .Where(book => book.Title == entity.BookTitle)
-                .FirstOrDefault();
-            var genre = (await _uow.Genres.GetAllAsync())
-                .ToList()
-                .Where(genre => genre.Name == entity.GenreName)
-                .FirstOrDefault();
-
-
-            if (book == null) throw new Exception("No book with this title was found");
-            else
-            {
-                bookGenres.BookId = book.BookId;
-                bookGenres.Book = book;
-            }
-            if (genre == null) throw new Exception("No genre with this name was found");
-            else
-            {
-                bookGenres.GenreId = genre.GenreId;
-                bookGenres.Genre = genre;
-            }
+            return await _uow.BookGenres.GetById_DataShaping_Async(key, parameters);
         }
     }
 }

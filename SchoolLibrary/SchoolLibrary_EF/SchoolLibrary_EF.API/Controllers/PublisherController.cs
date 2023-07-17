@@ -1,7 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_EF.BLL.DTO;
-using SchoolLibrary_EF.BLL.DTO.HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.PublisherDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -15,12 +15,17 @@ namespace SchoolLibrary_EF.API.Controllers
         private readonly IPublisherService _publisherService;
         private readonly ILogger _logger;
         private readonly IUrlHelper _urlHelper;
+        private readonly string _tableName;
 
-        public PublisherController(IPublisherService publisherService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
+        public PublisherController
+            (IPublisherService publisherService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _publisherService = publisherService;
             _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 
@@ -31,28 +36,29 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/publisher?PageNumber=5(amp)PageSize=10
         /// </remarks>
-        /// <returns>Returns list of PublisherDTO</returns>
+        /// <returns>Returns list of GetDTO_Publisher</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet(Name = nameof(GetAllPublishersAsync))] // GET: ef/publisher?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PublisherDTO>>> GetAllPublishersAsync
+        public async Task<ActionResult<IEnumerable<GetDTO_Publisher>>> GetAllPublishersAsync
             ([FromQuery] AuthorParameters parameters)
         {
             try
             {
                 var collection = (await _publisherService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Publishers]", collection.Count);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllPublishersAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -66,7 +72,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/publisher/13ce1333-7b7c-4395-8565-0474a6ad05ad
         /// </remarks>
         /// <param name="id">Publisher id (Guid)</param>
-        /// <returns>Returns element of PublisherDTO</returns>
+        /// <returns>Returns element of GetDTO_Publisher</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -74,7 +80,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PublisherDTO>> GetPublisherByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Publisher>> GetPublisherByIdAsync(Guid id)
         {
             try
             {
@@ -82,23 +88,21 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Publishers] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully extracted from [Publishers]", id);
+                
+                
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully extracted from [{Table}]", id, _tableName);
 
-                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
-                }
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetPublisherByIdAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -114,12 +118,10 @@ namespace SchoolLibrary_EF.API.Controllers
         ///     {
         ///         "publisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "name": "string",
-        ///         "country": "string",
-        ///         "city": "string",
-        ///         "street": "string"
+        ///         "location": "string"
         ///     }
         /// </remarks>
-        /// <param name="newPublisher">PublisherDTO newEntity</param>
+        /// <param name="newEntity">InsertDTO_Publisher newEntity</param>
         /// <returns>Returns id (Guid)</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -128,32 +130,29 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddPublisherAsync(PublisherDTO newPublisher)
+        public async Task<ActionResult<Guid>> AddPublisherAsync(InsertDTO_Publisher newEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (newPublisher.Name == null || newPublisher.Country == null ||
-                    newPublisher.Country == null || newPublisher.Street == null)
+                if (newEntity?.Name == null || newEntity?.Location == null)
                 {
                     _logger.LogError("Invalid data entered");
-
                     return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
                 }
-                else
-                {
-                    var id = await _publisherService.CreateAsync(newPublisher);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully added to [Publishers]", id);
+                
+                
+                var id = await _publisherService.CreateAsync(newEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully added to [{Table}]", id, _tableName);
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddPublisherAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -167,14 +166,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     PUT: ef/publisher
         ///     {
-        ///         "authorid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        ///         "firstName": "string",
-        ///         "lastName": "string",
-        ///         "birthdate": "2023-03-20T14:31:27.294Z",
-        ///         "country": "string"
+        ///         "publisherId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "name": "string",
+        ///         "location": "string"
         ///     }
         /// </remarks>
-        /// <param name="updatePublisher">PublisherDTO updateEntity</param>
+        /// <param name="updateEntity">UpdateDTO_Publisher updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -184,48 +181,41 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdatePublisherAsync(PublisherDTO updatePublisher)
+        public async Task<ActionResult> UpdatePublisherAsync(UpdateDTO_Publisher updateEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updatePublisher.Name == null || updatePublisher.Country == null ||
-                    updatePublisher.Country == null || updatePublisher.Street == null)
-                    {
-                    _logger.LogError("Invalid data entered");
-
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
-                }
-                else
+                if (updateEntity?.Name == null || updateEntity?.Location == null)
                 {
-                    // Whether there is such a record in the database at all
-                    var findResult = await _publisherService.GetAsync(updatePublisher.PublisherId);
-
-                    if (findResult == null)
-                    {
-                        _logger.LogError
-                            ("Entity with id: [{EntityId}] from [Publishers] not found",
-                                updatePublisher.PublisherId);
-
-                        return StatusCode(StatusCodes.Status404NotFound);
-                        //return NotFound();
-                    }
-                    else
-                    {
-                        await _publisherService.UpdateAsync(updatePublisher);
-                        _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Publishers]",
-                                updatePublisher.PublisherId);
-
-                        return StatusCode(StatusCodes.Status204NoContent);
-                    }
+                    _logger.LogError("Invalid data entered");
+                    return StatusCode(StatusCodes.Status400BadRequest);
                 }
+                
+                
+                // Whether there is such a record in the database at all
+                var findResult = await _publisherService.GetAsync(updateEntity.PublisherId);
+                if (findResult == null)
+                {
+                    _logger.LogError
+                        ("Entity with id: [{EntityId}] from [{Table}] not found", updateEntity.PublisherId, _tableName);
+
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+                
+                
+                await _publisherService.UpdateAsync(updateEntity);
+                _logger.LogInformation(
+                    "Entity with id: [{EntityId}] were successfully updated from [{Table}]",
+                    updateEntity.PublisherId, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(UpdatePublisherAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -253,27 +243,24 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 // Whether there is such a record in the database at all
                 var findResult = await _publisherService.GetAsync(id);
-
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Publishers] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _publisherService.DeleteAsync(id);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [Publishers]", id);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                    
+                await _publisherService.DeleteAsync(id);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(DeletePublisherAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -300,14 +287,15 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 var collection = await _publisherService.GetAll_DataShaping_Async(parameters);
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Publishers]", collection.Count());
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllPublishers_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -326,12 +314,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetPublisherById_DataShaping_Async))] // ef/publisher/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetPublisherById_DataShaping_Async))] // ef/publisher/datashaping/id?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetPublisherById_DataShaping_Async
-            (Guid id, [FromQuery] PublisherParameters? parameters)
+            (Guid id, [FromQuery] PublisherParameters parameters)
         {
             try
             {
@@ -339,7 +327,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == default(ExpandoObject))
                 {
-                    _logger.LogError("Publisher with id: {id}, hasn't been found in db.", id);
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
 
@@ -347,8 +335,9 @@ namespace SchoolLibrary_EF.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetPublisherById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -357,7 +346,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
 
 
-        private PublisherDTO CreateLinksForEntity(PublisherDTO entity) // HATEOAS
+        private GetDTO_Publisher CreateLinksForEntity(GetDTO_Publisher entity) // HATEOAS
         {
             var idObj = new { id = entity.PublisherId };
             

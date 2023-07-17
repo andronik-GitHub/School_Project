@@ -1,7 +1,9 @@
-﻿using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+﻿using System.Dynamic;
+using SchoolLibrary_EF.BLL.DTOs.BookAuthorDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Paging;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 
@@ -17,96 +19,58 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<(Guid, Guid)?> CreateAsync(BookAuthorsDTO entity)
+        public async Task<(Guid, Guid)> CreateAsync(InsertDTO_BookAuthors entity)
         {
-            // We create a BookAuthors object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            var bookAuthors = MappingFunctions.MapSourceToDestination<BookAuthorsDTO, BookAuthors>(entity);
+            // Mapping with Mapster
+            var bookAuthors = MappingFunctions.MapSourceToDestination<InsertDTO_BookAuthors, BookAuthors>(entity);
 
-            await SeedingBookAuthorsObject(entity, bookAuthors);
+            var checkFind = await _uow.BookAuthors.GetByIdAsync((bookAuthors.BookId, bookAuthors.AuthorId));
+            if (checkFind != null) throw new Exception("Object with such values already exists in the database!");
 
-            // Checking whether such an object does not already exist
-            var checkFind = _uow.BookGenres.GetByIdAsync(bookAuthors.BookId, bookAuthors.AuthorId);
-            if (checkFind != null) return null;
-
-            var id = await _uow.BookAuthors.CreateAsync(bookAuthors.BookId, bookAuthors.AuthorId, bookAuthors);
+            var id = await _uow.BookAuthors.CreateAsync(bookAuthors);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<BookAuthorsDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_BookAuthors>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<BookAuthors, BookAuthorsDTO>
+            return MappingFunctions.MapListSourceToDestination<BookAuthors, GetDTO_BookAuthors>
                 (await _uow.BookAuthors.GetAllAsync(parameters));
         }
-        public async Task<BookAuthorsDTO?> GetByIdAsync(Guid firstId, Guid secondId)
+        public async Task<GetDTO_BookAuthors?> GetAsync((Guid, Guid) key)
         {
-            // Get entity from db
-            BookAuthors? bookAuthors = await _uow.BookAuthors.GetByIdAsync(firstId, secondId);
+            BookAuthors? bookAuthors = await _uow.BookAuthors.GetByIdAsync(key);
 
-            // We create a BookAuthors object and copy the values ​​of the properties
-            // of the bookAuthors object into its properties (we perform mapping)
-            BookAuthorsDTO? bookAuthorsDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                bookAuthors == null ?
-                null : MappingFunctions.MapSourceToDestination<BookAuthors, BookAuthorsDTO>(bookAuthors);
+            GetDTO_BookAuthors? bookAuthorsDTO = MappingFunctions
+                .MapSourceToDestination<BookAuthors?, GetDTO_BookAuthors?>(bookAuthors); // Mapping with Mapster
 
             return bookAuthorsDTO;
         }
-        public async Task UpdateAsync(BookAuthorsDTO entity)
+        public async Task UpdateAsync(UpdateDTO_BookAuthors entity)
         {
-            // We create a BookAuthors object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            BookAuthors bookAuthors = MappingFunctions.MapSourceToDestination<BookAuthorsDTO, BookAuthors>(entity);
-
-            await SeedingBookAuthorsObject(entity, bookAuthors);
+            BookAuthors bookAuthors = MappingFunctions
+                .MapSourceToDestination<UpdateDTO_BookAuthors, BookAuthors>(entity);
 
             await _uow.BookAuthors.UpdateAsync(bookAuthors);
             await _uow.SaveChangesAsync();
         }
-        public async Task DeleteAsync(Guid firstId, Guid secondId)
+        public async Task DeleteAsync((Guid, Guid) key)
         {
-            var entity = await _uow.BookAuthors.GetByIdAsync(firstId, secondId);
-            if (entity == null) throw new Exception($"BookAuthors with id: [{firstId}]-[{secondId}] was not found");
+            var entity = await _uow.BookAuthors.GetByIdAsync(key);
+            if (entity == null) throw new Exception($"Entity with id: [{key.Item1}]-[{key.Item2}] was not found");
 
-            await _uow.BookAuthors.DeleteAsync(entity);
+            await _uow.BookAuthors.DeleteAsync(key);
             await _uow.SaveChangesAsync();
         }
 
-
-        public async Task<(Guid, Guid)> GetIdsToOjbect(BookAuthorsDTO entity)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
-            // We create a BookAuthors object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            var obj = MappingFunctions.MapSourceToDestination<BookAuthorsDTO, BookAuthors>(entity);
-
-            return await Task.Run(() => (obj.BookId, obj.AuthorId));
+            return await _uow.BookAuthors.GetAll_DataShaping_Async(parameters);
         }
-        // For filling FK and objects
-        private async Task SeedingBookAuthorsObject(BookAuthorsDTO entity, BookAuthors bookAuthors)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async((Guid, Guid) key, BaseParameters parameters)
         {
-            var book = (await _uow.Books.GetAllAsync())
-                .Where(book => book.Title == entity.BookTitle)
-                .FirstOrDefault();
-            var author = (await _uow.Authors.GetAllAsync())
-                .Where(author => $"{author.FirstName} {author.LastName}" == entity.AuthorFullName)
-                .FirstOrDefault();
-
-
-            if (book == null) throw new Exception("No book with this title was found");
-            else
-            {
-                bookAuthors.BookId = book.BookId;
-                bookAuthors.Book = book;
-            }
-            if (author == null) throw new Exception("No author with this name was found");
-            else
-            {
-                bookAuthors.AuthorId = author.AuthorId;
-                bookAuthors.Author = author;
-            }
+            return await _uow.BookAuthors.GetById_DataShaping_Async(key, parameters);
         }
     }
 }

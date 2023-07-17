@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 using AutoMapper;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.AuthorDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -20,40 +20,30 @@ namespace SchoolLibrary_EF.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(AuthorDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Author entity)
         {
-            // We create a Author object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Author author = _mapper.Map<Author>(entity);
+            Author author = _mapper.Map<Author>(entity); // Mapping with AutoMapper
 
             var id = await _uow.Authors.CreateAsync(author);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<AuthorDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_Author>> GetAllAsync(BaseParameters parameters)
         {
             // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<Author>, IEnumerable<AuthorDTO>>
+            return _mapper.Map<IEnumerable<Author>, IEnumerable<GetDTO_Author>>
                 (await _uow.Authors.GetAllAsync(parameters));
         }
-        public async Task<AuthorDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_Author?> GetAsync(Guid id)
         {
-            // Get entity from db
             Author? author = await _uow.Authors.GetByIdAsync(id);
-
-            // We create a AuthorDTO object and copy the values ​​of the properties
-            // of the author object into its properties (we perform mapping)
-            AuthorDTO? authorDTO = _mapper.Map<AuthorDTO?>(author);
-
+            GetDTO_Author? authorDTO = _mapper.Map<GetDTO_Author?>(author); // Mapping with AutoMapper
             return authorDTO;
         }
-        public async Task UpdateAsync(AuthorDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Author entity)
         {
-            // We create a Author object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Author author = _mapper.Map<Author>(entity);
-
+            Author author = _mapper.Map<Author>(entity); // Mapping with AutoMapper
             await _uow.Authors.UpdateAsync(author);
             await _uow.SaveChangesAsync();
         }
@@ -64,11 +54,11 @@ namespace SchoolLibrary_EF.BLL.Services
         }
         
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Authors.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Authors.GetById_DataShaping_Async(id, parameters);
         }

@@ -73,7 +73,9 @@ namespace SchoolLibrary_EF.DAL.Bogus
                 .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
                 .RuleFor(u => u.EmailConfirmed, _ => true)
                 .RuleFor(u => u.PasswordHash, f => new PasswordHasher<User>().HashPassword(null!, f.Internet.Password()))
-                .RuleFor(u => u.Address, f => f.Address.StreetAddress())
+                .RuleFor(u => u.Country, f => f.Address.Country())
+                .RuleFor(u => u.City, f => f.Address.City())
+                .RuleFor(u => u.Street, f => f.Address.StreetAddress())
                 .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber(@"## (###) ##-##"))
                 .RuleFor(u => u.PhoneNumberConfirmed, _ => true)
                 .RuleFor(u => u.UserName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName));

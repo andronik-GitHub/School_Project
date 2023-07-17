@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 using AutoMapper;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.GenreDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -21,39 +21,32 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(GenreDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Genre entity)
         {
-            // We create a Genre object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Genre genre = _mapper.Map<Genre>(entity);
+            Genre genre = _mapper.Map<Genre>(entity); // Mapping with AutoMapper
 
             var id = await _uow.Genres.CreateAsync(genre);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<GenreDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_Genre>> GetAllAsync(BaseParameters parameters)
         {
             // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDTO>>
+            return _mapper.Map<IEnumerable<Genre>, IEnumerable<GetDTO_Genre>>
                 (await _uow.Genres.GetAllAsync(parameters));
         }
-        public async Task<GenreDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_Genre?> GetAsync(Guid id)
         {
-            // Get entity from db
             Genre? genre = await _uow.Genres.GetByIdAsync(id);
 
-            // We create a GenreDTO object and copy the values ​​of the properties
-            // of the genre object into its properties (we perform mapping)
-            GenreDTO? genreDTO = _mapper.Map<GenreDTO?>(genre);
+            GetDTO_Genre? genreDTO = _mapper.Map<GetDTO_Genre?>(genre); // Mapping with AutoMapper
 
             return genreDTO;
         }
-        public async Task UpdateAsync(GenreDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Genre entity)
         {
-            // We create a Genre object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Genre genre = _mapper.Map<Genre>(entity);
+            Genre genre = _mapper.Map<Genre>(entity); // Mapping with AutoMapper
 
             await _uow.Genres.UpdateAsync(genre);
             await _uow.SaveChangesAsync();
@@ -64,11 +57,11 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Genres.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Genres.GetById_DataShaping_Async(id, parameters);
         }

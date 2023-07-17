@@ -4,15 +4,15 @@ using SchoolLibrary_EF.DAL.Paging.Entities;
 
 namespace SchoolLibrary_EF.BLL.Services.Contracts
 {
-    public interface IGenericService<TEntity> where TEntity : class
+    public interface IGenericService<TKey, TGetDTO, TInsertDTO, TUpdateDTO>
     {
-        Task<Guid> CreateAsync(TEntity entity);
-        Task<TEntity?> GetAsync(Guid id);
-        Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters parameters);
-        Task UpdateAsync(TEntity entity);
-        Task DeleteAsync(Guid id);
+        Task<TKey> CreateAsync(TInsertDTO entity);
+        Task<TGetDTO?> GetAsync(TKey id);
+        Task<IEnumerable<TGetDTO>> GetAllAsync(BaseParameters parameters);
+        Task UpdateAsync(TUpdateDTO entity);
+        Task DeleteAsync(TKey key);
         
-        Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null);
-        Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null);
+        Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters);
+        Task<ExpandoObject?> GetById_DataShaping_Async(TKey key, BaseParameters parameters);
     }
 }

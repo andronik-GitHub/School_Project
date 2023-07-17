@@ -8,9 +8,20 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Loan> builder)
         {
-            builder
-                .HasKey(l => l.LoanId);
+            builder.ToTable("Loans");
+            
+            builder.HasKey(l => l.LoanId);
 
+
+            builder
+                .Property(l => l.LoanDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired();
+            builder
+                .Property(l => l.ReturnDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired();
+            
 
             builder // one-to-many  Loans - Users
                 .HasOne(l => l.User)

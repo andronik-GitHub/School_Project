@@ -1,8 +1,8 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_EF.BLL.DTO;
-using SchoolLibrary_EF.BLL.DTO.HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 using SchoolLibrary_EF.DAL.Paging.Entities;
@@ -17,12 +17,16 @@ namespace SchoolLibrary_EF.API.Controllers
         private readonly IUserService _userService;
         private readonly ILogger _logger;
         private readonly IUrlHelper _urlHelper;
+        private readonly string _tableName;
 
         public UserController(IUserService userService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _userService = userService;
             _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 
@@ -34,27 +38,28 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
         /// </remarks>
         /// <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
-        /// <returns>Returns list of UserDTO</returns>
+        /// <returns>Returns list of GetDTO_User</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet(Name = nameof(GetAllUsersAsync))] // GET: ef/user?UserName=Bob&PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersAsync([FromQuery] UserParameters parameters)
+        public async Task<ActionResult<IEnumerable<GetDTO_User>>> GetAllUsersAsync([FromQuery] UserParameters parameters)
         {
             try
             {
                 var collection = (await _userService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Users]", collection.Count);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllUsersAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -68,7 +73,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/user/13ce1333-7b7c-4395-8565-0474a6ad05ad
         /// </remarks>
         /// <param name="id">User id (Guid)</param>
-        /// <returns>Returns element of UserDTO</returns>
+        /// <returns>Returns element of GetDTO_User</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -76,31 +81,28 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDTO>> GetUserByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_User>> GetUserByIdAsync(Guid id)
         {
             try
             {
                 var entity = await _userService.GetAsync(id);
-
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully extracted from [Users]", id);
+                    
+                    
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully extracted from [{Table}]", id, _tableName);
 
-                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
-                }
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch(Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetUserByIdAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -114,13 +116,14 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     POST: ef/user
         ///     {
-        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "firstName": "string",
         ///         "lastName": "string",
-        ///         "email": "string"
+        ///         "street": "string",
+        ///         "city": "string",
+        ///         "country": "string"
         ///     }
         /// </remarks>
-        /// <param name="newUser">UserDTO newEntity</param>
+        /// <param name="newEntity">InsertDTO_User newEntity</param>
         /// <returns>Returns id (Guid)</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -129,31 +132,30 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddUserAsync(UserDTO newUser)
+        public async Task<ActionResult<Guid>> AddUserAsync(InsertDTO_User newEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (newUser.FirstName == null || newUser.LastName == null || newUser.Email == null)
+                if (newEntity?.FirstName == null || newEntity?.LastName == null || newEntity?.Street == null ||
+                    newEntity?.City == null || newEntity?.Country == null)
                 {
                     _logger.LogError("Invalid data entered");
-
                     return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
                 }
-                else
-                {
-                    var id = await _userService.CreateAsync(newUser);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully added to [Users]", id);
+                
+                
+                var id = await _userService.CreateAsync(newEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully added to [{Table}]", id, _tableName);
 
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddUserAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -170,10 +172,12 @@ namespace SchoolLibrary_EF.API.Controllers
         ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "firstName": "string",
         ///         "lastName": "string",
-        ///         "email": "string"
+        ///         "street": "string",
+        ///         "city": "string",
+        ///         "country": "string"
         ///     }
         /// </remarks>
-        /// <param name="updateUser">UserDTO updateEntity</param>
+        /// <param name="updateEntity">UpdateDTO_User updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -183,46 +187,42 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateUserAsync(UserDTO updateUser)
+        public async Task<ActionResult> UpdateUserAsync(UpdateDTO_User updateEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updateUser.FirstName == null || updateUser.LastName == null || updateUser.Email == null)
+                if (updateEntity?.FirstName == null || updateEntity?.LastName == null || updateEntity?.Street == null ||
+                    updateEntity?.City == null || updateEntity?.Country == null)
                 {
                     _logger.LogError("Invalid data entered");
-
                     return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
                 }
-                else
+
+                    
+                // Whether there is such a record in the database at all
+                var findResult = await _userService.GetAsync(updateEntity.UserId);
+                if (findResult == null)
                 {
-                    // Whether there is such a record in the database at all
-                    var findResult = await _userService.GetAsync(updateUser.UserId);
+                    _logger.LogError
+                        ("Entity with id: [{EntityId}] from [{Table}] not found", updateEntity.UserId, _tableName);
 
-                    if (findResult == null)
-                    {
-                        _logger.LogError
-                            ("Entity with id: [{EntityId}] from [Users] not found", updateUser.UserId);
-
-                        return StatusCode(StatusCodes.Status404NotFound);
-                        //return NotFound();
-                    }
-                    else
-                    {
-                        await _userService.UpdateAsync(updateUser);
-                        _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Users]",
-                                updateUser.UserId);
-
-                        return StatusCode(StatusCodes.Status204NoContent);
-                    }
+                    return StatusCode(StatusCodes.Status404NotFound);
                 }
+
+                
+                await _userService.UpdateAsync(updateEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully updated from [{Table}]",
+                        updateEntity.UserId, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(UpdateUserAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -253,24 +253,22 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _userService.DeleteAsync(id);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [Users]", id);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                
+                await _userService.DeleteAsync(id);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(DeleteUserAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -303,8 +301,9 @@ namespace SchoolLibrary_EF.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllUsers_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -323,11 +322,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetUserById_DataShaping_Async))] // ef/user/datashaping/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69?Fields=UserId%2C%20FirstName%2C%20Email
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetUserById_DataShaping_Async))] // ef/user/datashaping/id?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetUserById_DataShaping_Async(Guid id, [FromQuery] UserParameters? parameters)
+        public async Task<ActionResult> GetUserById_DataShaping_Async(Guid id, [FromQuery] UserParameters parameters)
         {
             try
             {
@@ -343,8 +342,9 @@ namespace SchoolLibrary_EF.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetUserById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -368,7 +368,18 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetSecuredData()
         {
-            return await Task.Run(() => Ok("Secured data"));
+            try
+            {
+                return await Task.Run(() => Ok("Secured data"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetSecuredData), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>
@@ -390,7 +401,18 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GerSecuredDataForAdministrator()
         {
-            return await Task.Run(() => Ok("This Secured Data is available only for Users-Administrator."));
+            try
+            {
+                return await Task.Run(() => Ok("This Secured Data is available only for Users-Administrator."));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GerSecuredDataForAdministrator), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>
@@ -414,16 +436,27 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetUserRefreshTokens(Guid id)
         {
-            var user = await _userService.GetUserWithRefreshTokensAsync(id);
-
-            if (user == null)
+            try
             {
-                _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", id);
+                var user = await _userService.GetUserWithRefreshTokensAsync(id);
 
-                return StatusCode(StatusCodes.Status404NotFound);
-            }
+                if (user == null)
+                {
+                    _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", id);
+
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
             
-            return Ok(user.RefreshTokens);
+                return Ok(user.RefreshTokens);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetUserRefreshTokens), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>
@@ -449,9 +482,21 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RegisterAsync(RegisterModel model)
         {
-            var result = await _userService.RegisterAsync(model);
-            return Ok(result);
+            try
+            {
+                var result = await _userService.RegisterAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(RegisterAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
+        
         /// <summary>
         /// Registering new user-administrator
         /// </summary>
@@ -475,9 +520,21 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RegisterAdministratorAsync(RegisterModel model)
         {
-            var result = await _userService.RegisterAdministratorAsync(model);
-            return Ok(result);
+            try
+            {
+                var result = await _userService.RegisterAdministratorAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(RegisterAdministratorAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
+        
         /// <summary>
         /// Add role ot user
         /// </summary>
@@ -499,8 +556,19 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> AddRoleAsync(AddRoleModel model)
         {
-            var result = await _userService.AddRoleAsync(model);
-            return Ok(result);
+            try 
+            {
+                var result = await _userService.AddRoleAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddRoleAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>
@@ -522,13 +590,25 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetTokenAsync(TokenRequestModel model)
         {
-            var result = await _userService.GetTokenAsync(model);
+            try
+            {
+                var result = await _userService.GetTokenAsync(model);
             
-            // Save refreshTokens as cookies
-            if (result.RefreshToken != null) SetRefreshTokenInCookie(result.RefreshToken);
+                // Save refreshTokens as cookies
+                if (result.RefreshToken != null) SetRefreshTokenInCookie(result.RefreshToken);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetTokenAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
+        
         /// <summary>
         /// Get refresh-token
         /// </summary>
@@ -548,33 +628,70 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetRefreshTokenAsync()
         {
-            // Get the Refresh Token from our cookies
-            var refreshToken = Request.Cookies["refreshToken"];
-            // Returns the response object from the Service Method
-            var response = await _userService
-                .GetRefreshTokenAsync(refreshToken ?? throw new InvalidOperationException());
+            try
+            {
+                // Get the Refresh Token from our cookies
+                var refreshToken = Request.Cookies["refreshToken"];
+                // Returns the response object from the Service Method
+                var response = await _userService
+                    .GetRefreshTokenAsync(refreshToken ?? throw new InvalidOperationException());
             
-            // Sets the new Refresh Token to our Cookie
-            if (!string.IsNullOrEmpty(response.RefreshToken))
-                SetRefreshTokenInCookie(response.RefreshToken);
+                // Sets the new Refresh Token to our Cookie
+                if (!string.IsNullOrEmpty(response.RefreshToken))
+                    SetRefreshTokenInCookie(response.RefreshToken);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetRefreshTokenAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Revoke token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/revoke-token
+        ///     {
+        ///         "token": "string-token"
+        ///     }
+        /// </remarks>
+        /// <returns>Returns a message whether the token was successfully revoked</returns>
+        /// <response code="200">Success</response>
         [HttpPost("revoke-token")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RevokeTokenAsync([FromBody] RevokeTokenRequest model)
         {
-            // Accept token from request body or cookie
-            var token = model.Token ?? Request.Cookies["refreshToken"];
-            if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token is required" });
+            try
+            {
+                // Accept token from request body or cookie
+                var token = model.Token ?? Request.Cookies["refreshToken"];
+                if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token is required" });
 
-            // Revoke the Token
-            var response = await _userService.RevokeTokenAsync(token);
-            if (!response) return NotFound(new { message = "Token not found" });
+                // Revoke the Token
+                var response = await _userService.RevokeTokenAsync(token);
+                if (!response) return NotFound(new { message = "Token not found" });
             
-            return Ok(new { message = "Token revoked" });
+                return Ok(new { message = "Token revoked" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(RevokeTokenAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
 
@@ -587,7 +704,7 @@ namespace SchoolLibrary_EF.API.Controllers
             };
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
-        private UserDTO CreateLinksForEntity(UserDTO entity) // HATEOAS
+        private GetDTO_User CreateLinksForEntity(GetDTO_User entity) // HATEOAS
         {
             var idObj = new { id = entity.UserId };
             

@@ -1,17 +1,25 @@
 ﻿using AutoMapper;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.GenreDTOs;
 using SchoolLibrary_EF.DAL.Entities;
 
-namespace SchoolLibrary_EF.API.Mapping.MappingProfiles
+namespace SchoolLibrary_EF.API.Mapping.Profiles
 {
     public class GenreProfile : Profile
     {
         public GenreProfile()
         {
-            CreateMap<Genre, GenreDTO>()
-                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => "undefined"))
-                .ForMember(dest => dest.Rating, opt =>
-                    opt.MapFrom(src => Math.Round((decimal)new Random().NextDouble() * 9 + 1, 2)))
+            CreateMap<Genre, GetDTO_Genre>()
+                .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
+            
+            CreateMap<Genre, InsertDTO_Genre>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
+                
+            CreateMap<Genre, UpdateDTO_Genre>()
+                .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
         }
     }

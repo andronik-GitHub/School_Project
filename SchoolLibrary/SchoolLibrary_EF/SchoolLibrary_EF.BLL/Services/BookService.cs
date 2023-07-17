@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
-using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.BookDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -19,43 +19,34 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(BookDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Book entity)
         {
-            // We create a Book object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Book book = MappingFunctions.MapSourceToDestination<BookDTO, Book>(entity);
+            Book book = MappingFunctions.MapSourceToDestination<InsertDTO_Book, Book>(entity); // Mapping with Mapster
 
             var id = await _uow.Books.CreateAsync(book);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<BookDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_Book>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<Book, BookDTO>
+            return MappingFunctions.MapListSourceToDestination<Book, GetDTO_Book>
                 (await _uow.Books.GetAllAsync(parameters));
         }
-        public async Task<BookDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_Book?> GetAsync(Guid id)
         {
-            // Get entity from db
             Book? book = await _uow.Books.GetByIdAsync(id);
-
-            // We create a BookDTO object and copy the values ​​of the properties
-            // of the book object into its properties (we perform mapping)
-            BookDTO? bookDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                book == null ?
-                null : MappingFunctions.MapSourceToDestination<Book, BookDTO>(book);
+            
+            GetDTO_Book? bookDTO = MappingFunctions
+                .MapSourceToDestination<Book?, GetDTO_Book?>(book); // Mapping with Mapster
 
             return bookDTO;
         }
-        public async Task UpdateAsync(BookDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Book entity)
         {
-            // We create a Book object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Book book = MappingFunctions.MapSourceToDestination<BookDTO, Book>(entity);
+            // Mapping with Mapster
+            Book book = MappingFunctions.MapSourceToDestination<UpdateDTO_Book, Book>(entity);
 
             await _uow.Books.UpdateAsync(book);
             await _uow.SaveChangesAsync();

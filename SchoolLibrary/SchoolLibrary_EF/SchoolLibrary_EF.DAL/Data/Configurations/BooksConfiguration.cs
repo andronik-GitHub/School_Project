@@ -8,8 +8,22 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
+            builder.ToTable("Books");
+            
+            builder.HasKey(book => book.BookId);
+
+
             builder
-                .HasKey(book => book.BookId);
+                .Property(b => b.Title)
+                .HasColumnType("NVARCHAR(50)")
+                .IsRequired();
+            builder
+                .Property(b => b.PublishingYear)
+                .IsRequired();
+            builder
+                .Property(b => b.ISBN)
+                .HasColumnType("NVARCHAR(20)")
+                .IsRequired();
 
 
             builder // many-to-many  Books - BookGenres - Genres

@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
-using SchoolLibrary_EF.API.Mapping.Configurations;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.ReviewDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -19,47 +19,35 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(ReviewDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_Review entity)
         {
-            // We create a Review object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Review review = MappingFunctions.MapSourceToDestination<ReviewDTO, Review>(entity);
-
-            await SeedingReviewObject(entity, review);
+            // Mapping with Mapster
+            Review review = MappingFunctions.MapSourceToDestination<InsertDTO_Review, Review>(entity);
 
             var id = await _uow.Reviews.CreateAsync(review);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<ReviewDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_Review>> GetAllAsync(BaseParameters parameters)
         {
             // Use Mapster to project one collection onto another
-            return MappingFunctions.MapListSourceToDestination<Review, ReviewDTO>
+            return MappingFunctions.MapListSourceToDestination<Review, GetDTO_Review>
                 (await _uow.Reviews.GetAllAsync(parameters));
         }
-        public async Task<ReviewDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_Review?> GetAsync(Guid id)
         {
-            // Get entity from db
             Review? review = await _uow.Reviews.GetByIdAsync(id);
-
-            // We create a ReviewDTO object and copy the values ​​of the properties
-            // of the review object into its properties (we perform mapping)
-            ReviewDTO? reviewDTO =
-                // There may be no entity in the database,
-                // exception catching must be implemented on the controller side
-                review == null ?
-                null : MappingFunctions.MapSourceToDestination<Review, ReviewDTO>(review);
+            
+            GetDTO_Review? reviewDTO = MappingFunctions
+                .MapSourceToDestination<Review?, GetDTO_Review?>(review); // Mapping with Mapster
 
             return reviewDTO;
         }
-        public async Task UpdateAsync(ReviewDTO entity)
+        public async Task UpdateAsync(UpdateDTO_Review entity)
         {
-            // We create a Loan object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            Review review = MappingFunctions.MapSourceToDestination<ReviewDTO, Review>(entity);
-
-            await SeedingReviewObject(entity, review);
+            Review review = MappingFunctions
+                .MapSourceToDestination<UpdateDTO_Review, Review>(entity); // Mapping with Mapster
 
             await _uow.Reviews.UpdateAsync(review);
             await _uow.SaveChangesAsync();
@@ -71,27 +59,13 @@ namespace SchoolLibrary_EF.BLL.Services
         }
         
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Reviews.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Reviews.GetById_DataShaping_Async(id, parameters);
-        }
-
-        private async Task SeedingReviewObject(ReviewDTO entity, Review review)
-        {
-            var book = (await _uow.Books.GetAllAsync()).ToList()
-                .FirstOrDefault(b => b.Title == entity.BookTitle);
-            var user = (await _uow.Users.GetAllAsync()).ToList()
-                .FirstOrDefault(u => $"{u.FirstName} {u.LastName}" == entity.UserFullName);
-
-            if (book == null) throw new Exception("No book with this title was found");
-            if (user == null) throw new Exception("No user with this name was found");
-            
-            review.User = user;
-            review.Book = book;
         }
     }
 }

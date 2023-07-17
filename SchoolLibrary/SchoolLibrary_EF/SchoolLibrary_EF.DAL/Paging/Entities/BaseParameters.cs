@@ -13,6 +13,6 @@
         }
 
         public string? OrderBy { get; set; } = default!; // for sorting
-        public string? Fields { get; set; } = default!; // for data shaping
+        public string? Fields { get; set; } = "DateCreated, UpdateDate, DeleteDate"; // for data shaping
     }
 }

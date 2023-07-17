@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.API.Validation

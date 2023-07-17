@@ -1,30 +1,34 @@
 ﻿using FluentValidation.TestHelper;
-using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.API.Validation;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
 using Xunit;
 
 namespace SchoolLibrary_EF.Tests.Validation
 {
     public class UserDTO_ValidatorTests
     {
-        private readonly UserDTO_Validator _validator = new UserDTO_Validator();
+        private readonly InsertDTO_User_Validator _validator = new InsertDTO_User_Validator();
 
         [Theory]
-        [InlineData("Lorein", "Johnson", "exapmle.email@gmail.com")]
-        [InlineData("", "Johnson", "exapmle.email@gmail.com")]
-        [InlineData("Lorein", "", "exapmle.email@gmail.com")]
-        [InlineData("Lorein", "Johnson", "")]
-        [InlineData("Lorein", "Johnson", "exapmle.email$gmail.com")]
-        [InlineData("Lorein", "Johnson", "exapmle.emailgmail.com")]
-        public void CheckIfValuesValidForUser_ReturnsTrue(string firstName, string lastName, string email)
-            => Assert.True(_validator.TestValidate(
-                new UserDTO
-                {
-                    FirstName = firstName, 
-                    LastName = lastName, 
-                    Email = email
-                })
-                .IsValid);
+        [InlineData("Lorein", "Johnson", "street", "city", "country")]
+        [InlineData("", "Johnson", "street", "city", "country")]
+        [InlineData("Lorein", "", "street", "city", "country")]
+        [InlineData("Lorein", "Johnson", "", "city", "country")]
+        [InlineData("Lorein", "Johnson", "street", "", "country")]
+        [InlineData("Lorein", "Johnson", "street", "city", "")]
+        public void CheckIfValuesValidForUser_ReturnsTrue
+            (string firstName, string lastName, string street, string city, string country)
+        {
+            var user = new InsertDTO_User()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Street = street,
+                City = city,
+                Country = country,
+            };
+            
+            Assert.True(_validator.TestValidate(user).IsValid);
+        }
     }
 }

@@ -1,17 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolLibrary_EF.DAL.Entities
+﻿namespace SchoolLibrary_EF.DAL.Entities
 {
-    [Table("Reviews")]
-    public class Review
+    public class Review : BaseEntity
     {
-        [Key]
-        public Guid ReviewId { get; set; }
-        [Required]
+        public Guid ReviewId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public decimal Rating { get; set; }
-        [Required]
-        [MaxLength(1000)]
         public string ReviewText { get; set; } = default!;
 
 

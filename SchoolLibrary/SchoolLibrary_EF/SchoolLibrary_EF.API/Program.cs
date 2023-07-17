@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.API.Validation;
-using SchoolLibrary_EF.BLL.DTO;
+using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 
@@ -103,7 +103,7 @@ var configuration = builder.Configuration;
         });
 
         // Validation
-        builder.Services.AddTransient<IValidator<UserDTO>, UserDTO_Validator>();
+        builder.Services.AddTransient<IValidator<InsertDTO_User>, InsertDTO_User_Validator>();
         builder.Services.AddTransient<IValidator<RegisterModel>, RegisterModel_Validator>();
         builder.Services.AddTransient<IValidator<LoginModel>, LoginModel_Validator>();
         builder.Services.AddTransient<IValidator<AuthenticationModel>, AuthenticationModel_Validator>();

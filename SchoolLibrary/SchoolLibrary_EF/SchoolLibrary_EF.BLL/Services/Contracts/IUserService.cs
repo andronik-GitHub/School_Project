@@ -1,10 +1,10 @@
-﻿using SchoolLibrary_EF.BLL.DTO;
+﻿using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.BLL.Services.Contracts
 {
-    public interface IUserService : IGenericService<UserDTO>
+    public interface IUserService : IGenericService<Guid, GetDTO_User, InsertDTO_User, UpdateDTO_User>
     {
         Task<User?> GetUserWithRefreshTokensAsync(Guid id);
         

@@ -1,18 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolLibrary_EF.DAL.Entities
+﻿namespace SchoolLibrary_EF.DAL.Entities
 {
-    [Table("Publishers")]
-    public class Publisher
+    public class Publisher : BaseEntity
     {
-        [Key]
-        public Guid PublisherId { get; set; }
-        [Required]
-        [MaxLength(50)]
+        public Guid PublisherId
+        {
+            get => Id;
+            set => Id = value;
+        }
         public string Name { get; set; } = default!;
-        [Required]
-        [MaxLength(100)]
         public string Location { get; set; } = default!;
 
 

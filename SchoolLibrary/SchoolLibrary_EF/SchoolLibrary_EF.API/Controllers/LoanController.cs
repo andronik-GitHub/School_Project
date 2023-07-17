@@ -1,7 +1,7 @@
 ﻿using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
-using SchoolLibrary_EF.BLL.DTO;
-using SchoolLibrary_EF.BLL.DTO.HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
+using SchoolLibrary_EF.BLL.DTOs.LoanDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 
@@ -15,12 +15,16 @@ namespace SchoolLibrary_EF.API.Controllers
         private readonly ILoanService _loanService;
         private readonly ILogger _logger;
         private readonly IUrlHelper _urlHelper;
+        private readonly string _tableName;
 
         public LoanController(ILoanService loanService, ILoggerFactory loggerFactory, IUrlHelper urlHelper)
         {
             _loanService = loanService;
             _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 
@@ -31,28 +35,29 @@ namespace SchoolLibrary_EF.API.Controllers
         /// Sample request:
         /// GET ef/loan?PageNumber=5(amp)PageSize=10
         /// </remarks>
-        /// <returns>Returns list of LoanDTO</returns>
+        /// <returns>Returns list of GetDTO_Loan</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet(Name = nameof(GetAllLoansAsync))] // GET: ef/loan?PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<LoanDTO>>> GetAllLoansAsync
+        public async Task<ActionResult<IEnumerable<GetDTO_Loan>>> GetAllLoansAsync
             ([FromQuery] AuthorParameters parameters)
         {
             try
             {
                 var collection = (await _loanService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Loans]", collection.Count);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllLoansAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -66,7 +71,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// GET ef/loan/13ce1333-7b7c-4395-8565-0474a6ad05ad
         /// </remarks>
         /// <param name="id">Loan id (Guid)</param>
-        /// <returns>Returns element of LoanDTO</returns>
+        /// <returns>Returns element of GetDTO_Loan</returns>
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
@@ -74,31 +79,28 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<LoanDTO>> GetLoanByIdAsync(Guid id)
+        public async Task<ActionResult<GetDTO_Loan>> GetLoanByIdAsync(Guid id)
         {
             try
             {
                 var entity = await _loanService.GetAsync(id);
-
                 if (entity == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Loans] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully extracted from [Loans]", id);
+                
+                
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully extracted from [{Table}]", id, _tableName);
 
-                    return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
-                }
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetLoanByIdAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -112,15 +114,13 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     POST: ef/loan
         ///     {
-        ///         "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "loanDate": "2023-03-21T07:55:11.461Z",
         ///         "returnDate": "2023-03-21T07:55:11.461Z",
-        ///         "userFullName": "string",
-        ///         "bookTitle": "string",
-        ///         "bookISBN": "string"
+        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         ///     }
         /// </remarks>
-        /// <param name="newLoan">LoanDTO newEntity</param>
+        /// <param name="newEntity">InsertDTO_Loan newEntity</param>
         /// <returns>Returns id (Guid)</returns>
         /// <response code="200">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -129,31 +129,21 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> AddLoanAsync(LoanDTO newLoan)
+        public async Task<ActionResult<Guid>> AddLoanAsync(InsertDTO_Loan newEntity)
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (newLoan.UserFullName == null || newLoan.BookTitle == null || newLoan.BookISBN == null)
-                {
-                    _logger.LogError("Invalid data entered");
+                var id = await _loanService.CreateAsync(newEntity);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully added to [{Table}]", id, _tableName);
 
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
-                }
-                else
-                {
-                    var id = await _loanService.CreateAsync(newLoan);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully added to [Loan]", id);
-
-                    return Ok(id);
-                }
+                return Ok(id);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(AddLoanAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -170,12 +160,11 @@ namespace SchoolLibrary_EF.API.Controllers
         ///         "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///         "loanDate": "2023-03-21T07:55:11.461Z",
         ///         "returnDate": "2023-03-21T07:55:11.461Z",
-        ///         "userFullName": "string",
-        ///         "bookTitle": "string",
-        ///         "bookISBN": "string"
+        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "bookId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         ///     }
         /// </remarks>
-        /// <param name="updateLoan">LoanDTO updateEntity</param>
+        /// <param name="updateEntity">UpdateDTO_Loan updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -185,47 +174,33 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateLoanAsync(LoanDTO updateLoan)
+        public async Task<ActionResult> UpdateLoanAsync(UpdateDTO_Loan updateEntity)
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (updateLoan.UserFullName == null || updateLoan.BookTitle == null || updateLoan.BookISBN == null)
+                // Whether there is such a record in the database at all
+                var findResult = await _loanService.GetAsync(updateEntity.LoanId);
+                if (findResult == null)
                 {
-                    _logger.LogError("Invalid data entered");
+                    _logger.LogError
+                        ("Entity with id: [{EntityId}] from [{Table}] not found", updateEntity.LoanId, _tableName);
 
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                    //return BadRequest("Invalid data entered");
+                    return StatusCode(StatusCodes.Status404NotFound);
                 }
-                else
-                {
-                    // Whether there is such a record in the database at all
-                    var findResult = await _loanService.GetAsync(updateLoan.LoanId);
+                
+                
+                await _loanService.UpdateAsync(updateEntity);
+                _logger.LogInformation(
+                    "Entity with id: [{EntityId}] were successfully updated from [{Table}]",
+                    updateEntity.LoanId, _tableName);
 
-                    if (findResult == null)
-                    {
-                        _logger.LogError
-                            ("Entity with id: [{EntityId}] from [Loans] not found",
-                                updateLoan.LoanId);
-
-                        return StatusCode(StatusCodes.Status404NotFound);
-                        //return NotFound();
-                    }
-                    else
-                    {
-                        await _loanService.UpdateAsync(updateLoan);
-                        _logger.LogInformation
-                            ("Entity with id: [{EntityId}] were successfully updated from [Loans]",
-                                updateLoan.LoanId);
-
-                        return StatusCode(StatusCodes.Status204NoContent);
-                    }
-                }
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(UpdateLoanAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -253,27 +228,24 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 // Whether there is such a record in the database at all
                 var findResult = await _loanService.GetAsync(id);
-
                 if (findResult == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Loans] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _loanService.DeleteAsync(id);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [Loans]", id);
+                
+                
+                await _loanService.DeleteAsync(id);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(DeleteLoanAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -300,14 +272,15 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 var collection = await _loanService.GetAll_DataShaping_Async(parameters);
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [Loans]", collection.Count());
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
                 return Ok(collection);
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAllLoans_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -330,8 +303,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetLoanById_DataShaping_Async
-            (Guid id, [FromQuery] LoanParameters? parameters)
+        public async Task<ActionResult> GetLoanById_DataShaping_Async(Guid id, [FromQuery] LoanParameters parameters)
         {
             try
             {
@@ -339,7 +311,8 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (entity == default(ExpandoObject))
                 {
-                    _logger.LogError("Loan with id: {id}, hasn't been found in db.", id);
+                    _logger.LogError
+                    ("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
 
@@ -347,8 +320,9 @@ namespace SchoolLibrary_EF.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError
-                    ("Error in [{ErrorClassName}]->[GetAllAsync] => {ErrorMessage}", this.GetType().Name, ex.Message);
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetLoanById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -357,7 +331,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
 
 
-        private LoanDTO CreateLinksForEntity(LoanDTO entity) // HATEOAS
+        private GetDTO_Loan CreateLinksForEntity(GetDTO_Loan entity) // HATEOAS
         {
             var idObj = new { id = entity.LoanId };
             

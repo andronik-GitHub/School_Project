@@ -4,34 +4,49 @@ using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Paging.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using System.Linq.Expressions;
+using SchoolLibrary_EF.DAL.Entities;
+using SchoolLibrary_EF.DAL.Helper.Contracts;
 using SchoolLibrary_EF.DAL.Helpers.Contracts;
 using SchoolLibrary_EF.DAL.Paging;
 
 namespace SchoolLibrary_EF.DAL.Repository
 {
-    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity, Guid> where TEntity : BaseEntity
     {
         private readonly SchoolLibraryContext dbContext;
         protected readonly DbSet<TEntity> entities;
-        private readonly IDataShaper<TEntity> _dataShaper;
+        protected readonly IDataShaper<TEntity> _dataShaper;
+        protected readonly ISortHelper<TEntity> _sortHelper;
 
-        protected GenericRepository(SchoolLibraryContext dbContext, IDataShaper<TEntity> dataShaper)
+        protected GenericRepository(
+            SchoolLibraryContext dbContext, 
+            IDataShaper<TEntity> dataShaper, 
+            ISortHelper<TEntity> sortHelper)
         {
             this.dbContext = dbContext;
             this.entities = dbContext.Set<TEntity>();
 
             _dataShaper = dataShaper;
+            _sortHelper = sortHelper;
         }
 
 
-        public abstract Task<Guid> CreateAsync(TEntity entity); // the method must return the id of the added entity
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters? parameters = null)
+        public virtual async Task<Guid> CreateAsync(TEntity entity)
         {
-            return await entities.AsNoTracking().ToListAsync();
+            await entities.AddAsync(entity);
+            return entity.Id;
+        }
+        public virtual async Task<PagedList<TEntity>> GetAllAsync(BaseParameters parameters)
+        {
+            var collection = entities.AsNoTracking();
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy); // sorting
+
+            return await Task.Run(() => // paging
+                PagedList<TEntity>.ToPagedList(sortCollection, parameters.PageNumber, parameters.PageSize));
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            return await entities.FindAsync(id);
+            return await entities.FirstOrDefaultAsync(e => e.Id == id);
         }
         public virtual async Task UpdateAsync(TEntity entity)
         {
@@ -45,23 +60,21 @@ namespace SchoolLibrary_EF.DAL.Repository
             await Task.Run(() => entities.Remove(entity));
         }
 
-        public virtual async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters)
+        public virtual async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             var collection = entities.AsNoTracking();
-
-            if (parameters == null) return await Task.Run(() => 
-                    PagedList<ExpandoObject>.ToPagedList(_dataShaper.ShapeData(collection, "").AsQueryable(), 1, 10));
+            var sortCollection = _sortHelper.ApplySort(collection, parameters.OrderBy);
+            var shapedCollection = _dataShaper.ShapeData(sortCollection, parameters.Fields ?? "");
             
             return await Task.Run(() =>
                 PagedList<ExpandoObject>.ToPagedList(
-                    _dataShaper.ShapeData(collection, parameters.Fields ?? "").AsQueryable(),
+                    shapedCollection.AsQueryable(),
                     parameters.PageNumber,
                     parameters.PageSize));
         }
-        public virtual async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public virtual async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
-            var entity = await entities.FindAsync();
-
+            var entity = await GetByIdAsync(id);
             return entity == null ? 
                 null : 
                 _dataShaper.ShapeData(entity, parameters?.Fields ?? "");

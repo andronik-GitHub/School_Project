@@ -8,9 +8,20 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Publisher> builder)
         {
-            builder
-                .HasKey(p => p.PublisherId);
+            builder.ToTable("Publishers");
+            
+            builder.HasKey(p => p.PublisherId);
 
+
+            builder
+                .Property(p => p.Name)
+                .HasColumnType("NVARCHAR(50)")
+                .IsRequired();
+            builder
+                .Property(p => p.Location)
+                .HasColumnType("NVARCHAR(100)")
+                .IsRequired();
+            
 
             builder // one-to-many  Publisher - Books
                 .HasMany(p => p.Books)

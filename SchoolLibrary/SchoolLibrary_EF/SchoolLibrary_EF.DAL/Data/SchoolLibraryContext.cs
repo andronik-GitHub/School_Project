@@ -9,16 +9,16 @@ namespace SchoolLibrary_EF.DAL.Data
 {
     public class SchoolLibraryContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public DbSet<Book> Books { get; set; }
-        public DbSet<BookDetails> BookDetails { get; set; }
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Book> Books { get; set; } = default!;
+        public DbSet<BookDetails> BookDetails { get; set; } = default!;
+        public DbSet<Author> Authors { get; set; } = default!;
+        public DbSet<Publisher> Publishers { get; set; } = default!;
         // public DbSet<User> Users { get; set; }
-        public DbSet<Loan> Loans { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<BookGenres> BookGenres { get; set; }
-        public DbSet<BookAuthors> BookAuthors { get; set; }
+        public DbSet<Loan> Loans { get; set; } = default!;
+        public DbSet<Review> Reviews { get; set; } = default!;
+        public DbSet<Genre> Genres { get; set; } = default!;
+        public DbSet<BookGenres> BookGenres { get; set; } = default!;
+        public DbSet<BookAuthors> BookAuthors { get; set; } = default!;
 
         public SchoolLibraryContext(
             DbContextOptions<SchoolLibraryContext> options)

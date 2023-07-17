@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SchoolLibrary_EF.BLL.DTO;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -12,7 +11,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SchoolLibrary_EF.API.Mapping.Configurations;
+using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.DAL.Entities.Identity;
 
 namespace SchoolLibrary_EF.BLL.Services
@@ -31,31 +31,26 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        public async Task<Guid> CreateAsync(UserDTO entity)
+        public async Task<Guid> CreateAsync(InsertDTO_User entity)
         {
-            // We create a User object and copy the values of the properties
-            // of the entity object into its properties (we perform mapping)
-            User user = _mapper.Map<User>(entity);
+            User user = _mapper.Map<User>(entity); // Mapping with AutoMapper
 
             var id = await _uow.Users.CreateAsync(user);
             await _uow.SaveChangesAsync();
 
             return id;
         }
-        public async Task<IEnumerable<UserDTO>> GetAllAsync(BaseParameters parameters)
+        public async Task<IEnumerable<GetDTO_User>> GetAllAsync(BaseParameters parameters)
         {
             // Use AutoMapper to project one collection onto another
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>
+            return _mapper.Map<IEnumerable<User>, IEnumerable<GetDTO_User>>
                 (await _uow.Users.GetAllAsync(parameters));
         }
-        public async Task<UserDTO?> GetAsync(Guid id)
+        public async Task<GetDTO_User?> GetAsync(Guid id)
         {
-            // Get entity from db
             User? user = await _uow.Users.GetByIdAsync(id);
 
-            // We create a UserDTO object and copy the values of the properties
-            // of the user object into its properties (we perform mapping)
-            UserDTO? userDTO = _mapper.Map<UserDTO?>(user);
+            GetDTO_User? userDTO = _mapper.Map<GetDTO_User?>(user); // Mapping with AutoMapper
 
             return  userDTO;
         }
@@ -63,11 +58,9 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             return await _uow.Users.GetByIdAsync(id);
         }
-        public async Task UpdateAsync(UserDTO entity)
+        public async Task UpdateAsync(UpdateDTO_User entity)
         {
-            // We create a User object and copy the values ​​of the properties
-            // of the entity object into its properties (we perform mapping)
-            User user = _mapper.Map<User>(entity);
+            User user = _mapper.Map<User>(entity); // Mapping with AutoMapper
 
             await _uow.Users.UpdateAsync(user);
             await _uow.SaveChangesAsync();
@@ -78,11 +71,11 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Users.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Users.GetById_DataShaping_Async(id, parameters);
         }
@@ -307,7 +300,7 @@ namespace SchoolLibrary_EF.BLL.Services
             
             return authenticationModel;
         }
-        private RefreshToken CreateRefreshToken()
+        private static RefreshToken CreateRefreshToken()
         {
             var randomNumber = new byte[32];
 

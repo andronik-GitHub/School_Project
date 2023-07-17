@@ -2,7 +2,7 @@
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
-    public interface IGenreRepository : IGenericRepository<Genre>
+    public interface IGenreRepository : IGenericRepository<Genre, Guid>
     {
     }
 }

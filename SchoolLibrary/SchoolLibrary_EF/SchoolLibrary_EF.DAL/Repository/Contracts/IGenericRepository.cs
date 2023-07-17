@@ -5,16 +5,16 @@ using SchoolLibrary_EF.DAL.Paging;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        Task<Guid> CreateAsync(TEntity entity);
-        Task<IEnumerable<TEntity>> GetAllAsync(BaseParameters? parameters = null);
-        Task<TEntity?> GetByIdAsync(Guid id);
+        Task<TKey> CreateAsync(TEntity entity);
+        Task<PagedList<TEntity>> GetAllAsync(BaseParameters parameters);
+        Task<TEntity?> GetByIdAsync(TKey key);
         Task UpdateAsync(TEntity entity);
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(TKey key);
         
-        Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null);
-        Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null);
+        Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters);
+        Task<ExpandoObject?> GetById_DataShaping_Async(TKey key, BaseParameters parameters);
 
         Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression);
     }

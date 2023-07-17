@@ -10,6 +10,7 @@
         public AuthorParameters()
         {
             OrderBy = "AuthorId"; // default sorting
+            Fields = "AuthorId, FirstName, LastName, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
         }
     }
 }
