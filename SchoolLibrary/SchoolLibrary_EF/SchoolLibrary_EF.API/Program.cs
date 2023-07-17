@@ -149,6 +149,8 @@ var configuration = builder.Configuration;
         builder.Services.AddScoped<IDataShaper<Loan>, DataShaper<Loan>>();
         builder.Services.AddScoped<IDataShaper<Review>, DataShaper<Review>>();
         builder.Services.AddScoped<IDataShaper<Genre>, DataShaper<Genre>>();
+        builder.Services.AddScoped<IDataShaper<BookAuthors>, DataShaper<BookAuthors>>();
+        builder.Services.AddScoped<IDataShaper<BookGenres>, DataShaper<BookGenres>>();
 
         // Pattern Repository
         builder.Services.AddScoped<IBookRepository, BookRepository>();
