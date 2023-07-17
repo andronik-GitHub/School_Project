@@ -48,9 +48,6 @@ namespace SchoolLibrary_EF.API.Controllers
         {
             try
             {
-                if (!parameters.ValidYearRand) // if invalid filtering data is entered
-                    return StatusCode(StatusCodes.Status400BadRequest);
-
                 var collection = (await _authorService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
                     ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
