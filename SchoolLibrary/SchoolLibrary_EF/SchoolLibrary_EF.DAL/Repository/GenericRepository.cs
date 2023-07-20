@@ -46,7 +46,7 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            return await entities.FirstOrDefaultAsync(e => e.Id == id);
+            return await entities.FindAsync(id);
         }
         public virtual async Task UpdateAsync(TEntity entity)
         {
