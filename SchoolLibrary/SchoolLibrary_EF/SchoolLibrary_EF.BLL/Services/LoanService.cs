@@ -24,6 +24,9 @@ namespace SchoolLibrary_EF.BLL.Services
             // Mapping with Mapster
             Loan loan = MappingFunctions.MapSourceToDestination<InsertDTO_Loan, Loan>(entity);
 
+            loan.User = default!;
+            loan.Book = default!;
+            
             var id = await _uow.Loans.CreateAsync(loan);
             await _uow.SaveChangesAsync();
 

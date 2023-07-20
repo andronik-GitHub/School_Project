@@ -8,7 +8,13 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("AspNetUsers");
+            
             builder.HasKey(u => u.Id);
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
 
             builder

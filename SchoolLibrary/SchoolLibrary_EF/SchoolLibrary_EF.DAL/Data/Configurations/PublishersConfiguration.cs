@@ -11,6 +11,10 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder.ToTable("Publishers");
             
             builder.HasKey(p => p.PublisherId);
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
 
             builder

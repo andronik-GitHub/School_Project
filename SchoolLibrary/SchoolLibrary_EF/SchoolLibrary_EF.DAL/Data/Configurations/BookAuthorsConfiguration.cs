@@ -11,6 +11,10 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder.ToTable("BookAuthors");
             
             builder.HasKey(ba => new { ba.BookId, ba.AuthorId });
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
 
             builder // many-to-many  Books - BookAuthors - Authors

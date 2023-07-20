@@ -11,6 +11,10 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder.ToTable("Genres");
             
             builder.HasKey(g => g.GenreId);
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
 
             builder

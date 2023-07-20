@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
 using SchoolLibrary_EF.BLL.DTOs.BookAuthorDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
@@ -12,12 +13,17 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IBookAuthorsService _bookAuthorsService;
         private readonly ILogger _logger;
+        private readonly IUrlHelper _urlHelper;
         private readonly string _tableName;
 
-        public BookAuthorsController(IBookAuthorsService bookAuthorsService, ILoggerFactory loggerFactory)
+        public BookAuthorsController(
+            IBookAuthorsService bookAuthorsService, 
+            ILoggerFactory loggerFactory, 
+            IUrlHelper urlHelper)
         {
             _bookAuthorsService = bookAuthorsService;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            _urlHelper = urlHelper;
             
             _tableName = this.GetType().Name.Replace("Controller", "");
             _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
@@ -29,7 +35,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/bookauthors?PageNumber=5(amp)PageSize=10
+        /// GET ef/bookauthors
         /// </remarks>
         /// <returns>Returns list of GetDTO_BookAuthors</returns>
         /// <response code="200">Success</response>
@@ -38,14 +44,15 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<GetDTO_BookAuthors>>> GetAllBookAuthorsAsync
-            ([FromQuery] AuthorParameters parameters)
+            ([FromQuery] BookAuthorsParameters parameters)
         {
             try
             {
-                var collection = await _bookAuthorsService.GetAllAsync(parameters);
+                var collection = (await _bookAuthorsService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count(), _tableName);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
+                collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
@@ -95,7 +102,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     ("Entity with id: [{FirstId}]-[{SecondId}] were successfully extracted from [{Table}]",
                     bookId, authorId, _tableName);
 
-                return Ok(entity);
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch (Exception ex)
             {
@@ -138,7 +145,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     ("Entity with id: [{FirstId}]-[{SecondId}] were successfully added to [{Table}]",
                         id.Item1, id.Item2, _tableName);
 
-                return Ok($"{id.Item1}, {id.Item2}");
+                return Ok($"{id.Item1}/{id.Item2}");
             }
             catch (Exception ex)
             {
@@ -334,5 +341,24 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        
+
+
+
+        private GetDTO_BookAuthors CreateLinksForEntity(GetDTO_BookAuthors entity) // HATEOAS
+        {
+            var objId = new { bookId = entity.BookId, authorId = entity.AuthorId };
+             
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.GetBookAuthorsByIdAsync), objId)!, "self", "GET"));
+            
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.UpdateBookAuthorsAsync), null)!, "update_entity", "PUT"));
+            
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.DeleteBookAuthorsAsync), objId)!, "delete_entity", "DELETE"));
+
+            return entity;
+        } 
     }
 }

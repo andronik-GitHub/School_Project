@@ -11,6 +11,10 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder.ToTable("BookGenres");
             
             builder.HasKey(bg => new { bg.BookId, bg.GenreId });
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
 
             builder // many-to-many  Books - BookGenres - Genres

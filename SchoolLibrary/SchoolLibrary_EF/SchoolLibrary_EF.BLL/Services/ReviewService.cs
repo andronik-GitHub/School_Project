@@ -24,6 +24,9 @@ namespace SchoolLibrary_EF.BLL.Services
             // Mapping with Mapster
             Review review = MappingFunctions.MapSourceToDestination<InsertDTO_Review, Review>(entity);
 
+            review.User = default!;
+            review.Book = default!;
+
             var id = await _uow.Reviews.CreateAsync(review);
             await _uow.SaveChangesAsync();
 

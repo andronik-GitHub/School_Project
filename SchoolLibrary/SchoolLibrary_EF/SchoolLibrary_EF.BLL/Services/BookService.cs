@@ -23,6 +23,8 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             Book book = MappingFunctions.MapSourceToDestination<InsertDTO_Book, Book>(entity); // Mapping with Mapster
 
+            book.Publisher = default!;
+            
             var id = await _uow.Books.CreateAsync(book);
             await _uow.SaveChangesAsync();
 
@@ -47,7 +49,7 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             // Mapping with Mapster
             Book book = MappingFunctions.MapSourceToDestination<UpdateDTO_Book, Book>(entity);
-
+            
             await _uow.Books.UpdateAsync(book);
             await _uow.SaveChangesAsync();
         }
@@ -57,11 +59,11 @@ namespace SchoolLibrary_EF.BLL.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters? parameters = null)
+        public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
         {
             return await _uow.Books.GetAll_DataShaping_Async(parameters);
         }
-        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters? parameters = null)
+        public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Books.GetById_DataShaping_Async(id, parameters);
         }

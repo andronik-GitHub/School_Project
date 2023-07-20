@@ -49,20 +49,44 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public async Task<BookGenres?> GetByIdAsync((Guid, Guid) key)
         {
-            return await entities
+            var entity = await entities
                 .AsNoTracking()
                 .Include(bg => bg.Book)
                 .Include(bg => bg.Genre)
                 .FirstOrDefaultAsync(bg => bg.BookId == key.Item1 && bg.GenreId == key.Item2);
+
+            return entity;
         }
         public async Task UpdateAsync(BookGenres entity)
         {
-            await Task.Run(() => entities.Update(entity));
+            var existingEntity = await GetByIdAsync((entity.BookId, entity.GenreId));
+            
+            if (existingEntity == null) 
+                throw new Exception
+                    ($"{this.GetType().Name} with id: [{entity.BookId} - {entity.GenreId}] was not found"); 
+            if (existingEntity.DateDeleted != null) 
+                throw new Exception
+                    ($"{this.GetType().Name} with id: [{entity.BookId} - {entity.GenreId}] already deleted");
+            
+            
+            dbContext.Entry(existingEntity).State = EntityState.Detached;
+            
+            entity.DateUpdated = DateTime.UtcNow;
+            entity.DateCreated = existingEntity.DateCreated;
+            dbContext.Entry(entity).State = EntityState.Modified;
         }
         public async Task DeleteAsync((Guid, Guid) key)
         {
-            var result = await GetByIdAsync(key);
-            if (result != null) await Task.Run(() => entities.Remove(result));
+            var entity = await GetByIdAsync(key);
+            
+            if (entity == null) 
+                throw new Exception($"{this.GetType().Name} with id: [{key.Item1} - {key.Item2}] was not found");
+            if (entity.DateDeleted != null) 
+                throw new Exception($"{this.GetType().Name} with id: [{key.Item1} - {key.Item2}] already deleted");
+
+            dbContext.Entry(entity).State = EntityState.Detached;
+            entity.DateDeleted = DateTime.UtcNow;
+            await UpdateAsync(entity);
         }
 
         public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)

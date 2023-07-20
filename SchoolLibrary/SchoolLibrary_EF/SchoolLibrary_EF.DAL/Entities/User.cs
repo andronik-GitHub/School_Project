@@ -6,8 +6,8 @@ namespace SchoolLibrary_EF.DAL.Entities
     public class User : IdentityUser<Guid>
     {
         public DateTime DateCreated { get; set; }
-        public DateTime? UpdateDate { get; set; }
-        public DateTime? DeleteDate { get; set; }
+        public DateTime? DateUpdated { get; set; }
+        public DateTime? DateDeleted { get; set; }
         
         
         public string FirstName { get; set; } = default!;

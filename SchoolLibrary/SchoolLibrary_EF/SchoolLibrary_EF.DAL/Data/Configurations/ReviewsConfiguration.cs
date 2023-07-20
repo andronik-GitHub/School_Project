@@ -11,6 +11,10 @@ namespace SchoolLibrary_EF.DAL.Data.Configurations
             builder.ToTable("Reviews");
             
             builder.HasKey(r => r.ReviewId);
+            
+            builder
+                .Property(e => e.DateCreated)
+                .HasDefaultValueSql("GETUTCDATE()");
 
             
             builder

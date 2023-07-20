@@ -69,7 +69,7 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .Map(dest => dest.PublisherName, src => src.Publisher.Name)
                 .Map(dest => dest.PublisherLocation, src => src.Publisher.Location)
                 .TwoWays();
-                
+
             TypeAdapterConfig<Book, InsertDTO_Book>
                 .NewConfig()
                 .Map(dest => dest.Title, src => src.Title)

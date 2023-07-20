@@ -5,7 +5,7 @@
         public LoanParameters()
         {
             OrderBy = "LoanId"; // default sorting
-            Fields = "LoanId, LoanDate, ReturnDate, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
+            Fields = "LoanId, LoanDate, ReturnDate, UserId, BookId, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }

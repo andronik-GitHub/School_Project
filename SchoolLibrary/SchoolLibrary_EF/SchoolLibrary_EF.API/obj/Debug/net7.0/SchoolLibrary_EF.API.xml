@@ -4,7 +4,19 @@
         <name>SchoolLibrary_EF.API</name>
     </assembly>
     <members>
-        <!-- Badly formed XML comment ignored for member "M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)" -->
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAllAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+            <summary>
+            Gets the list of all Authors
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/author
+            </remarks>
+            <returns>Returns list of AuthorDTO</returns>
+            <response code="200">Success</response>
+            <response code="400">If invalid filtering data is entered</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorByIdAsync(System.Guid)">
             <summary>
             Gets the Author by id
@@ -104,13 +116,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
             <summary>
             Gets the list of all BookAuthors
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookauthors?PageNumber=5(amp)PageSize=10
+            GET ef/bookauthors
             </remarks>
             <returns>Returns list of GetDTO_BookAuthors</returns>
             <response code="200">Success</response>
@@ -219,7 +231,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET ef/book?PageNumber=5(amp)PageSize=10
+            GET ef/book
             </remarks>
             <returns>Returns list of GetDTO_Book</returns>
             <response code="200">Success</response>
@@ -329,7 +341,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookdetails?PageNumber=5(amp)PageSize=10
+            GET ef/bookdetails
             </remarks>
             <returns>Returns list of GetDTO_BookDetails</returns>
             <response code="200">Success</response>
@@ -433,13 +445,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookGenresParameters)">
             <summary>
             Gets the list of all BookGenres
             </summary>
             <remarks>
             Sample request:
-            GET ef/bookgenres?PageNumber=5(amp)PageSize=10
+            GET ef/bookgenres
             </remarks>
             <returns>Returns list of GetDTO_BookGenres</returns>
             <response code="200">Success</response>
@@ -514,7 +526,7 @@
             <response code="400">If invalid data entered</response>
             <response code="500">If it was not possible to adding element to the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenress_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetAllBookGenres_DataShaping_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookGenresParameters)">
             <summary>
             Gets the list of all BookGenres
             </summary>
@@ -526,7 +538,7 @@
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetBookGenresById_DataShaping_Async(System.Guid,System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookGenresController.GetBookGenreById_DataShaping_Async(System.Guid,System.Guid,SchoolLibrary_EF.DAL.Paging.Entities.BookGenresParameters)">
             <summary>
             Gets the BookGenres by id
             </summary>
@@ -542,13 +554,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetAllGenresAsync(SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
             <summary>
             Gets the list of all Genres
             </summary>
             <remarks>
             Sample request:
-            GET ef/genre?PageNumber=5(amp)PageSize=10
+            GET ef/genre
             </remarks>
             <returns>Returns list of GetDTO_Genre</returns>
             <response code="200">Success</response>
@@ -646,13 +658,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllLoansAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllLoansAsync(SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
             <summary>
             Gets the list of all Loans
             </summary>
             <remarks>
             Sample request:
-            GET ef/loan?PageNumber=5(amp)PageSize=10
+            GET ef/loan
             </remarks>
             <returns>Returns list of GetDTO_Loan</returns>
             <response code="200">Success</response>
@@ -756,13 +768,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllPublishersAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.PublisherController.GetAllPublishersAsync(SchoolLibrary_EF.DAL.Paging.Entities.PublisherParameters)">
             <summary>
             Gets the list of all Publishers
             </summary>
             <remarks>
             Sample request:
-            GET ef/publisher?PageNumber=5(amp)PageSize=10
+            GET ef/publisher
             </remarks>
             <returns>Returns list of GetDTO_Publisher</returns>
             <response code="200">Success</response>
@@ -863,13 +875,13 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
-        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllReviewsAsync(SchoolLibrary_EF.DAL.Paging.Entities.AuthorParameters)">
+        <member name="M:SchoolLibrary_EF.API.Controllers.ReviewController.GetAllReviewsAsync(SchoolLibrary_EF.DAL.Paging.Entities.ReviewParameters)">
             <summary>
             Gets the list of all Reviews
             </summary>
             <remarks>
             Sample request:
-            GET ef/review?PageNumber=5(amp)PageSize=10
+            GET ef/review
             </remarks>
             <returns>Returns list of GetDTO_Review</returns>
             <response code="200">Success</response>
@@ -979,7 +991,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
+            GET ef/user
             </remarks>
             <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
             <returns>Returns list of GetDTO_User</returns>

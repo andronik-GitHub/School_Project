@@ -5,7 +5,7 @@
         public ReviewParameters()
         {
             OrderBy = "ReviewId"; // default sorting
-            Fields = "ReviewId, Rating, ReviewText, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
+            Fields = "ReviewId, Rating, ReviewText, UserId, BookId, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }

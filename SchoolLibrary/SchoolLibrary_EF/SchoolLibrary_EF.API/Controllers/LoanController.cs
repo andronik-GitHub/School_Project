@@ -33,7 +33,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/loan?PageNumber=5(amp)PageSize=10
+        /// GET ef/loan
         /// </remarks>
         /// <returns>Returns list of GetDTO_Loan</returns>
         /// <response code="200">Success</response>
@@ -42,7 +42,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<GetDTO_Loan>>> GetAllLoansAsync
-            ([FromQuery] AuthorParameters parameters)
+            ([FromQuery] LoanParameters parameters)
         {
             try
             {

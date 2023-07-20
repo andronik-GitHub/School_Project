@@ -27,6 +27,9 @@ namespace SchoolLibrary_EF.BLL.Services
             var checkFind = await _uow.BookAuthors.GetByIdAsync((bookAuthors.BookId, bookAuthors.AuthorId));
             if (checkFind != null) throw new Exception("Object with such values already exists in the database!");
 
+            bookAuthors.Book = default!;
+            bookAuthors.Author = default!;
+
             var id = await _uow.BookAuthors.CreateAsync(bookAuthors);
             await _uow.SaveChangesAsync();
 

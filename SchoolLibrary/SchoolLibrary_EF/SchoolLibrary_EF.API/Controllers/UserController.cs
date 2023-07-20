@@ -35,7 +35,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/user?UserName=Bob(amp)PageNumber=5(amp)PageSize=10
+        /// GET ef/user
         /// </remarks>
         /// <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
         /// <returns>Returns list of GetDTO_User</returns>
@@ -44,7 +44,8 @@ namespace SchoolLibrary_EF.API.Controllers
         [HttpGet(Name = nameof(GetAllUsersAsync))] // GET: ef/user?UserName=Bob&PageNumber=5&PageSize=10
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<GetDTO_User>>> GetAllUsersAsync([FromQuery] UserParameters parameters)
+        public async Task<ActionResult<IEnumerable<GetDTO_User>>> GetAllUsersAsync
+            ([FromQuery] UserParameters parameters)
         {
             try
             {

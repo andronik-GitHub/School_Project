@@ -5,7 +5,7 @@
         public GenreParameters()
         {
             OrderBy = "GenreId"; // default sorting
-            Fields = "GenreId, Name, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
+            Fields = "GenreId, Name, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }

@@ -34,7 +34,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/publisher?PageNumber=5(amp)PageSize=10
+        /// GET ef/publisher
         /// </remarks>
         /// <returns>Returns list of GetDTO_Publisher</returns>
         /// <response code="200">Success</response>
@@ -43,7 +43,7 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<GetDTO_Publisher>>> GetAllPublishersAsync
-            ([FromQuery] AuthorParameters parameters)
+            ([FromQuery] PublisherParameters parameters)
         {
             try
             {

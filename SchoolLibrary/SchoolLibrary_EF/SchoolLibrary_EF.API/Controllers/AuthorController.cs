@@ -33,7 +33,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/author?MinYearOfBirth=1990 & MaxYearOfBirth=2000 & PageNumber=5 & PageSize=10
+        /// GET ef/author
         /// </remarks>
         /// <returns>Returns list of AuthorDTO</returns>
         /// <response code="200">Success</response>
@@ -131,20 +131,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="500">If it was not possible to adding element to the database</response>
         [HttpPost(Name = nameof(AddAuthorAsync))] // POST: ef/author
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Guid>> AddAuthorAsync(InsertDTO_Author newEntity)
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (newEntity?.FirstName == null || newEntity?.LastName == null || newEntity?.Nationality == null)
-                {
-                    _logger.LogError("Invalid data entered");
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                }
-                   
-
                 var id = await _authorService.CreateAsync(newEntity);
                 _logger.LogInformation
                     ("Entity with id: [{EntityId}] were successfully added to [{Table}]", id, _tableName);
@@ -190,14 +181,6 @@ namespace SchoolLibrary_EF.API.Controllers
         {
             try
             {
-                // Checking whether valid data has been entered
-                if (updateDTO?.FirstName == null || updateDTO?.LastName == null || updateDTO?.Nationality == null)
-                {
-                    _logger.LogError("Invalid data entered");
-                    return StatusCode(StatusCodes.Status400BadRequest);
-                }
-                
-                
                 // Whether there is such a record in the database at all
                 var findResult = await _authorService.GetAsync(updateDTO.AuthorId);
 
@@ -255,16 +238,14 @@ namespace SchoolLibrary_EF.API.Controllers
                     _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
 
                     return StatusCode(StatusCodes.Status404NotFound);
-                    //return NotFound();
                 }
-                else
-                {
-                    await _authorService.DeleteAsync(id);
-                    _logger.LogInformation
-                        ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
+                
+                
+                await _authorService.DeleteAsync(id);
+                _logger.LogInformation
+                    ("Entity with id: [{EntityId}] were successfully deleted from [{Table}]", id, _tableName);
 
-                    return StatusCode(StatusCodes.Status204NoContent);
-                }
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {

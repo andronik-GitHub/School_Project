@@ -7,7 +7,7 @@
         public UserParameters()
         {
             OrderBy = "Id"; // default sorting
-            Fields = "Id, FirstName, LastName, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
+            Fields = "Id, FirstName, LastName, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }

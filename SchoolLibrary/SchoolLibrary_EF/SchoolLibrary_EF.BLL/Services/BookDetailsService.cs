@@ -25,6 +25,8 @@ namespace SchoolLibrary_EF.BLL.Services
             BookDetails bookDetails = MappingFunctions
                 .MapSourceToDestination<InsertDTO_BookDetails, BookDetails>(entity);
 
+            bookDetails.Book = default!;
+            
             var id = await _uow.BookDetails.CreateAsync(bookDetails);
             await _uow.SaveChangesAsync();
 

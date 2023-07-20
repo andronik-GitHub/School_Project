@@ -32,10 +32,12 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public override async Task<Book?> GetByIdAsync(Guid id)
         {
-            return await entities
+            var entity = await entities
                 .AsNoTracking()
                 .Include(b => b.Publisher)
                 .FirstOrDefaultAsync(b => b.BookId == id);
+            
+            return entity;
         }
     }
 }

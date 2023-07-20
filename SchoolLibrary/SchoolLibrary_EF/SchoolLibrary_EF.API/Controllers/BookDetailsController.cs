@@ -36,7 +36,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/bookdetails?PageNumber=5(amp)PageSize=10
+        /// GET ef/bookdetails
         /// </remarks>
         /// <returns>Returns list of GetDTO_BookDetails</returns>
         /// <response code="200">Success</response>

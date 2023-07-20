@@ -24,8 +24,11 @@ namespace SchoolLibrary_EF.BLL.Services
             // Mapping with Mapster
             var bookGenres = MappingFunctions.MapSourceToDestination<InsertDTO_BookGenres, BookGenres>(entity);
 
-            var checkFind = _uow.BookGenres.GetByIdAsync((bookGenres.BookId, bookGenres.GenreId));
+            var checkFind = await _uow.BookGenres.GetByIdAsync((bookGenres.BookId, bookGenres.GenreId));
             if (checkFind != null) throw new Exception("Object with such values already exists in the database!");
+
+            bookGenres.Book = default!;
+            bookGenres.Genre = default!;
 
             var id = await _uow.BookGenres.CreateAsync(bookGenres);
             await _uow.SaveChangesAsync();

@@ -46,18 +46,36 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            return await entities.FirstOrDefaultAsync(e => e.Id == id);
+            return await entities.FindAsync(id);
         }
         public virtual async Task UpdateAsync(TEntity entity)
         {
-            await Task.Run(() => entities.Update(entity));
+            var existingEntity = await GetByIdAsync(entity.Id);
+            
+            if (existingEntity == null) 
+                throw new Exception($"{typeof(TEntity).Name} with id: [{entity.Id}] was not found"); 
+            if (existingEntity.DateDeleted != null) 
+                throw new Exception($"{typeof(TEntity).Name} with id: [{entity.Id}] already deleted");
+            
+            
+            dbContext.Entry(existingEntity).State = EntityState.Detached;
+            
+            entity.DateUpdated = DateTime.UtcNow;
+            entity.DateCreated = existingEntity.DateCreated;
+            dbContext.Entry(entity).State = EntityState.Modified;
         }
         public virtual async Task DeleteAsync(Guid id)
         {
             var entity = await GetByIdAsync(id);
-            if (entity == null) throw new Exception($"{typeof(TEntity).Name} with id: [{id}] was not found");
+            
+            if (entity == null) 
+                throw new Exception($"{typeof(TEntity).Name} with id: [{id}] was not found");
+            if (entity.DateDeleted != null) 
+                throw new Exception($"{typeof(TEntity).Name} with id: [{id}] already deleted");
 
-            await Task.Run(() => entities.Remove(entity));
+            dbContext.Entry(entity).State = EntityState.Detached;
+            entity.DateDeleted = DateTime.UtcNow;
+            await UpdateAsync(entity);
         }
 
         public virtual async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)
@@ -77,7 +95,7 @@ namespace SchoolLibrary_EF.DAL.Repository
             var entity = await GetByIdAsync(id);
             return entity == null ? 
                 null : 
-                _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
+                _dataShaper.ShapeData(entity, parameters.Fields ?? "");
         }
 
         public virtual async Task<IQueryable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)

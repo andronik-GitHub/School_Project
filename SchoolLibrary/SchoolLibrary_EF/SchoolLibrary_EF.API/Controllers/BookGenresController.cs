@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolLibrary_EF.BLL.DTOs.__HATEOAS;
 using SchoolLibrary_EF.BLL.DTOs.BookGenreDTOs;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Paging.Entities;
@@ -12,12 +13,17 @@ namespace SchoolLibrary_EF.API.Controllers
     {
         private readonly IBookGenresService _bookGenresService;
         private readonly ILogger _logger;
+        private readonly IUrlHelper _urlHelper;
         private readonly string _tableName;
 
-        public BookGenresController(IBookGenresService bookGenresService, ILoggerFactory loggerFactory)
+        public BookGenresController(
+            IBookGenresService bookGenresService, 
+            ILoggerFactory loggerFactory, 
+            IUrlHelper urlHelper)
         {
             _bookGenresService = bookGenresService;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            _urlHelper = urlHelper;
             
             _tableName = this.GetType().Name.Replace("Controller", "");
             _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
@@ -29,7 +35,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET ef/bookgenres?PageNumber=5(amp)PageSize=10
+        /// GET ef/bookgenres
         /// </remarks>
         /// <returns>Returns list of GetDTO_BookGenres</returns>
         /// <response code="200">Success</response>
@@ -38,14 +44,15 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<GetDTO_BookGenres>>> GetAllBookGenresAsync
-            ([FromQuery] AuthorParameters parameters)
+            ([FromQuery] BookGenresParameters parameters)
         {
             try
             {
-                var collection = await _bookGenresService.GetAllAsync(parameters);
+                var collection = (await _bookGenresService.GetAllAsync(parameters)).ToList();
                 _logger.LogInformation
-                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count(), _tableName);
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
 
+                collection.ForEach(item => this.CreateLinksForEntity(item)); // HATEOAS
                 return Ok(collection);
             }
             catch (Exception ex)
@@ -95,7 +102,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     ("Entity with id: [{FirstId}]-[{SecondId}] were successfully extracted from [{Table}]", 
                     bookId, genreId, _tableName);
 
-                return Ok(entity);
+                return Ok(this.CreateLinksForEntity(entity)); // HATEOAS
             }
             catch (Exception ex)
             {
@@ -140,7 +147,7 @@ namespace SchoolLibrary_EF.API.Controllers
                     ("Entity with id: [{FirstId}]-[{SecondId}] were successfully added to [{Table}]",
                         id.Item1, id.Item2, _tableName);
 
-                return Ok($"{id.Item1}, {id.Item2}");
+                return Ok($"{id.Item1}/{id.Item2}");
             }
             catch (Exception ex)
             {
@@ -268,11 +275,11 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(BookGenres)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAllBookGenress_DataShaping_Async))] // ef/bookgenres/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
+        [HttpGet("datashaping/", Name = nameof(GetAllBookGenres_DataShaping_Async))] // ef/bookgenres/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetAllBookGenress_DataShaping_Async
-            ([FromQuery] BookAuthorsParameters parameters)
+        public async Task<ActionResult> GetAllBookGenres_DataShaping_Async
+            ([FromQuery] BookGenresParameters parameters)
         {
             try
             {
@@ -286,7 +293,7 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 _logger.LogError(
                     "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
-                    this.GetType().Name, nameof(GetAllBookGenress_DataShaping_Async), ex.Message);
+                    this.GetType().Name, nameof(GetAllBookGenres_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -306,12 +313,12 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{bookId:guid}/{genreId:guid}", Name = nameof(GetBookGenresById_DataShaping_Async))] // ef/bookgenres/datashaping/bookId/genreId
+        [HttpGet("datashaping/{bookId:guid}/{genreId:guid}", Name = nameof(GetBookGenreById_DataShaping_Async))] // ef/bookgenres/datashaping/bookId/genreId
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetBookGenresById_DataShaping_Async
-            (Guid bookId, Guid genreId, [FromQuery] BookAuthorsParameters parameters)
+        public async Task<ActionResult> GetBookGenreById_DataShaping_Async
+            (Guid bookId, Guid genreId, [FromQuery] BookGenresParameters parameters)
         {
             try
             {
@@ -333,10 +340,30 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 _logger.LogError(
                     "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
-                    this.GetType().Name, nameof(GetBookGenresById_DataShaping_Async), ex.Message);
+                    this.GetType().Name, nameof(GetBookGenreById_DataShaping_Async), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        
+
+
+
+        private GetDTO_BookGenres CreateLinksForEntity(GetDTO_BookGenres entity) // HATEOAS
+        {
+            var objId = new { bookId = entity.BookId, genreId = entity.GenreId };
+             
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.GetBookGenresByIdAsync), objId)!, "self", "GET"));
+            
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.UpdateBookGenresAsync), null)!, "update_entity", "PUT"));
+            
+            entity.Links.Add
+                (new Link(this._urlHelper.Link(nameof(this.DeleteBookGenresAsync), objId)!, "delete_entity", "DELETE"));
+
+            return entity;
+        } 
     }
 }

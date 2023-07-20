@@ -5,7 +5,7 @@
         public BookDetailsParameters()
         {
             OrderBy = "Pages"; // default sorting
-            Fields = "BookDetailId, BookId, Pages, Language, Format, DateCreated, UpdateDate, DeleteDate"; // default fields (DataShaping)
+            Fields = "BookDetailId, BookId, Pages, Language, Format, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }
