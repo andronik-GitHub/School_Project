@@ -9,6 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SchoolLibrary_EF.BLL.DTOs.UserDTOs;
@@ -60,7 +62,40 @@ namespace SchoolLibrary_EF.BLL.Services
         }
         public async Task UpdateAsync(UpdateDTO_User entity)
         {
-            User user = _mapper.Map<User>(entity); // Mapping with AutoMapper
+            var checkUser = await _uow.Users.GetByIdAsync(entity.Id);
+            if (checkUser == null) throw new Exception($"{nameof(User)} with id: [{entity.Id}] was not found");
+
+            _uow._dbContext.Entry(checkUser).State = EntityState.Detached;
+            User user = (User)checkUser.Clone();
+            
+            foreach (var keyValuePair in entity.Values)
+                if (keyValuePair.Key != "DateCreated" && 
+                    keyValuePair.Key != "DateUpdated" && 
+                    keyValuePair.Key != "DateDeleted")
+                {
+                    var property = user.GetType().GetProperty(keyValuePair.Key);
+
+                    if (property != null && property.CanWrite)
+                    {
+                        if (property.Name == "PasswordHash")
+                        {
+                            property.SetValue
+                                (user, new PasswordHasher<User>().HashPassword(null!, keyValuePair.Value));
+                        }
+                        else
+                        {
+                            property.SetValue(user, keyValuePair.Value);
+                        }
+
+                        if (property.Name is "PasswordHash" or "UserName")
+                        {
+                            user.GetType().GetProperty("SecurityStamp")?.SetValue
+                                (user, Guid.NewGuid().ToString("N").ToUpper());
+                        }
+                    }
+                }
+            
+            _uow._dbContext.Entry(user).State = EntityState.Modified;
 
             await _uow.Users.UpdateAsync(user);
             await _uow.SaveChangesAsync();

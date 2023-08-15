@@ -1,7 +1,9 @@
 ﻿using System.Dynamic;
 using System.Linq.Expressions;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Repository.Contracts;
 using SchoolLibrary_EF.DAL.Helper.Contracts;
@@ -13,20 +15,26 @@ namespace SchoolLibrary_EF.DAL.Repository
 {
     public class UserRepository :  IUserRepository
     {
+        private readonly SchoolLibraryContext dbContext;
         private readonly UserManager<User> _userManager;
         private readonly ISortHelper<User> _sortHelper;
         private readonly IDataShaper<User> _dataShaper;
+        private readonly IMapper _mapper;
         
         private readonly IQueryable<User> entities;
 
         public UserRepository(
+            SchoolLibraryContext dbContext,
             ISortHelper<User> sortHelper,
             IDataShaper<User> dataShaper, 
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IMapper mapper)
         {
+            this.dbContext = dbContext;
             _userManager = userManager;
             _sortHelper = sortHelper;
             _dataShaper = dataShaper;
+            _mapper = mapper;
 
             entities = _userManager.Users;
         }
@@ -34,9 +42,12 @@ namespace SchoolLibrary_EF.DAL.Repository
         public async Task<Guid> CreateAsync(User entity)
         {
             var result = await _userManager.CreateAsync(entity);
-            
+
             if (result.Succeeded) return entity.Id;
-            throw new Exception("Adding user to database failed.");
+            
+            var errorMessages = string.Join("\n", result.Errors.Select(error => error.Description));
+            throw new Exception($"Adding user to database failed. \n Errors: {errorMessages}");
+
         }
         public async Task<PagedList<User>> GetAllAsync(BaseParameters parameters)
         {
@@ -54,14 +65,34 @@ namespace SchoolLibrary_EF.DAL.Repository
         }
         public async Task UpdateAsync(User entity)
         {
-            var result = await _userManager.UpdateAsync(entity);
+            var existingEntity = await GetByIdAsync(entity.Id);
+
+            if (existingEntity == null) 
+                throw new Exception($"{nameof(User)} with id: [{entity.Id}] was not found");
+            if (existingEntity.DateDeleted != null) 
+                throw new Exception($"{nameof(User)} with id: [{entity.Id}] already deleted");
             
-            if (!result.Succeeded) throw new Exception("Error updating user in database.");
+            entity.DateUpdated = DateTime.UtcNow;
+            
+            var result = await _userManager.UpdateAsync(entity);
+            if (!result.Succeeded)
+            {
+                var errorMessages = string.Join("\n", result.Errors.Select(error => error.Description));
+                throw new Exception($"Updating user to database failed. \n Errors: {errorMessages}");
+            }
         }
         public async Task DeleteAsync(Guid key)
         {
             var entity = await GetByIdAsync(key);
-            if (entity != null) await _userManager.DeleteAsync(entity);
+            
+            if (entity == null) 
+                throw new Exception($"{nameof(User)} with id: [{key}] was not found");
+            if (entity.DateDeleted != null) 
+                throw new Exception($"{nameof(User)} with id: [{key}] already deleted");
+            
+            dbContext.Entry(entity).State = EntityState.Modified;
+            entity.DateDeleted = DateTime.UtcNow;
+            await UpdateAsync(entity);
         }
 
         public async Task<PagedList<ExpandoObject>> GetAll_DataShaping_Async(BaseParameters parameters)

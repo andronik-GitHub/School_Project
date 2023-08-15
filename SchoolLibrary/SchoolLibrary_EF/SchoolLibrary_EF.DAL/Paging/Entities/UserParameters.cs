@@ -2,12 +2,11 @@
 {
     public class UserParameters : BaseParameters
     {
-        public string? UserName { get; set; } = default!;
-
         public UserParameters()
         {
             OrderBy = "Id"; // default sorting
-            Fields = "Id, FirstName, LastName, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
+            Fields = "Id, UserName, Email, PasswordHash, PhoneNumber, FirstName, LastName, Country, City, Street," + 
+                     " ConcurrencyStamp, SecurityStamp, DateCreated, DateUpdated, DateDeleted"; // default fields (DataShaping)
         }
     }
 }

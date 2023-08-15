@@ -1043,15 +1043,16 @@
             
                 PUT: ef/user
                 {
-                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    "firstName": "string",
-                    "lastName": "string",
-                    "street": "string",
-                    "city": "string",
-                    "country": "string"
+                    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "values":
+                    {
+                        "additionalProp1": "string",
+                        "additionalProp2": "string",
+                        "additionalProp3": "string",
+                    }
                 }
             </remarks>
-            <param name="updateEntity">UpdateDTO_User updateEntity</param>
+            <param name="upEntity">UpdateDTO_User updateEntity</param>
             <returns>Returns NoContent</returns>
             <response code="204">Success</response>
             <response code="400">If invalid data entered</response>

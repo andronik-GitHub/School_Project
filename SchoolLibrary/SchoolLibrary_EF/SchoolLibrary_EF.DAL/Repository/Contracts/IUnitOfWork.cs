@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SchoolLibrary_EF.DAL.Data;
 using SchoolLibrary_EF.DAL.Entities;
 
 namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
     public interface IUnitOfWork
     {
+        SchoolLibraryContext _dbContext { get; set; }
+        
         IBookRepository Books { get; }
         IBookDetailsRepository BookDetails { get; }
         IAuthorRepository Authors { get; }

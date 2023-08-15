@@ -139,7 +139,8 @@ namespace SchoolLibrary_EF.API.Controllers
             {
                 // Checking whether valid data has been entered
                 if (newEntity?.FirstName == null || newEntity?.LastName == null || newEntity?.Street == null ||
-                    newEntity?.City == null || newEntity?.Country == null)
+                    newEntity?.City == null || newEntity?.Country == null || newEntity?.UserName == null
+                    || newEntity?.Email == null)
                 {
                     _logger.LogError("Invalid data entered");
                     return StatusCode(StatusCodes.Status400BadRequest);
@@ -170,15 +171,16 @@ namespace SchoolLibrary_EF.API.Controllers
         /// 
         ///     PUT: ef/user
         ///     {
-        ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        ///         "firstName": "string",
-        ///         "lastName": "string",
-        ///         "street": "string",
-        ///         "city": "string",
-        ///         "country": "string"
+        ///         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///         "values":
+        ///         {
+        ///             "additionalProp1": "string",
+        ///             "additionalProp2": "string",
+        ///             "additionalProp3": "string",
+        ///         }
         ///     }
         /// </remarks>
-        /// <param name="updateEntity">UpdateDTO_User updateEntity</param>
+        /// <param name="upEntity">UpdateDTO_User updateEntity</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="204">Success</response>
         /// <response code="400">If invalid data entered</response>
@@ -188,13 +190,12 @@ namespace SchoolLibrary_EF.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateUserAsync(UpdateDTO_User updateEntity)
+        public async Task<ActionResult> UpdateUserAsync([FromBody]UpdateDTO_User upEntity)
         {
             try
             {
                 // Checking whether valid data has been entered
-                if (updateEntity?.FirstName == null || updateEntity?.LastName == null || updateEntity?.Street == null ||
-                    updateEntity?.City == null || updateEntity?.Country == null)
+                if (upEntity.Values.Count <= 0)
                 {
                     _logger.LogError("Invalid data entered");
                     return StatusCode(StatusCodes.Status400BadRequest);
@@ -202,20 +203,20 @@ namespace SchoolLibrary_EF.API.Controllers
 
                     
                 // Whether there is such a record in the database at all
-                var findResult = await _userService.GetAsync(updateEntity.UserId);
+                var findResult = await _userService.GetAsync(upEntity.Id);
                 if (findResult == null)
                 {
                     _logger.LogError
-                        ("Entity with id: [{EntityId}] from [{Table}] not found", updateEntity.UserId, _tableName);
+                        ("Entity with id: [{EntityId}] from [{Table}] not found", upEntity.Id, _tableName);
 
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
 
                 
-                await _userService.UpdateAsync(updateEntity);
+                await _userService.UpdateAsync(upEntity);
                 _logger.LogInformation
                     ("Entity with id: [{EntityId}] were successfully updated from [{Table}]",
-                        updateEntity.UserId, _tableName);
+                        upEntity.Id, _tableName);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }

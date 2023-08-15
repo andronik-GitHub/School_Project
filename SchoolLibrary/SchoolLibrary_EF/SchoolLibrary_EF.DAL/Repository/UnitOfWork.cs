@@ -7,7 +7,7 @@ namespace SchoolLibrary_EF.DAL.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private SchoolLibraryContext _dbContext { get; set; }
+        public SchoolLibraryContext _dbContext { get; set; }
         public IBookRepository Books { get; }
         public IBookDetailsRepository BookDetails { get; }
         public IAuthorRepository Authors { get; }
