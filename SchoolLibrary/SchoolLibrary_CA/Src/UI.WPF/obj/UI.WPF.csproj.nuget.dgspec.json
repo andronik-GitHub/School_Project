@@ -350,9 +350,12 @@
               },
               "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
                 "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
+<<<<<<< HEAD
+=======
               },
               "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
                 "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj"
+>>>>>>> old-state
               }
             }
           }
@@ -367,9 +370,27 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "dependencies": {
+<<<<<<< HEAD
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+=======
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+>>>>>>> old-state
             }
           },
           "imports": [

@@ -69,7 +69,7 @@ namespace UI.WPF.MVVM.V.GenreV {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI.WPF;component/mvvm/v/genrev/genrecontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI.WPF;V1.0.0.0;component/mvvm/v/genrev/genrecontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\MVVM\V\GenreV\GenreControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

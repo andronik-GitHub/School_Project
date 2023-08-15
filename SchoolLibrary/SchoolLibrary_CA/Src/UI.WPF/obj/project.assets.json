@@ -414,6 +414,8 @@
           }
         }
       },
+<<<<<<< HEAD
+=======
       "Microsoft.AspNetCore.JsonPatch/7.0.4": {
         "type": "package",
         "dependencies": {
@@ -431,6 +433,7 @@
           }
         }
       },
+>>>>>>> old-state
       "Microsoft.AspNetCore.Mvc.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -478,6 +481,8 @@
           }
         }
       },
+<<<<<<< HEAD
+=======
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson/7.0.4": {
         "type": "package",
         "dependencies": {
@@ -499,6 +504,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+>>>>>>> old-state
       "Microsoft.AspNetCore.ResponseCaching.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -579,7 +585,11 @@
           }
         }
       },
+<<<<<<< HEAD
+      "Microsoft.CSharp/4.5.0": {
+=======
       "Microsoft.CSharp/4.7.0": {
+>>>>>>> old-state
         "type": "package",
         "compile": {
           "ref/netcoreapp2.0/_._": {}
@@ -749,6 +759,8 @@
           }
         }
       },
+<<<<<<< HEAD
+=======
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
         "type": "package",
         "build": {
@@ -758,6 +770,7 @@
           "buildMultiTargeting/_._": {}
         }
       },
+>>>>>>> old-state
       "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
         "type": "package",
         "dependencies": {
@@ -1193,6 +1206,8 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+<<<<<<< HEAD
+=======
       "Microsoft.OpenApi/1.2.3": {
         "type": "package",
         "compile": {
@@ -1206,6 +1221,7 @@
           }
         }
       },
+>>>>>>> old-state
       "Microsoft.SqlServer.Server/1.0.0": {
         "type": "package",
         "compile": {
@@ -1264,19 +1280,32 @@
           }
         }
       },
+<<<<<<< HEAD
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+=======
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
           "lib/net6.0/Newtonsoft.Json.dll": {
+>>>>>>> old-state
             "related": ".xml"
           }
         },
         "runtime": {
+<<<<<<< HEAD
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+=======
           "lib/net6.0/Newtonsoft.Json.dll": {
+>>>>>>> old-state
             "related": ".xml"
           }
         }
       },
+<<<<<<< HEAD
+=======
       "Newtonsoft.Json.Bson/1.0.2": {
         "type": "package",
         "dependencies": {
@@ -1293,6 +1322,7 @@
           }
         }
       },
+>>>>>>> old-state
       "runtime.native.System/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1306,6 +1336,8 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+<<<<<<< HEAD
+=======
       "Swashbuckle.AspNetCore/6.5.0": {
         "type": "package",
         "dependencies": {
@@ -1369,6 +1401,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+>>>>>>> old-state
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -2215,6 +2248,8 @@
         "runtime": {
           "bin/placeholder/Persistence.dll": {}
         }
+<<<<<<< HEAD
+=======
       },
       "WebUI/1.0.0": {
         "type": "project",
@@ -2236,6 +2271,7 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+>>>>>>> old-state
       }
     }
   },
@@ -2625,6 +2661,8 @@
         "microsoft.aspnetcore.identity.entityframeworkcore.nuspec"
       ]
     },
+<<<<<<< HEAD
+=======
     "Microsoft.AspNetCore.JsonPatch/7.0.4": {
       "sha512": "Ign6gpOinYLePR66lVRHhh3qY9sBiVwvp2P3kjYIi5yRd/60BC5kQb+NZWqaIz1/8BXnVqdRE2baEKDm5fU3gg==",
       "type": "package",
@@ -2644,6 +2682,7 @@
         "microsoft.aspnetcore.jsonpatch.nuspec"
       ]
     },
+>>>>>>> old-state
     "Microsoft.AspNetCore.Mvc.Abstractions/2.2.0": {
       "sha512": "ET6uZpfVbGR1NjCuLaLy197cQ3qZUjzl7EG5SL4GfJH/c9KRE89MMBrQegqWsh0w1iRUB/zQaK0anAjxa/pz4g==",
       "type": "package",
@@ -2670,6 +2709,8 @@
         "microsoft.aspnetcore.mvc.core.nuspec"
       ]
     },
+<<<<<<< HEAD
+=======
     "Microsoft.AspNetCore.Mvc.NewtonsoftJson/7.0.4": {
       "sha512": "o7gsUVT5HjBWBOeh8OaZSIoKBr5gCZdBfThivMr8Xh3IPGcQDO1cGHzBTaQQ/DoxhPnducXacCl9On5GFxcOxw==",
       "type": "package",
@@ -2685,6 +2726,7 @@
         "microsoft.aspnetcore.mvc.newtonsoftjson.nuspec"
       ]
     },
+>>>>>>> old-state
     "Microsoft.AspNetCore.ResponseCaching.Abstractions/2.2.0": {
       "sha512": "CIHWEKrHzZfFp7t57UXsueiSA/raku56TgRYauV/W1+KAQq6vevz60zjEKaazt3BI76zwMz3B4jGWnCwd8kwQw==",
       "type": "package",
@@ -2764,10 +2806,17 @@
         "version.txt"
       ]
     },
+<<<<<<< HEAD
+    "Microsoft.CSharp/4.5.0": {
+      "sha512": "kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
+      "type": "package",
+      "path": "microsoft.csharp/4.5.0",
+=======
     "Microsoft.CSharp/4.7.0": {
       "sha512": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
       "type": "package",
       "path": "microsoft.csharp/4.7.0",
+>>>>>>> old-state
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2780,7 +2829,10 @@
         "lib/netcoreapp2.0/_._",
         "lib/netstandard1.3/Microsoft.CSharp.dll",
         "lib/netstandard2.0/Microsoft.CSharp.dll",
+<<<<<<< HEAD
+=======
         "lib/netstandard2.0/Microsoft.CSharp.xml",
+>>>>>>> old-state
         "lib/portable-net45+win8+wp8+wpa81/_._",
         "lib/uap10.0.16299/_._",
         "lib/win8/_._",
@@ -2790,7 +2842,11 @@
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
+<<<<<<< HEAD
+        "microsoft.csharp.4.5.0.nupkg.sha512",
+=======
         "microsoft.csharp.4.7.0.nupkg.sha512",
+>>>>>>> old-state
         "microsoft.csharp.nuspec",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
@@ -2996,6 +3052,8 @@
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
+<<<<<<< HEAD
+=======
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
       "sha512": "Ckb5EDBUNJdFWyajfXzUIMRkhf52fHZOQuuZg/oiu8y7zDCVwD0iHhew6MnThjHmevanpxL3f5ci2TtHQEN6bw==",
       "type": "package",
@@ -3227,6 +3285,7 @@
         "tools/netcoreapp2.1/System.Diagnostics.DiagnosticSource.dll"
       ]
     },
+>>>>>>> old-state
     "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
       "sha512": "IeimUd0TNbhB4ded3AbgBLQv2SnsiVugDyGV1MvspQFVlA07nDC7Zul7kcwH5jWN3JiTcp/ySE83AIJo8yfKjg==",
       "type": "package",
@@ -3835,6 +3894,8 @@
         "runtime.json"
       ]
     },
+<<<<<<< HEAD
+=======
     "Microsoft.OpenApi/1.2.3": {
       "sha512": "Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw==",
       "type": "package",
@@ -3852,6 +3913,7 @@
         "microsoft.openapi.nuspec"
       ]
     },
+>>>>>>> old-state
     "Microsoft.SqlServer.Server/1.0.0": {
       "sha512": "N4KeF3cpcm1PUHym1RmakkzfkEv3GRMyofVv40uXsQhCQeglr2OHNcUk2WOG51AKpGO8ynGpo9M/kFXSzghwug==",
       "type": "package",
@@ -3942,15 +4004,25 @@
         "version.txt"
       ]
     },
+<<<<<<< HEAD
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+=======
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
       "path": "newtonsoft.json/13.0.3",
+>>>>>>> old-state
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
+<<<<<<< HEAD
+=======
         "README.md",
+>>>>>>> old-state
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -3959,19 +4031,28 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+<<<<<<< HEAD
+=======
         "lib/net6.0/Newtonsoft.Json.dll",
         "lib/net6.0/Newtonsoft.Json.xml",
+>>>>>>> old-state
         "lib/netstandard1.0/Newtonsoft.Json.dll",
         "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/netstandard1.3/Newtonsoft.Json.dll",
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
+<<<<<<< HEAD
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+=======
         "newtonsoft.json.13.0.3.nupkg.sha512",
+>>>>>>> old-state
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
     },
+<<<<<<< HEAD
+=======
     "Newtonsoft.Json.Bson/1.0.2": {
       "sha512": "QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
       "type": "package",
@@ -3993,6 +4074,7 @@
         "newtonsoft.json.bson.nuspec"
       ]
     },
+>>>>>>> old-state
     "runtime.native.System/4.0.0": {
       "sha512": "QfS/nQI7k/BLgmLrw7qm7YBoULEvgWnPI+cYsbfCVFTW8Aj+i8JhccxcFMu1RWms0YZzF+UHguNBK4Qn89e2Sg==",
       "type": "package",
@@ -4006,6 +4088,8 @@
         "runtime.native.system.nuspec"
       ]
     },
+<<<<<<< HEAD
+=======
     "Swashbuckle.AspNetCore/6.5.0": {
       "sha512": "FK05XokgjgwlCI6wCT+D4/abtQkL1X1/B9Oas6uIwHFmYrIO9WUD5aLC9IzMs9GnHfUXOtXZ2S43gN1mhs5+aA==",
       "type": "package",
@@ -4096,6 +4180,7 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
+>>>>>>> old-state
     "System.AppContext/4.1.0": {
       "sha512": "3QjO4jNV7PdKkmQAVp9atA+usVnKRwI3Kx1nMwJ93T0LcQfx7pKAYk0nKz5wn1oP5iqlhZuy6RXOFdhr7rDwow==",
       "type": "package",
@@ -6527,20 +6612,31 @@
       "type": "project",
       "path": "../Persistence/Persistence.csproj",
       "msbuildProject": "../Persistence/Persistence.csproj"
+<<<<<<< HEAD
+=======
     },
     "WebUI/1.0.0": {
       "type": "project",
       "path": "../WebUI/WebUI.csproj",
       "msbuildProject": "../WebUI/WebUI.csproj"
+>>>>>>> old-state
     }
   },
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
       "Application >= 1.0.0",
       "Infrastructure >= 1.0.0",
+<<<<<<< HEAD
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 7.0.4",
+      "Microsoft.EntityFrameworkCore >= 7.0.4",
+      "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.4",
+      "Newtonsoft.Json >= 13.0.1",
+      "Persistence >= 1.0.0"
+=======
       "Newtonsoft.Json >= 13.0.3",
       "Persistence >= 1.0.0",
       "WebUI >= 1.0.0"
+>>>>>>> old-state
     ]
   },
   "packageFolders": {
@@ -6584,9 +6680,12 @@
             },
             "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
               "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
+<<<<<<< HEAD
+=======
             },
             "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
               "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj"
+>>>>>>> old-state
             }
           }
         }
@@ -6601,9 +6700,27 @@
       "net7.0-windows7.0": {
         "targetAlias": "net7.0-windows",
         "dependencies": {
+<<<<<<< HEAD
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[7.0.4, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[7.0.4, )"
+          },
+          "Microsoft.EntityFrameworkCore.SqlServer": {
+            "target": "Package",
+            "version": "[7.0.4, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+=======
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+>>>>>>> old-state
           }
         },
         "imports": [

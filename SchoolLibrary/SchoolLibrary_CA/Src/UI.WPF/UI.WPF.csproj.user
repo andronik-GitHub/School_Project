@@ -2,6 +2,12 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+<<<<<<< HEAD
+    <Compile Update="Temp\View\tempControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Temp\View\ViewAuthor\AuthorControl.xaml.cs">
+=======
     <Compile Update="MVVM\V\AuthorV\Add_Author.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,10 +33,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\V\GenreV\GenreControl.xaml.cs">
+>>>>>>> old-state
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <Page Update="Temp\View\tempControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Temp\View\ViewAuthor\AuthorControl.xaml">
+=======
     <Page Update="MVVM\V\AuthorV\Add_Author.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -56,6 +69,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\V\GenreV\GenreControl.xaml">
+>>>>>>> old-state
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

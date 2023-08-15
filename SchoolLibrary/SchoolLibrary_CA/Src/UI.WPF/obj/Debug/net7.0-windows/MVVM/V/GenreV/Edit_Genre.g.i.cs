@@ -61,7 +61,7 @@ namespace UI.WPF.MVVM.V.GenreV {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI.WPF;component/mvvm/v/genrev/edit_genre.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI.WPF;V1.0.0.0;component/mvvm/v/genrev/edit_genre.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\MVVM\V\GenreV\Edit_Genre.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

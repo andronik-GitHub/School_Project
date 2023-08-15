@@ -103,3 +103,7 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+<<<<<<< HEAD
+E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\WebUI\bin\Debug\net7.0\WebUI.staticwebassets.runtime.json
+=======
+>>>>>>> old-state

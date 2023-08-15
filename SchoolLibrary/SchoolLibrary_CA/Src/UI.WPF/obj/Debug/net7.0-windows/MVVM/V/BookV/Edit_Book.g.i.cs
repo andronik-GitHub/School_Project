@@ -85,7 +85,7 @@ namespace UI.WPF.MVVM.V.BookV {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI.WPF;component/mvvm/v/bookv/edit_book.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI.WPF;V1.0.0.0;component/mvvm/v/bookv/edit_book.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\MVVM\V\BookV\Edit_Book.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
