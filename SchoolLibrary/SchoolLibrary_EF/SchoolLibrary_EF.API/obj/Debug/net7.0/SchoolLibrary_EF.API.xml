@@ -1105,10 +1105,23 @@
             </summary>
             <remarks>
             Sample request:
-            GET https://localhost:5001/ef/User/secure%data
+            GET https://localhost:5001/ef/User/secure-data
             </remarks>
             <returns>Returns secured data</returns>
             <response code="200">Success</response>
+            <response code="401">If user not authentication</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GerSecuredDataForModerator">
+            <summary>
+            Get secured data for user with role "Moderator"
+            </summary>
+            <remarks>
+            Sample request:
+            GET https://localhost:5001/ef/User/secure-data/authorization
+            </remarks>
+            <returns>Returns secured data</returns>
+            <response code="200">Success</response>
+            <response code="403">Is user role is not "Moderator"</response>
             <response code="401">If user not authentication</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GerSecuredDataForAdministrator">
@@ -1117,7 +1130,7 @@
             </summary>
             <remarks>
             Sample request:
-            GET https://localhost:5001/ef/User/secure%data/authorization
+            GET https://localhost:5001/ef/User/secure-data/authorization
             </remarks>
             <returns>Returns secured data</returns>
             <response code="200">Success</response>
@@ -1157,6 +1170,26 @@
             </remarks>
             <param name="model">RegisterModel for creating new user</param>
             <returns>Returns a message about successful user registration</returns>
+            <response code="200">Success</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterModeratorAsync(SchoolLibrary_EF.DAL.Entities.Identity.RegisterModel)">
+            <summary>
+            Registering new user-moderator
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST https://localhost:5001/ef/User/register-moderator
+                {
+                    "FirstName": "John",
+                    "LastName": "Snow",
+                    "UserName": "John_Snow-administrator",
+                    "Email": "john_snow-administrator@gmail.com",
+                    "Password": "Pa$$w0rd"
+                }
+            </remarks>
+            <param name="model">RegisterModel for creating new user-moderator</param>
+            <returns>Returns a message about successful user-moderator registration</returns>
             <response code="200">Success</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.UserController.RegisterAdministratorAsync(SchoolLibrary_EF.DAL.Entities.Identity.RegisterModel)">

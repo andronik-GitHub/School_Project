@@ -8,9 +8,10 @@ namespace SchoolLibrary_EF.BLL.Services.Contracts
     {
         Task<User?> GetUserWithRefreshTokensAsync(Guid id);
         
-        Task<string> RegisterAsync(RegisterModel model);
-        Task<string> RegisterAdministratorAsync(RegisterModel model);
-        Task<string> AddRoleAsync(AddRoleModel model);
+        Task<bool> RegisterAsync(RegisterModel model);
+        Task<bool> RegisterModeratorAsync(RegisterModel model);
+        Task<bool> RegisterAdministratorAsync(RegisterModel model);
+        Task<bool> AddRoleAsync(AddRoleModel model);
         
         Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model);
         Task<AuthenticationModel> GetRefreshTokenAsync(string token);

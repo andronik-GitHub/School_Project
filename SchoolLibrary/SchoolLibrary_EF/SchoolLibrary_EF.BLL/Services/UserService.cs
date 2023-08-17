@@ -116,69 +116,71 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
         
-        public async Task<string> RegisterAsync(RegisterModel model)
+        public async Task<bool> RegisterAsync(RegisterModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Password)) throw new Exception("Password is empty!");
             if (string.IsNullOrWhiteSpace(model.Email)) throw new Exception("Email is empty!");
             
-            // Mapping using Mapster
-            var user = MappingFunctions.MapSourceToDestination<RegisterModel, User>(model);
-            // To check if the email is already registered with our api
-            var userWithSameEmail = await _uow._userManager.FindByEmailAsync(model.Email);
+            var user = MappingFunctions.MapSourceToDestination<RegisterModel, User>(model); // Mapping using Mapster
+            // Checking if the email is already registered
+            if ((await _uow._userManager.FindByEmailAsync(model.Email)) != null) 
+                throw new Exception("Email is already registered!");
 
-            if (userWithSameEmail != null) return "Email is already registered!";
-
-            var result = await _uow._userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded) await _uow._userManager.AddToRoleAsync(user, Authorization.default_role.ToString());
-
-            return $"User registered with username {user.UserName}";
+            // If no username has been set, then the default username is set
+            if (string.IsNullOrEmpty(user.UserName)) user.UserName = Authorization.default_username + Guid.NewGuid();
+            
+            var result = await _uow.Users.CreateAsync(user);
+            if (result == Guid.Empty) return false;
+            
+            return (await _uow._userManager.AddToRoleAsync(user, Authorization.default_role.ToString()))
+                .Succeeded;
         }
-        public async Task<string> RegisterAdministratorAsync(RegisterModel model)
+        public async Task<bool> RegisterModeratorAsync(RegisterModel model)
         {
-            // Register new user
-            var result = await RegisterAsync(model);
-            // Checking whether the user has been created correctly
-            if (model.UserName == null || !result.EndsWith(model.UserName)) return result;
+            var result = await RegisterAsync(model); // Register new user
+            if (result == false) return false; // Checking whether the user has been created correctly
             
             // Mapping using Mapster
             var addRoleModel = MappingFunctions.MapSourceToDestination<RegisterModel, AddRoleModel>(model);
-            addRoleModel.Role = "Administrator";
+            addRoleModel.Role = Authorization.Roles.Moderator.ToString();
             
-            // Add to user new role "Administrator"
-            result = result + ". " + await AddRoleAsync(addRoleModel);
+            return await AddRoleAsync(addRoleModel); // Add to user new role and return result
+        }
+        public async Task<bool> RegisterAdministratorAsync(RegisterModel model)
+        {
+            var result = await RegisterAsync(model); // Register new user
+            if (result == false) return false; // Checking whether the user has been created correctly
             
-            // Checking whether the role has been added
-            if (model.Email == null || !result.EndsWith(model.Email)) return result;
+            // Mapping using Mapster
+            var addRoleModel = MappingFunctions.MapSourceToDestination<RegisterModel, AddRoleModel>(model);
+            addRoleModel.Role = Authorization.Roles.Administrator.ToString();
             
-            return $"User-Administrator registered with username {model.UserName}";
+            return await AddRoleAsync(addRoleModel); // Add to user new role and return result
         }
 
-        public async Task<string> AddRoleAsync(AddRoleModel model)
+        public async Task<bool> AddRoleAsync(AddRoleModel model)
         {
-            var user = await _uow._userManager.FindByEmailAsync(model.Email ?? "");
-            if (user == null) return "No Accounts Registered with this email!";
-
-            if (!await _uow._userManager.CheckPasswordAsync(user, model.Password ?? ""))
-                return "Incorrect Credentials for user!";
+            var user = await _uow._userManager.FindByEmailAsync(model.Email);
             
-            //  if the user is a valid one
+            if (user == null || (await _uow._userManager.CheckPasswordAsync(user, model.Password)) == false)
+                throw new Exception("Incorrect Credentials for user!");
+            
+            //  If the user is a valid one
+            // Check if the passed Role is present in our system 
             var roleExists = Enum
                 .GetNames(typeof(Authorization.Roles))
                 .Any(x => x.ToLower() == model.Role?.ToLower());
 
-            
-            // Check if the passed Role is present in our system. If not, throws an error message
-            if (!roleExists) return $"Role {model.Role} not found!";
+            // If not, throws an error message
+            if (roleExists == false) throw new Exception($"Role {model.Role} not found!");
             
             var validRole = Enum
                 .GetValues(typeof(Authorization.Roles))
                 .Cast<Authorization.Roles>()
                 .FirstOrDefault(x => x.ToString().ToLower() == model.Role?.ToLower());
 
-            await _uow._userManager.AddToRoleAsync(user, validRole.ToString());
-            
-            // Add the role to the valid user
-            return $"Added {model.Role} to user {model.Email}!";
+            return (await _uow._userManager.AddToRoleAsync(user, validRole.ToString()))
+                .Succeeded;
         }
 
         
@@ -332,6 +334,7 @@ namespace SchoolLibrary_EF.BLL.Services
             var roleList = await _uow._userManager.GetRolesAsync(user).ConfigureAwait(false);
             authenticationModel.RefreshToken = newRefreshToken.Token;
             authenticationModel.RefreshTokenExpiration = newRefreshToken.Expires;
+            authenticationModel.Roles = roleList.ToList();
             
             return authenticationModel;
         }
@@ -363,7 +366,7 @@ namespace SchoolLibrary_EF.BLL.Services
             var refreshToken = user.RefreshTokens?.Single(x => x.Token == token);
             
             // Return false if token is not active
-            if (refreshToken == null || refreshToken.IsActive) return await Task.FromResult(false);
+            if (refreshToken == null || !refreshToken.IsActive) return await Task.FromResult(false);
             
             // If the passed refresh token is valid, we revoke it here and save to the database
             refreshToken.Revoked = DateTime.UtcNow;

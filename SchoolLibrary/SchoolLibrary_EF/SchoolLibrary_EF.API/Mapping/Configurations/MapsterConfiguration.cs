@@ -20,7 +20,7 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
             RegisterBookConfig();
             RegisterBookDetailsConfig();
             //RegisterAuthorConfig(); in AutoMapper
-            RegisterPublisherConfig(); // troubles in mapping
+            RegisterPublisherConfig();
             //RegisterUserConfig(); in AutoMapper
             RegisterLoanConfig();
             RegisterReviewConfig();
@@ -226,7 +226,11 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .Map(dest => dest.UserName, src => src.UserName)
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.PasswordHash, src => 
-                    new PasswordHasher<User>(null).HashPassword(null!, src.Password!));
+                    new PasswordHasher<User>(null).HashPassword(null!, src.Password!))
+                .Map(dest => dest.Country, src => "empty")
+                .Map(dest => dest.City, src => "empty")
+                .Map(dest => dest.Street, src => "empty")
+                .Map(dest => dest.SecurityStamp, src => Guid.NewGuid().ToString("N").ToUpper());
         }
         private static void RegisterAddRoleModel()
         {

@@ -30,6 +30,9 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
 
+        #region CRUD
+
+        
         /// <summary>
         /// Gets the list of all Users
         /// </summary>
@@ -215,8 +218,8 @@ namespace SchoolLibrary_EF.API.Controllers
                 
                 await _userService.UpdateAsync(upEntity);
                 _logger.LogInformation
-                    ("Entity with id: [{EntityId}] were successfully updated from [{Table}]",
-                        upEntity.Id, _tableName);
+                ("Entity with id: [{EntityId}] were successfully updated from [{Table}]",
+                    upEntity.Id, _tableName);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }
@@ -277,7 +280,6 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
         
-
         /// <summary>
         /// Gets the list of all Users
         /// </summary>
@@ -353,18 +355,23 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
         
+        #endregion
+
+        #region IDENTITY
+        
+        
         /// <summary>
         /// Get secured data
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET https://localhost:5001/ef/User/secure%data
+        /// GET https://localhost:5001/ef/User/secure-data
         /// </remarks>
         /// <returns>Returns secured data</returns>
         /// <response code="200">Success</response>
         /// <response code="401">If user not authentication</response>
         [Authorize]
-        [HttpGet("secure%data/")] // GET: ef/User/secure%data
+        [HttpGet("secure-data/", Name = nameof(GetSecuredData))] // GET: ef/User/secure-data
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -385,18 +392,52 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
         /// <summary>
+        /// Get secured data for user with role "Moderator"
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET https://localhost:5001/ef/User/secure-data/authorization
+        /// </remarks>
+        /// <returns>Returns secured data</returns>
+        /// <response code="200">Success</response>
+        /// <response code="403">Is user role is not "Moderator"</response>
+        /// <response code="401">If user not authentication</response>
+        [Authorize(Roles = "Moderator")]
+        // GET: ef/User/secure-data/authorization-moderator
+        [HttpGet("secure-data/authorization-moderator", Name = nameof(GerSecuredDataForModerator))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GerSecuredDataForModerator()
+        {
+            try
+            {
+                return await Task.Run(() => Ok("This Secured Data is available only for Users-Moderator."));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GerSecuredDataForModerator), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Get secured data for user with role "Administrator"
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET https://localhost:5001/ef/User/secure%data/authorization
+        /// GET https://localhost:5001/ef/User/secure-data/authorization
         /// </remarks>
         /// <returns>Returns secured data</returns>
         /// <response code="200">Success</response>
         /// <response code="403">Is user role is not "Administrator"</response>
         /// <response code="401">If user not authentication</response>
-        [Authorize(Roles = "Administrator")]
-        [HttpGet("secure%data/authorization")] // GET: ef/User/secure%data/authorization
+        [Authorize(Roles = "Administrator")] // GET: ef/User/secure-data/authorization-administrator
+        [HttpGet("secure-data/authorization-administrator", Name = nameof(GerSecuredDataForAdministrator))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -417,6 +458,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        
         /// <summary>
         /// Get all the refresh tokens
         /// </summary>
@@ -431,7 +473,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to adding element to the database</response>
         [Authorize]
-        [HttpPost("tokens/{id:guid}")] // POST: ef/User/tokens/b12c5ca7-ab3f-4d0c-bc58-0512bbb30e69
+        [HttpPost("tokens/{id:guid}", Name = nameof(GetUserRefreshTokens))] // POST: ef/User/tokens/id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -444,8 +486,7 @@ namespace SchoolLibrary_EF.API.Controllers
 
                 if (user == null)
                 {
-                    _logger.LogError("Entity with id: [{EntityId}] from [Users] not found", id);
-
+                    _logger.LogError("Entity with id: [{EntityId}] from [{Table}] not found", id, _tableName);
                     return StatusCode(StatusCodes.Status404NotFound);
                 }
             
@@ -461,6 +502,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        
         /// <summary>
         /// Registering new user
         /// </summary>
@@ -479,7 +521,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <param name="model">RegisterModel for creating new user</param>
         /// <returns>Returns a message about successful user registration</returns>
         /// <response code="200">Success</response>
-        [HttpPost("register")] // POST: ef/User/register
+        [HttpPost("register", Name = nameof(RegisterAsync))] // POST: ef/User/register
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RegisterAsync(RegisterModel model)
@@ -487,13 +529,63 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 var result = await _userService.RegisterAsync(model);
-                return Ok(result);
+
+                var resultMessage = result ? 
+                    $"Successfully registered User with username {model.UserName}" : 
+                    $"Failed to register User with username {model.UserName}";
+                
+                _logger.LogInformation("Result: {Result}", resultMessage);
+                return Ok(resultMessage);
             }
             catch (Exception ex)
             {
                 _logger.LogError(
                     "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
                     this.GetType().Name, nameof(RegisterAsync), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// Registering new user-moderator
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST https://localhost:5001/ef/User/register-moderator
+        ///     {
+        ///         "FirstName": "John",
+        ///         "LastName": "Snow",
+        ///         "UserName": "John_Snow-administrator",
+        ///         "Email": "john_snow-administrator@gmail.com",
+        ///         "Password": "Pa$$w0rd"
+        ///     }
+        /// </remarks>
+        /// <param name="model">RegisterModel for creating new user-moderator</param>
+        /// <returns>Returns a message about successful user-moderator registration</returns>
+        /// <response code="200">Success</response>
+        [HttpPost("register-moderator", Name = nameof(RegisterModeratorAsync))] // POST: ef/User/register-moderator
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> RegisterModeratorAsync(RegisterModel model)
+        {
+            try
+            {
+                var result = await _userService.RegisterModeratorAsync(model);
+
+                var resultMessage = result ? 
+                    $"Successfully registered Moderator with username {model.UserName}" : 
+                    $"Failed to register Moderator with username {model.UserName}";
+                
+                _logger.LogInformation("Result: {Result}", resultMessage);
+                return Ok(resultMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(RegisterAdministratorAsync), ex.Message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -517,7 +609,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <param name="model">RegisterModel for creating new user-administrator</param>
         /// <returns>Returns a message about successful user-administrator registration</returns>
         /// <response code="200">Success</response>
-        [HttpPost("register-administrator")] // POST: ef/User/register-administrator
+        [HttpPost("register-administrator", Name = nameof(RegisterAdministratorAsync))] // POST: ef/User/register-administrator
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RegisterAdministratorAsync(RegisterModel model)
@@ -525,7 +617,13 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 var result = await _userService.RegisterAdministratorAsync(model);
-                return Ok(result);
+
+                var resultMessage = result ? 
+                    $"Successfully registered Administrator with username {model.UserName}" : 
+                    $"Failed to register Administrator with username {model.UserName}";
+                
+                _logger.LogInformation("Result: {Result}", resultMessage);
+                return Ok(resultMessage);
             }
             catch (Exception ex)
             {
@@ -536,6 +634,7 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
         
         /// <summary>
         /// Add role ot user
@@ -553,7 +652,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <param name="model">RegisterModel for creating new user-administrator</param>
         /// <returns>Returns a message about successful user-administrator registration</returns>
         /// <response code="200">Success</response>
-        [HttpPost("add-role")] // POST: ef/User/add-role
+        [HttpPost("add-role", Name = nameof(AddRoleAsync))] // POST: ef/User/add-role
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> AddRoleAsync(AddRoleModel model)
@@ -561,7 +660,13 @@ namespace SchoolLibrary_EF.API.Controllers
             try 
             {
                 var result = await _userService.AddRoleAsync(model);
-                return Ok(result);
+
+                var resultMessage = result ? 
+                    $"Role [{model.Role}] is successfully added to user with email [{model.Email}]." : 
+                    $"Role [{model.Role}] has not been added to user with email address [{model.Email}].";
+                
+                _logger.LogInformation("Result: {Result}", resultMessage);
+                return Ok(resultMessage);
             }
             catch (Exception ex)
             {
@@ -573,6 +678,7 @@ namespace SchoolLibrary_EF.API.Controllers
             }
         }
 
+        
         /// <summary>
         /// Get token
         /// </summary>
@@ -587,7 +693,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </remarks>
         /// <returns>Returns JWT Security token</returns>
         /// <response code="200">Success</response>
-        [HttpPost("token")] // POST: ef/User/token
+        [HttpPost("token", Name = nameof(GetTokenAsync))] // POST: ef/User/token
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetTokenAsync(TokenRequestModel model)
@@ -625,21 +731,19 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </remarks>
         /// <returns>Returns JWT Security token</returns>
         /// <response code="200">Success</response>
-        [HttpPost("refresh-token")] // POST: ef/User/refresh-token
+        [HttpPost("refresh-token", Name = nameof(GetRefreshTokenAsync))] // POST: ef/User/refresh-token
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetRefreshTokenAsync()
         {
             try
             {
-                // Get the Refresh Token from our cookies
-                var refreshToken = Request.Cookies["refreshToken"];
-                // Returns the response object from the Service Method
-                var response = await _userService
+                var refreshToken = Request.Cookies["refreshToken"]; // Get the Refresh Token from our cookies
+                
+                var response = await _userService // Returns the response object from the Service Method
                     .GetRefreshTokenAsync(refreshToken ?? throw new InvalidOperationException());
             
-                // Sets the new Refresh Token to our Cookie
-                if (!string.IsNullOrEmpty(response.RefreshToken))
+                if (!string.IsNullOrEmpty(response.RefreshToken)) // Sets the new Refresh Token to our Cookie
                     SetRefreshTokenInCookie(response.RefreshToken);
 
                 return Ok(response);
@@ -667,7 +771,7 @@ namespace SchoolLibrary_EF.API.Controllers
         /// </remarks>
         /// <returns>Returns a message whether the token was successfully revoked</returns>
         /// <response code="200">Success</response>
-        [HttpPost("revoke-token")]
+        [HttpPost("revoke-token", Name = nameof(RevokeTokenAsync))] // POST: ef/User/revoke-token
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -677,7 +781,7 @@ namespace SchoolLibrary_EF.API.Controllers
             try
             {
                 // Accept token from request body or cookie
-                var token = model.Token ?? Request.Cookies["refreshToken"];
+                var token = model.Token ?? Request.Cookies["RefreshToken"];
                 if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token is required" });
 
                 // Revoke the Token
@@ -697,14 +801,17 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
 
-        private void SetRefreshTokenInCookie(string refreshToken)
+        #endregion
+
+
+        private void SetRefreshTokenInCookie(string refreshToken) // IDENTITY
         {
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(10)
             };
-            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+            Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
         }
         private GetDTO_User CreateLinksForEntity(GetDTO_User entity) // HATEOAS
         {
