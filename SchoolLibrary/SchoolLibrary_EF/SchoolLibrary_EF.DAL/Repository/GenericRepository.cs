@@ -13,7 +13,7 @@ namespace SchoolLibrary_EF.DAL.Repository
 {
     public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity, Guid> where TEntity : BaseEntity
     {
-        private readonly SchoolLibraryContext dbContext;
+        protected readonly SchoolLibraryContext dbContext;
         protected readonly DbSet<TEntity> entities;
         protected readonly IDataShaper<TEntity> _dataShaper;
         protected readonly ISortHelper<TEntity> _sortHelper;

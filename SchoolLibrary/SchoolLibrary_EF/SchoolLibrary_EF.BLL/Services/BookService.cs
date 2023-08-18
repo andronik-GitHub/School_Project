@@ -67,5 +67,14 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             return await _uow.Books.GetById_DataShaping_Async(id, parameters);
         }
+
+
+        // Average rating for each book
+        public async Task<IEnumerable<GetDTO_AvgRatingBook>> AvgRatingForBook(BookParameters parameters)
+        {
+            return MappingFunctions
+                .MapListSourceToDestination<(string BookTitle, decimal? Average), GetDTO_AvgRatingBook>
+                    (await _uow.Books.AvgRatingForBook(parameters));
+        }
     }
 }

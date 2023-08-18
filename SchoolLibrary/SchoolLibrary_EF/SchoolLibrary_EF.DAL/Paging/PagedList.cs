@@ -10,7 +10,7 @@
         public bool HasPrevious => CurrentPage > 1;
         public bool HasNext => CurrentPage < TotalPages;
 
-        public PagedList(List<TEntity> entities, int count, int pageNumber, int pageSize)
+        private PagedList(List<TEntity> entities, int count, int pageNumber, int pageSize)
         {
             TotalPages = count;
             PageSize = pageSize;

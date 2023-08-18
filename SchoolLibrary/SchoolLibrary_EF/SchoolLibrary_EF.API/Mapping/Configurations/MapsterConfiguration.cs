@@ -86,6 +86,13 @@ namespace SchoolLibrary_EF.API.Mapping.Configurations
                 .Map(dest => dest.ISBN, src => src.ISBN)
                 .Map(dest => dest.PublisherId, src => src.PublisherId)
                 .TwoWays();
+            
+            
+            TypeAdapterConfig<(string BookTitle, decimal? Average), GetDTO_AvgRatingBook>
+                .NewConfig()
+                .Map(dest => dest.BookTitle, src => src.BookTitle)
+                .Map(dest => dest.Average, src => src.Average)
+                .TwoWays();
         }
         private static void RegisterBookDetailsConfig()
         {

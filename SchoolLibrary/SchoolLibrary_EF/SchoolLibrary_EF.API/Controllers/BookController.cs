@@ -346,7 +346,42 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
+
+
+        /// <summary>
+        /// Gets the list of all Books with average rating
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/book/extension/avg-rating-each-book
+        /// </remarks>
+        /// <returns>Returns list of GetDTO_AvgRatingBook</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
+        [HttpGet("extension/avg-rating-each-book", Name = nameof(GetAverageRatingForEachBook_Async))]
+        [ProducesResponseType(StatusCodes.Status200OK)] // ef/book/extension/avg-rating-each-book
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetAverageRatingForEachBook_Async([FromQuery] BookParameters parameters)
+        {
+            try
+            {
+                var collection = (await _bookService.AvgRatingForBook(parameters)).ToList();
+                
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
+                
+                return Ok(collection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAverageRatingForEachBook_Async), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
 
 

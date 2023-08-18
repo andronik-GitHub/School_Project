@@ -39,5 +39,31 @@ namespace SchoolLibrary_EF.DAL.Repository
             
             return entity;
         }
+
+        /*  Average rating for each book
+         
+            SELECT B.Title AS BookTitle, AVG(R.Rating) AS AverageRating
+            FROM Books B
+            LEFT JOIN Reviews R ON B.BookId = R.BookId
+            GROUP BY B.BookId, B.Title;
+            
+         */
+        public async Task<PagedList<(string BookTitle, decimal? Average)>> AvgRatingForBook(BookParameters parameters)
+        {
+            var collection = await entities
+                .AsNoTracking()
+                .GroupJoin(
+                    dbContext.Reviews,
+                    b => b.BookId,
+                    r => r.BookId,
+                    (b, r) => new { BookTitle = b.Title, Average = r.DefaultIfEmpty().Average(review => review != null ? review.Rating : null) })
+                .ToListAsync();
+            
+            return PagedList<(string BookTitle, decimal? Average)>
+                .ToPagedList(
+                    collection.Select(item => (item.BookTitle, item.Average)).AsQueryable(), 
+                    parameters.PageNumber, 
+                    parameters.PageSize);
+        }
     }
 }
