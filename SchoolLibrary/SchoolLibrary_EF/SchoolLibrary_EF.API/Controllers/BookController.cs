@@ -366,7 +366,7 @@ namespace SchoolLibrary_EF.API.Controllers
         {
             try
             {
-                var collection = (await _bookService.AvgRatingForBook(parameters)).ToList();
+                var collection = (await _bookService.GetAvgRatingForBookAsync(parameters)).ToList();
                 
                 _logger.LogInformation
                     ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);

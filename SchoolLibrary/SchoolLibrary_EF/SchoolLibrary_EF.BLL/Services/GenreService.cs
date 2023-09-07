@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using AutoMapper;
 using SchoolLibrary_EF.BLL.DTOs.GenreDTOs;
+using SchoolLibrary_EF.BLL.Mapping;
 using SchoolLibrary_EF.BLL.Services.Contracts;
 using SchoolLibrary_EF.DAL.Entities;
 using SchoolLibrary_EF.DAL.Paging;
@@ -64,6 +65,13 @@ namespace SchoolLibrary_EF.BLL.Services
         public async Task<ExpandoObject?> GetById_DataShaping_Async(Guid id, BaseParameters parameters)
         {
             return await _uow.Genres.GetById_DataShaping_Async(id, parameters);
+        }
+
+        
+        public async Task<IEnumerable<GetDTO_CountOfBooksEachGenre>> GetCountOfBooksEachGenreAsync(GenreParameters parameters)
+        {
+            return _mapper.Map<IEnumerable<(string GenreName, int BookCount)>, IEnumerable<GetDTO_CountOfBooksEachGenre>>
+                (await _uow.Genres.GetCountOfBooksEachGenreAsync(parameters));
         }
     }
 }

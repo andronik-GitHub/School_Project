@@ -273,8 +273,8 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <returns>Returns list of ExpandoObject(Genre)</returns>
         /// <response code="200">Success</response>
         /// <response code="500">If it was not possible to get a list of elements from the database</response>
-        [HttpGet("datashaping/", Name = nameof(GetAllGenres_DataShaping_Async))] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("datashaping/", Name = nameof(GetAllGenres_DataShaping_Async))]
+        [ProducesResponseType(StatusCodes.Status200OK)] // ef/genre/datashaping?Fields=UserId%2C%20FirstName%2C%20LastName%2C%20Password
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAllGenres_DataShaping_Async([FromQuery] GenreParameters parameters)
         {
@@ -309,8 +309,8 @@ namespace SchoolLibrary_EF.API.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">If the element with such ID is not found in the database</response>
         /// <response code="500">If it was not possible to get element from the database</response>
-        [HttpGet("datashaping/{id:guid}", Name = nameof(GetGenreById_DataShaping_Async))] // ef/genre/datashaping/id?Fields=UserId%2C%20FirstName%2C%20Email
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("datashaping/{id:guid}", Name = nameof(GetGenreById_DataShaping_Async))]
+        [ProducesResponseType(StatusCodes.Status200OK)] // ef/genre/datashaping/id?Fields=UserId%2C%20FirstName%2C%20Email
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetGenreById_DataShaping_Async
@@ -337,7 +337,31 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
+
+        [HttpGet("extension/count-of-book-each-genre", Name = nameof(GetCountOfBooksEachGenre_Async))]
+        [ProducesResponseType(StatusCodes.Status200OK)] // ef/genre/count-of-book-each-genre
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetCountOfBooksEachGenre_Async([FromQuery] GenreParameters parameters)
+        {
+            try
+            {
+                var collection = (await _genreService.GetCountOfBooksEachGenreAsync(parameters)).ToList();
+                
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
+                
+                return Ok(collection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetCountOfBooksEachGenre_Async), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
 
 

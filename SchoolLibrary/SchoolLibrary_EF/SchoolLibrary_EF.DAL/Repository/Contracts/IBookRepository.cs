@@ -6,6 +6,11 @@ namespace SchoolLibrary_EF.DAL.Repository.Contracts
 {
     public interface IBookRepository : IGenericRepository<Book, Guid>
     {
-        Task<PagedList<(string BookTitle, decimal? Average)>> AvgRatingForBook(BookParameters parameters);
+        /// <summary>
+        /// Get average rating for each book
+        /// </summary>
+        /// <param name="parameters">BookParameters for paging</param>
+        /// <returns>Returns collection of book titles with average rating</returns>
+        Task<PagedList<(string BookTitle, decimal? Average)>> GetAvgRatingForBookAsync(BookParameters parameters);
     }
 }

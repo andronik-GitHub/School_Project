@@ -48,15 +48,19 @@ namespace SchoolLibrary_EF.DAL.Repository
             GROUP BY B.BookId, B.Title;
             
          */
-        public async Task<PagedList<(string BookTitle, decimal? Average)>> AvgRatingForBook(BookParameters parameters)
+        public async Task<PagedList<(string BookTitle, decimal? Average)>> GetAvgRatingForBookAsync(BookParameters parameters)
         {
             var collection = await entities
                 .AsNoTracking()
                 .GroupJoin(
-                    dbContext.Reviews,
+                    dbContext.Reviews.AsNoTracking(),
                     b => b.BookId,
                     r => r.BookId,
-                    (b, r) => new { BookTitle = b.Title, Average = r.DefaultIfEmpty().Average(review => review != null ? review.Rating : null) })
+                    (b, r) => new
+                    {
+                        BookTitle = b.Title, 
+                        Average = r.DefaultIfEmpty().Average(review => review != null ? review.Rating : null)
+                    })
                 .ToListAsync();
             
             return PagedList<(string BookTitle, decimal? Average)>

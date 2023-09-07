@@ -69,12 +69,11 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
 
-        // Average rating for each book
-        public async Task<IEnumerable<GetDTO_AvgRatingBook>> AvgRatingForBook(BookParameters parameters)
+        public async Task<IEnumerable<GetDTO_AvgRatingBook>> GetAvgRatingForBookAsync(BookParameters parameters)
         {
             return MappingFunctions
                 .MapListSourceToDestination<(string BookTitle, decimal? Average), GetDTO_AvgRatingBook>
-                    (await _uow.Books.AvgRatingForBook(parameters));
+                    (await _uow.Books.GetAvgRatingForBookAsync(parameters));
         }
     }
 }

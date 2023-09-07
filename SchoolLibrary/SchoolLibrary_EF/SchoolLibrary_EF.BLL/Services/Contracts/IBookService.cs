@@ -5,6 +5,11 @@ namespace SchoolLibrary_EF.BLL.Services.Contracts
 {
     public interface IBookService : IGenericService<Guid, GetDTO_Book, InsertDTO_Book, UpdateDTO_Book>
     {
-        Task<IEnumerable<GetDTO_AvgRatingBook>> AvgRatingForBook(BookParameters parameters);
+        /// <summary>
+        /// Get average rating for each book
+        /// </summary>
+        /// <param name="parameters">BookParameters for paging</param>
+        /// <returns>Returns collection of book titles with average rating</returns>
+        Task<IEnumerable<GetDTO_AvgRatingBook>> GetAvgRatingForBookAsync(BookParameters parameters);
     }
 }

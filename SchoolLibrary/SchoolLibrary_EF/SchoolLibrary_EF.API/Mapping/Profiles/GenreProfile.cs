@@ -21,6 +21,12 @@ namespace SchoolLibrary_EF.API.Mapping.Profiles
                 .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
+
+
+            CreateMap<(string GenreName, int BookCount), GetDTO_CountOfBooksEachGenre>()
+                .ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.GenreName))
+                .ForMember(dest => dest.BookCount, opt => opt.MapFrom(src => src.BookCount))
+                .ReverseMap();
         }
     }
 }
