@@ -339,6 +339,17 @@ namespace SchoolLibrary_EF.API.Controllers
         }
 
 
+        
+        /// <summary>
+        /// Gets count the number of books of each genre
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/book/extension/count-of-book-each-genre
+        /// </remarks>
+        /// <returns>Returns list of GetDTO_CountOfBooksEachGenre</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
         [HttpGet("extension/count-of-book-each-genre", Name = nameof(GetCountOfBooksEachGenre_Async))]
         [ProducesResponseType(StatusCodes.Status200OK)] // ef/genre/count-of-book-each-genre
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

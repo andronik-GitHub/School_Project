@@ -12,5 +12,12 @@ namespace SchoolLibrary_EF.DAL.Repository.Contracts
         /// <param name="parameters">BookParameters for paging</param>
         /// <returns>Returns collection of book titles with average rating</returns>
         Task<PagedList<(string BookTitle, decimal? Average)>> GetAvgRatingForBookAsync(BookParameters parameters);
+        
+        /// <summary>
+        /// Gets books without reviews
+        /// </summary>
+        /// <param name="parameters">BookParameters for paging</param>
+        /// <returns>Returns collection of book without reviews</returns>
+        Task<PagedList<Book>> GetBooksWithoutReviewsAsync(BookParameters parameters);
     }
 }

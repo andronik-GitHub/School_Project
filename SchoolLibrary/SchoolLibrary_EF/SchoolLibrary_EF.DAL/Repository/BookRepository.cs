@@ -48,7 +48,8 @@ namespace SchoolLibrary_EF.DAL.Repository
             GROUP BY B.BookId, B.Title;
             
          */
-        public async Task<PagedList<(string BookTitle, decimal? Average)>> GetAvgRatingForBookAsync(BookParameters parameters)
+        public async Task<PagedList<(string BookTitle, decimal? Average)>> GetAvgRatingForBookAsync
+            (BookParameters parameters)
         {
             var collection = await entities
                 .AsNoTracking()
@@ -66,6 +67,38 @@ namespace SchoolLibrary_EF.DAL.Repository
             return PagedList<(string BookTitle, decimal? Average)>
                 .ToPagedList(
                     collection.Select(item => (item.BookTitle, item.Average)).AsQueryable(), 
+                    parameters.PageNumber, 
+                    parameters.PageSize);
+        }
+
+        
+        /*  Find books that don't have reviews
+         
+            SELECT B.Title AS BookTitle
+            FROM Books B
+            LEFT JOIN Reviews R ON B.BookId = R.BookId
+            WHERE R.ReviewId IS NULL;
+            
+         */
+        public async Task<PagedList<Book>> GetBooksWithoutReviewsAsync(BookParameters parameters)
+        {
+            var collection = await entities
+                .AsNoTracking()
+                .GroupJoin(
+                    dbContext.Reviews.AsNoTracking(),
+                    b => b.BookId,
+                    r => r.BookId,
+                    (b, r) => new
+                    {
+                        Book = b,
+                        ReviewsCount = r.Count()
+                    })
+                .Where(result => result.ReviewsCount <= 0)
+                .ToListAsync();
+
+            return PagedList<Book>
+                .ToPagedList(
+                    collection.Select(item => item.Book).AsQueryable(), 
                     parameters.PageNumber, 
                     parameters.PageSize);
         }

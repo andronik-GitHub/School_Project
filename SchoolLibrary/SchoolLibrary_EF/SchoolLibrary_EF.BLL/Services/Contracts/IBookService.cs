@@ -11,5 +11,12 @@ namespace SchoolLibrary_EF.BLL.Services.Contracts
         /// <param name="parameters">BookParameters for paging</param>
         /// <returns>Returns collection of book titles with average rating</returns>
         Task<IEnumerable<GetDTO_AvgRatingBook>> GetAvgRatingForBookAsync(BookParameters parameters);
+        
+        /// <summary>
+        /// Gets books without reviews
+        /// </summary>
+        /// <param name="parameters">BookParameters for paging</param>
+        /// <returns>Returns collection of book without reviews</returns>
+        Task<IEnumerable<GetDTO_BookWithoutReviews>> GetBooksWithoutReviewsAsync(BookParameters parameters);
     }
 }

@@ -75,5 +75,11 @@ namespace SchoolLibrary_EF.BLL.Services
                 .MapListSourceToDestination<(string BookTitle, decimal? Average), GetDTO_AvgRatingBook>
                     (await _uow.Books.GetAvgRatingForBookAsync(parameters));
         }
+        public async Task<IEnumerable<GetDTO_BookWithoutReviews>> GetBooksWithoutReviewsAsync(BookParameters parameters)
+        { 
+            return MappingFunctions
+                .MapListSourceToDestination<Book, GetDTO_BookWithoutReviews>
+                    (await _uow.Books.GetBooksWithoutReviewsAsync(parameters));
+        }
     }
 }

@@ -382,6 +382,40 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Gets the list of all books without reviews
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/book/extension/books-without-reviews
+        /// </remarks>
+        /// <returns>Returns list of GetDTO_BookWithoutReviews</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get a list of elements from the database</response>
+        [HttpGet("extension/books-without-reviews", Name = nameof(GetBooksWithoutReviews_Async))]
+        [ProducesResponseType(StatusCodes.Status200OK)] // ef/book/extension/books-without-reviews
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetBooksWithoutReviews_Async([FromQuery] BookParameters parameters)
+        {
+            try
+            {
+                var collection = (await _bookService.GetBooksWithoutReviewsAsync(parameters)).ToList();
+                
+                _logger.LogInformation
+                    ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
+                
+                return Ok(collection);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetBooksWithoutReviews_Async), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
 
 
