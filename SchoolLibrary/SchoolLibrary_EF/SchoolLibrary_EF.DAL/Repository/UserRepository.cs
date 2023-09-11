@@ -123,7 +123,7 @@ namespace SchoolLibrary_EF.DAL.Repository
         
         /*  Count the number of books issued per user
          
-            SELECT U.FirstName, U.LastName, COUNT(L.BookId) AS BooksLoaned
+            SELECT U.FirstName, U.LastName, COUNT(L.BookId) AS BooksLoaned 
             FROM Users U
             LEFT JOIN Loans L ON U.UserId = L.UserId
             GROUP BY U.UserId, U.FirstName, U.LastName;
