@@ -55,6 +55,14 @@ namespace SchoolLibrary_EF.API.Mapping.Profiles
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country))
                 .ReverseMap();
+            
+            
+            
+            CreateMap<(string FirstName, string LastName, int BooksLoaned), GetDTO_NumBooksIssuedToUser>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.BooksLoaned, opt => opt.MapFrom(src => src.BooksLoaned))
+                .ReverseMap();
         }
     }
 }

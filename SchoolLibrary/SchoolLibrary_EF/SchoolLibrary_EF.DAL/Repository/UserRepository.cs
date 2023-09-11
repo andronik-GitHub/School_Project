@@ -115,9 +115,42 @@ namespace SchoolLibrary_EF.DAL.Repository
                 _dataShaper.ShapeData(entity, parameters?.Fields ?? "");
         }
 
+        
         public async Task<IQueryable<User>> GetByConditionAsync(Expression<Func<User, bool>> expression)
         {
             return await Task.Run(() => entities.Where(expression).AsNoTracking());
+        }
+        
+        /*  Count the number of books issued per user
+         
+            SELECT U.FirstName, U.LastName, COUNT(L.BookId) AS BooksLoaned
+            FROM Users U
+            LEFT JOIN Loans L ON U.UserId = L.UserId
+            GROUP BY U.UserId, U.FirstName, U.LastName;
+            
+         */
+        public async Task<PagedList<(string FirstName, string LastName, int BooksLoaned)>> GetNumBooksIssuedToUserAsync
+            (UserParameters parameters)
+        {
+            var collection = await entities
+                .AsNoTracking()
+                .GroupJoin(
+                    dbContext.Loans.AsNoTracking(),
+                    u => u.Id,
+                    l => l.UserId,
+                    (u, l) => new
+                    {
+                        u.FirstName,
+                        u.LastName,
+                        BookLoaned = l.Count()
+                    })
+                .ToListAsync();
+
+            return PagedList<(string FirstName, string LastName, int BookLoaned)>
+                .ToPagedList(
+                    collection.Select(item => (item.FirstName, item.LastName, item.BookLoaned)).AsQueryable(), 
+                    parameters.PageNumber, 
+                    parameters.PageSize);
         }
     }
 }

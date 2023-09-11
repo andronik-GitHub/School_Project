@@ -116,6 +116,19 @@ namespace SchoolLibrary_EF.BLL.Services
         }
 
         
+        public async Task<IEnumerable<GetDTO_NumBooksIssuedToUser>> GetNumBooksIssuedToUserAsync
+            (UserParameters parameters)
+        {
+            return _mapper
+                .Map<
+                        IEnumerable<(string FirstName, string LastName, int BooksLoaned)>, 
+                        IEnumerable<GetDTO_NumBooksIssuedToUser>>
+                    (await _uow.Users.GetNumBooksIssuedToUserAsync(parameters));
+        }
+        
+        
+        #region IDENTITY
+
         public async Task<bool> RegisterAsync(RegisterModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Password)) throw new Exception("Password is empty!");
@@ -375,5 +388,8 @@ namespace SchoolLibrary_EF.BLL.Services
 
             return await Task.FromResult(true);
         }
+
+
+        #endregion
     }
 }

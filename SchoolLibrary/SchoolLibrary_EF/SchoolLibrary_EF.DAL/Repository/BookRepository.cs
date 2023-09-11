@@ -40,6 +40,7 @@ namespace SchoolLibrary_EF.DAL.Repository
             return entity;
         }
 
+        
         /*  Average rating for each book
          
             SELECT B.Title AS BookTitle, AVG(R.Rating) AS AverageRating
@@ -70,7 +71,6 @@ namespace SchoolLibrary_EF.DAL.Repository
                     parameters.PageNumber, 
                     parameters.PageSize);
         }
-
         
         /*  Find books that don't have reviews
          
