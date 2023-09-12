@@ -65,6 +65,12 @@
             <param name="parameters">Fields, that need select</param>
             <returns>Returns entity by id with selected fields</returns>
         </member>
+        <member name="M:WebUI.Controllers.AuthorController.GetAuthorWithHighestAvgBookRating_Async">
+            <summary>
+            Gets author with highest avg book rating
+            </summary>
+            <returns>Returns element of GetDTO_AuthorWithHighestAvgBookRating</returns>
+        </member>
         <member name="T:WebUI.Controllers.BaseController">
             <summary>
             A base controller class for an MVC controller without view support. With IMediator, ILogger, IUrlHelper

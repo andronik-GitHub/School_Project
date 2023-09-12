@@ -8,6 +8,7 @@ using Application.Features.AuthorFeatures.Queries.GetAllAuthors;
 using Application.Features.AuthorFeatures.Queries.GetAllAuthors_DataShaping;
 using Application.Features.AuthorFeatures.Queries.GetAuthor;
 using Application.Features.AuthorFeatures.Queries.GetAuthor_DataShaping;
+using Application.Features.AuthorFeatures.Queries.GetAuthorWithHighestAvgBookRating;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -178,6 +179,24 @@ namespace WebUI.Controllers
                     nameof(UpdateAuthorAsync),
                     nameof(DeleteAuthorAsync))
                 .ToString()); // HATEOAS
+        }
+        
+        
+        /// <summary>
+        /// Gets author with highest avg book rating
+        /// </summary>
+        /// <returns>Returns element of GetDTO_AuthorWithHighestAvgBookRating</returns>
+        [HttpGet(
+            "extension/author-with-highest-average-book-rating", 
+            Name = nameof(GetAuthorWithHighestAvgBookRating_Async))]
+        public async Task<ActionResult> GetAuthorWithHighestAvgBookRating_Async()
+        {
+            var entity = await Mediator.Send(new GetAuthorWithHighestAvgBookRatingQuery());
+            
+            _logger.LogInformation
+                ("Entity were successfully extracted from [{Table}]", _tableName);
+
+            return Ok(entity);
         }
     }
 }

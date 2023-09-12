@@ -14,6 +14,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             RegisterCreateAuthorCommandConfig();
             RegisterUpdateAuthorCommandConfig();
             RegisterAuthorDTOConfig();
+            RegisterGetAuthorWithHighestAvgBookRatingConfig();
         }
 
         private static void RegisterCreateAuthorCommandConfig()
@@ -46,6 +47,16 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .Map(dest => dest.LastName, src => src.LastName)
                 .Map(dest => dest.Birthdate, src => src.Birthdate)
                 .Map(dest => dest.Nationality, src => src.Nationality)
+                .TwoWays();
+        }
+        private static void RegisterGetAuthorWithHighestAvgBookRatingConfig()
+        {
+            TypeAdapterConfig
+                    <(string FirstName, string LastName, decimal AverageRating), GetDTO_AuthorWithHighestAvgBookRating>
+                .NewConfig()
+                .Map(dest => dest.FirstName, src => src.FirstName)
+                .Map(dest => dest.LastName, src => src.LastName)
+                .Map(dest => dest.AverageRating, src => src.AverageRating)
                 .TwoWays();
         }
     }
