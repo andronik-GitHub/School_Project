@@ -28,6 +28,15 @@ namespace SchoolLibrary_EF.API.Mapping.Profiles
                 .ForMember(dest => dest.Birthdate, opt => opt.MapFrom(src => src.Birthdate))
                 .ForMember(dest => dest.Nationality, opt => opt.MapFrom(src => src.Nationality))
                 .ReverseMap();
+            
+            
+            CreateMap<
+                    (string FirstName, string LastName, decimal AverageRating), 
+                    GetDTO_AuthorWithHighestAvgBookRating>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.AverageRating, opt => opt.MapFrom(src => src.AverageRating))
+                .ReverseMap();
         }
     }
 }

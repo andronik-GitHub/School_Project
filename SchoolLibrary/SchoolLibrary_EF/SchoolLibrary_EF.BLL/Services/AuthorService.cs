@@ -62,5 +62,14 @@ namespace SchoolLibrary_EF.BLL.Services
         {
             return await _uow.Authors.GetById_DataShaping_Async(id, parameters);
         }
+
+        
+        public async Task<GetDTO_AuthorWithHighestAvgBookRating> GetAuthorWithHighestAvgBookRatingAsync()
+        {
+            return _mapper.Map<
+                    (string FirstName, string LastName, decimal AverageRating), 
+                    GetDTO_AuthorWithHighestAvgBookRating>
+                (await _uow.Authors.GetAuthorWithHighestAvgBookRatingAsync());
+        }
     }
 }

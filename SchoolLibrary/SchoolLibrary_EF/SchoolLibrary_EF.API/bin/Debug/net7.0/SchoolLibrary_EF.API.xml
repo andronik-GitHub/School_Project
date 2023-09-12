@@ -116,6 +116,20 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorWithHighestAvgBookRating_Async">
+            <summary>
+            Gets the Author by id
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/author/id
+            </remarks>
+            <param name="id">Author id (Guid)</param>
+            <returns>Returns element of AuthorDTO</returns>
+            <response code="200">Success</response>
+            <response code="404">If the element with such ID is not found in the database</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
             <summary>
             Gets the list of all BookAuthors

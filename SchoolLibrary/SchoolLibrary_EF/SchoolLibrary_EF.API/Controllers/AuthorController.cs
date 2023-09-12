@@ -333,8 +333,44 @@ namespace SchoolLibrary_EF.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+
         
-        
+        /// <summary>
+        /// Gets author with highest avg book rating
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET ef/author/extension/author-with-highest-average-book-rating
+        /// </remarks>
+        /// <returns>Returns element of GetDTO_AuthorWithHighestAvgBookRating</returns>
+        /// <response code="200">Success</response>
+        /// <response code="500">If it was not possible to get element from the database</response>
+        [HttpGet(
+            "extension/author-with-highest-average-book-rating", 
+            Name = nameof(GetAuthorWithHighestAvgBookRating_Async))] // GET: ef/author/extension/author-with-highest-average-book-rating
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetAuthorWithHighestAvgBookRating_Async()
+        {
+            try
+            {
+                var entity = await _authorService.GetAuthorWithHighestAvgBookRatingAsync();
+                
+                _logger.LogInformation
+                    ("Entity were successfully extracted from [{Table}]", _tableName);
+
+                return Ok(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error in [{ErrorClassName}]->[{MethodName}] => {ErrorMessage}", 
+                    this.GetType().Name, nameof(GetAuthorWithHighestAvgBookRating_Async), ex.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }  
+        }
 
 
 
