@@ -4,8 +4,10 @@ using Application.Common.Pagging.Entities;
 using Application.Features.UserFeatures.Commands;
 using Application.Features.UserFeatures.Commands.CreateUser;
 using Application.Features.UserFeatures.Commands.UpdateUser;
+using Application.Features.UserFeatures.Queries.Common;
 using Application.Features.UserFeatures.Queries.GetAllUsers;
 using Application.Features.UserFeatures.Queries.GetAllUsers_DataShaping;
+using Application.Features.UserFeatures.Queries.GetNumBooksIssuedToUser;
 using Application.Features.UserFeatures.Queries.GetUser;
 using Application.Features.UserFeatures.Queries.GetUser_DataShaping;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +42,7 @@ namespace WebUI.Controllers
             
             _logger.LogInformation(
                 "{Count} entities were successfully extracted from [{Table}]", 
-                list.Count, 
-                this.GetType().Name.Substring(0, this.GetType().Name.IndexOf("Controller", StringComparison.Ordinal)));
+                list.Count, _tableName);
 
             list.ForEach(item => this.CreateLinksForEntity(
                 item,
@@ -167,6 +168,23 @@ namespace WebUI.Controllers
                     nameof(UpdateUserAsync), 
                     nameof(DeleteUserAsync))
                 .ToString()); // HATEOAS
+        }
+        
+        
+        
+        /// <summary>
+        /// Gets number of books issued per user
+        /// </summary>
+        /// <returns>Returns list of GetDTO_NumBooksIssuedToUser</returns>
+        [HttpGet("extension/num-books-issued-to-user", Name = nameof(GetNumBooksIssuedToUserAsync))]
+        public async Task<ActionResult<IEnumerable<GetDTO_NumBooksIssuedToUser>>> GetNumBooksIssuedToUserAsync
+            ([FromQuery] UserParameter parameters)
+        {
+            var list = (await Mediator.Send(new GetNumBooksIssuedToUserQuery(parameters))).ToList();
+            _logger.LogInformation
+                ("{Count} entities were successfully extracted from [{Table}]", list.Count, _tableName);
+
+            return Ok(list);
         }
     }
 }

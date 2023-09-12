@@ -28,6 +28,11 @@ namespace WebUI.Controllers
         private readonly IUrlHelper _urlHelper;
 
         /// <summary>
+        /// A property containing the name of the table with which the used controller interacts
+        /// </summary>
+        protected readonly string _tableName;
+
+        /// <summary>
         /// Base constructor for initialisation ILogger and IUrlHelper
         /// </summary>
         /// <param name="loggerFactory">ILoggerFactory</param>
@@ -36,6 +41,9 @@ namespace WebUI.Controllers
         {
             _urlHelper = urlHelper;
             _logger = loggerFactory.CreateLogger($"{this.GetType().Name}_Logger");
+            
+            _tableName = this.GetType().Name.Replace("Controller", "");
+            _tableName = _tableName is "BookDetails" or "BookAuthors" or "BookGenres" ? _tableName : _tableName + "s";
         }
 
 

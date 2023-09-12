@@ -85,6 +85,11 @@
             Defines the contract for the helper to build URLs for ASP.NET MVC within an application
             </summary>
         </member>
+        <member name="F:WebUI.Controllers.BaseController._tableName">
+            <summary>
+            A property containing the name of the table with which the used controller interacts
+            </summary>
+        </member>
         <member name="M:WebUI.Controllers.BaseController.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.AspNetCore.Mvc.IUrlHelper)">
             <summary>
             Base constructor for initialisation ILogger and IUrlHelper
@@ -658,6 +663,12 @@
             <param name="id">User id</param>
             <param name="parameters">Fields, that need select</param>
             <returns>Returns entity by id with selected fields</returns>
+        </member>
+        <member name="M:WebUI.Controllers.UserController.GetNumBooksIssuedToUserAsync(Application.Common.Pagging.Entities.UserParameter)">
+            <summary>
+            Gets number of books issued per user
+            </summary>
+            <returns>Returns list of GetDTO_NumBooksIssuedToUser</returns>
         </member>
         <member name="T:WebUI.Controllers.UserIdentityController">
             <summary>

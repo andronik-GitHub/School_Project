@@ -14,6 +14,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             RegisterCreateUserCommandConfig();
             RegisterUpdateUserCommandConfig();
             RegisterUserDTOConfig();
+            RegisterNumBooksIssuedToUserConfig();
         }
         
         private static void RegisterCreateUserCommandConfig()
@@ -70,6 +71,15 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .Map(dest => dest.City, src => src.Address.City.Value)
                 .Map(dest => dest.Country, src => src.Address.Country.Value)
                 .Map(dest => dest.Phone, src => src.Phone)
+                .TwoWays();
+        }
+        private static void RegisterNumBooksIssuedToUserConfig()
+        {
+            TypeAdapterConfig<(string FirstName, string LastName, int BookLoaned), GetDTO_NumBooksIssuedToUser>
+                .NewConfig()
+                .Map(dest => dest.FirstName, src => src.FirstName)
+                .Map(dest => dest.LastName, src => src.LastName)
+                .Map(dest => dest.BooksLoaned, src => src.BookLoaned)
                 .TwoWays();
         }
     }
