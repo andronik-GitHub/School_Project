@@ -2,7 +2,6 @@
 using Application.Common.Mapping.Mapster;
 using Application.Common.Pagging;
 using Application.Features.UserFeatures.Queries.Common;
-using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +11,10 @@ namespace Application.Features.UserFeatures.Queries.GetNumBooksIssuedToUser
         : IRequestHandler<GetNumBooksIssuedToUserQuery, IEnumerable<GetDTO_NumBooksIssuedToUser>>
     {
         private readonly ISchoolLibraryContext _context;
-        private readonly ISortHelper<User> _sortHelper;
 
-        public GetNumBooksIssuedToUserQueryHandler(ISchoolLibraryContext context, ISortHelper<User> sortHelper)
+        public GetNumBooksIssuedToUserQueryHandler(ISchoolLibraryContext context)
         {
             _context = context;
-            _sortHelper = sortHelper;
         }
         
         

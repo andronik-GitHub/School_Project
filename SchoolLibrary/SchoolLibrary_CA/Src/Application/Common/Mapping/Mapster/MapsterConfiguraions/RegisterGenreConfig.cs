@@ -13,6 +13,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             RegisterCreateGenreCommandConfig();
             RegisterUpdateGenreCommandConfig();
             RegisterGenreDTOConfig();
+            RegisterCountOfBooksEachGenreConfig();
         }
 
         private static void RegisterCreateGenreCommandConfig()
@@ -36,6 +37,14 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .NewConfig()
                 .Map(dest => dest.GenreId, src => src.GenreId)
                 .Map(dest => dest.Name, src => src.Name)
+                .TwoWays();
+        }
+        private static void RegisterCountOfBooksEachGenreConfig()
+        {
+            TypeAdapterConfig<(string GenreName, int BookCount), GetDTO_CountOfBooksEachGenre>
+                .NewConfig()
+                .Map(dest => dest.GenreName, src => src.GenreName)
+                .Map(dest => dest.BookCount, src => src.BookCount)
                 .TwoWays();
         }
     }

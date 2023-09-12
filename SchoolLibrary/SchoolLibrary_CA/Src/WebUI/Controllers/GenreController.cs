@@ -6,6 +6,7 @@ using Application.Features.GenreFeatures.Commands.DeleteGenre;
 using Application.Features.GenreFeatures.Commands.UpdateGenre;
 using Application.Features.GenreFeatures.Queries.GetAllGenres;
 using Application.Features.GenreFeatures.Queries.GetAllGenres_DataShaping;
+using Application.Features.GenreFeatures.Queries.GetCountOfBooksEachGenre;
 using Application.Features.GenreFeatures.Queries.GetGenre;
 using Application.Features.GenreFeatures.Queries.GetGenre_DataShaping;
 using Microsoft.AspNetCore.Mvc;
@@ -167,6 +168,22 @@ namespace WebUI.Controllers
                     nameof(UpdateGenreAsync), 
                     nameof(DeleteGenreAsync))
                 .ToString()); // HATEOAS
+        }
+        
+        
+        /// <summary>
+        /// Gets count the number of books of each genre
+        /// </summary>
+        /// <returns>Returns list of GetDTO_CountOfBooksEachGenre</returns>
+        [HttpGet("extension/count-of-book-each-genre", Name = nameof(GetCountOfBooksEachGenre_Async))]
+        public async Task<ActionResult> GetCountOfBooksEachGenre_Async([FromQuery] GenreParameter parameters)
+        {
+            var list = (await Mediator.Send(new GetCountOfBooksEachGenreQuery(parameters))).ToList();
+
+            _logger.LogInformation
+                ("{Count} entities were successfully extracted from [{Table}]", list.Count, _tableName);
+            
+            return Ok(list);
         }
     }
 }

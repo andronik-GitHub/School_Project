@@ -420,6 +420,12 @@
             <param name="parameters">Fields, that need select</param>
             <returns>Returns entity by id with selected fields</returns>
         </member>
+        <member name="M:WebUI.Controllers.GenreController.GetCountOfBooksEachGenre_Async(Application.Common.Pagging.Entities.GenreParameter)">
+            <summary>
+            Gets count the number of books of each genre
+            </summary>
+            <returns>Returns list of GetDTO_CountOfBooksEachGenre</returns>
+        </member>
         <member name="T:WebUI.Controllers.LoanController">
             <summary>
             LoanController
