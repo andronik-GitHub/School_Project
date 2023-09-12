@@ -13,6 +13,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             RegisterCreateBookCommandConfig();
             RegisterUpdateBookCommandConfig();
             RegisterBookDTOConfig();
+            RegisterAvgRatingForBookConfig();
         }
 
         private static void RegisterCreateBookCommandConfig()
@@ -45,6 +46,14 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .Map(dest => dest.PublishingYear, src => src.PublishingYear)
                 .Map(dest => dest.ISBN, src => src.ISBN)
                 .Map(dest => dest.PublisherId, src => src.PublisherId)
+                .TwoWays();
+        }
+        private static void RegisterAvgRatingForBookConfig()
+        {
+            TypeAdapterConfig<(string BookTitle, decimal? Average), GetDTO_AvgRatingBook>
+                .NewConfig()
+                .Map(dest => dest.BookTitle, src => src.BookTitle)
+                .Map(dest => dest.Average, src => src.Average)
                 .TwoWays();
         }
     }

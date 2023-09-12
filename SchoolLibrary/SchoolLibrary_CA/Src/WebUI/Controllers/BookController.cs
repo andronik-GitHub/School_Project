@@ -6,6 +6,7 @@ using Application.Features.BookFeatures.Commands.DeleteBook;
 using Application.Features.BookFeatures.Commands.UpdateBook;
 using Application.Features.BookFeatures.Queries.GetAllBooks;
 using Application.Features.BookFeatures.Queries.GetAllBooks_DataShaping;
+using Application.Features.BookFeatures.Queries.GetAvgRatingForBook;
 using Application.Features.BookFeatures.Queries.GetBook;
 using Application.Features.BookFeatures.Queries.GetBook_DataShaping;
 using Microsoft.AspNetCore.Mvc;
@@ -165,6 +166,22 @@ namespace WebUI.Controllers
                     nameof(UpdateBookAsync), 
                     nameof(DeleteBookAsync))
                 .ToString()); // HATEOAS
+        }
+        
+        
+        /// <summary>
+        /// Gets the list of all Books with average rating
+        /// </summary>
+        /// <returns>Returns list of GetDTO_AvgRatingBook</returns>
+        [HttpGet("extension/avg-rating-each-book", Name = nameof(GetAverageRatingForEachBook_Async))]
+        public async Task<ActionResult> GetAverageRatingForEachBook_Async([FromQuery] BookParameter parameters)
+        {
+            var collection = (await Mediator.Send(new GetAvgRatingForBookQuery(parameters))).ToList();
+            
+            _logger.LogInformation
+                ("{Count} entities were successfully extracted from [{Table}]", collection.Count, _tableName);
+            
+            return Ok(collection);
         }
     }
 }

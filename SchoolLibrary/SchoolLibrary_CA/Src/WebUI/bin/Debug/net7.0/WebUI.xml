@@ -234,6 +234,12 @@
             <param name="parameters">Fields, that need select</param>
             <returns>Returns entity by id with selected fields</returns>
         </member>
+        <member name="M:WebUI.Controllers.BookController.GetAverageRatingForEachBook_Async(Application.Common.Pagging.Entities.BookParameter)">
+            <summary>
+            Gets the list of all Books with average rating
+            </summary>
+            <returns>Returns list of GetDTO_AvgRatingBook</returns>
+        </member>
         <member name="T:WebUI.Controllers.BookDetailsController">
             <summary>
             BookDetailsController
