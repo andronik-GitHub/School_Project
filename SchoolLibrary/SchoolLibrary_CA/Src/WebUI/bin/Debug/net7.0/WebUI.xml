@@ -240,6 +240,12 @@
             </summary>
             <returns>Returns list of GetDTO_AvgRatingBook</returns>
         </member>
+        <member name="M:WebUI.Controllers.BookController.GetBooksWithoutReviews_Async(Application.Common.Pagging.Entities.BookParameter)">
+            <summary>
+            Gets the list of all books without reviews
+            </summary>
+            <returns>Returns list of GetDTO_BookWithoutReviews</returns>
+        </member>
         <member name="T:WebUI.Controllers.BookDetailsController">
             <summary>
             BookDetailsController

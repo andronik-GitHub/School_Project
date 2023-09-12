@@ -14,6 +14,7 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
             RegisterUpdateBookCommandConfig();
             RegisterBookDTOConfig();
             RegisterAvgRatingForBookConfig();
+            RegisterBooksWithoutReviewsConfig();
         }
 
         private static void RegisterCreateBookCommandConfig()
@@ -54,6 +55,14 @@ namespace Application.Common.Mapping.Mapster.MapsterConfiguraions
                 .NewConfig()
                 .Map(dest => dest.BookTitle, src => src.BookTitle)
                 .Map(dest => dest.Average, src => src.Average)
+                .TwoWays();
+        }
+        private static void RegisterBooksWithoutReviewsConfig()
+        {
+            TypeAdapterConfig<(Guid BookId, string BookTitle), GetDTO_BookWithoutReviews>
+                .NewConfig()
+                .Map(dest => dest.BookId, src => src.BookId)
+                .Map(dest => dest.BookTitle, src => src.BookTitle)
                 .TwoWays();
         }
     }
