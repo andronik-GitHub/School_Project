@@ -12,25 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UI.WPF.MVVM.V.AuthorV;
-using UI.WPF.MVVM.V.BookV;
-using UI.WPF.MVVM.V.GenreV;
 
 namespace UI.WPF
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += Author_Block;
         }
-
-        private void Author_Block(object sender, RoutedEventArgs e) => 
-            MainWindowContent.Content = new AuthorControl();
-        private void Genre_Block(object sender, RoutedEventArgs e) =>
-            MainWindowContent.Content = new GenreControl();
-        private void Book_Block(object sender, RoutedEventArgs e) =>
-            MainWindowContent.Content = new BookControl();
     }
 }

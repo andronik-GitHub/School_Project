@@ -10,19 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\SchoolLibrary_CA\Src\UI.WPF\App.xaml
-<<<<<<< HEAD
-6-1249830763
+11407045341
 
-36894011705
-367-380307393
-MVVM\View\LoginControl.xaml;MVVM\View\MainWindow.xaml;MVVM\View\MainWindowControl.xaml;Resources\Styles\example.xaml;Temp\View\tempControl.xaml;Temp\View\ViewAuthor\AuthorControl.xaml;
-=======
-10356871391
-
-17-131622236
-375-613986248
-MainWindow.xaml;MVVM\V\AuthorV\Add_Author.xaml;MVVM\V\AuthorV\AuthorControl.xaml;MVVM\V\AuthorV\Edit_Author.xaml;MVVM\V\BookV\Add_Book.xaml;MVVM\V\BookV\BookControl.xaml;MVVM\V\BookV\Edit_Book.xaml;MVVM\V\GenreV\Add_Genre.xaml;MVVM\V\GenreV\Edit_Genre.xaml;MVVM\V\GenreV\GenreControl.xaml;
->>>>>>> old-state
+3-1233169557
+1981871740104
+MainWindow.xaml;
 
 False
 
