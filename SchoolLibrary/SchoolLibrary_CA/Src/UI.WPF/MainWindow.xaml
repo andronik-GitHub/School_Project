@@ -5,8 +5,264 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="School Library" MinHeight="650" MinWidth="1440" >
+    <Grid Background="#141414" ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="1280" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition MaxHeight="150" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="#1C1C1C" ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MinWidth="1280" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                
+            <Grid Grid.Column="1" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="220" />
+                    <ColumnDefinition MinWidth="670" />
+                    <ColumnDefinition MinWidth="340" />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" Cursor="Hand" >
+                    <Image Source="/Resource/Images/ShoolLibrary_icon.png" MaxWidth="30" MaxHeight="30" />
+                    <TextBlock VerticalAlignment="Center" Text="SchoolLibrary" Foreground="White" FontSize="28" 
+                               TextDecorations="underline" FontFamily="Arial" FontWeight="Regular" Margin="10 0 0 0" />
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontSize" Value="22" />
+                            <Setter Property="FontFamily" Value="Arial" />
+                            <Setter Property="Margin" Value="10 0 0 0" />
+                        </Style>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3" />
+                            <Setter Property="Margin" Value="0 0 25 0" />
+                            <Setter Property="Padding" Value="10" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Style>
+                        <Style TargetType="Image">
+                            <Setter Property="MaxHeight" Value="15" />
+                            <Setter Property="MaxWidth" Value="15" />
+                        </Style>
+                    </StackPanel.Resources>
+                    
+                    <Border MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resource/Images/BurgerMenu_icon.png" MaxWidth="19" />
+                            <TextBlock Text="Catalog" />
+                            <Polygon Fill="#D9D9D9" Width="10" Height="5" Points="0,0 10,0 5,5" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resource/Images/Search_icon.png" />
+                            <TextBlock Text="Search" />
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resource/Images/Forum_icon.png" />
+                            <TextBlock Text="Forum" />
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resource/Images/Question_icon.png" />
+                            <TextBlock Text="FAQ" />
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <Image Source="/Resource/Images/HorizontalDots_icon.png" MaxHeight="28" MaxWidth="28" />
+                    </Border>
+                    
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" >
+                    <StackPanel.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="CornerRadius" Value="6" />
+                        </Style>
+                    </StackPanel.Resources>
+                    
+                    <Border Padding="18 8" 
+                            MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <TextBlock Text="Login" Foreground="White" FontSize="18" FontFamily="Arial" />
+                    </Border>
+                    
+                    <Border Padding="12 8" BorderThickness="1" BorderBrush="White" Margin="10 0"
+                            Cursor="Hand" MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <TextBlock Text="Registration" Foreground="White" FontSize="18" FontFamily="Arial" />
+                    </Border>
+                    
+                    <Border Padding="10" Margin="0 0 10 0" 
+                            MouseEnter="HeaderBorder_Hover" MouseLeave="HeaderBorder_Hover">
+                        <Image Source="/Resource/Images/NightTheme_icon.png" MaxHeight="16" MaxWidth="16" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
+            
+        <Grid Grid.Column="1" Grid.Row="1" ShowGridLines="True" Margin="0 15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="840" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MinWidth="410" />
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#1C1C1C" />
+                        <Setter Property="CornerRadius" Value="6" />
+                    </Style>
+                </StackPanel.Resources>
+                
+                <Border MinHeight="250">
+                    <StackPanel>
+                        <Border BorderThickness="0 0 0 1" BorderBrush="#535353">
+                            <Grid ShowGridLines="True" MinHeight="57" MaxHeight="60" Margin="15 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="5*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="FontSize" Value="22" />
+                                    </Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="CornerRadius" Value="0" />
+                                    </Style>
+                                </Grid.Resources>
+                                
+                                <Border Grid.Column="0" HorizontalAlignment="Left" >
+                                    <TextBlock Text="New chapters" VerticalAlignment="Center" />
+                                </Border>
+                                
+                                <Border Grid.Column="1" BorderBrush="#E47F09" BorderThickness="0 0 0 2" 
+                                        HorizontalAlignment="Right">
+                                    <TextBlock Text="All updates" VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <StackPanel Margin="15 0">
+                            <Border MinHeight="160" Margin="0 15 0 0">
+                                <Grid ShowGridLines="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MaxWidth="100"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Border Grid.Column="0" BorderBrush="#CDCDCD" BorderThickness="2" CornerRadius="5" >
+                                        <Image Source="/Resource/Images/BookImg_icon.png" MaxHeight="160" />
+                                    </Border>
+                                    
+                                    <Grid Grid.Column="2" ShowGridLines="True">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MaxHeight="30"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <Border Grid.Row="0" BorderBrush="#E47F09" BorderThickness="0 0 0 1">
+                                            <Grid ShowGridLines="True">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition MaxWidth="70" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="FontFamily" Value="Inter" />
+                                                        <Setter Property="FontSize" Value="20" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Style>
+                                                </Grid.Resources>
+                                                
+                                                <TextBlock Grid.Column="0" Text="Book Title" 
+                                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                    <StackPanel.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Margin" Value="0 0 5 0" />
+                                                        </Style>
+                                                    </StackPanel.Resources>
+                                                    
+                                                    <Border Background="#F44336" CornerRadius="8" Height="15" Padding="7 0">
+                                                        <TextBlock Text="popular" Foreground="White" FontSize="12" FontWeight="Medium"/>
+                                                    </Border>
+                                                    
+                                                    <Border Background="#4AE29B" CornerRadius="8" Height="15" Padding="7 0">
+                                                        <TextBlock Text="new" Foreground="White" FontSize="12" FontWeight="Medium"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                
+                                                <TextBlock Grid.Column="2" Text="Today" FontSize="14" Foreground="#818181" 
+                                                           HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+                                        
+                                        <StackPanel Grid.Row="1" Margin="0 5 0 0">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Margin" Value="0 5 0 0" />
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            
+                                            <Grid Background="#272729" ShowGridLines="True" MaxHeight="20">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <TextBlock Grid.Column="0" Text="Volume 1 Chapter 1" Foreground="White" FontFamily="Inter" 
+                                                           FontSize="14" FontWeight="SemiBold" />
+                                                <TextBlock Grid.Column="1" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." 
+                                                           Foreground="#818181" FontFamily="Inter" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                            </Grid>
+                                            
+                                            <Grid Background="#272729" ShowGridLines="True" MaxHeight="20">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <TextBlock Grid.Column="0" Text="Volume 26 Chapter 233" Foreground="White" FontFamily="Inter" 
+                                                           FontSize="14" FontWeight="SemiBold" />
+                                                <TextBlock Grid.Column="1" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." 
+                                                           Foreground="#818181" FontFamily="Inter" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

@@ -24,5 +24,18 @@ namespace UI.WPF
         {
             InitializeComponent();
         }
+
+        private void HeaderBorder_Hover(object sender, RoutedEventArgs args)
+        {
+            var temp = (Border)sender;
+            if (temp.Background == null)
+            {
+                temp.Background = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+            }
+            else
+            {
+                temp.Background = null;
+            }
+        }
     }
 }

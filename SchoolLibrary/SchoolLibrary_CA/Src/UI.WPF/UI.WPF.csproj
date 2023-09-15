@@ -7,4 +7,23 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Resource\Images\ShoolLibrary_icon.png" />
+      <Resource Include="Resource\Images\ShoolLibrary_icon.png" />
+      <None Remove="Resource\Images\NightTheme_icon.png" />
+      <Resource Include="Resource\Images\NightTheme_icon.png" />
+      <None Remove="Resource\Images\BurgerMenu_icon.png" />
+      <Resource Include="Resource\Images\BurgerMenu_icon.png" />
+      <None Remove="Resource\Images\Forum_icon.png" />
+      <Resource Include="Resource\Images\Forum_icon.png" />
+      <None Remove="Resource\Images\HorizontalDots_icon.png" />
+      <Resource Include="Resource\Images\HorizontalDots_icon.png" />
+      <None Remove="Resource\Images\Question_icon.png" />
+      <Resource Include="Resource\Images\Question_icon.png" />
+      <None Remove="Resource\Images\Search_icon.png" />
+      <Resource Include="Resource\Images\Search_icon.png" />
+      <None Remove="Resource\Images\BookImg_icon.png" />
+      <Resource Include="Resource\Images\BookImg_icon.png" />
+    </ItemGroup>
+
 </Project>
