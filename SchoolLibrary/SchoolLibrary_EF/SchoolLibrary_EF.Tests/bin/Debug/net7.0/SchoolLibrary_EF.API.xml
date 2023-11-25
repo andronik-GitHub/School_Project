@@ -116,6 +116,18 @@
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
         </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.AuthorController.GetAuthorWithHighestAvgBookRating_Async">
+            <summary>
+            Gets author with highest avg book rating
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/author/extension/author-with-highest-average-book-rating
+            </remarks>
+            <returns>Returns element of GetDTO_AuthorWithHighestAvgBookRating</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get element from the database</response>
+        </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.BookAuthorsController.GetAllBookAuthorsAsync(SchoolLibrary_EF.DAL.Paging.Entities.BookAuthorsParameters)">
             <summary>
             Gets the list of all BookAuthors
@@ -344,6 +356,18 @@
             GET ef/book/extension/avg-rating-each-book
             </remarks>
             <returns>Returns list of GetDTO_AvgRatingBook</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.BookController.GetBooksWithoutReviews_Async(SchoolLibrary_EF.DAL.Paging.Entities.BookParameters)">
+            <summary>
+            Gets the list of all books without reviews
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/book/extension/books-without-reviews
+            </remarks>
+            <returns>Returns list of GetDTO_BookWithoutReviews</returns>
             <response code="200">Success</response>
             <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
@@ -669,6 +693,18 @@
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.GenreController.GetCountOfBooksEachGenre_Async(SchoolLibrary_EF.DAL.Paging.Entities.GenreParameters)">
+            <summary>
+            Gets count the number of books of each genre
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/book/extension/count-of-book-each-genre
+            </remarks>
+            <returns>Returns list of GetDTO_CountOfBooksEachGenre</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.LoanController.GetAllLoansAsync(SchoolLibrary_EF.DAL.Paging.Entities.LoanParameters)">
             <summary>
@@ -1110,6 +1146,19 @@
             <response code="200">Success</response>
             <response code="404">If the element with such ID is not found in the database</response>
             <response code="500">If it was not possible to get element from the database</response>
+        </member>
+        <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetNumBooksIssuedToUserAsync(SchoolLibrary_EF.DAL.Paging.Entities.UserParameters)">
+            <summary>
+            Gets number of books issued per user
+            </summary>
+            <remarks>
+            Sample request:
+            GET ef/user
+            </remarks>
+            <param name="parameters">User parameters for sort/paging/... (UserParameters)</param>
+            <returns>Returns list of GetDTO_NumBooksIssuedToUser</returns>
+            <response code="200">Success</response>
+            <response code="500">If it was not possible to get a list of elements from the database</response>
         </member>
         <member name="M:SchoolLibrary_EF.API.Controllers.UserController.GetSecuredData">
             <summary>

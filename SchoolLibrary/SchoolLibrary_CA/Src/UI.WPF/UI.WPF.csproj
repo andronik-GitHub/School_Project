@@ -24,6 +24,23 @@
       <Resource Include="Resource\Images\Search_icon.png" />
       <None Remove="Resource\Images\BookImg_icon.png" />
       <Resource Include="Resource\Images\BookImg_icon.png" />
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-rc.1.23419.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Tests\Application.UnitTests\Application.UnitTests.csproj" />
+      <ProjectReference Include="..\Persistence\Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="MVVM\Model" />
     </ItemGroup>
 
 </Project>

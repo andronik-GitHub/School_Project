@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using UI.WPF.MVVM.View;
 
 namespace UI.WPF
 {
@@ -23,19 +26,13 @@ namespace UI.WPF
         public MainWindow()
         {
             InitializeComponent();
+            
+            MainWindowInit();
         }
 
-        private void HeaderBorder_Hover(object sender, RoutedEventArgs args)
+        private void MainWindowInit()
         {
-            var temp = (Border)sender;
-            if (temp.Background == null)
-            {
-                temp.Background = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            }
-            else
-            {
-                temp.Background = null;
-            }
+            MainWindowContent.Content = new HomePaigeControl();
         }
     }
 }
