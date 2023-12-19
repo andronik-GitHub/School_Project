@@ -93,3 +93,12 @@ E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 E:\CourseTwo\Semester_II\OOP\School\SchoolLibrary\CreatingSharedDatabase.Console\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.csproj.AssemblyReference.cache
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.GeneratedMSBuildEditorConfig.editorconfig
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.AssemblyInfoInputs.cache
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.AssemblyInfo.cs
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.csproj.CoreCompileInputs.cache
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.sourcelink.json
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.dll
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\refint\CreatingSharedDatabase.Console.dll
+D:\IT\C#\MainProject\SchoolLibrary\CreatingSharedDatabase.Console\obj\Debug\net7.0\CreatingSharedDatabase.Console.pdb

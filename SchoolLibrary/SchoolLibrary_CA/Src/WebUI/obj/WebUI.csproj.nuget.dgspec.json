@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {}
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {}
   },
   "projects": {
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -94,18 +94,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -154,18 +154,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -187,8 +187,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
               }
             }
           }
@@ -232,18 +232,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -265,11 +265,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
               },
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -309,18 +309,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
         "projectName": "WebUI",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -336,21 +336,20 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj"
               },
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj"
               },
-              "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
-                "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
+              "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj": {
+                "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -409,7 +408,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

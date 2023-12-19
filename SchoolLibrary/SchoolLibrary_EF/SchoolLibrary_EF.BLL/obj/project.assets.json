@@ -11177,11 +11177,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
+      "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
       "projectName": "SchoolLibrary_EF.BLL",
-      "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
+      "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
       "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-      "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\obj\\",
+      "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -11203,8 +11203,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.DAL\\SchoolLibrary_EF.DAL.csproj": {
-              "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.DAL\\SchoolLibrary_EF.DAL.csproj"
+            "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.DAL\\SchoolLibrary_EF.DAL.csproj": {
+              "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.DAL\\SchoolLibrary_EF.DAL.csproj"
             }
           }
         }
@@ -11280,7 +11280,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

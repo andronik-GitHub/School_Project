@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HOM0ZiUdVYcpjLqPYEtbv1Rx9lIIs9YLxq706l55bmu7NtFjvTqo0gHKz/zsj3rf1MuzefwFRgHhE7K3y0JdSw==",
+  "dgSpecHash": "nPL9jKDYuWsAXfU5WkZWCDd8YCjy9DGb2Nr7ePLtXnvu8he7rMVNPRK8cN0JyJ0E7vDpRkP+GCoEE1hcivc0Eg==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
+  "projectFilePath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\WebUI\\WebUI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

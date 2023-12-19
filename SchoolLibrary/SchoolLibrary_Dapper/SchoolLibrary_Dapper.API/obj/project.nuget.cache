@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Zhtb9A8XA3ID9W9w9hTDk3RAo0P6w+jtq/bEjPQqelaTBwYTu4ZMjj2EHUaXhib0kBx4dfbIaViIhwGcWelX+g==",
+  "dgSpecHash": "ADMJrVfYGX71U1ayhi1LXtRoHljk37RAtY50RDSsrXWI5MlYC5W4xXkJXOSNcnLnquOkdtqZzncanVmSXHKAqg==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_Dapper\\SchoolLibrary_Dapper.API\\SchoolLibrary_Dapper.API.csproj",
+  "projectFilePath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_Dapper\\SchoolLibrary_Dapper.API\\SchoolLibrary_Dapper.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ICzQwK05yrZVm9qRMQSCzxoHSxQFL45qELm/OaU4vzxg2qIysC988hdaXjW9q2kXvY8oynXCogW7AA155xgLJA==",
+  "dgSpecHash": "odiLkVeCLkTGixb08/zjnYS5j0roxfc+FEgBOAAB1mJ9zu6CfVKv73qBtoLtcfmBg1NToJ459t90WrExUJyUmg==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
+  "projectFilePath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",

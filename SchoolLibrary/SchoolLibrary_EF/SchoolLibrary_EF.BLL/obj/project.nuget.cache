@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wKIUUK2ngXuRfKAXVWQKnAHTyBcJ083keqe7pVevq6+JhXWj9IYzK5fQcn/xK61gk7ZUwVecALb6eOvzTu083w==",
+  "dgSpecHash": "XV2MdnsNlVppAJKU3WsUBspjXM0nycWQ3QbJyeRh7dAfnekH8o3rWop+WMFF6+OqNCvC45qaIAhZPGwYmDHVcg==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
+  "projectFilePath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_EF\\SchoolLibrary_EF.BLL\\SchoolLibrary_EF.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

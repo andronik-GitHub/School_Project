@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jroA3XYs5HbDJ4I6j1P5PJYtdiK4V1pIpxds/vac3NbnCGUPIvHWE+NapipPUH/Q4UHmwljx1rc1zWoSetN8ZQ==",
+  "dgSpecHash": "UMhTeTBfsNFVTSt6SMmoBRdPibgzt82DOwQLrSnH2/MZj+AQRZA9ZyIwSSbhhpnsDc4rZP3bIjdP+cKLd5AEkA==",
   "success": true,
-  "projectFilePath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\SchoolLibrary_CA\\Src\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\const\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\const\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

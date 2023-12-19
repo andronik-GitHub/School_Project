@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj": {}
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj": {}
   },
   "projects": {
-    "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj": {
+    "D:\\IT\\C#\\MainProject\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj",
+        "projectUniqueName": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj",
         "projectName": "CreatingSharedDatabase.Console",
-        "projectPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj",
+        "projectPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\CreatingSharedDatabase.Console\\CreatingSharedDatabase.Console.csproj",
         "packagesPath": "C:\\Users\\const\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseTwo\\Semester_II\\OOP\\School\\SchoolLibrary\\CreatingSharedDatabase.Console\\obj\\",
+        "outputPath": "D:\\IT\\C#\\MainProject\\SchoolLibrary\\CreatingSharedDatabase.Console\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -96,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
